@@ -36,8 +36,8 @@
 - [x] git 仓库初始化、tag v0.1.0、`pubspec.lock` 不入库
 - [x] pubspec 补 `repository` / `issue_tracker` 字段
 - [x] `docs` 目录改名 `doc`（pub 布局规范）
-- [ ] **发布 pub.dev**（`flutter pub publish`，dry-run 0 警告，需用户确认执行）
-- [ ] **设置 git remote 并 push**（含 tag v0.1.0，需用户提供权限/确认）
+- [x] **发布 pub.dev → 已决定不发布**（2026-09-21 用户决策：pub.dev 上 `easy_design_system` 同名包已被 sonub.com 占用（13 个月前，无关项目）；保留包名，仅供自有 Flutter 项目使用，经 path/git 依赖分发；README §2 已改为 path/git 安装说明并加了防误 add 警告）
+- [x] **设置 git remote 并 push**（remote=origin https://github.com/kyinwind/easy_design_system.git；用户自行推送了 main；助手打了标签 `0.1.0`（指向 26762b0）并推送，旧 `v0.1.0` 标签已删除未推送）
 - [ ] （可选）Catalog example 升级：组件 Gallery + Token 编辑器 + Easy API 演示页（README §7 已列为规划）
 - [ ] （可选）本地化钩子：组件内中文文案参数化
 - [ ] （可选）`EdsSettingRow.trailing` 通用无界宽度适配器、Sliver 版 Section
@@ -72,4 +72,5 @@
 - 先读本文件；需要背景再读 `doc/` 三份文档（分析报告 → 技术方案 → 开发计划）
 - 复现验证：`flutter pub get && dart format --set-exit-if-changed . && flutter analyze && flutter test`（61 全绿）
 - 本机 Flutter SDK：`/Users/yangxuehui/Documents/dev/ohos/flutter_flutter/bin/flutter`（3.41.10-ohos）；CI 用主线 stable
-- 发布：`flutter pub publish`（dry-run 已验证通过）
+- 分发方式：**不发布 pub.dev**（同名包已被占用）。自有项目用 path 依赖（`path: ../easy_design_system`）或 git 依赖（`ref: 0.1.0` 标签锁定版本）。dry-run 曾验证 0 警告，如未来改名发布可直接复用流程。
+- 本机直连 GitHub 正常（勿走系统代理 127.0.0.1:7897，该代理对 443 握手失败）

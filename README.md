@@ -52,20 +52,24 @@ EdsButton('删除', role: EdsButtonRole.danger, action: delete);
 
 ## 2. 安装
 
-在 `pubspec.yaml` 中添加：
+> 本包不发布到 pub.dev。注意：pub.dev 上的 `easy_design_system` 是另一个无关的包，**不要**对它执行 `flutter pub add easy_design_system`。
+
+方式一：本地路径依赖（推荐，自己的项目与本仓库在同一台机器上时，改动即时生效）：
 
 ```yaml
 dependencies:
-  easy_design_system: ^0.1.0
+  easy_design_system:
+    path: ../easy_design_system
 ```
 
-或直接依赖本仓库：
+方式二：Git 依赖（其他机器或 CI 构建时，用标签锁定版本）：
 
 ```yaml
 dependencies:
   easy_design_system:
     git:
       url: https://github.com/kyinwind/easy_design_system.git
+      ref: 0.1.0
 ```
 
 然后在 Dart 文件中导入：
