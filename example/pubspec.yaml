@@ -1,0 +1,16 @@
+name: easy_design_system_example
+description: "Demonstrates easy_design_system usage."
+publish_to: none
+
+environment:
+  sdk: ^3.6.0
+  flutter: ">=3.27.0"
+
+dependencies:
+  easy_design_system:
+    path: ../
+  flutter:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true

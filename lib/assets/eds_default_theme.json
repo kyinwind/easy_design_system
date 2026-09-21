@@ -1,0 +1,63 @@
+{
+  "colors": {
+    "primary": "#3185FF",
+    "accent": "#3185FF",
+    "success": "#27B15A",
+    "warning": "#F9B135",
+    "danger": "#E54444"
+  },
+  "spacing": {
+    "xxs": 4,
+    "xs": 8,
+    "sm": 12,
+    "md": 16,
+    "lg": 20,
+    "xl": 24,
+    "xxl": 32,
+    "xxxl": 40
+  },
+  "radius": {
+    "sm": 8,
+    "md": 12,
+    "lg": 16,
+    "xl": 24
+  },
+  "typography": {
+    "heroSize": 30,
+    "heroWeight": "bold",
+    "pageTitleSize": 17,
+    "pageTitleWeight": "bold",
+    "sectionTitleSize": 15,
+    "sectionTitleWeight": "semibold",
+    "body15Size": 15,
+    "body15Weight": "regular",
+    "body15StrongSize": 15,
+    "body15StrongWeight": "semibold",
+    "bodySize": 13,
+    "bodyWeight": "regular",
+    "bodyStrongSize": 13,
+    "bodyStrongWeight": "semibold",
+    "captionSize": 12,
+    "captionWeight": "regular",
+    "captionStrongSize": 12,
+    "captionStrongWeight": "semibold",
+    "monoCaptionSize": 11,
+    "monoCaptionWeight": "regular"
+  },
+  "controlSize": {
+    "buttonHeight": 34,
+    "fieldHeight": 34,
+    "rowMinHeight": 52
+  },
+  "adaptiveLayout": {
+    "compactPagePadding": 16,
+    "regularPagePadding": 32,
+    "readableContentMaxWidth": 880,
+    "minimumTouchTarget": 44,
+    "minimumHybridTarget": 44
+  },
+  "heroGradient": {
+    "startColor": "#3185FF",
+    "endColor": "#0A6BFF"
+  }
+}

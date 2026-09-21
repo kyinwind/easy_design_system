@@ -1,0 +1,24 @@
+{
+  "colors": {
+    "primary": "#3185FF",
+    "accent": "#3185FF",
+    "success": "#27B15A",
+    "warning": "#F9B135",
+    "danger": "#E54444"
+  },
+  "spacing": {
+    "xxs": 4,
+    "xs": 8,
+    "sm": 12,
+    "md": 16,
+    "lg": 20,
+    "xl": 24,
+    "xxl": 32,
+    "xxxl": 40
+  },
+  "controlSize": {
+    "buttonHeight": 34,
+    "fieldHeight": 34,
+    "rowMinHeight": 52
+  }
+}

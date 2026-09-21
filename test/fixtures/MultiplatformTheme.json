@@ -1,0 +1,13 @@
+{
+  "colors": {
+    "primary": "#2196F3",
+    "accent": "#2196F3"
+  },
+  "adaptiveLayout": {
+    "compactPagePadding": 18,
+    "regularPagePadding": 30,
+    "readableContentMaxWidth": 920,
+    "minimumTouchTarget": 46,
+    "minimumHybridTarget": 42
+  }
+}
