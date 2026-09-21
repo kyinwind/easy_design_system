@@ -9,7 +9,7 @@
 
 - **开发计划/进度清单必须用可勾选格式（`- [ ]` / `- [x]`），完成一项立即打勾**，让用户随时可见进度。
 
-## 总体进度：约 98%（v0.1.0 主体完成，README 完整版完成，待发布）
+## 总体进度：约 99%（v0.1.0 主体完成，Catalog example 移植完成，待推送）
 
 - [x] M0 工程脚手架（pubspec、analysis_options、LICENSE、CI workflow、fixtures、example）
 - [x] M1 Token 系统 + 主题机制
@@ -38,7 +38,7 @@
 - [x] `docs` 目录改名 `doc`（pub 布局规范）
 - [x] **发布 pub.dev → 已决定不发布**（2026-09-21 用户决策：pub.dev 上 `easy_design_system` 同名包已被 sonub.com 占用（13 个月前，无关项目）；保留包名，仅供自有 Flutter 项目使用，经 path/git 依赖分发；README §2 已改为 path/git 安装说明并加了防误 add 警告）
 - [x] **设置 git remote 并 push**（remote=origin https://github.com/kyinwind/easy_design_system.git；用户自行推送了 main；助手打了标签 `0.1.0`（指向 26762b0）并推送，旧 `v0.1.0` 标签已删除未推送）
-- [ ] （可选）Catalog example 升级：组件 Gallery + Token 编辑器 + Easy API 演示页（README §7 已列为规划）
+- [x] **Catalog example 移植完成**（2026-09-21，对齐 Swift `Examples/Catalog` 五个预览界面）：4 Tab 宿主 `CatalogHomePage` + 全局主题条；新增 `example/lib/catalog/`（`eds_catalog_theme_playground` / `catalog_support`（分栏骨架）/ `eds_button_showcase` / `eds_design_system_gallery` / `eds_easy_api_design_system_gallery` / `eds_design_system_preview`（含 `CatalogColorPickerDialog`））与 `settings_demo_page.dart`，重构 `main.dart`；example 补 dev 依赖（flutter_lints ^6.0.0 + flutter_test）与 `analysis_options.yaml`；example analyze 0 issues、widget 5 用例全绿，根包 61 用例仍全绿
 - [ ] （可选）本地化钩子：组件内中文文案参数化
 - [ ] （可选）`EdsSettingRow.trailing` 通用无界宽度适配器、Sliver 版 Section
 
@@ -51,6 +51,11 @@
 - `ListView` 构造非 const；`const MaterialApp` 里包 ListView 会 `const_with_non_const`，改用 `children: const [...]`（`const Scaffold` 罩住 ListView 同样会炸）。
 - `EdsTheme.instance` 只有 `.tokens` getter，无 `.colors`/`.spacing` 便捷转发；`metrics.pagePadding` 是 double，字符串插值会出 `36.0`。
 - `Object.hash` 单值用 `runtimeType.hashCode`；私有命名参数不合法；三元分支类型提升 `!` 精确化；只经 `context.edsTokens` 使用 token 类型时不要 import token 文件（unused_import）。
+- **Swift 用法文案里的 `$value` 在 Dart 字符串是插值**：移植示例代码字符串必须转义为 `\$value`，否则 undefined_identifier。
+- **widget 测试默认视口陷阱**：默认 800×600 物理 @ DPR 3.0 = 266×200 逻辑宽，TabBar 直接 overflow 且走窄屏分支；用例必须显式 `tester.view.physicalSize` + `devicePixelRatio = 1.0` + `addTearDown(tester.view.reset)`（宽屏 1200×900 / 窄屏 420×900）。
+- **`pumpAndSettle` 遇 `EdsLoadingState` 会超时**（内置无限动画）：状态类页面切换后只 `tester.pump(300ms)`。
+- **`easyDesign(style: card)` 会占满行宽**：Wrap 内并排卡片必须 `ConstrainedBox(maxWidth)` 限宽（themes 340 / stress 280 / surfaces 360）。
+- `find.text` 默认 skipOffstage: true，TabBarView 邻页文本不会误命中，分节切换断言安全。
 
 ## 关键技术决策备忘（详见技术方案）
 
@@ -70,7 +75,7 @@
 ## 新会话恢复指引
 
 - 先读本文件；需要背景再读 `doc/` 三份文档（分析报告 → 技术方案 → 开发计划）
-- 复现验证：`flutter pub get && dart format --set-exit-if-changed . && flutter analyze && flutter test`（61 全绿）
+- 复现验证：根包 `flutter pub get && dart format --set-exit-if-changed . && flutter analyze && flutter test`（61 全绿）；example `flutter pub get && dart format --set-exit-if-changed . && flutter analyze && flutter test`（widget 5 用例全绿）
 - 本机 Flutter SDK：`/Users/yangxuehui/Documents/dev/ohos/flutter_flutter/bin/flutter`（3.41.10-ohos）；CI 用主线 stable
 - 分发方式：**不发布 pub.dev**（同名包已被占用）。自有项目用 path 依赖（`path: ../easy_design_system`）或 git 依赖（`ref: 0.1.0` 标签锁定版本）。dry-run 曾验证 0 警告，如未来改名发布可直接复用流程。
 - 本机直连 GitHub 正常（勿走系统代理 127.0.0.1:7897，该代理对 443 握手失败）

@@ -907,18 +907,22 @@ await EdsTheme.instance.applyDefaultThemeFromPackage();
 
 ## 7. 示例
 
-仓库的 [`example/`](example/) 提供一个可直接运行的演示 App：设置页骨架 + Hero 面板 + 标签流 + 功能对比表。
+仓库的 [`example/`](example/) 提供一个可直接运行的 Catalog App（对齐 Swift 版 `Examples/Catalog`），四个 Tab 全局可切换预览主题：
+
+- **组件** — `EdsDesignSystemGallery`：精细 API 组件 Gallery（标准页面 / 状态模式 / 基础控件 / 按钮三维模型 / 行与标签 / 容器分层）
+- **Easy API** — `EdsEasyApiDesignSystemGallery`：六种语义场景效果对照（含局部主题）
+- **主题** — `EdsDesignSystemPreview`：Token 可视化编辑器，实时预览 + 预设切换 + 应用到 Runtime + JSON 导出
+- **设置** — 设置页骨架演示：Hero 面板 + 标签流 + 功能对比表
 
 ```bash
 cd example
 flutter run
 ```
 
-规划中的 Catalog（对齐 Swift 版三个预览界面）：
-
-- [ ] `EDSDesignSystemGallery` 对应物：精细 API 组件 Gallery
-- [ ] `EDSDesignSystemPreview` 对应物：Token 可视化编辑器 + JSON 导出
-- [ ] `EDSEasyAPIDesignSystemGallery` 对应物：Easy API 效果对照页
+```bash
+cd example
+flutter test   # 5 个 widget 用例
+```
 
 ## 8. 与 Swift 版的 API 对照
 
