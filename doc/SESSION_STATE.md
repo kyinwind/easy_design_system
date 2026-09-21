@@ -9,7 +9,7 @@
 
 - **开发计划/进度清单必须用可勾选格式（`- [ ]` / `- [x]`），完成一项立即打勾**，让用户随时可见进度。
 
-## 总体进度：约 95%（v0.1.0 主体已完成，待发布）
+## 总体进度：约 98%（v0.1.0 主体完成，README 完整版完成，待发布）
 
 - [x] M0 工程脚手架（pubspec、analysis_options、LICENSE、CI workflow、fixtures、example）
 - [x] M1 Token 系统 + 主题机制
@@ -27,13 +27,18 @@
 - [x] M3 基础组件（button 三维+Role / badge / toggle / text 组 / rows 组 / card / group / hero_panel / page / page_section）
 - [x] M4 扩展组件（states 组 / pills / collapsible_section / comparison_section / icon_mark / sidebar）
 - [x] 测试：8 文件 53 用例全绿，逐条对齐 Swift `EasyDesignSystemTests`
-- [x] README 完整版（安装 + Quick start + Swift↔Dart 对照表 + 偏差说明 + CI 徽章）
+- [x] README 完整版重写（对照 Mac 版 9 大节：设计理念/安装/使用向导/Easy API/主题/精细 API/示例/Catalog 规划/对照表/开发验证；全部 API 逐项核对源码）
+- [x] README 示例固化测试 `test/eds_readme_examples_test.dart`（8 用例，防文档漂移；测试总数 61）
+- [x] 修复：sidebar 选中态颜色 `colors.accent` → `colors.primary`（对齐"primary 唯一主题色"契约）
+- [x] 修复：README 中 `EdsTheme.instance.colors` → `EdsTheme.instance.tokens.colors`（无便捷 getter）
+- [x] 修复：磁盘 `docs/` 目录与 HEAD `doc/` 不一致（IDE 移回所致），已恢复
 - [x] CHANGELOG 0.1.0、example 演示 App
 - [x] git 仓库初始化、tag v0.1.0、`pubspec.lock` 不入库
 - [x] pubspec 补 `repository` / `issue_tracker` 字段
 - [x] `docs` 目录改名 `doc`（pub 布局规范）
-- [ ] **发布 pub.dev**（`flutter pub publish`，需用户确认执行）
-- [ ] （可选）Catalog example 升级：组件 Gallery + Token 编辑器 + Easy API 演示页
+- [ ] **发布 pub.dev**（`flutter pub publish`，dry-run 0 警告，需用户确认执行）
+- [ ] **设置 git remote 并 push**（含 tag v0.1.0，需用户提供权限/确认）
+- [ ] （可选）Catalog example 升级：组件 Gallery + Token 编辑器 + Easy API 演示页（README §7 已列为规划）
 - [ ] （可选）本地化钩子：组件内中文文案参数化
 - [ ] （可选）`EdsSettingRow.trailing` 通用无界宽度适配器、Sliver 版 Section
 
@@ -43,7 +48,8 @@
 - **`flutter test` 里 `rootBundle` 需 Binding**：纯 `test()`（非 `testWidgets`）文件必须 `TestWidgetsFlutterBinding.ensureInitialized()` 才能 `rootBundle.loadString`。
 - **EdsToggle 无界宽度槽位崩溃**：Row 给非 flex 子项无界宽度，内含 `Spacer`（tight flex）的 widget 放进 `EdsSettingRow.trailing` 会炸。EdsToggle 已用 `LayoutBuilder` 按约束切展开/紧凑布局。其他含 flex 的 widget 若要进 trailing 槽位需同样处理。
 - **扩展方法重名二义性**：`easyDesignTheme` 曾同时存在于 EdsEasyWidgetX（style+theme）与 EdsThemeWidgetX（scope-only），analyzer 报 ambiguous。已改名：`easyDesignPreset(preset, {style, options})` + `easyDesignTheme(tokens)` / `easyDesignThemePreset(preset)`。
-- `ListView` 构造非 const；`const MaterialApp` 里包 ListView 会 `const_with_non_const`，改用 `children: const [...]`。
+- `ListView` 构造非 const；`const MaterialApp` 里包 ListView 会 `const_with_non_const`，改用 `children: const [...]`（`const Scaffold` 罩住 ListView 同样会炸）。
+- `EdsTheme.instance` 只有 `.tokens` getter，无 `.colors`/`.spacing` 便捷转发；`metrics.pagePadding` 是 double，字符串插值会出 `36.0`。
 - `Object.hash` 单值用 `runtimeType.hashCode`；私有命名参数不合法；三元分支类型提升 `!` 精确化；只经 `context.edsTokens` 使用 token 类型时不要 import token 文件（unused_import）。
 
 ## 关键技术决策备忘（详见技术方案）
@@ -64,6 +70,6 @@
 ## 新会话恢复指引
 
 - 先读本文件；需要背景再读 `doc/` 三份文档（分析报告 → 技术方案 → 开发计划）
-- 复现验证：`flutter pub get && dart format --set-exit-if-changed . && flutter analyze && flutter test`（53 全绿）
+- 复现验证：`flutter pub get && dart format --set-exit-if-changed . && flutter analyze && flutter test`（61 全绿）
 - 本机 Flutter SDK：`/Users/yangxuehui/Documents/dev/ohos/flutter_flutter/bin/flutter`（3.41.10-ohos）；CI 用主线 stable
 - 发布：`flutter pub publish`（dry-run 已验证通过）

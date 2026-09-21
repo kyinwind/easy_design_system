@@ -188,7 +188,7 @@ class EdsSidebarItemButton extends StatelessWidget {
                           .edsTextStyle(EdsFontRole.body15)
                           .copyWith(
                             color: isSelected
-                                ? tokens.colors.accent
+                                ? tokens.colors.primary
                                 : scheme.textPrimary,
                           ),
                     ),
