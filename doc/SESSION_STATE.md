@@ -3,34 +3,48 @@
 > 最后更新：2026-09-21
 > 仓库：`/Users/yangxuehui/Documents/dev_open_source/easy_design_system`
 > 源包（Swift）：`/Users/yangxuehui/Documents/dev_open_source/EasyDesignSystem`
+> 仓库地址：https://github.com/kyinwind/easy_design_system
 
-## 当前进度
+## 用户偏好（新会话必须遵守）
 
-**阶段：v0.1.0 已完成并提交（commit `3a17590`，tag `v0.1.0`）。analyze 零告警，53/53 测试全绿，example 可编译。**
+- **开发计划/进度清单必须用可勾选格式（`- [ ]` / `- [x]`），完成一项立即打勾**，让用户随时可见进度。
 
-已完成（M0~M4 全部 + M5 大部分）：
+## 总体进度：约 95%（v0.1.0 主体已完成，待发布）
 
-1. M0：脚手架、LICENSE(MIT)、CI（analyze+format+test）、fixtures 字节级复制、example、README（含 Swift↔Dart 对照表与偏差说明）、CHANGELOG。
-2. M1：Token 系统（`eds_color_hex`/`eds_design_tokens`/`eds_color_scheme`）+ 主题机制（`eds_theme`/`eds_preset_theme`/`eds_theme_json`/`eds_theme_scope`）。
-3. M2：Easy API（`eds_easy`/`eds_easy_recipe`/`eds_easy_style`/`eds_easy_extension`）+ 自适应层（`eds_interaction_profile`/`eds_size_class`/`eds_resolved_metrics`）+ 基础原语（`eds_font`/`eds_surface`）。
-4. M3+M4：17 个 widget 文件（button/badge/toggle/text/rows/card/group/hero_panel/page/page_section/section/collapsible_section/states/pills/comparison_section/icon_mark/sidebar）。
-5. 测试 8 文件 53 用例，逐条对齐 Swift `EasyDesignSystemTests`（含 `testDoneRoleResolvesToFilledSuccess`、`testLegacyRolesKeepTheirAppearance`）。
-6. git 仓库初始化、首次提交、tag v0.1.0；`pubspec.lock` 不入库（库包惯例）。
+- [x] M0 工程脚手架（pubspec、analysis_options、LICENSE、CI workflow、fixtures、example）
+- [x] M1 Token 系统 + 主题机制
+  - [x] `eds_color_hex`（RGB/ARGB/RGBA 显式八位语义，对齐 Swift）
+  - [x] `eds_design_tokens`（9 组子 token，JSON 编解码，缺失回退默认）
+  - [x] `eds_color_scheme`（亮暗语义色解析）
+  - [x] `eds_theme`（单例 + ValueNotifier + configure/JSON/preset/export）
+  - [x] `eds_preset_theme`（default/blue 别名/orange/purple）
+  - [x] `eds_theme_scope`（InheritedWidget，局部优先）
+- [x] M2 Easy API + 自适应层
+  - [x] `eds_easy_recipe`（六场景纯函数配方）
+  - [x] `eds_easy` / `eds_easy_extension`（easyDesign / easyDesignPreset / easyDesignTokens）
+  - [x] `eds_interaction_profile` / `eds_size_class` / `eds_resolved_metrics`
+  - [x] `eds_font` / `eds_surface` 基础原语
+- [x] M3 基础组件（button 三维+Role / badge / toggle / text 组 / rows 组 / card / group / hero_panel / page / page_section）
+- [x] M4 扩展组件（states 组 / pills / collapsible_section / comparison_section / icon_mark / sidebar）
+- [x] 测试：8 文件 53 用例全绿，逐条对齐 Swift `EasyDesignSystemTests`
+- [x] README 完整版（安装 + Quick start + Swift↔Dart 对照表 + 偏差说明 + CI 徽章）
+- [x] CHANGELOG 0.1.0、example 演示 App
+- [x] git 仓库初始化、tag v0.1.0、`pubspec.lock` 不入库
+- [x] pubspec 补 `repository` / `issue_tracker` 字段
+- [x] `docs` 目录改名 `doc`（pub 布局规范）
+- [ ] **发布 pub.dev**（`flutter pub publish`，需用户确认执行）
+- [ ] （可选）Catalog example 升级：组件 Gallery + Token 编辑器 + Easy API 演示页
+- [ ] （可选）本地化钩子：组件内中文文案参数化
+- [ ] （可选）`EdsSettingRow.trailing` 通用无界宽度适配器、Sliver 版 Section
 
-### 本轮修复的关键问题（易复发，备忘）
+## 本轮修复的关键问题（易复发，备忘）
 
 - **包资产 key 环境差异**：`lib/assets/...` 在真实 App 中 key 为 `packages/easy_design_system/assets/...`（剥 `lib/`），但包自身 `flutter test` 环境是 `packages/easy_design_system/lib/assets/...`。`applyDefaultThemeFromPackage` 用 4 个候选路径依次尝试。
 - **`flutter test` 里 `rootBundle` 需 Binding**：纯 `test()`（非 `testWidgets`）文件必须 `TestWidgetsFlutterBinding.ensureInitialized()` 才能 `rootBundle.loadString`。
 - **EdsToggle 无界宽度槽位崩溃**：Row 给非 flex 子项无界宽度，内含 `Spacer`（tight flex）的 widget 放进 `EdsSettingRow.trailing` 会炸。EdsToggle 已用 `LayoutBuilder` 按约束切展开/紧凑布局。其他含 flex 的 widget 若要进 trailing 槽位需同样处理。
 - **扩展方法重名二义性**：`easyDesignTheme` 曾同时存在于 EdsEasyWidgetX（style+theme）与 EdsThemeWidgetX（scope-only），analyzer 报 ambiguous。已改名：`easyDesignPreset(preset, {style, options})` + `easyDesignTheme(tokens)` / `easyDesignThemePreset(preset)`。
 - `ListView` 构造非 const；`const MaterialApp` 里包 ListView 会 `const_with_non_const`，改用 `children: const [...]`。
-- `Object.hash` 单值用 `runtimeType.hashCode`；私有命名参数不合法；`EdsSectionTitle` 三元分支 `!` 精确化；未用 import（`context.edsTokens` 不点名类型时不 import token 文件）。
-
-## 下一步（新会话从这里继续）
-
-1. **发布前必办**：`pubspec.yaml` 补 `repository`/`homepage` 字段（当前无，发布 pub.dev 必填校验会失败）；随后 `flutter pub publish --dry-run` 验证，再正式发布。
-2. M5 剩余（可选）：Catalog example 升级为组件 Gallery + Token 编辑器 + Easy API 演示页。
-3. 可选增强：本地化钩子（组件内中文文案参数化）、`EdsSettingRow.trailing` 槽位的通用无界宽度适配器、Sliver 版 Section。
+- `Object.hash` 单值用 `runtimeType.hashCode`；私有命名参数不合法；三元分支类型提升 `!` 精确化；只经 `context.edsTokens` 使用 token 类型时不要 import token 文件（unused_import）。
 
 ## 关键技术决策备忘（详见技术方案）
 
@@ -49,6 +63,7 @@
 
 ## 新会话恢复指引
 
-- 先读本文件；需要背景再读 `docs/` 三份文档（分析报告 → 技术方案 → 开发计划）
+- 先读本文件；需要背景再读 `doc/` 三份文档（分析报告 → 技术方案 → 开发计划）
 - 复现验证：`flutter pub get && dart format --set-exit-if-changed . && flutter analyze && flutter test`（53 全绿）
 - 本机 Flutter SDK：`/Users/yangxuehui/Documents/dev/ohos/flutter_flutter/bin/flutter`（3.41.10-ohos）；CI 用主线 stable
+- 发布：`flutter pub publish`（dry-run 已验证通过）

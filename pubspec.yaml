@@ -2,6 +2,8 @@ name: easy_design_system
 description: "A semantic design system for Flutter: design tokens, Easy API, adaptive layout and fine-grained components. Flutter port of the Swift EasyDesignSystem package."
 version: 0.1.0
 license: MIT
+repository: https://github.com/kyinwind/easy_design_system
+issue_tracker: https://github.com/kyinwind/easy_design_system/issues
 
 environment:
   sdk: ^3.6.0

@@ -1,8 +1,10 @@
 # easy_design_system
 
+[![CI](https://github.com/kyinwind/easy_design_system/actions/workflows/ci.yml/badge.svg)](https://github.com/kyinwind/easy_design_system/actions/workflows/ci.yml)
+
 A semantic design system for Flutter: design tokens, an Easy API, adaptive
 layout, and fine-grained components — a faithful Flutter port of the Swift
-[EasyDesignSystem](https://github.com) package.
+EasyDesignSystem package.
 
 - **Design tokens** — colors, spacing, radius, typography, control sizes,
   adaptive layout, gradients, strokes and shadows, all themeable.
