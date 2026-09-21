@@ -1,6 +1,6 @@
 # 会话状态存档
 
-> 最后更新：2026-09-21
+> 最后更新：2026-09-22
 > 仓库：`/Users/yangxuehui/Documents/dev_open_source/easy_design_system`
 > 源包（Swift）：`/Users/yangxuehui/Documents/dev_open_source/EasyDesignSystem`
 > 仓库地址：https://github.com/kyinwind/easy_design_system
@@ -9,7 +9,7 @@
 
 - **开发计划/进度清单必须用可勾选格式（`- [ ]` / `- [x]`），完成一项立即打勾**，让用户随时可见进度。
 
-## 总体进度：约 99%（v0.1.0 主体完成，Catalog example 移植完成，待推送）
+## 总体进度：100%（v0.1.0 主体 + Catalog example 全部完成；仅剩可选增强项）
 
 - [x] M0 工程脚手架（pubspec、analysis_options、LICENSE、CI workflow、fixtures、example）
 - [x] M1 Token 系统 + 主题机制
@@ -38,7 +38,7 @@
 - [x] `docs` 目录改名 `doc`（pub 布局规范）
 - [x] **发布 pub.dev → 已决定不发布**（2026-09-21 用户决策：pub.dev 上 `easy_design_system` 同名包已被 sonub.com 占用（13 个月前，无关项目）；保留包名，仅供自有 Flutter 项目使用，经 path/git 依赖分发；README §2 已改为 path/git 安装说明并加了防误 add 警告）
 - [x] **设置 git remote 并 push**（remote=origin https://github.com/kyinwind/easy_design_system.git；用户自行推送了 main；助手打了标签 `0.1.0`（指向 26762b0）并推送，旧 `v0.1.0` 标签已删除未推送）
-- [x] **Catalog example 移植完成**（2026-09-21，对齐 Swift `Examples/Catalog` 五个预览界面）：4 Tab 宿主 `CatalogHomePage` + 全局主题条；新增 `example/lib/catalog/`（`eds_catalog_theme_playground` / `catalog_support`（分栏骨架）/ `eds_button_showcase` / `eds_design_system_gallery` / `eds_easy_api_design_system_gallery` / `eds_design_system_preview`（含 `CatalogColorPickerDialog`））与 `settings_demo_page.dart`，重构 `main.dart`；example 补 dev 依赖（flutter_lints ^6.0.0 + flutter_test）与 `analysis_options.yaml`；example analyze 0 issues、widget 5 用例全绿，根包 61 用例仍全绿
+- [x] **Catalog example 移植完成**（2026-09-22，对齐 Swift `Examples/Catalog` 五个预览界面）：4 Tab 宿主 `CatalogHomePage` + 全局主题条；新增 `example/lib/catalog/`（`eds_catalog_theme_playground` / `catalog_support`（分栏骨架）/ `eds_button_showcase` / `eds_design_system_gallery` / `eds_easy_api_design_system_gallery` / `eds_design_system_preview`（含 `CatalogColorPickerDialog`））与 `settings_demo_page.dart`，重构 `main.dart`；example 补 dev 依赖（flutter_lints ^6.0.0 + flutter_test）与 `analysis_options.yaml`；README §7 已改为 Catalog 实况；example analyze 0 issues、widget 5 用例全绿，根包 61 用例仍全绿；**已提交 `58e73cc`（13 文件 +3429 行），待用户自行 push**
 - [ ] （可选）本地化钩子：组件内中文文案参数化
 - [ ] （可选）`EdsSettingRow.trailing` 通用无界宽度适配器、Sliver 版 Section
 
@@ -75,6 +75,7 @@
 ## 新会话恢复指引
 
 - 先读本文件；需要背景再读 `doc/` 三份文档（分析报告 → 技术方案 → 开发计划）
+- git 状态：本地 `main` 应为干净且领先 `origin/main` 两个提交（`58e73cc` Catalog 移植 + 其后的状态存档提交）——**用户尚未 push，不要重复提交、不要改历史**；待办只剩两项可选增强（本地化钩子、`EdsSettingRow.trailing` 适配器 + Sliver 版 Section）
 - 复现验证：根包 `flutter pub get && dart format --set-exit-if-changed . && flutter analyze && flutter test`（61 全绿）；example `flutter pub get && dart format --set-exit-if-changed . && flutter analyze && flutter test`（widget 5 用例全绿）
 - 本机 Flutter SDK：`/Users/yangxuehui/Documents/dev/ohos/flutter_flutter/bin/flutter`（3.41.10-ohos）；CI 用主线 stable
 - 分发方式：**不发布 pub.dev**（同名包已被占用）。自有项目用 path 依赖（`path: ../easy_design_system`）或 git 依赖（`ref: 0.1.0` 标签锁定版本）。dry-run 曾验证 0 警告，如未来改名发布可直接复用流程。
