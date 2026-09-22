@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.2.0 — 2026-09-22
+
+Sync button visual system with Swift EasyDesignSystem 0.3.1–0.4.2.
+
+### Added
+
+- **`EdsButtonEmphasis.medium`**：25% 色底 + 深一档同色系文字（neutral 用
+  `textPrimary`）。档位强度序：`filled` → `medium` → `outline` → `soft` → `plain`。
+- **`EdsButtonRole.normal`**：灰底次级操作快捷方式，等价于 `soft + neutral + regular`。
+- **`EdsColorTokens.primarySoft`**：`primary` 的 12% 透明版本。`accentSoft` 改为
+  `primarySoft` 的别名（包内不再跟随 `accent`，与 Swift 0.3.1 收敛一致）。
+- `EdsButtonAppearance.resolve()` 公开方法 + `EdsResolvedButtonVisual` 公开类型，
+  供测试验证按钮视觉规则。
+
+### Changed
+
+- **`EdsButtonEmphasis.outline` 重做为 MD3 风格**：透明底 + 1pt 中性浅边框
+  （`scheme.border`）+ tone 色文字。边框不再染主题色，强调全靠文字色。
+  `success` tone 与 `soft` 档同规则改用 `textPrimary` 保证可读。
+- **`EdsButtonRole.secondary` 视觉跟随**：别名从 `outline + accent` 改指
+  `medium + accent`，调用方源码零改动。
+- **`filled` 彩色档文字统一白色**：`success` / `warning` 实心档从 `textPrimary`
+  改为白色，与 `accent` / `danger` 实心档观感一致。
+- **`outline` 边框宽度从 1.5pt 改为 `stroke.hairline`（1pt）**，非 outline 档仍用 1.5pt。
+- **按钮标签防压缩变形**：`maxLines: 1` + `TextOverflow.ellipsis`，容器过窄时
+  按钮保持胶囊形状，宁可溢出不折行。
+
+### Compatibility
+
+- 既有 `EdsButton(role: .secondary)` 调用点源码零改动，视觉自动从"白底描边"变为
+  "主题色 25% 中底"。
+- `accentSoft` 仍可读取，值为 `primarySoft` 的别名，不构成破坏性变更。
+
 ## 0.1.0
 
 Initial release — a Flutter port of the Swift EasyDesignSystem package.

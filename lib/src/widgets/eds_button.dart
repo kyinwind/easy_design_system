@@ -9,14 +9,21 @@ import '../tokens/eds_color_scheme.dart';
 import '../tokens/eds_design_tokens.dart';
 
 /// Visual weight of a button. Mirrors Swift's `EDSButton.Emphasis`.
+///
+/// Five tiers of visual weight, ordered strongest to weakest:
+/// `filled` → `medium` → `outline` → `soft` → `plain`.
 enum EdsButtonEmphasis {
   /// Filled: strongest visual weight.
   filled,
 
-  /// Outlined: secondary.
+  /// Medium: 25% tinted background + darkened text (neutral uses textPrimary).
+  medium,
+
+  /// Outlined: transparent background + 1pt neutral border + tone-colored text
+  /// (Material Design 3 outlined recipe).
   outline,
 
-  /// Soft tinted background: weaker.
+  /// Soft: 12% tinted background + tone-colored text.
   soft,
 
   /// Text only: weakest.
@@ -59,7 +66,10 @@ enum EdsButtonRole {
   /// Filled accent. Equivalent to `filled + accent + regular`.
   primary,
 
-  /// Outlined accent. Equivalent to `outline + accent + regular`.
+  /// Medium accent (25% tinted). Equivalent to `medium + accent + regular`.
+  ///
+  /// Was `outline + accent` before 0.4.0; outline was retired and secondary
+  /// automatically followed to medium — caller source code needs no change.
   secondary,
 
   /// Soft accent. Equivalent to `soft + accent + regular`.
@@ -71,6 +81,9 @@ enum EdsButtonRole {
   /// Completed (filled green + checkmark icon). Equivalent to
   /// `filled + success + regular`.
   done,
+
+  /// Soft neutral (12% gray background). Equivalent to `soft + neutral + regular`.
+  normal,
 }
 
 /// The appearance preset for this role, mirroring Swift's
@@ -84,7 +97,7 @@ extension EdsButtonRoleX on EdsButtonRole {
           size: EdsButtonSize.regular,
         ),
       EdsButtonRole.secondary => const EdsButtonAppearance(
-          emphasis: EdsButtonEmphasis.outline,
+          emphasis: EdsButtonEmphasis.medium,
           tone: EdsButtonTone.accent,
           size: EdsButtonSize.regular,
         ),
@@ -103,6 +116,11 @@ extension EdsButtonRoleX on EdsButtonRole {
           tone: EdsButtonTone.success,
           size: EdsButtonSize.regular,
         ),
+      EdsButtonRole.normal => const EdsButtonAppearance(
+          emphasis: EdsButtonEmphasis.soft,
+          tone: EdsButtonTone.neutral,
+          size: EdsButtonSize.regular,
+        ),
     };
   }
 
@@ -113,7 +131,8 @@ extension EdsButtonRoleX on EdsButtonRole {
       EdsButtonRole.primary ||
       EdsButtonRole.secondary ||
       EdsButtonRole.soft ||
-      EdsButtonRole.danger =>
+      EdsButtonRole.danger ||
+      EdsButtonRole.normal =>
         null,
     };
   }
@@ -143,36 +162,11 @@ class EdsButtonAppearance {
 
   @override
   int get hashCode => Object.hash(emphasis, tone, size);
-}
 
-/// The resolved visual values for a button appearance. Internal, mirroring
-/// Swift's `EDSResolvedButtonVisual`.
-class _EdsResolvedButtonVisual {
-  const _EdsResolvedButtonVisual({
-    required this.foreground,
-    this.background,
-    this.borderColor,
-    required this.borderWidth,
-    required this.height,
-    required this.horizontalPadding,
-  });
-
-  final Color foreground;
-  final Color? background;
-  final Color? borderColor;
-  final double borderWidth;
-  final double height;
-  final double horizontalPadding;
-}
-
-extension _EdsButtonAppearanceResolveX on EdsButtonAppearance {
-  /// Resolves the appearance into concrete visual values.
+  /// Resolves this appearance into concrete visual values.
   ///
-  /// Deviation from Swift: the resolved values depend on both the design
-  /// tokens and a [EdsColorScheme], because Swift's dynamic system colors
-  /// (`Color.primary`, `Color.secondary`) become scheme colors in the Dart
-  /// port.
-  _EdsResolvedButtonVisual _resolve({
+  /// Public so tests can verify visual rules without widget tests.
+  EdsResolvedButtonVisual resolve({
     required EdsDesignTokens tokens,
     required EdsColorScheme scheme,
   }) {
@@ -187,7 +181,7 @@ extension _EdsButtonAppearanceResolveX on EdsButtonAppearance {
     };
 
     final Color toneSoftColor = switch (tone) {
-      EdsButtonTone.accent => colors.accentSoft,
+      EdsButtonTone.accent => colors.primarySoft,
       EdsButtonTone.neutral => scheme.label.withValues(alpha: 0.12),
       EdsButtonTone.danger => colors.dangerSoft,
       EdsButtonTone.success => colors.successSoft,
@@ -210,14 +204,21 @@ extension _EdsButtonAppearanceResolveX on EdsButtonAppearance {
             background = toneColor;
           case EdsButtonTone.success:
           case EdsButtonTone.warning:
-            foreground = scheme.textPrimary;
+            foreground = Colors.white;
             background = toneColor;
         }
         borderColor = null;
+      case EdsButtonEmphasis.medium:
+        foreground = tone == EdsButtonTone.neutral
+            ? scheme.textPrimary
+            : _darkened(toneColor, 0.7);
+        background = toneColor.withValues(alpha: 0.25);
+        borderColor = null;
       case EdsButtonEmphasis.outline:
-        foreground = toneColor;
+        foreground =
+            tone == EdsButtonTone.success ? scheme.textPrimary : toneColor;
         background = null;
-        borderColor = toneColor;
+        borderColor = scheme.border;
       case EdsButtonEmphasis.soft:
         foreground =
             tone == EdsButtonTone.success ? scheme.textPrimary : toneColor;
@@ -241,15 +242,48 @@ extension _EdsButtonAppearanceResolveX on EdsButtonAppearance {
       EdsButtonSize.large => tokens.spacing.lg,
     };
 
-    return _EdsResolvedButtonVisual(
+    final double borderWidth =
+        emphasis == EdsButtonEmphasis.outline ? tokens.stroke.hairline : 1.5;
+
+    return EdsResolvedButtonVisual(
       foreground: foreground,
       background: background,
       borderColor: borderColor,
-      borderWidth: 1.5,
+      borderWidth: borderWidth,
       height: height,
       horizontalPadding: horizontalPadding,
     );
   }
+
+  /// Darkens a color by multiplying each RGB channel by [factor].
+  static Color _darkened(Color color, double factor) {
+    return Color.from(
+      alpha: color.a,
+      red: color.r * factor,
+      green: color.g * factor,
+      blue: color.b * factor,
+    );
+  }
+}
+
+/// The resolved visual values for a button appearance, mirroring Swift's
+/// `EDSResolvedButtonVisual`.
+class EdsResolvedButtonVisual {
+  const EdsResolvedButtonVisual({
+    required this.foreground,
+    this.background,
+    this.borderColor,
+    required this.borderWidth,
+    required this.height,
+    required this.horizontalPadding,
+  });
+
+  final Color foreground;
+  final Color? background;
+  final Color? borderColor;
+  final double borderWidth;
+  final double height;
+  final double horizontalPadding;
 }
 
 /// The general-purpose EDS button, mirroring Swift's `EDSButton`.
@@ -404,7 +438,7 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
       profile: context.edsInteractionProfile,
       horizontalSizeClass: context.edsSizeClass,
     );
-    final visual = widget.appearance._resolve(
+    final visual = widget.appearance.resolve(
       tokens: tokens,
       scheme: scheme,
     );
@@ -415,7 +449,11 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
     final labelStyle = tokens.typography.edsTextStyle(EdsFontRole.bodyStrong);
 
     Widget current = DefaultTextStyle.merge(
-      style: labelStyle.copyWith(color: visual.foreground),
+      style: labelStyle.copyWith(
+        color: visual.foreground,
+        overflow: TextOverflow.ellipsis,
+      ),
+      maxLines: 1,
       child: IconTheme.merge(
         data: IconThemeData(
           color: visual.foreground,

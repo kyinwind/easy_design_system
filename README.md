@@ -642,6 +642,7 @@ Row(
     EdsButton('轻量操作', role: EdsButtonRole.soft, action: () {}),
     EdsButton('危险操作', role: EdsButtonRole.danger, action: () {}),
     EdsButton('已完成', role: EdsButtonRole.done, action: () {}),
+    EdsButton('常规灰底', role: EdsButtonRole.normal, action: () {}),
   ],
 )
 
@@ -665,7 +666,7 @@ EdsToggle(isOn: isEnabled, label: '启用自动处理', onChanged: (value) {})
 
 | 维度 | 取值 | 含义 |
 | --- | --- | --- |
-| `Emphasis` | `filled` `outline` `soft` `plain` | 视觉分量——这块按钮"多重" |
+| `Emphasis` | `filled` `medium` `outline` `soft` `plain` | 视觉分量——这块按钮"多重" |
 | `Tone` | `accent` `neutral` `danger` `success` `warning` | 语义色调——这块按钮"是什么性质" |
 | `Size` | `small`(28) `regular`(34) `large`(44) | 尺寸档位 |
 
@@ -674,6 +675,12 @@ EdsButton.dimension(
   '忽略并删除',
   emphasis: EdsButtonEmphasis.soft,
   tone: EdsButtonTone.danger,
+  action: () {},
+);
+
+EdsButton.dimension(
+  '中底操作',
+  emphasis: EdsButtonEmphasis.medium,
   action: () {},
 );
 
@@ -704,10 +711,11 @@ EdsButton.dimension(
 | `Role` | 等价于 |
 | --- | --- |
 | `primary` | `filled` + `accent` + `regular` |
-| `secondary` | `outline` + `accent` + `regular` |
+| `secondary` | `medium` + `accent` + `regular` |
 | `soft` | `soft` + `accent` + `regular` |
 | `danger` | `filled` + `danger` + `regular` |
 | `done` | `filled` + `success` + `regular`，并自动补 `check` 图标 |
+| `normal` | `soft` + `neutral` + `regular` |
 
 两种写法汇入同一份渲染实现，可以在同一页面里混用。需要自定义预设时，用 `EdsButtonAppearance` 组合三维后，通过 `EdsButton.label` 传自定义内容。
 
@@ -934,6 +942,7 @@ flutter test   # 5 个 widget 用例
 | `configure(jsonResource:)` | `configureJsonAsset(path)` | Dart 无重载，资产路径全名 |
 | `Color(hexRGB:)` | `EdsColorHex.parseRgb` | 另有 `parseArgb` / `parseRgba` |
 | `EDSButton.Role.primary` | `EdsButtonRole.primary` | 枚举置于顶层 |
+| `EDSButton.Role.normal` | `EdsButtonRole.normal` | 0.4.1 新增：灰底次级 |
 | `EDSButton(_:emphasis:tone:size:)` | `EdsButton.dimension(...)` | 命名构造器 |
 | `.easyDesign(_:theme:options:)` | `.easyDesignPreset(theme, ...)` | 避免扩展重名 |
 | `.easyDesignTheme(_:)` | `.easyDesignTheme(tokens)` / `.easyDesignThemePreset(preset)` | scope-only 修饰器 |

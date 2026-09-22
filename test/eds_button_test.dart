@@ -22,7 +22,7 @@ void main() {
     expect(
       EdsButtonRole.secondary.appearance,
       const EdsButtonAppearance(
-        emphasis: EdsButtonEmphasis.outline,
+        emphasis: EdsButtonEmphasis.medium,
         tone: EdsButtonTone.accent,
         size: EdsButtonSize.regular,
       ),
@@ -43,6 +43,14 @@ void main() {
         size: EdsButtonSize.regular,
       ),
     );
+    expect(
+      EdsButtonRole.normal.appearance,
+      const EdsButtonAppearance(
+        emphasis: EdsButtonEmphasis.soft,
+        tone: EdsButtonTone.neutral,
+        size: EdsButtonSize.regular,
+      ),
+    );
   });
 
   test('default appearance matches the Swift defaults', () {
@@ -54,6 +62,71 @@ void main() {
         size: EdsButtonSize.regular,
       ),
     );
+  });
+
+  test('medium emphasis has 25% tinted background', () {
+    const tokens = EdsDesignTokens();
+    final scheme = EdsColorScheme.resolve(tokens, Brightness.light);
+    const appearance = EdsButtonAppearance(
+      emphasis: EdsButtonEmphasis.medium,
+      tone: EdsButtonTone.accent,
+    );
+    final visual = appearance.resolve(tokens: tokens, scheme: scheme);
+
+    expect(visual.background, tokens.colors.primary.withValues(alpha: 0.25));
+    expect(visual.borderColor, isNull);
+  });
+
+  test('medium neutral uses textPrimary foreground', () {
+    const tokens = EdsDesignTokens();
+    final scheme = EdsColorScheme.resolve(tokens, Brightness.light);
+    const appearance = EdsButtonAppearance(
+      emphasis: EdsButtonEmphasis.medium,
+      tone: EdsButtonTone.neutral,
+    );
+    final visual = appearance.resolve(tokens: tokens, scheme: scheme);
+
+    expect(visual.foreground, scheme.textPrimary);
+  });
+
+  test('outline emphasis uses border color and transparent background', () {
+    const tokens = EdsDesignTokens();
+    final scheme = EdsColorScheme.resolve(tokens, Brightness.light);
+    const appearance = EdsButtonAppearance(
+      emphasis: EdsButtonEmphasis.outline,
+      tone: EdsButtonTone.accent,
+    );
+    final visual = appearance.resolve(tokens: tokens, scheme: scheme);
+
+    expect(visual.background, isNull);
+    expect(visual.borderColor, scheme.border);
+    expect(visual.foreground, tokens.colors.primary);
+  });
+
+  test('filled success/warning use white foreground', () {
+    const tokens = EdsDesignTokens();
+    final scheme = EdsColorScheme.resolve(tokens, Brightness.light);
+
+    for (final tone in [EdsButtonTone.success, EdsButtonTone.warning]) {
+      final appearance = EdsButtonAppearance(
+        emphasis: EdsButtonEmphasis.filled,
+        tone: tone,
+      );
+      final visual = appearance.resolve(tokens: tokens, scheme: scheme);
+      expect(visual.foreground, Colors.white, reason: '$tone filled');
+    }
+  });
+
+  test('outline success uses textPrimary foreground', () {
+    const tokens = EdsDesignTokens();
+    final scheme = EdsColorScheme.resolve(tokens, Brightness.light);
+    const appearance = EdsButtonAppearance(
+      emphasis: EdsButtonEmphasis.outline,
+      tone: EdsButtonTone.success,
+    );
+    final visual = appearance.resolve(tokens: tokens, scheme: scheme);
+
+    expect(visual.foreground, scheme.textPrimary);
   });
 
   testWidgets('button renders title and icon and fires action on tap',

@@ -9,7 +9,7 @@
 
 - **开发计划/进度清单必须用可勾选格式（`- [ ]` / `- [x]`），完成一项立即打勾**，让用户随时可见进度。
 
-## 总体进度：100%（v0.1.0 主体 + Catalog example 全部完成；仅剩可选增强项）
+## 总体进度：100%（v0.2.0 按钮体系已同步至 Swift 0.4.2）
 
 - [x] M0 工程脚手架（pubspec、analysis_options、LICENSE、CI workflow、fixtures、example）
 - [x] M1 Token 系统 + 主题机制
@@ -26,9 +26,9 @@
   - [x] `eds_font` / `eds_surface` 基础原语
 - [x] M3 基础组件（button 三维+Role / badge / toggle / text 组 / rows 组 / card / group / hero_panel / page / page_section）
 - [x] M4 扩展组件（states 组 / pills / collapsible_section / comparison_section / icon_mark / sidebar）
-- [x] 测试：8 文件 53 用例全绿，逐条对齐 Swift `EasyDesignSystemTests`
+- [x] 测试：66 用例全绿，逐条对齐 Swift `EasyDesignSystemTests`
 - [x] README 完整版重写（对照 Mac 版 9 大节：设计理念/安装/使用向导/Easy API/主题/精细 API/示例/Catalog 规划/对照表/开发验证；全部 API 逐项核对源码）
-- [x] README 示例固化测试 `test/eds_readme_examples_test.dart`（8 用例，防文档漂移；测试总数 61）
+- [x] README 示例固化测试 `test/eds_readme_examples_test.dart`（8 用例，防文档漂移）
 - [x] 修复：sidebar 选中态颜色 `colors.accent` → `colors.primary`（对齐"primary 唯一主题色"契约）
 - [x] 修复：README 中 `EdsTheme.instance.colors` → `EdsTheme.instance.tokens.colors`（无便捷 getter）
 - [x] 修复：磁盘 `docs/` 目录与 HEAD `doc/` 不一致（IDE 移回所致），已恢复
@@ -36,9 +36,20 @@
 - [x] git 仓库初始化、tag v0.1.0、`pubspec.lock` 不入库
 - [x] pubspec 补 `repository` / `issue_tracker` 字段
 - [x] `docs` 目录改名 `doc`（pub 布局规范）
-- [x] **发布 pub.dev → 已决定不发布**（2026-09-21 用户决策：pub.dev 上 `easy_design_system` 同名包已被 sonub.com 占用（13 个月前，无关项目）；保留包名，仅供自有 Flutter 项目使用，经 path/git 依赖分发；README §2 已改为 path/git 安装说明并加了防误 add 警告）
-- [x] **设置 git remote 并 push**（remote=origin https://github.com/kyinwind/easy_design_system.git；用户自行推送了 main；助手打了标签 `0.1.0`（指向 26762b0）并推送，旧 `v0.1.0` 标签已删除未推送）
-- [x] **Catalog example 移植完成**（2026-09-22，对齐 Swift `Examples/Catalog` 五个预览界面）：4 Tab 宿主 `CatalogHomePage` + 全局主题条；新增 `example/lib/catalog/`（`eds_catalog_theme_playground` / `catalog_support`（分栏骨架）/ `eds_button_showcase` / `eds_design_system_gallery` / `eds_easy_api_design_system_gallery` / `eds_design_system_preview`（含 `CatalogColorPickerDialog`））与 `settings_demo_page.dart`，重构 `main.dart`；example 补 dev 依赖（flutter_lints ^6.0.0 + flutter_test）与 `analysis_options.yaml`；README §7 已改为 Catalog 实况；example analyze 0 issues、widget 5 用例全绿，根包 61 用例仍全绿；**已提交 `58e73cc`（13 文件 +3429 行），待用户自行 push**
+- [x] **发布 pub.dev → 已决定不发布**
+- [x] **设置 git remote 并 push**
+- [x] **Catalog example 移植完成**
+- [x] **v0.2.0：同步 Swift 0.3.1~0.4.2 按钮体系**（2026-09-22）
+  - [x] `EdsButtonEmphasis.medium` 新档位（25%色底+深一档同色系文字）
+  - [x] `EdsButtonEmphasis.outline` 重做为 MD3 风格（透明底+1pt border+tone色字）
+  - [x] `EdsButtonRole.normal` 新增（soft+neutral 别名）
+  - [x] `EdsButtonRole.secondary` 改指 `medium+accent`（原 outline+accent）
+  - [x] filled success/warning 文字改白色
+  - [x] `EdsColorTokens.primarySoft` 新增；`accentSoft` 改为别名
+  - [x] outline borderWidth 用 `stroke.hairline`（1pt）
+  - [x] 按钮防压缩变形（maxLines:1 + overflow:ellipsis）
+  - [x] `EdsResolvedButtonVisual` 公开 + `EdsButtonAppearance.resolve()` 公开
+  - [x] 测试 66 用例全绿（+5 新增按钮视觉规则测试）
 - [ ] （可选）本地化钩子：组件内中文文案参数化
 - [ ] （可选）`EdsSettingRow.trailing` 通用无界宽度适配器、Sliver 版 Section
 
@@ -67,7 +78,7 @@
 - Swift 嵌套枚举 → Dart 顶层枚举（`EdsButtonRole/Emphasis/Tone/Size`、`EdsSidebarIconSize`）
 - 语义色亮暗：`EdsColorScheme.resolve(tokens, brightness)`（pageBackground #F7F7F7/#1E1E20，cardBackground #FFFFFF/#2A2A2C，textPrimary=label 全透明度等）
 - 尺寸断点 600 逻辑像素；textScaler ≥ 1.7 / `edsIsAccessibilityTextSize` 时 Row 切竖排
-- `EdsButton` Role 5 档（primary/secondary/soft/danger/done），`.done`=filled+success+checkmark 默认图标（Swift 2026-09-20 目视验收后固化，测试钉死）
+- `EdsButton` Role 6 档（primary/secondary/soft/danger/done/normal），`.secondary`=medium+accent（0.4.0 从 outline 改指 medium），`.normal`=soft+neutral（0.4.1 新增），`.done`=filled+success+checkmark 默认图标
 - `EdsPillTone.defaultPalette` 12 色、border 非可选（`border ?? fg 0.16`）；`EdsPillFlow` tone 按排序后 index 轮转
 - `minHeight` 居中技巧：`ConstrainedBox(minHeight) > Align(center, widthFactor: 1.0)`（Container+alignment 会双向撑满）
 - Row/Column `spacing:` 参数（Flutter ≥3.27）；divider 统一 `Divider(height: 1, thickness: 1, color: scheme.border)`
@@ -75,8 +86,8 @@
 ## 新会话恢复指引
 
 - 先读本文件；需要背景再读 `doc/` 三份文档（分析报告 → 技术方案 → 开发计划）
-- git 状态：本地 `main` 应为干净且领先 `origin/main` 两个提交（`58e73cc` Catalog 移植 + 其后的状态存档提交）——**用户尚未 push，不要重复提交、不要改历史**；待办只剩两项可选增强（本地化钩子、`EdsSettingRow.trailing` 适配器 + Sliver 版 Section）
-- 复现验证：根包 `flutter pub get && dart format --set-exit-if-changed . && flutter analyze && flutter test`（61 全绿）；example `flutter pub get && dart format --set-exit-if-changed . && flutter analyze && flutter test`（widget 5 用例全绿）
+- git 状态：本地 `main` 应为干净且领先 `origin/main` 若干提交——**用户尚未 push，不要重复提交、不要改历史**；待办只剩两项可选增强（本地化钩子、`EdsSettingRow.trailing` 适配器 + Sliver 版 Section）
+- 复现验证：根包 `flutter pub get && dart format --set-exit-if-changed . && flutter analyze && flutter test`（66 全绿）；example `flutter pub get && dart format --set-exit-if-changed . && flutter analyze && flutter test`（widget 5 用例全绿）
 - 本机 Flutter SDK：`/Users/yangxuehui/Documents/dev/ohos/flutter_flutter/bin/flutter`（3.41.10-ohos）；CI 用主线 stable
 - 分发方式：**不发布 pub.dev**（同名包已被占用）。自有项目用 path 依赖（`path: ../easy_design_system`）或 git 依赖（`ref: 0.1.0` 标签锁定版本）。dry-run 曾验证 0 警告，如未来改名发布可直接复用流程。
 - 本机直连 GitHub 正常（勿走系统代理 127.0.0.1:7897，该代理对 443 握手失败）

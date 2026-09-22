@@ -29,8 +29,14 @@ class EdsColorTokens {
 
   // Derived colors (brightness independent).
 
+  /// 12% alpha version of [primary].
+  Color get primarySoft => primary.withValues(alpha: 0.12);
+
   /// 12% alpha version of [accent].
-  Color get accentSoft => accent.withValues(alpha: 0.12);
+  ///
+  /// Alias for [primarySoft] since 0.3.1: the package no longer reads [accent]
+  /// internally. New code should use [primarySoft].
+  Color get accentSoft => primarySoft;
 
   /// 12% alpha version of [success].
   Color get successSoft => success.withValues(alpha: 0.12);
