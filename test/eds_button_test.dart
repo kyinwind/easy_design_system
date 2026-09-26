@@ -252,7 +252,6 @@ void main() {
     expect(semantics.hasFlag(SemanticsFlag.isButton), isTrue);
     expect(semantics.hasFlag(SemanticsFlag.isEnabled), isFalse);
   });
-
 }
 
 class _DisabledButton extends StatelessWidget {
@@ -262,5 +261,4 @@ class _DisabledButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return EdsButton('不可用');
   }
-
 }
