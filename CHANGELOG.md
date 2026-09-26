@@ -1,5 +1,36 @@
 # Changelog
 
+## Unreleased — Flutter-first component rollout
+
+在 Batch A 桌面正确性补全之后，继续完成 Button API 2、设置页控件、已有组件泛化和常用应用组件扩展。当前仍不提升 Flutter 包版本号，待 CI 全绿后统一确定发布版本。
+
+### Added
+
+- `EdsButton` 新增 `icon`、`isBusy`、`expands`、`EdsButton.custom` 和 `EdsButton.styled`。
+- `EdsCheckbox`、`EdsDropdown<T>`、`EdsSegmented<T>`。
+- `EdsTextField`、`EdsRadioGroup<T>` / `EdsRadio<T>`、`EdsSlider`。
+- `EdsChoicePill`，明确区分 Tag 型 Pill 与可选择 Pill。
+- `EdsAlertDialog`、`EdsConfirmDialog`。
+- `EdsMenuButton<T>` / `EdsMenuItem<T>`。
+- `EdsCollapsibleSection` 增加 initial / controlled expansion API。
+- `EdsPillFlow<T>` 泛型化，可通过 `labelBuilder` 绑定业务模型。
+
+### Changed
+
+- `EdsButton.dimension` 标记 Deprecated，新代码使用 `EdsButton.styled`。
+- Button 的 `systemImage` 标记 Deprecated，新代码使用 `icon`。
+- Button busy 状态不再被 Semantics 当成 disabled；它仍表达业务可用，但暂时不可重复激活。
+- Button 色彩 darken 从 RGB 通道乘法改为稳定的 `Color.lerp` 插值。
+- `EdsRadio` 使用 Flutter 新版 `RadioGroup` 模型，不依赖已废弃的 `groupValue/onChanged` Radio 参数。
+- Catalog 与示例迁移到 Button API 2。
+
+### Compatibility
+
+- 原有 `EdsButton('标题', ...)` 继续有效。
+- `systemImage` 和 `EdsButton.dimension` 暂时保留 Deprecated compatibility。
+- 原有 `EdsPillFlow(List<String>)` 通过泛型推断继续工作。
+- Toast service 仍不进入设计系统；Popover 暂缓，等待真实宿主场景后再确定抽象。
+
 ## Unreleased — Batch A
 
 本轮从“Swift 行为移植”继续向 Flutter-first 桌面可用性补全，不改变 Flutter 包版本号。
