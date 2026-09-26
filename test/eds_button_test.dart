@@ -1,6 +1,5 @@
 import 'package:easy_design_system/easy_design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -213,14 +212,8 @@ void main() {
 
     final semantics = tester.getSemantics(find.byType(EdsButton));
     expect(semantics.label, '保存项目');
-    expect(
-      semantics.flagsCollection.contains(SemanticsFlag.isButton),
-      isTrue,
-    );
-    expect(
-      semantics.flagsCollection.contains(SemanticsFlag.isEnabled),
-      isTrue,
-    );
+    expect(semantics.flagsCollection.isButton, isTrue);
+    expect(semantics.flagsCollection.isEnabled.toBoolOrNull(), isTrue);
 
     focusNode.requestFocus();
     await tester.pump();
@@ -256,14 +249,8 @@ void main() {
     );
 
     final semantics = tester.getSemantics(find.byType(EdsButton));
-    expect(
-      semantics.flagsCollection.contains(SemanticsFlag.isButton),
-      isTrue,
-    );
-    expect(
-      semantics.flagsCollection.contains(SemanticsFlag.isEnabled),
-      isFalse,
-    );
+    expect(semantics.flagsCollection.isButton, isTrue);
+    expect(semantics.flagsCollection.isEnabled.toBoolOrNull(), isFalse);
   });
 }
 
