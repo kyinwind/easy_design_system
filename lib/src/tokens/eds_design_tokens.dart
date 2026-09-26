@@ -257,6 +257,10 @@ class EdsRadiusTokens {
 /// …).
 class EdsTypographyTokens {
   const EdsTypographyTokens({
+    this.fontFamily,
+    this.fontFamilyFallback,
+    this.monoFontFamily,
+    this.monoFontFamilyFallback,
     this.heroSize = 30,
     this.heroWeight = 'bold',
     this.pageTitleSize = 17,
@@ -278,6 +282,19 @@ class EdsTypographyTokens {
     this.monoCaptionSize = 11,
     this.monoCaptionWeight = 'regular',
   });
+
+  /// Optional Flutter-specific UI font family. Null keeps the platform font.
+  final String? fontFamily;
+
+  /// Optional fallback families used by regular text roles.
+  final List<String>? fontFamilyFallback;
+
+  /// Optional font family used by [monoCaption].
+  final String? monoFontFamily;
+
+  /// Optional fallback families used by [monoCaption]. When null, the package
+  /// built-in monospaced fallback list is used.
+  final List<String>? monoFontFamilyFallback;
 
   final double heroSize;
   final String heroWeight;
@@ -301,6 +318,10 @@ class EdsTypographyTokens {
   final String monoCaptionWeight;
 
   EdsTypographyTokens copyWith({
+    String? fontFamily,
+    List<String>? fontFamilyFallback,
+    String? monoFontFamily,
+    List<String>? monoFontFamilyFallback,
     double? heroSize,
     String? heroWeight,
     double? pageTitleSize,
@@ -323,6 +344,11 @@ class EdsTypographyTokens {
     String? monoCaptionWeight,
   }) {
     return EdsTypographyTokens(
+      fontFamily: fontFamily ?? this.fontFamily,
+      fontFamilyFallback: fontFamilyFallback ?? this.fontFamilyFallback,
+      monoFontFamily: monoFontFamily ?? this.monoFontFamily,
+      monoFontFamilyFallback:
+          monoFontFamilyFallback ?? this.monoFontFamilyFallback,
       heroSize: heroSize ?? this.heroSize,
       heroWeight: heroWeight ?? this.heroWeight,
       pageTitleSize: pageTitleSize ?? this.pageTitleSize,
@@ -352,6 +378,10 @@ class EdsTypographyTokens {
     }
     const defaults = EdsTypographyTokens();
     return EdsTypographyTokens(
+      fontFamily: _readNullableString(json, 'fontFamily'),
+      fontFamilyFallback: _readStringList(json, 'fontFamilyFallback'),
+      monoFontFamily: _readNullableString(json, 'monoFontFamily'),
+      monoFontFamilyFallback: _readStringList(json, 'monoFontFamilyFallback'),
       heroSize: _readDouble(json, 'heroSize', defaults.heroSize),
       heroWeight: _readString(json, 'heroWeight', defaults.heroWeight),
       pageTitleSize: _readDouble(json, 'pageTitleSize', defaults.pageTitleSize),
@@ -388,6 +418,11 @@ class EdsTypographyTokens {
 
   Map<String, Object?> toJson() {
     return <String, Object?>{
+      if (fontFamily != null) 'fontFamily': fontFamily,
+      if (fontFamilyFallback != null) 'fontFamilyFallback': fontFamilyFallback,
+      if (monoFontFamily != null) 'monoFontFamily': monoFontFamily,
+      if (monoFontFamilyFallback != null)
+        'monoFontFamilyFallback': monoFontFamilyFallback,
       'heroSize': _jsonNum(heroSize),
       'heroWeight': heroWeight,
       'pageTitleSize': _jsonNum(pageTitleSize),
@@ -414,6 +449,10 @@ class EdsTypographyTokens {
   @override
   bool operator ==(Object other) {
     return other is EdsTypographyTokens &&
+        other.fontFamily == fontFamily &&
+        _listEquals(other.fontFamilyFallback, fontFamilyFallback) &&
+        other.monoFontFamily == monoFontFamily &&
+        _listEquals(other.monoFontFamilyFallback, monoFontFamilyFallback) &&
         other.heroSize == heroSize &&
         other.heroWeight == heroWeight &&
         other.pageTitleSize == pageTitleSize &&
@@ -458,6 +497,10 @@ class EdsTypographyTokens {
         captionStrongWeight,
         monoCaptionSize,
         monoCaptionWeight,
+      fontFamily,
+      ...?fontFamilyFallback,
+      monoFontFamily,
+      ...?monoFontFamilyFallback,
       ]);
 }
 
@@ -933,6 +976,33 @@ double _readDouble(Map<String, Object?> json, String key, double fallback) {
   }
   throw FormatException(
       'Expected a number for "$key" but found ${value.runtimeType}.');
+}
+
+String? _readNullableString(Map<String, Object?> json, String key) {
+  final value = json[key];
+  if (value == null) return null;
+  if (value is String) return value;
+  throw FormatException(
+      'Expected a string for "$key" but found ${value.runtimeType}.');
+}
+
+List<String>? _readStringList(Map<String, Object?> json, String key) {
+  final value = json[key];
+  if (value == null) return null;
+  if (value is List && value.every((element) => element is String)) {
+    return value.cast<String>();
+  }
+  throw FormatException(
+      'Expected a string array for "$key" but found ${value.runtimeType}.');
+}
+
+bool _listEquals(List<String>? a, List<String>? b) {
+  if (identical(a, b)) return true;
+  if (a == null || b == null || a.length != b.length) return false;
+  for (var i = 0; i < a.length; i++) {
+    if (a[i] != b[i]) return false;
+  }
+  return true;
 }
 
 String _readString(Map<String, Object?> json, String key, String fallback) {
