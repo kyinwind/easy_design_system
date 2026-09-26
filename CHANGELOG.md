@@ -1,5 +1,36 @@
 # Changelog
 
+## Unreleased — Batch A
+
+本轮从“Swift 行为移植”继续向 Flutter-first 桌面可用性补全，不改变 Flutter 包版本号。
+
+### Added
+
+- `EdsButton` 增加桌面键盘焦点、Tab 遍历、Enter / Space 激活、Semantics、
+  可选 `tooltip`、`focusNode`、`autofocus` 与 `semanticLabel`。
+- `EdsTypographyTokens` 增加 Flutter 专用 `fontFamily` /
+  `fontFamilyFallback` / `monoFontFamily` / `monoFontFamilyFallback`。
+- `EdsComparisonSection` 的标题与 Free/Pro 列标签允许宿主覆盖。
+- `EdsPill` 删除操作的 Semantics label / hint 允许宿主覆盖。
+- `EdsSidebarMenuItem.presetTint`：在 build 时从局部 `EdsThemeScope` 解析主题色。
+
+### Changed
+
+- `context.edsBrightness` 在没有显式 `EdsThemeScope.brightness` 时读取
+  `Theme.of(context).brightness`，从而跟随宿主 `ThemeMode`。
+- `EdsButton` hover 不再整体降低 opacity；改为只调整 surface，避免文字和图标
+  对比度随 hover 一起降低。
+- Sidebar 的主题型 preset tint 推荐使用 `presetTint` / `resolve(context)`。
+
+### Compatibility
+
+- 原有 `EdsButton('标题', ...)`、`EdsButton.label(...)` 与
+  `EdsButton.dimension(...)` 调用方式继续有效。
+- `EdsSidebarIconPresetTint.color` 暂时保留并标记 Deprecated；它仍读取全局
+  `EdsTheme.instance`，新代码应使用局部 Scope 感知 API。
+- 旧 Swift-compatible JSON 不需要新增字体字段；Flutter 专用字体字段缺失时保持
+  原平台默认字体行为。
+
 ## 0.2.0 — 2026-09-22
 
 Sync button visual system with Swift EasyDesignSystem 0.3.1–0.4.2.
