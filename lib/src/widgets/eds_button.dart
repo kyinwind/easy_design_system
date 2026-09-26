@@ -612,6 +612,7 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
       button: true,
       enabled: enabled,
       label: widget.semanticLabel,
+      excludeSemantics: widget.semanticLabel != null,
       onTap: enabled ? widget.action : null,
       child: result,
     );
