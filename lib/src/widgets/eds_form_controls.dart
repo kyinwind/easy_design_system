@@ -57,18 +57,18 @@ class EdsCheckbox extends StatelessWidget {
             borderRadius: BorderRadius.circular(tokens.radius.sm),
             onTap: onChanged == null ? null : () => onChanged!(!value),
             child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              control,
-              SizedBox(width: tokens.spacing.xs),
-              Flexible(
-                child: Text(
-                  text,
-                  style: tokens.typography
-                      .edsTextStyle(EdsFontRole.body)
-                      .copyWith(color: scheme.textPrimary),
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                control,
+                SizedBox(width: tokens.spacing.xs),
+                Flexible(
+                  child: Text(
+                    text,
+                    style: tokens.typography
+                        .edsTextStyle(EdsFontRole.body)
+                        .copyWith(color: scheme.textPrimary),
+                  ),
                 ),
-              ),
               ],
             ),
           ),
@@ -416,18 +416,18 @@ class EdsRadio<T> extends StatelessWidget {
           borderRadius: BorderRadius.circular(tokens.radius.sm),
           onTap: isEnabled ? () => registry.onChanged(value) : null,
           child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            radio,
-            SizedBox(width: tokens.spacing.xs),
-            Flexible(
-              child: Text(
-                text,
-                style: tokens.typography
-                    .edsTextStyle(EdsFontRole.body)
-                    .copyWith(color: scheme.textPrimary),
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              radio,
+              SizedBox(width: tokens.spacing.xs),
+              Flexible(
+                child: Text(
+                  text,
+                  style: tokens.typography
+                      .edsTextStyle(EdsFontRole.body)
+                      .copyWith(color: scheme.textPrimary),
+                ),
               ),
-            ),
             ],
           ),
         ),
