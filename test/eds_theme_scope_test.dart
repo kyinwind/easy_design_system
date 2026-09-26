@@ -138,5 +138,4 @@ void main() {
 
     expect(seen, Brightness.light);
   });
-
 }
