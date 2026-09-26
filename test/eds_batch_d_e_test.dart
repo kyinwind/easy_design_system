@@ -70,6 +70,46 @@ void main() {
     expect(tapped?.id, 1);
   });
 
+
+  testWidgets('choice pill and menu preserve typed values', (tester) async {
+    var selected = false;
+    int? menuValue;
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: Column(
+            children: [
+              EdsChoicePill(
+                'Favorite',
+                selected: selected,
+                onChanged: (value) => selected = value,
+              ),
+              EdsMenuButton<int>(
+                items: const [
+                  EdsMenuItem(value: 1, label: 'One'),
+                  EdsMenuItem(value: 2, label: 'Two'),
+                ],
+                onSelected: (value) => menuValue = value,
+                child: const Text('Menu'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Favorite'));
+    expect(selected, isTrue);
+
+    await tester.tap(find.text('Menu'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Two').last);
+    await tester.pumpAndSettle();
+
+    expect(menuValue, 2);
+  });
+
   testWidgets('text field radio slider and dialogs build', (tester) async {
     final controller = TextEditingController(text: 'hello');
     addTearDown(controller.dispose);
