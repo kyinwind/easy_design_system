@@ -121,6 +121,8 @@ class EdsPill extends StatefulWidget {
     this.showsRemoveButton = false,
     this.action,
     this.onRemove,
+    this.removeSemanticLabel,
+    this.removeSemanticHint,
   });
 
   final String title;
@@ -135,6 +137,14 @@ class EdsPill extends StatefulWidget {
 
   /// Triggered by the remove affordance.
   final VoidCallback? onRemove;
+
+  /// Accessibility label for the remove affordance. When omitted the
+  /// backwards-compatible Chinese label is used.
+  final String? removeSemanticLabel;
+
+  /// Accessibility hint for the remove affordance. When omitted the
+  /// backwards-compatible Chinese hint is used.
+  final String? removeSemanticHint;
 
   @override
   State<EdsPill> createState() => _EdsPillState();
@@ -226,8 +236,8 @@ class _EdsPillState extends State<EdsPill> {
   ) {
     final visible = metrics.showsPersistentAuxiliaryActions || _isHovering;
     return Semantics(
-      label: '删除 ${widget.title}',
-      hint: '从列表中移除',
+      label: widget.removeSemanticLabel ?? '删除 ${widget.title}',
+      hint: widget.removeSemanticHint ?? '从列表中移除',
       button: true,
       onTap: widget.onRemove,
       child: IgnorePointer(
