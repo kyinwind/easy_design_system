@@ -12,17 +12,57 @@ import '../tokens/eds_color_scheme.dart';
 /// [AnimatedRotation]. Animations are disabled under
 /// `MediaQuery.disableAnimations`.
 class EdsCollapsibleSection extends StatefulWidget {
-  const EdsCollapsibleSection(this.title, {super.key, required this.child});
+  const EdsCollapsibleSection(
+    this.title, {
+    super.key,
+    required this.child,
+    this.initiallyExpanded = false,
+    this.isExpanded,
+    this.onExpansionChanged,
+  });
 
   final String? title;
   final Widget child;
+
+  /// Initial state for uncontrolled usage.
+  final bool initiallyExpanded;
+
+  /// Controlled expansion state. When non-null, the caller owns the state.
+  final bool? isExpanded;
+
+  /// Called whenever the header requests an expansion state change.
+  final ValueChanged<bool>? onExpansionChanged;
 
   @override
   State<EdsCollapsibleSection> createState() => _EdsCollapsibleSectionState();
 }
 
 class _EdsCollapsibleSectionState extends State<EdsCollapsibleSection> {
-  bool _isExpanded = false;
+  late bool _isExpanded;
+
+  bool get _effectiveExpanded => widget.isExpanded ?? _isExpanded;
+
+  @override
+  void initState() {
+    super.initState();
+    _isExpanded = widget.isExpanded ?? widget.initiallyExpanded;
+  }
+
+  @override
+  void didUpdateWidget(covariant EdsCollapsibleSection oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isExpanded != null && widget.isExpanded != oldWidget.isExpanded) {
+      _isExpanded = widget.isExpanded!;
+    }
+  }
+
+  void _toggle() {
+    final next = !_effectiveExpanded;
+    widget.onExpansionChanged?.call(next);
+    if (widget.isExpanded == null) {
+      setState(() => _isExpanded = next);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +84,7 @@ class _EdsCollapsibleSectionState extends State<EdsCollapsibleSection> {
         children: <Widget>[
           GestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTap: () => setState(() => _isExpanded = !_isExpanded),
+            onTap: () => setState(() => _isExpanded = !_effectiveExpanded),
             child: MouseRegion(
               cursor: SystemMouseCursors.click,
               child: Padding(
@@ -63,7 +103,7 @@ class _EdsCollapsibleSectionState extends State<EdsCollapsibleSection> {
                     else
                       const Spacer(),
                     AnimatedRotation(
-                      turns: _isExpanded ? 0.25 : 0,
+                      turns: _effectiveExpanded ? 0.25 : 0,
                       duration: duration,
                       curve: Curves.easeInOut,
                       child: Icon(
@@ -81,7 +121,7 @@ class _EdsCollapsibleSectionState extends State<EdsCollapsibleSection> {
             duration: duration,
             curve: Curves.easeInOut,
             alignment: Alignment.topCenter,
-            child: !_isExpanded
+            child: !_effectiveExpanded
                 ? const SizedBox(width: double.infinity, height: 0)
                 : Column(
                     mainAxisSize: MainAxisSize.min,
