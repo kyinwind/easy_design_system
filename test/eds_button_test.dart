@@ -327,6 +327,33 @@ void main() {
     expect(find.text('旧样式'), findsOneWidget);
   });
 
+
+  testWidgets('busy button remains semantically enabled but cannot activate',
+      (tester) async {
+    var taps = 0;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: EdsButton(
+            '保存',
+            isBusy: true,
+            semanticLabel: '保存',
+            action: () => taps++,
+          ),
+        ),
+      ),
+    );
+
+    final semantics = tester.getSemantics(find.byType(EdsButton));
+    expect(semantics.flagsCollection.isEnabled.toBoolOrNull(), isTrue);
+
+    await tester.tap(find.byType(EdsButton), warnIfMissed: false);
+    await tester.pump();
+
+    expect(taps, 0);
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+  });
+
   testWidgets('disabled button exposes disabled semantics', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
