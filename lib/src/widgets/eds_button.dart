@@ -125,7 +125,7 @@ extension EdsButtonRoleX on EdsButtonRole {
     };
   }
 
-  /// The icon automatically applied when no [EdsButton.systemImage] is given.
+  /// The icon automatically applied when no [EdsButton.icon] is given.
   IconData? get defaultIcon {
     return switch (this) {
       EdsButtonRole.done => Icons.check,
@@ -306,16 +306,21 @@ class EdsButton extends StatelessWidget {
     String title, {
     super.key,
     EdsButtonRole role = EdsButtonRole.primary,
-    IconData? systemImage,
+    IconData? icon,
+    @Deprecated('Use icon instead.') IconData? systemImage,
     this.tooltip,
     this.focusNode,
     this.autofocus = false,
     this.semanticLabel,
+    this.isBusy = false,
+    this.expands = false,
     this.action,
-  })  : appearance = role.appearance,
+  })  : assert(icon == null || systemImage == null,
+            'Provide either icon or systemImage, not both.'),
+        appearance = role.appearance,
         _title = title,
         _labelWidget = null,
-        _explicitIcon = systemImage,
+        _explicitIcon = icon ?? systemImage,
         _role = role;
 
   /// Role-based initializer with a custom label widget, mirroring Swift's
@@ -328,6 +333,8 @@ class EdsButton extends StatelessWidget {
     FocusNode? focusNode,
     bool autofocus = false,
     String? semanticLabel,
+    bool isBusy = false,
+    bool expands = false,
     VoidCallback? action,
   }) {
     return EdsButton._(
@@ -339,6 +346,35 @@ class EdsButton extends StatelessWidget {
       focusNode: focusNode,
       autofocus: autofocus,
       semanticLabel: semanticLabel,
+      isBusy: isBusy,
+      expands: expands,
+    );
+  }
+
+  /// Advanced custom-label initializer for Flutter-specific layouts.
+  factory EdsButton.custom({
+    Key? key,
+    required Widget label,
+    EdsButtonRole role = EdsButtonRole.primary,
+    String? tooltip,
+    FocusNode? focusNode,
+    bool autofocus = false,
+    String? semanticLabel,
+    bool isBusy = false,
+    bool expands = false,
+    VoidCallback? action,
+  }) {
+    return EdsButton._(
+      key: key,
+      appearance: role.appearance,
+      action: action,
+      labelWidget: label,
+      tooltip: tooltip,
+      focusNode: focusNode,
+      autofocus: autofocus,
+      semanticLabel: semanticLabel,
+      isBusy: isBusy,
+      expands: expands,
     );
   }
 
@@ -350,17 +386,58 @@ class EdsButton extends StatelessWidget {
   ///     emphasis: EdsButtonEmphasis.soft, tone: EdsButtonTone.danger,
   ///     action: remove)
   /// ```
+  @Deprecated('Use EdsButton.styled instead.')
   factory EdsButton.dimension(
     String title, {
     Key? key,
     required EdsButtonEmphasis emphasis,
     EdsButtonTone tone = EdsButtonTone.accent,
     EdsButtonSize size = EdsButtonSize.regular,
-    IconData? systemImage,
+    IconData? icon,
+    @Deprecated('Use icon instead.') IconData? systemImage,
     String? tooltip,
     FocusNode? focusNode,
     bool autofocus = false,
     String? semanticLabel,
+    bool isBusy = false,
+    bool expands = false,
+    VoidCallback? action,
+  }) {
+    assert(icon == null || systemImage == null,
+        'Provide either icon or systemImage, not both.');
+    return EdsButton._(
+      key: key,
+      appearance: EdsButtonAppearance(
+        emphasis: emphasis,
+        tone: tone,
+        size: size,
+      ),
+      action: action,
+      title: title,
+      explicitIcon: icon ?? systemImage,
+      tooltip: tooltip,
+      focusNode: focusNode,
+      autofocus: autofocus,
+      semanticLabel: semanticLabel,
+      isBusy: isBusy,
+      expands: expands,
+    );
+  }
+
+  /// Fine-grained appearance initializer with Flutter-native naming.
+  factory EdsButton.styled(
+    String title, {
+    Key? key,
+    required EdsButtonEmphasis emphasis,
+    EdsButtonTone tone = EdsButtonTone.accent,
+    EdsButtonSize size = EdsButtonSize.regular,
+    IconData? icon,
+    String? tooltip,
+    FocusNode? focusNode,
+    bool autofocus = false,
+    String? semanticLabel,
+    bool isBusy = false,
+    bool expands = false,
     VoidCallback? action,
   }) {
     return EdsButton._(
@@ -372,11 +449,13 @@ class EdsButton extends StatelessWidget {
       ),
       action: action,
       title: title,
-      explicitIcon: systemImage,
+      explicitIcon: icon,
       tooltip: tooltip,
       focusNode: focusNode,
       autofocus: autofocus,
       semanticLabel: semanticLabel,
+      isBusy: isBusy,
+      expands: expands,
     );
   }
 
@@ -388,6 +467,8 @@ class EdsButton extends StatelessWidget {
     this.focusNode,
     this.autofocus = false,
     this.semanticLabel,
+    this.isBusy = false,
+    this.expands = false,
     String? title,
     Widget? labelWidget,
     IconData? explicitIcon,
@@ -414,6 +495,12 @@ class EdsButton extends StatelessWidget {
   /// Accessibility label. Plain-title buttons fall back to their title.
   final String? semanticLabel;
 
+  /// Shows an inline progress indicator and prevents duplicate activation.
+  final bool isBusy;
+
+  /// Expands the button to the maximum width offered by its parent.
+  final bool expands;
+
   final String? _title;
   final Widget? _labelWidget;
   final IconData? _explicitIcon;
@@ -429,6 +516,8 @@ class EdsButton extends StatelessWidget {
       focusNode: focusNode,
       autofocus: autofocus,
       semanticLabel: semanticLabel ?? _title,
+      isBusy: isBusy,
+      expands: expands,
     );
   }
 
@@ -460,6 +549,8 @@ class _EdsButtonBody extends StatefulWidget {
     required this.focusNode,
     required this.autofocus,
     required this.semanticLabel,
+    required this.isBusy,
+    required this.expands,
   });
 
   final EdsButtonAppearance appearance;
@@ -469,6 +560,8 @@ class _EdsButtonBody extends StatefulWidget {
   final FocusNode? focusNode;
   final bool autofocus;
   final String? semanticLabel;
+  final bool isBusy;
+  final bool expands;
 
   @override
   State<_EdsButtonBody> createState() => _EdsButtonBodyState();
@@ -493,10 +586,28 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
       scheme: scheme,
     );
     final reduceMotion = MediaQuery.maybeDisableAnimationsOf(context) ?? false;
-    final enabled = widget.action != null;
+    final enabled = widget.action != null && !widget.isBusy;
     final showsHover = metrics.supportsHoverEnhancement && _isHovered;
     final double opacity = enabled ? 1.0 : 0.5;
     final labelStyle = tokens.typography.edsTextStyle(EdsFontRole.bodyStrong);
+
+    Widget effectiveLabel = widget.label;
+    if (widget.isBusy) {
+      effectiveLabel = Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          Opacity(opacity: 0, child: widget.label),
+          SizedBox(
+            width: tokens.typography.bodyStrongSize,
+            height: tokens.typography.bodyStrongSize,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: visual.foreground,
+            ),
+          ),
+        ],
+      );
+    }
 
     Widget current = DefaultTextStyle.merge(
       style: labelStyle.copyWith(
@@ -509,7 +620,7 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
           color: visual.foreground,
           size: tokens.typography.bodyStrongSize,
         ),
-        child: widget.label,
+        child: effectiveLabel,
       ),
     );
     current = ConstrainedBox(
@@ -618,6 +729,9 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
     );
     if (widget.tooltip != null && widget.tooltip!.isNotEmpty) {
       result = Tooltip(message: widget.tooltip!, child: result);
+    }
+    if (widget.expands) {
+      result = SizedBox(width: double.infinity, child: result);
     }
     return result;
   }
