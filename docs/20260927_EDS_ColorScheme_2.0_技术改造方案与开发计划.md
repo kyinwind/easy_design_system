@@ -359,6 +359,162 @@ Component Recipe 第一版尽量保留在各组件内部，不创建大量公开
 
 ---
 
+
+# 10.1 本轮只重构 Color 子系统，其他 Design Tokens 保留
+
+本轮 ColorScheme 2.0 的 Breaking Change 范围必须严格限定在：
+
+- colors / seeds
+- semantic color scheme
+- color resolver
+- interaction color
+- layer-aware color
+- 与颜色直接相关的组件 Recipe
+
+以下现有 Design Token 体系原则上继续保留原实现与公开 API：
+
+    EdsSpacingTokens
+    EdsRadiusTokens
+    EdsTypographyTokens
+    EdsControlSizeTokens
+    EdsAdaptiveLayoutTokens
+    EdsHeroGradient
+    EdsStrokeTokens
+    EdsShadowTokens
+
+也就是说：
+
+> ColorScheme 2.0 是“颜色子系统升级”，不是“重新设计全部 Design Tokens”。
+
+现有这些类型已经具备：
+
+- 默认值
+- copyWith
+- fromJson
+- toJson
+- equality / hashCode
+- Host App 配置能力
+
+本轮不应因为颜色重构而无意义地更名、删除或重做。
+
+除非开发过程中发现明确 bug，否则保持现有行为。
+
+---
+
+# 10.2 EdsDesignTokens 的新职责
+
+EdsDesignTokens 删除 colors 后，仍然继续作为“非颜色 Design Tokens”的聚合对象。
+
+新结构：
+
+    EdsDesignTokens(
+      spacing,
+      radius,
+      typography,
+      controlSize,
+      adaptiveLayout,
+      heroGradient,
+      stroke,
+      shadow,
+    )
+
+它仍然：
+
+- 公开
+- immutable
+- 支持 copyWith
+- 支持 JSON
+- 支持局部 Theme
+- 被 Easy API / Component Recipe / Adaptive Metrics 使用
+
+Color 不再放在 EdsDesignTokens 中，是因为 ColorScheme 2.0 的颜色系统需要：
+
+    Seed
+    + Palette
+    + Semantic Override
+    + Brightness
+    + Layer
+    + Interaction
+
+其生命周期和结构已经明显复杂于普通 Token。
+
+所以拆分的是“职责”，不是废弃原 Token 系统。
+
+---
+
+# 10.3 现有非颜色 Token 默认值继续保留
+
+当前默认实现继续作为 ColorScheme 2.0 默认值基线：
+
+## Spacing
+
+    xxs  4
+    xs   8
+    sm   12
+    md   16
+    lg   20
+    xl   24
+    xxl  32
+    xxxl 40
+
+## Radius
+
+    sm 8
+    md 12
+    lg 16
+    xl 24
+
+## Control Size
+
+    buttonHeight 34
+    fieldHeight 34
+    rowMinHeight 52
+
+## Adaptive Layout
+
+    compactPagePadding      16
+    regularPagePadding      32
+    readableContentMaxWidth 880
+    minimumTouchTarget      44
+    minimumHybridTarget     44
+
+## Typography
+
+继续使用现有：
+
+- hero
+- pageTitle
+- sectionTitle
+- body15
+- body15Strong
+- body
+- bodyStrong
+- caption
+- captionStrong
+- monoCaption
+
+以及现有 fontFamily / fallback 扩展。
+
+## Hero Gradient
+
+继续保留现有显式 gradient token，不自动从 Brand Seed 推导。
+
+## Stroke
+
+继续保留 EdsStrokeTokens.hairline。
+
+## Shadow
+
+继续保留：
+
+    EdsShadowTokens.card
+    EdsShadowTokens.subtle
+    EdsShadowTokens.prominent
+
+以及现有 color / opacity / radius / x / y 配置结构。
+
+---
+
 # 11. EdsColorSeeds
 
 新增公开不可变 Value Object：
@@ -943,6 +1099,116 @@ EdsTheme.instance 暴露：
     }
 
 旧 primary / accent schema 直接废弃。
+
+---
+
+
+# 29.1 JSON Schema 的兼容边界
+
+ColorScheme 2.0 的 JSON 不是重新设计整份 Theme JSON。
+
+只重构：
+
+    colors
+
+这一分支。
+
+当前已有的以下顶层分组继续保留原命名与原语义：
+
+    spacing
+    radius
+    typography
+    controlSize
+    adaptiveLayout
+    heroGradient
+    stroke
+    shadow
+
+因此新 JSON 应保持类似：
+
+    {
+      "colors": {
+        "seeds": {
+          "brand": "#3185FF",
+          "information": "#3185FF",
+          "success": "#27B15A",
+          "warning": "#F9B135",
+          "danger": "#E54444"
+        },
+        "semanticOverrides": {
+          "light": {},
+          "dark": {}
+        }
+      },
+
+      "spacing": {
+        "xxs": 4,
+        "xs": 8,
+        "sm": 12,
+        "md": 16,
+        "lg": 20,
+        "xl": 24,
+        "xxl": 32,
+        "xxxl": 40
+      },
+
+      "radius": {
+        "sm": 8,
+        "md": 12,
+        "lg": 16,
+        "xl": 24
+      },
+
+      "typography": {
+        "...": "继续沿用现有 schema"
+      },
+
+      "controlSize": {
+        "buttonHeight": 34,
+        "fieldHeight": 34,
+        "rowMinHeight": 52
+      },
+
+      "adaptiveLayout": {
+        "compactPagePadding": 16,
+        "regularPagePadding": 32,
+        "readableContentMaxWidth": 880,
+        "minimumTouchTarget": 44,
+        "minimumHybridTarget": 44
+      },
+
+      "heroGradient": {
+        "startColor": "#3185FF",
+        "endColor": "#0A6BFF"
+      },
+
+      "stroke": {
+        "hairline": 1
+      },
+
+      "shadow": {
+        "color": "#000000",
+        "opacity": 0.06,
+        "radius": 18,
+        "x": 0,
+        "y": 10
+      }
+    }
+
+注意：
+
+当前 bundled default JSON 没有显式写 stroke / shadow，但源码已经支持这两个分组，缺失时会回退到 EdsStrokeTokens() / EdsShadowTokens() 默认值。
+
+ColorScheme 2.0 可以选择：
+
+1. 继续允许默认 JSON 省略 stroke / shadow；或
+2. 为了让默认 JSON 成为“完整示例”，把它们显式写出来。
+
+本技术方案推荐第 2 种：
+
+> bundled default JSON 应尽量完整展示所有可配置 Theme 分组。
+
+但 decoder 必须继续支持分组缺失时使用默认值。
 
 ---
 
