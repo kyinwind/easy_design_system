@@ -87,10 +87,7 @@ void main() {
               EdsRadioGroup<int>(
                 groupValue: 1,
                 onChanged: (_) {},
-                child: const EdsRadio<int>(
-                  value: 1,
-                  label: 'One',
-                ),
+                child: const EdsRadio<int>(value: 1, label: 'One'),
               ),
               EdsSlider(value: 0.5, onChanged: (_) {}, label: '50%'),
               EdsConfirmDialog(

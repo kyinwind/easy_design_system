@@ -172,8 +172,7 @@ class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
           '操作',
           child: GalleryExample(
             'EDSButton',
-            usage:
-                'EDSButton("保存设置", role: .primary, icon: "checkmark")',
+            usage: 'EDSButton("保存设置", role: .primary, icon: "checkmark")',
             child: EdsGroup(
               null,
               style: EdsGroupStyle.plain,
