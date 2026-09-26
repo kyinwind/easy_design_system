@@ -292,6 +292,59 @@ class _EdsPillState extends State<EdsPill> {
   }
 }
 
+
+/// A selectable pill for filter/choice semantics.
+///
+/// Kept separate from [EdsPill], whose primary role is a tag/label with an
+/// optional remove affordance.
+class EdsChoicePill extends StatelessWidget {
+  const EdsChoicePill(
+    this.title, {
+    super.key,
+    required this.selected,
+    required this.onChanged,
+    this.icon,
+    this.tooltip,
+  });
+
+  final String title;
+  final bool selected;
+  final ValueChanged<bool>? onChanged;
+  final Widget? icon;
+  final String? tooltip;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.edsTokens;
+    final scheme = context.edsScheme;
+
+    Widget result = FilterChip(
+      selected: selected,
+      onSelected: onChanged,
+      label: Text(title),
+      avatar: icon,
+      showCheckmark: false,
+      backgroundColor: scheme.cardBackground,
+      selectedColor: tokens.colors.primarySoft,
+      side: BorderSide(
+        color: selected ? tokens.colors.primary : scheme.border,
+        width: tokens.stroke.hairline,
+      ),
+      shape: const StadiumBorder(),
+      labelStyle: tokens.typography
+          .edsTextStyle(EdsFontRole.captionStrong)
+          .copyWith(
+            color: selected ? tokens.colors.primary : scheme.textSecondary,
+          ),
+    );
+
+    if (tooltip != null && tooltip!.isNotEmpty) {
+      result = Tooltip(message: tooltip!, child: result);
+    }
+    return result;
+  }
+}
+
 /// Sort order for [EdsPillFlow]. Mirrors Swift's `EDSPillFlowSortOrder`.
 enum EdsPillFlowSortOrder {
   /// Keep the order provided by the caller.
