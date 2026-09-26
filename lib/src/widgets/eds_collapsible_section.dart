@@ -51,7 +51,8 @@ class _EdsCollapsibleSectionState extends State<EdsCollapsibleSection> {
   @override
   void didUpdateWidget(covariant EdsCollapsibleSection oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.isExpanded != null && widget.isExpanded != oldWidget.isExpanded) {
+    if (widget.isExpanded != null &&
+        widget.isExpanded != oldWidget.isExpanded) {
       _isExpanded = widget.isExpanded!;
     }
   }
@@ -84,7 +85,7 @@ class _EdsCollapsibleSectionState extends State<EdsCollapsibleSection> {
         children: <Widget>[
           GestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTap: () => setState(() => _isExpanded = !_effectiveExpanded),
+            onTap: _toggle,
             child: MouseRegion(
               cursor: SystemMouseCursors.click,
               child: Padding(
