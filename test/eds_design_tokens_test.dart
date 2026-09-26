@@ -94,4 +94,28 @@ void main() {
       throwsFormatException,
     );
   });
+
+  test('typography font families round-trip and resolve into text styles', () {
+    const typography = EdsTypographyTokens(
+      fontFamily: 'Microsoft YaHei UI',
+      fontFamilyFallback: ['Segoe UI', 'sans-serif'],
+      monoFontFamily: 'Cascadia Mono',
+      monoFontFamilyFallback: ['Consolas'],
+    );
+    final tokens = const EdsDesignTokens().copyWith(typography: typography);
+    final decoded = decodeThemeJson(encodeThemeJson(tokens));
+
+    expect(decoded.typography.fontFamily, 'Microsoft YaHei UI');
+    expect(decoded.typography.fontFamilyFallback, ['Segoe UI', 'sans-serif']);
+    expect(decoded.typography.monoFontFamily, 'Cascadia Mono');
+    expect(decoded.typography.monoFontFamilyFallback, ['Consolas']);
+
+    final body = decoded.typography.edsTextStyle(EdsFontRole.body);
+    final mono = decoded.typography.edsTextStyle(EdsFontRole.monoCaption);
+    expect(body.fontFamily, 'Microsoft YaHei UI');
+    expect(body.fontFamilyFallback, ['Segoe UI', 'sans-serif']);
+    expect(mono.fontFamily, 'Cascadia Mono');
+    expect(mono.fontFamilyFallback, ['Consolas']);
+  });
+
 }
