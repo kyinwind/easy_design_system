@@ -69,7 +69,7 @@ dependencies:
   easy_design_system:
     git:
       url: https://github.com/kyinwind/easy_design_system.git
-      ref: 0.1.0
+      ref: 0.3.0
 ```
 
 然后在 Dart 文件中导入：
