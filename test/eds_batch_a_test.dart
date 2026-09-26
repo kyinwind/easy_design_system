@@ -1,4 +1,5 @@
 import 'package:easy_design_system/easy_design_system.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -50,6 +51,12 @@ void main() {
         ),
       ),
     );
+
+    final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
+    addTearDown(mouse.removePointer);
+    await mouse.addPointer();
+    await mouse.moveTo(tester.getCenter(find.text('Design')));
+    await tester.pumpAndSettle();
 
     expect(find.bySemanticsLabel('Remove Design'), findsOneWidget);
   });
