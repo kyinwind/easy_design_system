@@ -1,5 +1,6 @@
 import 'package:easy_design_system/easy_design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -44,6 +45,31 @@ void main() {
 
     expect(requested, isTrue);
     expect(find.text('Body'), findsNothing);
+  });
+
+
+  testWidgets('collapsible header supports keyboard activation', (tester) async {
+    final focusNode = FocusNode();
+    addTearDown(focusNode.dispose);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: EdsCollapsibleSection(
+            'Details',
+            focusNode: focusNode,
+            child: const Text('Body'),
+          ),
+        ),
+      ),
+    );
+
+    focusNode.requestFocus();
+    await tester.pump();
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Body'), findsOneWidget);
   });
 
   testWidgets('generic pill flow preserves model values', (tester) async {
