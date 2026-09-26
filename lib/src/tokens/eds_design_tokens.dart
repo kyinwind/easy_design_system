@@ -253,8 +253,9 @@ class EdsRadiusTokens {
 /// Numeric typography tokens. Fonts are produced at runtime by
 /// `EdsTypographyFontX.edsTextStyle` (see `primitives/eds_font.dart`).
 ///
-/// Keys match the Swift `CodingKeys` byte for byte (`heroSize`, `heroWeight`,
-/// …).
+/// Size/weight keys match the Swift `CodingKeys` byte for byte
+/// (`heroSize`, `heroWeight`, …). Flutter-only optional font-family fields
+/// extend the schema without changing legacy JSON when they are absent.
 class EdsTypographyTokens {
   const EdsTypographyTokens({
     this.fontFamily,
