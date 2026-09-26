@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.3.1 — 2026-09-27
+
+Host-app form integration improvements discovered during the RightClickMate migration.
+
+### Added
+
+- `EdsTextField.errorText` for explicit validation/error display outside a `Form`.
+- `EdsTextFormField` with `validator`, `onSaved`, `autovalidateMode`, `errorBuilder`, `initialValue` and forced `errorText` support.
+- `EdsDropdownFormField<T>` with Flutter `FormField` validation/saving APIs and typed values.
+- `EdsButton.fullWidth` as an Easy API for common full-row actions.
+
+### Changed
+
+- Form-capable text and dropdown controls use EDS typography, colors, radius and error styling while preserving Flutter's native `Form` lifecycle.
+- `EdsButton.expands` intentionally remains `false` by default. Content-sized buttons stay safe in rows, dialogs and toolbars; use `EdsButton.fullWidth` or `expands: true` when full width is intended.
+- `EdsDropdownFormField<T>` uses Flutter's current `initialValue` API rather than the deprecated `value` parameter.
+
+### Compatibility
+
+- Existing `EdsTextField`, `EdsDropdown<T>` and `EdsButton` calls remain source-compatible.
+- The new FormField widgets are additive APIs intended for host screens that previously relied on `TextFormField` / `DropdownButtonFormField`.
+
 ## 0.3.0 — 2026-09-27
 
 Flutter-first component rollout. This release completes the desktop correctness work from Batch A, introduces Button API 2, adds the high-frequency settings/form controls needed by host apps, and generalizes several existing components.
