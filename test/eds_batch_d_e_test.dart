@@ -84,11 +84,13 @@ void main() {
                 label: 'Name',
                 hint: 'Input',
               ),
-              EdsRadio<int>(
-                value: 1,
+              EdsRadioGroup<int>(
                 groupValue: 1,
-                label: 'One',
                 onChanged: (_) {},
+                child: const EdsRadio<int>(
+                  value: 1,
+                  label: 'One',
+                ),
               ),
               EdsSlider(value: 0.5, onChanged: (_) {}, label: '50%'),
               EdsConfirmDialog(
