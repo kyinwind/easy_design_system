@@ -51,10 +51,12 @@ class EdsCheckbox extends StatelessWidget {
     if (text != null && text.isNotEmpty) {
       control = Semantics(
         container: true,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(tokens.radius.sm),
-          onTap: onChanged == null ? null : () => onChanged!(!value),
-          child: Row(
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(tokens.radius.sm),
+            onTap: onChanged == null ? null : () => onChanged!(!value),
+            child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               control,
@@ -67,7 +69,8 @@ class EdsCheckbox extends StatelessWidget {
                       .copyWith(color: scheme.textPrimary),
                 ),
               ),
-            ],
+              ],
+            ),
           ),
         ),
       );
@@ -407,10 +410,12 @@ class EdsRadio<T> extends StatelessWidget {
       checked: selected,
       inMutuallyExclusiveGroup: true,
       enabled: isEnabled,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(tokens.radius.sm),
-        onTap: isEnabled ? () => registry.onChanged(value) : null,
-        child: Row(
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(tokens.radius.sm),
+          onTap: isEnabled ? () => registry.onChanged(value) : null,
+          child: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             radio,
@@ -423,7 +428,8 @@ class EdsRadio<T> extends StatelessWidget {
                     .copyWith(color: scheme.textPrimary),
               ),
             ),
-          ],
+            ],
+          ),
         ),
       ),
     );
