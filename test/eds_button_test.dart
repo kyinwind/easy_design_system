@@ -219,8 +219,29 @@ void main() {
     await tester.pump();
     await tester.sendKeyEvent(LogicalKeyboardKey.enter);
     await tester.pump();
+    await tester.sendKeyEvent(LogicalKeyboardKey.space);
+    await tester.pump();
 
-    expect(activations, 1);
+    expect(activations, 2);
+  });
+
+  testWidgets('hover keeps button content fully opaque', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: EdsButton('Hover', action: () {}),
+        ),
+      ),
+    );
+
+    final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
+    addTearDown(mouse.removePointer);
+    await mouse.addPointer();
+    await mouse.moveTo(tester.getCenter(find.text('Hover')));
+    await tester.pumpAndSettle();
+
+    final opacity = tester.widget<AnimatedOpacity>(find.byType(AnimatedOpacity));
+    expect(opacity.opacity, 1.0);
   });
 
   testWidgets('button supports optional tooltip', (tester) async {
