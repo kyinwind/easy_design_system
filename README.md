@@ -69,7 +69,7 @@ dependencies:
   easy_design_system:
     git:
       url: https://github.com/kyinwind/easy_design_system.git
-      ref: 0.3.0
+      ref: 0.3.1
 ```
 
 然后在 Dart 文件中导入：
@@ -679,6 +679,15 @@ EdsDropdown<String>(
   onChanged: (value) => setState(() => language = value ?? language),
 )
 
+// Form 场景使用 FormField 版本：
+EdsDropdownFormField<String>(
+  initialValue: language,
+  items: const ['zh', 'en'],
+  labelBuilder: (value) => value == 'zh' ? '中文' : 'English',
+  validator: (value) => value == null ? '请选择语言' : null,
+  onChanged: (value) {},
+)
+
 EdsSegmented<int>(
   value: mode,
   values: const [0, 1, 2],
@@ -690,6 +699,15 @@ EdsTextField(
   controller: controller,
   label: '规则名称',
   hint: '请输入名称',
+  errorText: nameError,
+)
+
+// 需要 Flutter Form 校验/保存能力时：
+EdsTextFormField(
+  label: '规则名称',
+  validator: (value) =>
+      value == null || value.isEmpty ? '请输入名称' : null,
+  onSaved: (value) {},
 )
 
 EdsRadioGroup<int>(
@@ -761,6 +779,12 @@ EdsButton.styled(
   '开始处理',
   emphasis: EdsButtonEmphasis.filled,
   size: EdsButtonSize.large,
+  action: () {},
+);
+
+// 常见整行主操作：
+EdsButton.fullWidth(
+  '保存并继续',
   action: () {},
 );
 ```
