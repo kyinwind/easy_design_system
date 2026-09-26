@@ -588,9 +588,11 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
     );
     final visual = widget.appearance.resolve(tokens: tokens, scheme: scheme);
     final reduceMotion = MediaQuery.maybeDisableAnimationsOf(context) ?? false;
-    final enabled = widget.action != null && !widget.isBusy;
-    final showsHover = metrics.supportsHoverEnhancement && _isHovered;
-    final double opacity = enabled ? 1.0 : 0.5;
+    final hasAction = widget.action != null;
+    final canActivate = hasAction && !widget.isBusy;
+    final showsHover =
+        metrics.supportsHoverEnhancement && _isHovered && canActivate;
+    final double opacity = hasAction ? 1.0 : 0.5;
     final labelStyle = tokens.typography.edsTextStyle(EdsFontRole.bodyStrong);
 
     Widget effectiveLabel = widget.label;
@@ -657,7 +659,7 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
             ? null
             : Border.all(color: visual.borderColor!, width: visual.borderWidth),
         borderRadius: BorderRadius.circular(tokens.radius.md),
-        boxShadow: _isFocused && enabled
+        boxShadow: _isFocused && canActivate
             ? <BoxShadow>[
                 BoxShadow(
                   color: tokens.colors.primary.withValues(alpha: 0.55),
@@ -670,9 +672,9 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
     );
 
     Widget result = IgnorePointer(
-      ignoring: !enabled,
+      ignoring: !canActivate,
       child: FocusableActionDetector(
-        enabled: enabled,
+        enabled: canActivate,
         focusNode: widget.focusNode,
         autofocus: widget.autofocus,
         shortcuts: const <ShortcutActivator, Intent>{
@@ -693,7 +695,7 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
           }
         },
         child: MouseRegion(
-          cursor: enabled ? SystemMouseCursors.click : MouseCursor.defer,
+          cursor: canActivate ? SystemMouseCursors.click : MouseCursor.defer,
           onEnter: reduceMotion ? null : (_) => _setHovered(true),
           onExit: reduceMotion ? null : (_) => _setHovered(false),
           child: GestureDetector(
@@ -721,10 +723,11 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
 
     result = Semantics(
       button: true,
-      enabled: enabled,
+      enabled: hasAction,
+      liveRegion: widget.isBusy,
       label: widget.semanticLabel,
       excludeSemantics: widget.semanticLabel != null,
-      onTap: enabled ? widget.action : null,
+      onTap: canActivate ? widget.action : null,
       child: result,
     );
     if (widget.tooltip != null && widget.tooltip!.isNotEmpty) {
