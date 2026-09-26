@@ -1031,6 +1031,19 @@ Toast service 不进入 EDS；如以后需要，可由 EDS 提供视觉 Widget�
 - [ ] RightClickMate 集中批量迁移与 Windows 实机回归
 - [ ] Popover：继续暂缓，等待真实宿主场景
 
+### 0.3.1 宿主迁移补丁
+
+RightClickMate 在正式批量迁移前进一步暴露了两个通用 Form 缺口，已作为 0.3.1 补齐：
+
+- [x] EdsTextField 支持显式 errorText
+- [x] 新增 EdsTextFormField，支持 validator / onSaved / autovalidateMode
+- [x] 新增 EdsDropdownFormField<T>，覆盖 DropdownButtonFormField 场景
+- [x] 新增 EdsButton.fullWidth Easy API
+- [x] 保持 EdsButton.expands 默认 false，避免 Row / Dialog / Toolbar 布局破坏
+- [x] pubspec.yaml 提升至 0.3.1
+- [ ] 0.3.1 最终严格 CI
+- [ ] Git tag 0.3.1
+
 ### 当前验证策略
 
 开发流程已根据实际迁移计划调整为：
