@@ -96,4 +96,47 @@ void main() {
     expect(seenPlain, Brightness.light);
     expect(seenOverride, Brightness.dark);
   });
+
+  testWidgets('ambient Material ThemeMode drives EDS brightness',
+      (tester) async {
+    late Brightness seen;
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        themeMode: ThemeMode.dark,
+        home: Builder(
+          builder: (context) {
+            seen = context.edsBrightness;
+            return const SizedBox();
+          },
+        ),
+      ),
+    );
+
+    expect(seen, Brightness.dark);
+  });
+
+  testWidgets('explicit EDS brightness still beats Material ThemeMode',
+      (tester) async {
+    late Brightness seen;
+    await tester.pumpWidget(
+      MaterialApp(
+        darkTheme: ThemeData.dark(),
+        themeMode: ThemeMode.dark,
+        home: EdsThemeScope(
+          brightness: Brightness.light,
+          child: Builder(
+            builder: (context) {
+              seen = context.edsBrightness;
+              return const SizedBox();
+            },
+          ),
+        ),
+      ),
+    );
+
+    expect(seen, Brightness.light);
+  });
+
 }
