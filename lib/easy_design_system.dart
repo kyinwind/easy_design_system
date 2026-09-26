@@ -28,6 +28,7 @@ export 'src/widgets/eds_card.dart';
 export 'src/widgets/eds_collapsible_section.dart';
 export 'src/widgets/eds_comparison_section.dart';
 export 'src/widgets/eds_group.dart';
+export 'src/widgets/eds_form_controls.dart';
 export 'src/widgets/eds_hero_panel.dart';
 export 'src/widgets/eds_icon_mark.dart';
 export 'src/widgets/eds_page.dart';
