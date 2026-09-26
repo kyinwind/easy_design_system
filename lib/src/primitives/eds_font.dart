@@ -49,52 +49,74 @@ extension EdsTypographyTokensFontX on EdsTypographyTokens {
   /// [EdsFontRole.pageTitle] has no Flutter system equivalent and is
   /// approximated by the default typeface.
   TextStyle edsTextStyle(EdsFontRole role) {
+    final regularFallback = fontFamilyFallback;
+    final monoFallback = monoFontFamilyFallback ??
+        const <String>[
+          'monospace',
+          'Menlo',
+          'DejaVu Sans Mono',
+          'Courier New',
+        ];
     return switch (role) {
       EdsFontRole.hero => TextStyle(
+          fontFamily: fontFamily,
+          fontFamilyFallback: regularFallback,
           fontSize: heroSize,
           fontWeight: _edsFontWeight(heroWeight),
         ),
       EdsFontRole.pageTitle => TextStyle(
+          fontFamily: fontFamily,
+          fontFamilyFallback: regularFallback,
           fontSize: pageTitleSize,
           fontWeight: _edsFontWeight(pageTitleWeight),
         ),
       EdsFontRole.sectionTitle => TextStyle(
+          fontFamily: fontFamily,
+          fontFamilyFallback: regularFallback,
           fontSize: sectionTitleSize,
           fontWeight: _edsFontWeight(sectionTitleWeight),
         ),
       EdsFontRole.body15 => TextStyle(
+          fontFamily: fontFamily,
+          fontFamilyFallback: regularFallback,
           fontSize: body15Size,
           fontWeight: _edsFontWeight(body15Weight),
         ),
       EdsFontRole.body15Strong => TextStyle(
+          fontFamily: fontFamily,
+          fontFamilyFallback: regularFallback,
           fontSize: body15StrongSize,
           fontWeight: _edsFontWeight(body15StrongWeight),
         ),
       EdsFontRole.body => TextStyle(
+          fontFamily: fontFamily,
+          fontFamilyFallback: regularFallback,
           fontSize: bodySize,
           fontWeight: _edsFontWeight(bodyWeight),
         ),
       EdsFontRole.bodyStrong => TextStyle(
+          fontFamily: fontFamily,
+          fontFamilyFallback: regularFallback,
           fontSize: bodyStrongSize,
           fontWeight: _edsFontWeight(bodyStrongWeight),
         ),
       EdsFontRole.caption => TextStyle(
+          fontFamily: fontFamily,
+          fontFamilyFallback: regularFallback,
           fontSize: captionSize,
           fontWeight: _edsFontWeight(captionWeight),
         ),
       EdsFontRole.captionStrong => TextStyle(
+          fontFamily: fontFamily,
+          fontFamilyFallback: regularFallback,
           fontSize: captionStrongSize,
           fontWeight: _edsFontWeight(captionStrongWeight),
         ),
       EdsFontRole.monoCaption => TextStyle(
+          fontFamily: monoFontFamily,
           fontSize: monoCaptionSize,
           fontWeight: _edsFontWeight(monoCaptionWeight),
-          fontFamilyFallback: const <String>[
-            'monospace',
-            'Menlo',
-            'DejaVu Sans Mono',
-            'Courier New',
-          ],
+          fontFamilyFallback: monoFallback,
         ),
     };
   }
