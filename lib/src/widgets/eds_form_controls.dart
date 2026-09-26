@@ -245,3 +245,225 @@ class EdsSegmented<T> extends StatelessWidget {
     );
   }
 }
+
+
+/// Token-driven text field for settings and forms.
+class EdsTextField extends StatelessWidget {
+  const EdsTextField({
+    super.key,
+    this.controller,
+    this.focusNode,
+    this.label,
+    this.hint,
+    this.onChanged,
+    this.onSubmitted,
+    this.enabled = true,
+    this.autofocus = false,
+    this.obscureText = false,
+    this.minLines,
+    this.maxLines = 1,
+    this.keyboardType,
+    this.textInputAction,
+    this.prefixIcon,
+    this.suffixIcon,
+  });
+
+  final TextEditingController? controller;
+  final FocusNode? focusNode;
+  final String? label;
+  final String? hint;
+  final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
+  final bool enabled;
+  final bool autofocus;
+  final bool obscureText;
+  final int? minLines;
+  final int? maxLines;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.edsTokens;
+    final scheme = context.edsScheme;
+    final textStyle = tokens.typography
+        .edsTextStyle(EdsFontRole.body)
+        .copyWith(color: scheme.textPrimary);
+
+    return TextField(
+      controller: controller,
+      focusNode: focusNode,
+      enabled: enabled,
+      autofocus: autofocus,
+      obscureText: obscureText,
+      minLines: minLines,
+      maxLines: maxLines,
+      keyboardType: keyboardType,
+      textInputAction: textInputAction,
+      onChanged: onChanged,
+      onSubmitted: onSubmitted,
+      style: textStyle,
+      decoration: InputDecoration(
+        labelText: label,
+        hintText: hint,
+        hintStyle: textStyle.copyWith(color: scheme.textTertiary),
+        labelStyle: tokens.typography
+            .edsTextStyle(EdsFontRole.caption)
+            .copyWith(color: scheme.textSecondary),
+        filled: true,
+        fillColor: scheme.cardBackground,
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: tokens.spacing.sm,
+          vertical: tokens.spacing.xs,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(tokens.radius.md),
+          borderSide: BorderSide(
+            color: scheme.border,
+            width: tokens.stroke.hairline,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(tokens.radius.md),
+          borderSide: BorderSide(
+            color: tokens.colors.primary,
+            width: 1.5,
+          ),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(tokens.radius.md),
+          borderSide: BorderSide(
+            color: scheme.border.withValues(alpha: 0.5),
+            width: tokens.stroke.hairline,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// A single generic radio choice with optional label.
+class EdsRadio<T> extends StatelessWidget {
+  const EdsRadio({
+    super.key,
+    required this.value,
+    required this.groupValue,
+    required this.onChanged,
+    this.label,
+    this.focusNode,
+    this.autofocus = false,
+  });
+
+  final T value;
+  final T? groupValue;
+  final ValueChanged<T?>? onChanged;
+  final String? label;
+  final FocusNode? focusNode;
+  final bool autofocus;
+
+  bool get _selected => value == groupValue;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.edsTokens;
+    final scheme = context.edsScheme;
+
+    Widget radio = Radio<T>(
+      value: value,
+      groupValue: groupValue,
+      onChanged: onChanged,
+      focusNode: focusNode,
+      autofocus: autofocus,
+      activeColor: tokens.colors.primary,
+    );
+
+    final text = label;
+    if (text == null || text.isEmpty) {
+      return radio;
+    }
+
+    return Semantics(
+      checked: _selected,
+      inMutuallyExclusiveGroup: true,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(tokens.radius.sm),
+        onTap: onChanged == null ? null : () => onChanged!(value),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            radio,
+            SizedBox(width: tokens.spacing.xs),
+            Flexible(
+              child: Text(
+                text,
+                style: tokens.typography
+                    .edsTextStyle(EdsFontRole.body)
+                    .copyWith(color: scheme.textPrimary),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// EDS-styled slider preserving Flutter's keyboard and accessibility behavior.
+class EdsSlider extends StatelessWidget {
+  const EdsSlider({
+    super.key,
+    required this.value,
+    required this.onChanged,
+    this.min = 0,
+    this.max = 1,
+    this.divisions,
+    this.label,
+    this.semanticFormatterCallback,
+    this.focusNode,
+    this.autofocus = false,
+  });
+
+  final double value;
+  final ValueChanged<double>? onChanged;
+  final double min;
+  final double max;
+  final int? divisions;
+  final String? label;
+  final String Function(double value)? semanticFormatterCallback;
+  final FocusNode? focusNode;
+  final bool autofocus;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.edsTokens;
+    final scheme = context.edsScheme;
+
+    return SliderTheme(
+      data: SliderTheme.of(context).copyWith(
+        activeTrackColor: tokens.colors.primary,
+        inactiveTrackColor: scheme.border,
+        thumbColor: tokens.colors.primary,
+        overlayColor: tokens.colors.primary.withValues(alpha: 0.10),
+        valueIndicatorColor: tokens.colors.primary,
+        valueIndicatorTextStyle: tokens.typography
+            .edsTextStyle(EdsFontRole.captionStrong)
+            .copyWith(color: Colors.white),
+      ),
+      child: Slider(
+        value: value,
+        onChanged: onChanged,
+        min: min,
+        max: max,
+        divisions: divisions,
+        label: label,
+        semanticFormatterCallback: semanticFormatterCallback,
+        focusNode: focusNode,
+        autofocus: autofocus,
+      ),
+    );
+  }
+}
