@@ -23,9 +23,20 @@ const String _kProLabel = 'Pro';
 /// the Swift package's bundled strings table. Under compact width or
 /// accessibility text sizes a stacked layout is used instead of the table.
 class EdsComparisonSection extends StatelessWidget {
-  const EdsComparisonSection({super.key, required this.features});
+  const EdsComparisonSection({
+    super.key,
+    required this.features,
+    this.title = _kFeaturesTitle,
+    this.featureLabel = _kFeaturesLabel,
+    this.freeLabel = _kFreeLabel,
+    this.proLabel = _kProLabel,
+  });
 
   final List<EdsComparisonFeature> features;
+  final String title;
+  final String featureLabel;
+  final String freeLabel;
+  final String proLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +44,9 @@ class EdsComparisonSection extends StatelessWidget {
         context.edsIsAccessibilityTextSize;
 
     return EdsSection(
-      header: const Padding(
-        padding: EdgeInsets.symmetric(vertical: 10),
-        child: EdsSectionTitle(_kFeaturesTitle),
+      header: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: EdsSectionTitle(title),
       ),
       child: isCompact ? _compactContent(context) : _tableContent(context),
     );
@@ -50,10 +61,10 @@ class EdsComparisonSection extends StatelessWidget {
       children: <Widget>[
         Row(
           children: <Widget>[
-            _header(context, _kFeaturesLabel, 55),
+            _header(context, featureLabel, 55),
             const Spacer(),
-            _header(context, _kFreeLabel, 72),
-            _header(context, _kProLabel, 72),
+            _header(context, freeLabel, 72),
+            _header(context, proLabel, 72),
           ],
         ),
         Divider(height: 1, thickness: 1, color: scheme.border),
@@ -103,8 +114,8 @@ class EdsComparisonSection extends StatelessWidget {
             Row(
               spacing: tokens.spacing.lg,
               children: <Widget>[
-                _compactValue(context, _kFreeLabel, free),
-                _compactValue(context, _kProLabel, pro),
+                _compactValue(context, freeLabel, free),
+                _compactValue(context, proLabel, pro),
               ],
             ),
           ],
