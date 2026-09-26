@@ -93,7 +93,7 @@ void main() {
       const MaterialApp(
         home: EdsThemeScope(
           tokens: local,
-          child: const Scaffold(
+          child: Scaffold(
             body: EdsSegmented<int>(
               value: 1,
               values: [1, 2],
