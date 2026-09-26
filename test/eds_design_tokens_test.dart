@@ -117,5 +117,4 @@ void main() {
     expect(mono.fontFamily, 'Cascadia Mono');
     expect(mono.fontFamilyFallback, ['Consolas']);
   });
-
 }
