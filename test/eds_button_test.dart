@@ -213,8 +213,14 @@ void main() {
 
     final semantics = tester.getSemantics(find.byType(EdsButton));
     expect(semantics.label, '保存项目');
-    expect(semantics.flagsCollection.contains(SemanticsFlag.isButton), isTrue);
-    expect(semantics.flagsCollection.contains(SemanticsFlag.isEnabled), isTrue);
+    expect(
+      semantics.flagsCollection.contains(SemanticsFlag.isButton),
+      isTrue,
+    );
+    expect(
+      semantics.flagsCollection.contains(SemanticsFlag.isEnabled),
+      isTrue,
+    );
 
     focusNode.requestFocus();
     await tester.pump();
@@ -250,8 +256,14 @@ void main() {
     );
 
     final semantics = tester.getSemantics(find.byType(EdsButton));
-    expect(semantics.flagsCollection.contains(SemanticsFlag.isButton), isTrue);
-    expect(semantics.flagsCollection.contains(SemanticsFlag.isEnabled), isFalse);
+    expect(
+      semantics.flagsCollection.contains(SemanticsFlag.isButton),
+      isTrue,
+    );
+    expect(
+      semantics.flagsCollection.contains(SemanticsFlag.isEnabled),
+      isFalse,
+    );
   });
 }
 
