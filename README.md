@@ -661,6 +661,58 @@ Row(
 EdsToggle(isOn: isEnabled, label: '启用自动处理', onChanged: (value) {})
 ```
 
+### 表单与设置控件
+
+常见设置页控件可以直接使用 EDS 包装，不需要在业务页面单独维护 Material 样式：
+
+```dart
+EdsCheckbox(
+  value: autoStart,
+  label: '开机启动',
+  onChanged: (value) => setState(() => autoStart = value ?? false),
+)
+
+EdsDropdown<String>(
+  value: language,
+  items: const ['zh', 'en'],
+  labelBuilder: (value) => value == 'zh' ? '中文' : 'English',
+  onChanged: (value) => setState(() => language = value ?? language),
+)
+
+EdsSegmented<int>(
+  value: mode,
+  values: const [0, 1, 2],
+  labelBuilder: (value) => ['自动', '浅色', '深色'][value],
+  onChanged: (value) => setState(() => mode = value),
+)
+
+EdsTextField(
+  controller: controller,
+  label: '规则名称',
+  hint: '请输入名称',
+)
+
+EdsRadioGroup<int>(
+  groupValue: selected,
+  onChanged: (value) => setState(() => selected = value),
+  child: const Column(
+    children: [
+      EdsRadio(value: 1, label: '选项一'),
+      EdsRadio(value: 2, label: '选项二'),
+    ],
+  ),
+)
+
+EdsSlider(
+  value: opacity,
+  min: 0,
+  max: 1,
+  onChanged: (value) => setState(() => opacity = value),
+)
+```
+
+`EdsRadioGroup` 使用 Flutter 新版 `RadioGroup` 语义，组选中值和键盘导航由祖先统一管理。
+
 > Dart 没有 `.disabled()` 修饰器：`action` 传 `null` 即渲染为禁用态并忽略点击。
 >
 > `EdsButton` 支持桌面键盘焦点、Tab 遍历、Enter / Space 激活、Semantics 和可选
@@ -678,34 +730,34 @@ EdsToggle(isOn: isEnabled, label: '启用自动处理', onChanged: (value) {})
 | `Size` | `small`(28) `regular`(34) `large`(44) | 尺寸档位 |
 
 ```dart
-EdsButton.dimension(
+EdsButton.styled(
   '忽略并删除',
   emphasis: EdsButtonEmphasis.soft,
   tone: EdsButtonTone.danger,
   action: () {},
 );
 
-EdsButton.dimension(
+EdsButton.styled(
   '中底操作',
   emphasis: EdsButtonEmphasis.medium,
   action: () {},
 );
 
-EdsButton.dimension(
+EdsButton.styled(
   '更多',
   emphasis: EdsButtonEmphasis.plain,
-  systemImage: Icons.more_horiz,
+  icon: Icons.more_horiz,
   action: () {},
 );
 
-EdsButton.dimension(
+EdsButton.styled(
   '刷新',
   emphasis: EdsButtonEmphasis.outline,
   size: EdsButtonSize.small,
   action: () {},
 );
 
-EdsButton.dimension(
+EdsButton.styled(
   '开始处理',
   emphasis: EdsButtonEmphasis.filled,
   size: EdsButtonSize.large,
@@ -734,11 +786,11 @@ EdsButton.dimension(
 EdsButton(l('button.cancel'), role: EdsButtonRole.secondary, action: onCancel);
 ```
 
-需要完全自定义按钮内容时使用 `EdsButton.label`：
+需要完全自定义按钮内容时可使用新的 `EdsButton.custom`：
 
 ```dart
-EdsButton.label(
-  Row(
+EdsButton.custom(
+  label: Row(
     children: const [
       Icon(Icons.download),
       SizedBox(width: 8),
@@ -801,8 +853,11 @@ EdsProgressPanel(
 其他可用组件还包括：
 
 - `EdsHeroPanel`：关键信息或付费权益强调面板（主题渐变 + 阴影）。
-- `EdsPill` / `EdsPillFlow`：标签和自动换行的标签集合，`EdsPillFlow` 内置 12 色轮转调色板与排序。
-- `EdsCollapsibleSection`：可折叠内容区。
+- `EdsPill` / `EdsPillFlow<T>`：标签和泛型自动换行集合；`labelBuilder` 可把业务模型映射为显示文字。
+- `EdsChoicePill`：筛选/选择语义的可选 Pill，与普通 Tag 型 `EdsPill` 分离。
+- `EdsCollapsibleSection`：支持 `initiallyExpanded`，也支持 `isExpanded + onExpansionChanged` 受控模式。
+- `EdsAlertDialog` / `EdsConfirmDialog`：统一 Dialog 视觉。
+- `EdsMenuButton<T>`：泛型弹出菜单，复用 Flutter 桌面键盘和 Semantics 行为。
 - `EdsComparisonSection`：Free/Pro 功能对比列表（窄屏自动切换单列布局）；标题和列标签可由宿主传入，便于多语言。
 - `EdsSidebarGroupView` / `EdsSidebarIcon`：设置页式侧边栏分组与彩色图标。
 - `EdsIconMark`：对比表里的 ✓/– 勾选标记，也可单独使用。
@@ -964,7 +1019,7 @@ flutter test   # 5 个 widget 用例
 | `Color(hexRGB:)` | `EdsColorHex.parseRgb` | 另有 `parseArgb` / `parseRgba` |
 | `EDSButton.Role.primary` | `EdsButtonRole.primary` | 枚举置于顶层 |
 | `EDSButton.Role.normal` | `EdsButtonRole.normal` | 0.4.1 新增：灰底次级 |
-| `EDSButton(_:emphasis:tone:size:)` | `EdsButton.dimension(...)` | 命名构造器 |
+| `EDSButton(_:emphasis:tone:size:)` | `EdsButton.styled(...)` | 命名构造器 |
 | `.easyDesign(_:theme:options:)` | `.easyDesignPreset(theme, ...)` | 避免扩展重名 |
 | `.easyDesignTheme(_:)` | `.easyDesignTheme(tokens)` / `.easyDesignThemePreset(preset)` | scope-only 修饰器 |
 | `Image(systemName: "checkmark")` | `Icons.check` | SF Symbols → Material 图标 |
