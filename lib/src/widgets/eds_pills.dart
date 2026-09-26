@@ -5,6 +5,7 @@ import '../adaptive/eds_resolved_metrics.dart';
 import '../adaptive/eds_size_class.dart';
 import '../primitives/eds_font.dart';
 import '../theme/eds_theme_scope.dart';
+import '../tokens/eds_color_scheme.dart';
 import '../tokens/eds_design_tokens.dart';
 
 /// A simple flow layout: children wrap across the available width,
