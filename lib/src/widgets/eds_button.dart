@@ -533,7 +533,8 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
           )
         : visual.background;
     current = AnimatedContainer(
-      duration: reduceMotion ? Duration.zero : const Duration(milliseconds: 120),
+      duration:
+          reduceMotion ? Duration.zero : const Duration(milliseconds: 120),
       curve: Curves.easeInOut,
       decoration: BoxDecoration(
         color: hoverBackground,
