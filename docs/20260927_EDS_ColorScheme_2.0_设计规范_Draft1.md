@@ -67,6 +67,141 @@ ColorScheme 2.0 采用三层结构：
 
 ---
 
+# 2.1 ColorScheme 2.0 总体架构图
+
+```text
+┌──────────────────────────────────────────────┐
+│ 1. Theme Seed                                │
+│                                              │
+│ brand                                        │
+│ information                                  │
+│ success                                      │
+│ warning                                      │
+│ danger                                       │
+└───────────────────┬──────────────────────────┘
+                    │
+                    │ EDS 根据 Brightness / 默认规则自动推导
+                    │ Host 可在结果层做 Semantic Override
+                    ▼
+┌──────────────────────────────────────────────┐
+│ 2. Semantic Color Scheme                     │
+│                                              │
+│ Surface                                      │
+│ ├─ surfacePage                               │
+│ ├─ surfaceBase                               │
+│ ├─ surfaceRaised                             │
+│ ├─ surfaceSunken                             │
+│ ├─ surfaceOverlay                            │
+│ └─ surfaceDisabled                           │
+│                                              │
+│ Foreground                                   │
+│ ├─ foregroundPrimary                         │
+│ ├─ foregroundSecondary                       │
+│ ├─ foregroundTertiary                        │
+│ ├─ foregroundDisabled                        │
+│ └─ foregroundInverse                         │
+│                                              │
+│ Border                                       │
+│ ├─ borderSubtle                              │
+│ ├─ borderDefault                             │
+│ ├─ borderStrong                              │
+│ ├─ borderSelected                            │
+│ ├─ borderFocus                               │
+│ ├─ borderDisabled                            │
+│ └─ borderDanger                              │
+│                                              │
+│ Brand Family                                 │
+│ ├─ brandForeground                           │
+│ ├─ brandSurface                              │
+│ ├─ brandSurfaceStrong                        │
+│ ├─ brandBorder                               │
+│ └─ brandOnStrong                             │
+│                                              │
+│ Status Families                              │
+│ ├─ information*                              │
+│ ├─ success*                                  │
+│ ├─ warning*                                  │
+│ └─ danger*                                   │
+│    * Foreground / Surface / SurfaceStrong /  │
+│      Border / OnStrong                       │
+│                                              │
+│ Interaction                                  │
+│ ├─ rest                                      │
+│ ├─ hover                                     │
+│ ├─ pressed                                   │
+│ ├─ selected                                  │
+│ ├─ focused                                   │
+│ └─ disabled                                  │
+│                                              │
+│ Layer / Context                              │
+│ ├─ Layer 0                                   │
+│ ├─ Layer 1                                   │
+│ ├─ Layer 2                                   │
+│ └─ Overlay                                   │
+└───────────────────┬──────────────────────────┘
+                    │
+                    │ Component 只选择“自己需要哪些语义角色”
+                    │ 不直接依赖具体 Hex / Seed
+                    ▼
+┌──────────────────────────────────────────────┐
+│ 3. Component Color Recipe                    │
+│                                              │
+│ EdsButton                                    │
+│ ├─ Tone × Emphasis                           │
+│ ├─ background → Brand / Status Surface       │
+│ ├─ foreground → Foreground / OnStrong        │
+│ ├─ border → Border / Tone Border             │
+│ └─ hover / pressed → Interaction Resolver    │
+│                                              │
+│ EdsTextField                                 │
+│ ├─ surface → surfaceSunken                    │
+│ ├─ text → foregroundPrimary                  │
+│ ├─ placeholder → foregroundTertiary          │
+│ ├─ border → borderDefault                    │
+│ ├─ focus → borderFocus                       │
+│ ├─ error → dangerBorder / dangerForeground   │
+│ └─ disabled → Disabled Roles                 │
+│                                              │
+│ EdsCheckbox                                  │
+│ ├─ unchecked → borderStrong                  │
+│ ├─ checked → brandSurfaceStrong              │
+│ ├─ check → brandOnStrong                     │
+│ ├─ focus → borderFocus                       │
+│ └─ disabled → Disabled Roles                 │
+│                                              │
+│ EdsDropdown                                  │
+│ ├─ trigger → Field-like semantic roles       │
+│ ├─ menu → surfaceOverlay                     │
+│ └─ item → Interaction / Selected roles       │
+│                                              │
+│ EdsCard / Dialog / Menu / Sidebar / ...      │
+│ └─ 各自记录自己的 Semantic Role Mapping      │
+└──────────────────────────────────────────────┘
+
+补充原则：
+
+Component Category（Expression / Field / Choice / Surface）只作为设计指导和 Checklist，
+不进入正式数据模型。新增组件时可以参考这些分类寻找共性，但最终仍直接定义该组件自己的
+Component Color Recipe。
+```
+
+这张图体现的是完整依赖关系：
+
+```text
+组件决定“我要什么语义角色”
+Theme / ColorScheme 决定“这个语义角色最终是什么颜色”
+```
+
+因此：
+
+```text
+具体颜色值 ≠ Semantic Role ≠ Component Style
+```
+
+三者必须保持分离。
+
+---
+
 # 3. 设计哲学
 
 ## 3.1 颜色值、颜色语义、组件样式必须分开
