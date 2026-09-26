@@ -383,17 +383,17 @@ class EdsPillFlow<T> extends StatelessWidget {
       case EdsPillFlowSortOrder.original:
         return items;
       case EdsPillFlowSortOrder.ascending:
-        return <T>[...items]..sort(
-            (a, b) => _labelFor(a).toLowerCase().compareTo(
-              _labelFor(b).toLowerCase(),
-            ),
-          );
+        return <T>[...items]..sort(_compareAscending);
       case EdsPillFlowSortOrder.descending:
-        return <T>[...items]..sort(
-            (a, b) => _labelFor(b).toLowerCase().compareTo(
-              _labelFor(a).toLowerCase(),
-            ),
-          );
+        return <T>[...items]..sort(_compareDescending);
     }
   }
+
+  int _compareAscending(T a, T b) {
+    final aLabel = _labelFor(a).toLowerCase();
+    final bLabel = _labelFor(b).toLowerCase();
+    return aLabel.compareTo(bLabel);
+  }
+
+  int _compareDescending(T a, T b) => _compareAscending(b, a);
 }
