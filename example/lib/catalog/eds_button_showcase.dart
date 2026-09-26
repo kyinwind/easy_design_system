@@ -185,7 +185,7 @@ class EdsButtonShowcase extends StatelessWidget {
                   for (final tone in EdsButtonTone.values)
                     SizedBox(
                       width: columnWidth,
-                      child: EdsButton.dimension(
+                      child: EdsButton.styled(
                         '按钮',
                         emphasis: emphasis,
                         tone: tone,
@@ -213,7 +213,7 @@ class EdsButtonShowcase extends StatelessWidget {
         crossAxisAlignment: WrapCrossAlignment.center,
         children: <Widget>[
           for (final size in EdsButtonSize.values)
-            EdsButton.dimension(
+            EdsButton.styled(
               size.name,
               emphasis: EdsButtonEmphasis.filled,
               size: size,
@@ -256,7 +256,7 @@ class EdsButtonShowcase extends StatelessWidget {
           ),
           column(
             '按钮 · 无图标对照',
-            EdsButton.dimension(
+            EdsButton.styled(
               '已完成',
               emphasis: EdsButtonEmphasis.filled,
               tone: EdsButtonTone.success,
@@ -282,7 +282,7 @@ class EdsButtonShowcase extends StatelessWidget {
             context,
             'primary',
             EdsButton('确定', action: () {}),
-            EdsButton.dimension(
+            EdsButton.styled(
               '确定',
               emphasis: EdsButtonEmphasis.filled,
               tone: EdsButtonTone.accent,
@@ -294,7 +294,7 @@ class EdsButtonShowcase extends StatelessWidget {
             context,
             'secondary',
             EdsButton('取消', role: EdsButtonRole.secondary, action: () {}),
-            EdsButton.dimension(
+            EdsButton.styled(
               '取消',
               emphasis: EdsButtonEmphasis.outline,
               tone: EdsButtonTone.accent,
@@ -306,7 +306,7 @@ class EdsButtonShowcase extends StatelessWidget {
             context,
             'soft',
             EdsButton('管理', role: EdsButtonRole.soft, action: () {}),
-            EdsButton.dimension(
+            EdsButton.styled(
               '管理',
               emphasis: EdsButtonEmphasis.soft,
               tone: EdsButtonTone.accent,
@@ -318,7 +318,7 @@ class EdsButtonShowcase extends StatelessWidget {
             context,
             'danger',
             EdsButton('删除', role: EdsButtonRole.danger, action: () {}),
-            EdsButton.dimension(
+            EdsButton.styled(
               '删除',
               emphasis: EdsButtonEmphasis.filled,
               tone: EdsButtonTone.danger,
@@ -330,12 +330,12 @@ class EdsButtonShowcase extends StatelessWidget {
             context,
             'done',
             EdsButton('已完成', role: EdsButtonRole.done, action: () {}),
-            EdsButton.dimension(
+            EdsButton.styled(
               '已完成',
               emphasis: EdsButtonEmphasis.filled,
               tone: EdsButtonTone.success,
               size: EdsButtonSize.regular,
-              systemImage: Icons.check,
+              icon: Icons.check,
               action: () {},
             ),
           ),
@@ -384,7 +384,7 @@ class EdsButtonShowcase extends StatelessWidget {
             context,
             '对话框「忽略并删除」',
             '次要但危险，不抢主操作视觉',
-            EdsButton.dimension(
+            EdsButton.styled(
               '忽略并删除',
               emphasis: EdsButtonEmphasis.soft,
               tone: EdsButtonTone.danger,
@@ -395,11 +395,11 @@ class EdsButtonShowcase extends StatelessWidget {
             context,
             '卡片「更多」',
             '纯文字，最轻一档',
-            EdsButton.dimension(
+            EdsButton.styled(
               '更多',
               emphasis: EdsButtonEmphasis.plain,
               tone: EdsButtonTone.accent,
-              systemImage: Icons.more_horiz,
+              icon: Icons.more_horiz,
               action: () {},
             ),
           ),
@@ -407,7 +407,7 @@ class EdsButtonShowcase extends StatelessWidget {
             context,
             '工具栏密集操作',
             '28pt 小尺寸',
-            EdsButton.dimension(
+            EdsButton.styled(
               '刷新',
               emphasis: EdsButtonEmphasis.outline,
               tone: EdsButtonTone.accent,
@@ -419,7 +419,7 @@ class EdsButtonShowcase extends StatelessWidget {
             context,
             '主行动区 CTA',
             '44pt 大尺寸',
-            EdsButton.dimension(
+            EdsButton.styled(
               '开始处理',
               emphasis: EdsButtonEmphasis.filled,
               tone: EdsButtonTone.accent,
@@ -431,7 +431,7 @@ class EdsButtonShowcase extends StatelessWidget {
             context,
             '中性次要操作',
             '灰色实心，不抢主题色',
-            EdsButton.dimension(
+            EdsButton.styled(
               '跳过',
               emphasis: EdsButtonEmphasis.filled,
               tone: EdsButtonTone.neutral,
