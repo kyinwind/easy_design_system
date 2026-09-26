@@ -963,11 +963,12 @@ fontFamily
 - [x] Button hover 对比度修复
 - [x] 对应 tests 已补齐
 - [x] README / CHANGELOG / migration notes
-- [ ] GitHub CI 全绿确认
+- [x] GitHub CI 全绿确认（format / analyze / 76 tests）
 - [ ] RightClickMate Windows 实机回归
 
-> 代码实现已进入 CI / 宿主回归阶段。只有 CI 全绿且 RightClickMate 验证通过后，
-> Batch A 才视为正式完成；在此之前不提升 Flutter 包版本号。
+> Batch A 的代码实现与自动化验证已经完成：GitHub CI 的 format、analyze 和 76 个测试均通过。
+> 当前只剩 RightClickMate Windows 实机回归；宿主验证通过后 Batch A 才视为正式完成，
+> 在此之前不提升 Flutter 包版本号。
 
 **这批完成后优先让 RightClickMate 回归测试。**
 
