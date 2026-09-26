@@ -292,7 +292,6 @@ class _EdsPillState extends State<EdsPill> {
   }
 }
 
-
 /// A selectable pill for filter/choice semantics.
 ///
 /// Kept separate from [EdsPill], whose primary role is a tag/label with an
