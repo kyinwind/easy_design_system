@@ -6,28 +6,28 @@ void main() {
   testWidgets(
     'EdsCheckbox toggles and keeps EDS label styling',
     (tester) async {
-    var value = false;
+      var value = false;
 
-    await tester.pumpWidget(
-      MaterialApp(
-        home: StatefulBuilder(
-          builder: (context, setState) {
-            return EdsCheckbox(
-              value: value,
-              label: '开机启动',
-              tooltip: '随系统启动',
-              onChanged: (next) => setState(() => value = next ?? false),
-            );
-          },
+      await tester.pumpWidget(
+        MaterialApp(
+          home: StatefulBuilder(
+            builder: (context, setState) {
+              return EdsCheckbox(
+                value: value,
+                label: '开机启动',
+                tooltip: '随系统启动',
+                onChanged: (next) => setState(() => value = next ?? false),
+              );
+            },
+          ),
         ),
-      ),
-    );
+      );
 
-    expect(find.text('开机启动'), findsOneWidget);
-    expect(find.byTooltip('随系统启动'), findsOneWidget);
+      expect(find.text('开机启动'), findsOneWidget);
+      expect(find.byTooltip('随系统启动'), findsOneWidget);
 
-    await tester.tap(find.text('开机启动'));
-    await tester.pump();
+      await tester.tap(find.text('开机启动'));
+      await tester.pump();
 
       expect(value, isTrue);
     },
