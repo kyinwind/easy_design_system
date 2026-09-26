@@ -27,12 +27,12 @@ enum EasyGallerySection {
   }
 
   Color get tint => switch (this) {
-    EasyGallerySection.overview => const Color(0xFF007AFF),
-    EasyGallerySection.layout => const Color(0xFF5856D6),
-    EasyGallerySection.surfaces => const Color(0xFF30B0C7),
-    EasyGallerySection.themes => const Color(0xFFFF9500),
-    EasyGallerySection.stress => const Color(0xFFAF52DE),
-  };
+        EasyGallerySection.overview => const Color(0xFF007AFF),
+        EasyGallerySection.layout => const Color(0xFF5856D6),
+        EasyGallerySection.surfaces => const Color(0xFF30B0C7),
+        EasyGallerySection.themes => const Color(0xFFFF9500),
+        EasyGallerySection.stress => const Color(0xFFAF52DE),
+      };
 
   EdsSidebarMenuItem get menuItem =>
       EdsSidebarMenuItem(id: id, label: label, icon: icon, tint: tint);
@@ -273,18 +273,17 @@ class _EdsEasyApiDesignSystemGalleryState
               ),
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 340),
-                child:
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: tokens.spacing.xs,
-                      children: <Widget>[
-                        const Text('仅这个子树使用橙色主题'),
-                        EdsButton('继续', action: () {}),
-                      ],
-                    ).easyDesignPreset(
-                      EdsPresetTheme.orange,
-                      style: EdsEasyStyle.card,
-                    ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: tokens.spacing.xs,
+                  children: <Widget>[
+                    const Text('仅这个子树使用橙色主题'),
+                    EdsButton('继续', action: () {}),
+                  ],
+                ).easyDesignPreset(
+                  EdsPresetTheme.orange,
+                  style: EdsEasyStyle.card,
+                ),
               ),
             ],
           ),
@@ -321,22 +320,21 @@ class _EdsEasyApiDesignSystemGalleryState
                   for (var item = 0; item < 3; item++)
                     ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: 280),
-                      child:
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            spacing: tokens.spacing.xs,
-                            children: <Widget>[
-                              Text('项目 ${item + 1}'),
-                              const EdsBadge(
-                                '正常',
-                                style: EdsBadgeStyle.success,
-                              ),
-                            ],
-                          ).easyDesign(
-                            style: item % 2 == 0
-                                ? EdsEasyStyle.group
-                                : EdsEasyStyle.card,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: tokens.spacing.xs,
+                        children: <Widget>[
+                          Text('项目 ${item + 1}'),
+                          const EdsBadge(
+                            '正常',
+                            style: EdsBadgeStyle.success,
                           ),
+                        ],
+                      ).easyDesign(
+                        style: item % 2 == 0
+                            ? EdsEasyStyle.group
+                            : EdsEasyStyle.card,
+                      ),
                     ),
                 ],
               ),

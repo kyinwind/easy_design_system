@@ -228,14 +228,15 @@ class EdsButtonShowcase extends StatelessWidget {
     final tokens = context.edsTokens;
     final scheme = context.edsScheme;
     Widget caption(String text) => Text(
-      text,
-      style: tokens.typography.caption.copyWith(color: scheme.textSecondary),
-    );
+          text,
+          style:
+              tokens.typography.caption.copyWith(color: scheme.textSecondary),
+        );
     Widget column(String label, Widget child) => Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: tokens.spacing.xs,
-      children: <Widget>[caption(label), child],
-    );
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: tokens.spacing.xs,
+          children: <Widget>[caption(label), child],
+        );
     return _section(
       context,
       '可点击性验收 · .done vs EDSBadge',

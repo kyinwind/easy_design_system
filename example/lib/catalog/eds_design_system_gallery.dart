@@ -319,7 +319,8 @@ class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
         '设置行',
         child: GalleryExample(
           'EDSSettingRow + EDSValueRow',
-          usage: 'EDSSettingRow("标题") { trailing } / EDSValueRow("标题", value: "值")',
+          usage:
+              'EDSSettingRow("标题") { trailing } / EDSValueRow("标题", value: "值")',
           child: EdsGroup(
             null,
             child: Column(
@@ -348,7 +349,8 @@ class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
         '流式标签',
         child: GalleryExample(
           'EDSPillFlow',
-          usage: 'EDSPillFlow(items, sortOrder: .ascending, showsRemoveButton: true)',
+          usage:
+              'EDSPillFlow(items, sortOrder: .ascending, showsRemoveButton: true)',
           child: EdsGroup(
             null,
             child: EdsPillFlow(

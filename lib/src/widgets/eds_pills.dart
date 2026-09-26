@@ -260,9 +260,8 @@ class _EdsPillState extends State<EdsPill> {
         ignoring: !visible,
         child: AnimatedOpacity(
           opacity: visible ? 1.0 : 0.0,
-          duration: reduceMotion
-              ? Duration.zero
-              : const Duration(milliseconds: 120),
+          duration:
+              reduceMotion ? Duration.zero : const Duration(milliseconds: 120),
           curve: Curves.easeInOut,
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
@@ -331,11 +330,10 @@ class EdsChoicePill extends StatelessWidget {
         width: tokens.stroke.hairline,
       ),
       shape: const StadiumBorder(),
-      labelStyle: tokens.typography
-          .edsTextStyle(EdsFontRole.captionStrong)
-          .copyWith(
-            color: selected ? tokens.colors.primary : scheme.textSecondary,
-          ),
+      labelStyle:
+          tokens.typography.edsTextStyle(EdsFontRole.captionStrong).copyWith(
+                color: selected ? tokens.colors.primary : scheme.textSecondary,
+              ),
     );
 
     if (tooltip != null && tooltip!.isNotEmpty) {

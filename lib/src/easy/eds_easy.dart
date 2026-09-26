@@ -82,48 +82,51 @@ class EdsEasy extends StatelessWidget {
     current = switch (recipe.width) {
       EdsEasyResolvedWidthUnchanged() => current,
       EdsEasyResolvedWidthFixed(:final width) => Align(
-        alignment: Alignment.center,
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: width),
+          alignment: Alignment.center,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: width),
+            child: current,
+          ),
+        ),
+      EdsEasyResolvedWidthFill() => SizedBox(
+          width: double.infinity,
           child: current,
         ),
-      ),
-      EdsEasyResolvedWidthFill() => SizedBox(
-        width: double.infinity,
-        child: current,
-      ),
     };
 
     // Semantic surface.
     current = switch (recipe.background) {
       EdsEasyBackgroundPolicy.inherited => current,
       EdsEasyBackgroundPolicy.page => current.edsSurface(
-        EdsSurfaceConfiguration(
-          background: scheme.pageBackground,
-          cornerRadius: recipe.cornerRadius,
-          borderColor: recipe.showsBorder ? scheme.border : null,
-          borderWidth: recipe.showsBorder ? effectiveTokens.stroke.hairline : 0,
-          shadow: recipe.showsShadow ? effectiveTokens.shadow : null,
+          EdsSurfaceConfiguration(
+            background: scheme.pageBackground,
+            cornerRadius: recipe.cornerRadius,
+            borderColor: recipe.showsBorder ? scheme.border : null,
+            borderWidth:
+                recipe.showsBorder ? effectiveTokens.stroke.hairline : 0,
+            shadow: recipe.showsShadow ? effectiveTokens.shadow : null,
+          ),
         ),
-      ),
       EdsEasyBackgroundPolicy.subtle => current.edsSurface(
-        EdsSurfaceConfiguration(
-          background: scheme.subtleFill,
-          cornerRadius: recipe.cornerRadius,
-          borderColor: recipe.showsBorder ? scheme.border : null,
-          borderWidth: recipe.showsBorder ? effectiveTokens.stroke.hairline : 0,
-          shadow: recipe.showsShadow ? effectiveTokens.shadow : null,
+          EdsSurfaceConfiguration(
+            background: scheme.subtleFill,
+            cornerRadius: recipe.cornerRadius,
+            borderColor: recipe.showsBorder ? scheme.border : null,
+            borderWidth:
+                recipe.showsBorder ? effectiveTokens.stroke.hairline : 0,
+            shadow: recipe.showsShadow ? effectiveTokens.shadow : null,
+          ),
         ),
-      ),
       EdsEasyBackgroundPolicy.card => current.edsSurface(
-        EdsSurfaceConfiguration(
-          background: scheme.cardBackground,
-          cornerRadius: recipe.cornerRadius,
-          borderColor: recipe.showsBorder ? scheme.border : null,
-          borderWidth: recipe.showsBorder ? effectiveTokens.stroke.hairline : 0,
-          shadow: recipe.showsShadow ? effectiveTokens.shadow : null,
+          EdsSurfaceConfiguration(
+            background: scheme.cardBackground,
+            cornerRadius: recipe.cornerRadius,
+            borderColor: recipe.showsBorder ? scheme.border : null,
+            borderWidth:
+                recipe.showsBorder ? effectiveTokens.stroke.hairline : 0,
+            shadow: recipe.showsShadow ? effectiveTokens.shadow : null,
+          ),
         ),
-      ),
     };
 
     // Re-inject the resolved tokens so the subtree reads the same theme that

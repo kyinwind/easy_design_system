@@ -17,11 +17,11 @@ class CatalogThemeEntry {
   final EdsPresetTheme preset;
 
   List<Color> get swatchColors => <Color>[
-    preset.tokens.colors.primary,
-    preset.tokens.colors.success,
-    preset.tokens.colors.warning,
-    preset.tokens.colors.danger,
-  ];
+        preset.tokens.colors.primary,
+        preset.tokens.colors.success,
+        preset.tokens.colors.warning,
+        preset.tokens.colors.danger,
+      ];
 }
 
 abstract final class CatalogThemeCatalog {
@@ -79,9 +79,9 @@ abstract final class CatalogThemeCatalog {
   ];
 
   static List<CatalogThemeEntry> get all => <CatalogThemeEntry>[
-    ...builtIn,
-    ...custom,
-  ];
+        ...builtIn,
+        ...custom,
+      ];
 
   static CatalogThemeEntry? entryById(String id) {
     for (final entry in all) {

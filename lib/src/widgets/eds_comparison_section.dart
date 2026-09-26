@@ -40,8 +40,7 @@ class EdsComparisonSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isCompact =
-        context.edsSizeClass == EdsSizeClass.compact ||
+    final isCompact = context.edsSizeClass == EdsSizeClass.compact ||
         context.edsIsAccessibilityTextSize;
 
     return EdsSection(

@@ -41,7 +41,8 @@ abstract final class EdsColorHex {
   static Color parse(
     String hex, {
     EdsColorHexFormat format = EdsColorHexFormat.argb,
-  }) => _parse(hex, format, allowsEightDigitHex: true);
+  }) =>
+      _parse(hex, format, allowsEightDigitHex: true);
 
   /// Formats a color as `#RRGGBB` (uppercase). Alpha is dropped, matching
   /// Swift's `Color.toHex()`.

@@ -77,13 +77,12 @@ class EdsMenuButton<T> extends StatelessWidget {
                 ],
                 Text(
                   item.label,
-                  style: tokens.typography
-                      .edsTextStyle(EdsFontRole.body)
-                      .copyWith(
-                        color: item.enabled
-                            ? scheme.textPrimary
-                            : scheme.textTertiary,
-                      ),
+                  style:
+                      tokens.typography.edsTextStyle(EdsFontRole.body).copyWith(
+                            color: item.enabled
+                                ? scheme.textPrimary
+                                : scheme.textTertiary,
+                          ),
                 ),
               ],
             ),

@@ -511,31 +511,31 @@ class EdsTypographyTokens {
 
   @override
   int get hashCode => Object.hashAll(<Object?>[
-    heroSize,
-    heroWeight,
-    pageTitleSize,
-    pageTitleWeight,
-    sectionTitleSize,
-    sectionTitleWeight,
-    body15Size,
-    body15Weight,
-    body15StrongSize,
-    body15StrongWeight,
-    bodySize,
-    bodyWeight,
-    bodyStrongSize,
-    bodyStrongWeight,
-    captionSize,
-    captionWeight,
-    captionStrongSize,
-    captionStrongWeight,
-    monoCaptionSize,
-    monoCaptionWeight,
-    fontFamily,
-    ...?fontFamilyFallback,
-    monoFontFamily,
-    ...?monoFontFamilyFallback,
-  ]);
+        heroSize,
+        heroWeight,
+        pageTitleSize,
+        pageTitleWeight,
+        sectionTitleSize,
+        sectionTitleWeight,
+        body15Size,
+        body15Weight,
+        body15StrongSize,
+        body15StrongWeight,
+        bodySize,
+        bodyWeight,
+        bodyStrongSize,
+        bodyStrongWeight,
+        captionSize,
+        captionWeight,
+        captionStrongSize,
+        captionStrongWeight,
+        monoCaptionSize,
+        monoCaptionWeight,
+        fontFamily,
+        ...?fontFamilyFallback,
+        monoFontFamily,
+        ...?monoFontFamilyFallback,
+      ]);
 }
 
 /// Visual control sizes.
@@ -684,12 +684,12 @@ class EdsAdaptiveLayoutTokens {
 
   @override
   int get hashCode => Object.hash(
-    compactPagePadding,
-    regularPagePadding,
-    readableContentMaxWidth,
-    minimumTouchTarget,
-    minimumHybridTarget,
-  );
+        compactPagePadding,
+        regularPagePadding,
+        readableContentMaxWidth,
+        minimumTouchTarget,
+        minimumHybridTarget,
+      );
 }
 
 /// The hero panel gradient. Direction: top-leading → bottom-trailing.
@@ -703,10 +703,10 @@ class EdsHeroGradient {
   final Color endColor;
 
   LinearGradient get gradient => LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: <Color>[startColor, endColor],
-  );
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: <Color>[startColor, endColor],
+      );
 
   EdsHeroGradient copyWith({Color? startColor, Color? endColor}) {
     return EdsHeroGradient(
@@ -993,16 +993,16 @@ class EdsDesignTokens {
 
   @override
   int get hashCode => Object.hash(
-    colors,
-    spacing,
-    radius,
-    typography,
-    controlSize,
-    adaptiveLayout,
-    heroGradient,
-    stroke,
-    shadow,
-  );
+        colors,
+        spacing,
+        radius,
+        typography,
+        controlSize,
+        adaptiveLayout,
+        heroGradient,
+        stroke,
+        shadow,
+      );
 }
 
 Map<String, Object?>? _readGroup(Map<String, Object?> json, String key) {

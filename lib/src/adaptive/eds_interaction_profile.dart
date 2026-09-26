@@ -32,7 +32,8 @@ enum EdsInteractionProfile {
     return switch (defaultTargetPlatform) {
       TargetPlatform.macOS ||
       TargetPlatform.linux ||
-      TargetPlatform.windows => EdsInteractionProfile.pointer,
+      TargetPlatform.windows =>
+        EdsInteractionProfile.pointer,
       _ => EdsInteractionProfile.touch,
     };
   }

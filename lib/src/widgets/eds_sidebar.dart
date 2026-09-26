@@ -20,11 +20,11 @@ class EdsSidebarMenuItem {
     required this.icon,
     this.tint,
     this.presetTint,
-  }) : assert(
-         tint != null || presetTint != null,
-         'Either tint or presetTint must be provided.',
-       ),
-       id = id ?? _autoId();
+  })  : assert(
+          tint != null || presetTint != null,
+          'Either tint or presetTint must be provided.',
+        ),
+        id = id ?? _autoId();
 
   static int _counter = 0;
 
@@ -72,17 +72,17 @@ enum EdsSidebarIconSize {
 
   /// The icon font size.
   double get iconSize => switch (this) {
-    EdsSidebarIconSize.small => 11,
-    EdsSidebarIconSize.medium => 14,
-    EdsSidebarIconSize.large => 16,
-  };
+        EdsSidebarIconSize.small => 11,
+        EdsSidebarIconSize.medium => 14,
+        EdsSidebarIconSize.large => 16,
+      };
 
   /// The background square size.
   double get frameSize => switch (this) {
-    EdsSidebarIconSize.small => 24,
-    EdsSidebarIconSize.medium => 28,
-    EdsSidebarIconSize.large => 32,
-  };
+        EdsSidebarIconSize.small => 24,
+        EdsSidebarIconSize.medium => 28,
+        EdsSidebarIconSize.large => 32,
+      };
 }
 
 /// A rounded tinted square with a white icon, mirroring Swift's
@@ -137,29 +137,29 @@ enum EdsSidebarIconPresetTint {
   indigo;
 
   Color resolve(BuildContext context) => switch (this) {
-    EdsSidebarIconPresetTint.blue => context.edsTokens.colors.primary,
-    EdsSidebarIconPresetTint.green => context.edsTokens.colors.success,
-    EdsSidebarIconPresetTint.orange => context.edsTokens.colors.warning,
-    EdsSidebarIconPresetTint.red => context.edsTokens.colors.danger,
-    EdsSidebarIconPresetTint.gray => const Color(0xFF8E8E93),
-    EdsSidebarIconPresetTint.pink => const Color(0xFFFF2D55),
-    EdsSidebarIconPresetTint.purple => const Color(0xFFAF52DE),
-    EdsSidebarIconPresetTint.teal => const Color(0xFF30B0C7),
-    EdsSidebarIconPresetTint.indigo => const Color(0xFF5856D6),
-  };
+        EdsSidebarIconPresetTint.blue => context.edsTokens.colors.primary,
+        EdsSidebarIconPresetTint.green => context.edsTokens.colors.success,
+        EdsSidebarIconPresetTint.orange => context.edsTokens.colors.warning,
+        EdsSidebarIconPresetTint.red => context.edsTokens.colors.danger,
+        EdsSidebarIconPresetTint.gray => const Color(0xFF8E8E93),
+        EdsSidebarIconPresetTint.pink => const Color(0xFFFF2D55),
+        EdsSidebarIconPresetTint.purple => const Color(0xFFAF52DE),
+        EdsSidebarIconPresetTint.teal => const Color(0xFF30B0C7),
+        EdsSidebarIconPresetTint.indigo => const Color(0xFF5856D6),
+      };
 
   @Deprecated('Use resolve(context) so local EdsThemeScope is respected.')
   Color get color => switch (this) {
-    EdsSidebarIconPresetTint.blue => EdsTheme.instance.colors.primary,
-    EdsSidebarIconPresetTint.green => EdsTheme.instance.colors.success,
-    EdsSidebarIconPresetTint.orange => EdsTheme.instance.colors.warning,
-    EdsSidebarIconPresetTint.red => EdsTheme.instance.colors.danger,
-    EdsSidebarIconPresetTint.gray => const Color(0xFF8E8E93),
-    EdsSidebarIconPresetTint.pink => const Color(0xFFFF2D55),
-    EdsSidebarIconPresetTint.purple => const Color(0xFFAF52DE),
-    EdsSidebarIconPresetTint.teal => const Color(0xFF30B0C7),
-    EdsSidebarIconPresetTint.indigo => const Color(0xFF5856D6),
-  };
+        EdsSidebarIconPresetTint.blue => EdsTheme.instance.colors.primary,
+        EdsSidebarIconPresetTint.green => EdsTheme.instance.colors.success,
+        EdsSidebarIconPresetTint.orange => EdsTheme.instance.colors.warning,
+        EdsSidebarIconPresetTint.red => EdsTheme.instance.colors.danger,
+        EdsSidebarIconPresetTint.gray => const Color(0xFF8E8E93),
+        EdsSidebarIconPresetTint.pink => const Color(0xFFFF2D55),
+        EdsSidebarIconPresetTint.purple => const Color(0xFFAF52DE),
+        EdsSidebarIconPresetTint.teal => const Color(0xFF30B0C7),
+        EdsSidebarIconPresetTint.indigo => const Color(0xFF5856D6),
+      };
 }
 
 /// A single sidebar menu entry, mirroring Swift's `EDSSidebarItemButton`.

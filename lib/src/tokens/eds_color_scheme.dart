@@ -98,16 +98,16 @@ class EdsColorScheme {
 
   @override
   int get hashCode => Object.hash(
-    label,
-    textPrimary,
-    textSecondary,
-    textTertiary,
-    pageBackground,
-    cardBackground,
-    cardGrayBackground,
-    subtleFill,
-    border,
-  );
+        label,
+        textPrimary,
+        textSecondary,
+        textTertiary,
+        pageBackground,
+        cardBackground,
+        cardGrayBackground,
+        subtleFill,
+        border,
+      );
 }
 
 extension EdsColorSchemeContextX on BuildContext {
