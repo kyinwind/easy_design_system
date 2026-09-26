@@ -306,6 +306,10 @@ class EdsButton extends StatelessWidget {
     super.key,
     EdsButtonRole role = EdsButtonRole.primary,
     IconData? systemImage,
+    this.tooltip,
+    this.focusNode,
+    this.autofocus = false,
+    this.semanticLabel,
     this.action,
   })  : appearance = role.appearance,
         _title = title,
@@ -319,6 +323,10 @@ class EdsButton extends StatelessWidget {
     Widget label, {
     Key? key,
     EdsButtonRole role = EdsButtonRole.primary,
+    String? tooltip,
+    FocusNode? focusNode,
+    bool autofocus = false,
+    String? semanticLabel,
     VoidCallback? action,
   }) {
     return EdsButton._(
@@ -326,6 +334,10 @@ class EdsButton extends StatelessWidget {
       appearance: role.appearance,
       action: action,
       labelWidget: label,
+      tooltip: tooltip,
+      focusNode: focusNode,
+      autofocus: autofocus,
+      semanticLabel: semanticLabel,
     );
   }
 
@@ -344,6 +356,10 @@ class EdsButton extends StatelessWidget {
     EdsButtonTone tone = EdsButtonTone.accent,
     EdsButtonSize size = EdsButtonSize.regular,
     IconData? systemImage,
+    String? tooltip,
+    FocusNode? focusNode,
+    bool autofocus = false,
+    String? semanticLabel,
     VoidCallback? action,
   }) {
     return EdsButton._(
@@ -356,6 +372,10 @@ class EdsButton extends StatelessWidget {
       action: action,
       title: title,
       explicitIcon: systemImage,
+      tooltip: tooltip,
+      focusNode: focusNode,
+      autofocus: autofocus,
+      semanticLabel: semanticLabel,
     );
   }
 
@@ -363,6 +383,10 @@ class EdsButton extends StatelessWidget {
     super.key,
     required this.appearance,
     required this.action,
+    this.tooltip,
+    this.focusNode,
+    this.autofocus = false,
+    this.semanticLabel,
     String? title,
     Widget? labelWidget,
     IconData? explicitIcon,
@@ -377,6 +401,18 @@ class EdsButton extends StatelessWidget {
   /// Triggered on tap. When null the button renders as disabled.
   final VoidCallback? action;
 
+  /// Optional desktop hover tooltip.
+  final String? tooltip;
+
+  /// Optional focus node for keyboard focus management.
+  final FocusNode? focusNode;
+
+  /// Whether this button should request focus when first built.
+  final bool autofocus;
+
+  /// Accessibility label. Plain-title buttons fall back to their title.
+  final String? semanticLabel;
+
   final String? _title;
   final Widget? _labelWidget;
   final IconData? _explicitIcon;
@@ -388,6 +424,10 @@ class EdsButton extends StatelessWidget {
       appearance: appearance,
       action: action,
       label: _labelWidget ?? _buildTitleLabel(context),
+      tooltip: tooltip,
+      focusNode: focusNode,
+      autofocus: autofocus,
+      semanticLabel: semanticLabel ?? _title,
     );
   }
 
@@ -415,11 +455,19 @@ class _EdsButtonBody extends StatefulWidget {
     required this.appearance,
     required this.action,
     required this.label,
+    required this.tooltip,
+    required this.focusNode,
+    required this.autofocus,
+    required this.semanticLabel,
   });
 
   final EdsButtonAppearance appearance;
   final VoidCallback? action;
   final Widget label;
+  final String? tooltip;
+  final FocusNode? focusNode;
+  final bool autofocus;
+  final String? semanticLabel;
 
   @override
   State<_EdsButtonBody> createState() => _EdsButtonBodyState();
@@ -428,6 +476,7 @@ class _EdsButtonBody extends StatefulWidget {
 class _EdsButtonBodyState extends State<_EdsButtonBody> {
   bool _isHovered = false;
   bool _isPressed = false;
+  bool _isFocused = false;
 
   @override
   Widget build(BuildContext context) {
@@ -445,7 +494,7 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
     final reduceMotion = MediaQuery.maybeDisableAnimationsOf(context) ?? false;
     final enabled = widget.action != null;
     final showsHover = metrics.supportsHoverEnhancement && _isHovered;
-    final double opacity = enabled ? (showsHover ? 0.85 : 1.0) : 0.5;
+    final double opacity = enabled ? 1.0 : 0.5;
     final labelStyle = tokens.typography.edsTextStyle(EdsFontRole.bodyStrong);
 
     Widget current = DefaultTextStyle.merge(
@@ -476,9 +525,18 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
       padding: EdgeInsets.symmetric(horizontal: visual.horizontalPadding),
       child: current,
     );
-    current = Container(
+    final hoverBackground = showsHover
+        ? Color.lerp(
+            visual.background ?? Colors.transparent,
+            visual.foreground,
+            0.08,
+          )
+        : visual.background;
+    current = AnimatedContainer(
+      duration: reduceMotion ? Duration.zero : const Duration(milliseconds: 120),
+      curve: Curves.easeInOut,
       decoration: BoxDecoration(
-        color: visual.background,
+        color: hoverBackground,
         border: visual.borderColor == null
             ? null
             : Border.all(
@@ -486,36 +544,78 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
                 width: visual.borderWidth,
               ),
         borderRadius: BorderRadius.circular(tokens.radius.md),
+        boxShadow: _isFocused && enabled
+            ? <BoxShadow>[
+                BoxShadow(
+                  color: tokens.colors.primary.withValues(alpha: 0.55),
+                  spreadRadius: 2,
+                ),
+              ]
+            : null,
       ),
       child: current,
     );
 
-    return IgnorePointer(
+    Widget result = IgnorePointer(
       ignoring: !enabled,
-      child: MouseRegion(
-        cursor: enabled ? SystemMouseCursors.click : MouseCursor.defer,
-        onEnter: reduceMotion ? null : (_) => _setHovered(true),
-        onExit: reduceMotion ? null : (_) => _setHovered(false),
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTapDown: reduceMotion ? null : (_) => _setPressed(true),
-          onTapUp: reduceMotion ? null : (_) => _setPressed(false),
-          onTapCancel: reduceMotion ? null : () => _setPressed(false),
-          onTap: widget.action,
-          child: AnimatedOpacity(
-            opacity: opacity,
-            duration: reduceMotion
-                ? Duration.zero
-                : const Duration(milliseconds: 150),
-            curve: Curves.easeInOut,
-            child: Transform.scale(
-              scale: _isPressed && !reduceMotion ? 0.97 : 1.0,
-              child: current,
+      child: FocusableActionDetector(
+        enabled: enabled,
+        focusNode: widget.focusNode,
+        autofocus: widget.autofocus,
+        shortcuts: const <ShortcutActivator, Intent>{
+          SingleActivator(LogicalKeyboardKey.enter): ActivateIntent(),
+          SingleActivator(LogicalKeyboardKey.space): ActivateIntent(),
+        },
+        actions: <Type, Action<Intent>>{
+          ActivateIntent: CallbackAction<ActivateIntent>(
+            onInvoke: (_) {
+              widget.action?.call();
+              return null;
+            },
+          ),
+        },
+        onShowFocusHighlight: (value) {
+          if (_isFocused != value) {
+            setState(() => _isFocused = value);
+          }
+        },
+        child: MouseRegion(
+          cursor: enabled ? SystemMouseCursors.click : MouseCursor.defer,
+          onEnter: reduceMotion ? null : (_) => _setHovered(true),
+          onExit: reduceMotion ? null : (_) => _setHovered(false),
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTapDown: reduceMotion ? null : (_) => _setPressed(true),
+            onTapUp: reduceMotion ? null : (_) => _setPressed(false),
+            onTapCancel: reduceMotion ? null : () => _setPressed(false),
+            onTap: widget.action,
+            child: AnimatedOpacity(
+              opacity: opacity,
+              duration: reduceMotion
+                  ? Duration.zero
+                  : const Duration(milliseconds: 150),
+              curve: Curves.easeInOut,
+              child: Transform.scale(
+                scale: _isPressed && !reduceMotion ? 0.97 : 1.0,
+                child: current,
+              ),
             ),
           ),
         ),
       ),
     );
+
+    result = Semantics(
+      button: true,
+      enabled: enabled,
+      label: widget.semanticLabel,
+      onTap: enabled ? widget.action : null,
+      child: result,
+    );
+    if (widget.tooltip != null && widget.tooltip!.isNotEmpty) {
+      result = Tooltip(message: widget.tooltip!, child: result);
+    }
+    return result;
   }
 
   void _setHovered(bool value) {
