@@ -371,6 +371,263 @@ danger
 
 ---
 
+# 6.1 Neutral Foundation 与默认 Preset
+
+ColorScheme 2.0 明确采用：
+
+```text
+Neutral Foundation
++
+Chromatic Families
+```
+
+的整体视觉模型。
+
+其中：
+
+```text
+Neutral Foundation
+```
+
+不是单纯指“灰色、黑色、白色”几个颜色，而是 EDS 默认的基础视觉底盘。
+
+它负责：
+
+- 页面与容器的基础 Surface 层次
+- 普通文字与图标的 Foreground 层级
+- 普通 Border 层级
+- Disabled 状态
+- 不承担 Brand / Status 语义的基础交互视觉
+
+也就是说，Neutral Foundation 的核心含义是：
+
+> **不承担品牌、状态或特殊语义的默认 UI 视觉基础。**
+
+它最终通常会以中性色为主，但设计定义不应被简化为“灰色 Palette”。
+
+---
+
+# 6.2 运行时不存在“没有 Seed”的状态
+
+EDS 默认必须提供完整 Preset。
+
+例如默认 Blue Preset：
+
+```text
+Neutral Foundation
++
+Blue Brand Seed
++
+Blue Information Seed
++
+Green Success Seed
++
+Amber Warning Seed
++
+Red Danger Seed
+```
+
+因此：
+
+> 用户没有显式提供 Seed，并不代表 Theme 没有 Seed，而是继续使用 EDS 默认 Preset 中对应的 Seed。
+
+宿主 Theme 的行为更准确地说是：
+
+```text
+EDS Default Preset
+        ↓
+Host 可按 Family 替换 Seed
+        ↓
+重新生成对应 Palette
+        ↓
+重新映射 Semantic Roles
+```
+
+例如宿主只提供新的 Brand：
+
+```text
+Neutral Foundation  → 保持 EDS 默认
+Brand               → 使用 Host Seed
+Information         → 保持 EDS 默认
+Success             → 保持 EDS 默认
+Warning             → 保持 EDS 默认
+Danger              → 保持 EDS 默认
+```
+
+这意味着多数 Theme 定制只需要改变 Brand，而 Status Families 不应被品牌色污染。
+
+---
+
+# 6.3 Neutral 与 Chromatic Roles 的来源关系
+
+从视觉设计角度：
+
+> Neutral Foundation 是整个界面的打底基础，Brand 与 Status Families 是只在需要表达意义时加入的语义着色层。
+
+从实现角度：
+
+> 每一个 Semantic Role 应明确知道自己从哪个 Palette / Foundation 获取颜色，而不是先全部 Neutral 再动态覆盖。
+
+典型映射：
+
+```text
+surfacePage
+surfaceBase
+surfaceRaised
+surfaceSunken
+surfaceOverlay
+foregroundPrimary
+foregroundSecondary
+foregroundTertiary
+foregroundDisabled
+borderSubtle
+borderDefault
+borderStrong
+borderDisabled
+    ↓
+Neutral Foundation
+```
+
+而：
+
+```text
+brandForeground
+brandSurface
+brandSurfaceStrong
+brandBorder
+brandOnStrong
+borderFocus
+selected semantic roles
+active semantic roles
+    ↓
+Brand Palette
+```
+
+Status：
+
+```text
+information*
+    ↓
+Information Palette
+
+success*
+    ↓
+Success Palette
+
+warning*
+    ↓
+Warning Palette
+
+danger*
+    ↓
+Danger Palette
+```
+
+---
+
+# 6.4 Focus 与 Selected 的默认语义归属
+
+由于运行时始终存在默认 Brand Seed，因此不再需要设计“没有 Brand 时 Focus / Selected 回退到 Neutral”的分支。
+
+ColorScheme 2.0 第一版明确：
+
+```text
+Focus
+Selected
+Primary Action
+Active Navigation
+```
+
+默认都属于 Brand 语义。
+
+因此：
+
+```text
+borderFocus
+→ Brand Palette
+
+selectedSurface
+selectedForeground
+selectedBorder
+→ Brand Family / Brand Palette
+
+Primary Button
+→ Brand Family
+
+Active Navigation
+→ Brand Family
+```
+
+Neutral 负责普通 Rest 状态与基础结构，Brand 负责品牌与关键交互强调。
+
+---
+
+# 6.5 EDS Theme 的核心视觉原则
+
+ColorScheme 2.0 采用以下总体原则：
+
+> **EDS 使用 Neutral Foundation 构建界面主体，再使用 Brand 与 Status Families 对需要表达交互、品牌和状态意义的位置进行语义化着色。**
+
+这意味着默认 UI 应呈现：
+
+```text
+Neutral-dominant UI
++
+Semantic Brand Accent
++
+Semantic Status Accent
+```
+
+而不是：
+
+```text
+Brand-driven UI everywhere
+```
+
+这是 EDS 面向桌面工具类、生产力类 App 时的基础视觉策略。
+
+---
+
+# 6.6 Seed 到 Semantic Scheme 的初始化方向
+
+ColorScheme 2.0 第一版采用：
+
+```text
+Chromatic Seed
+    ↓
+Perceptual Tonal Palette
+    ↓
+EDS Semantic Tone Mapping
+    ↓
+Semantic Color Scheme
+```
+
+Neutral Foundation 由 EDS 内置维护，不要求宿主提供 Neutral Seed。
+
+Brand / Information / Success / Warning / Danger 则：
+
+```text
+Default Seed 或 Host Seed
+    ↓
+生成对应 Tonal Palette
+    ↓
+通过固定 Light / Dark Tone Mapping
+    ↓
+得到对应 Semantic Family
+```
+
+第一版不再使用：
+
+```text
+baseColor.withOpacity(...)
+```
+
+作为主要 Semantic Color 生成方法。
+
+具体 Tone Mapping 表和 Palette Generator 属于技术方案阶段需要进一步确定的实现细节。
+
+---
+
 # 7. Semantic Color Scheme 总览
 
 ColorScheme 2.0 第一版分为以下几组：
@@ -2067,6 +2324,18 @@ ColorScheme 2.0 最核心的原则可以浓缩为以下几句。
 ---
 
 # 59. 当前已拍板事项
+
+- [x] Neutral Foundation 是 EDS 基础视觉底盘，不等同于“简单灰色”
+- [x] 运行时始终存在完整默认 Preset，不存在“没有 Seed”的 Theme
+- [x] Host 未覆盖的 Seed Family 继续使用 EDS 默认 Preset
+- [x] Focus / Selected / Primary Action / Active Navigation 默认属于 Brand 语义
+- [x] Surface / 普通 Foreground / 普通 Border 主要来自 Neutral Foundation
+- [x] Brand / Information / Success / Warning / Danger 各自从独立 Palette 获取颜色
+- [x] Theme 采用 Neutral-dominant + Semantic Accent 的整体视觉策略
+- [x] Seed → Tonal Palette → Semantic Tone Mapping 作为初始化主方向
+- [x] Neutral Foundation 不要求宿主提供 Neutral Seed
+- [x] 不再以 alpha / opacity 派生作为核心语义色生成方案
+
 
 截至 2026-09-27，以下事项已经明确：
 
