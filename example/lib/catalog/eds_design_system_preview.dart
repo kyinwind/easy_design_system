@@ -229,14 +229,14 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
           EdsButton(
             '重置',
             role: EdsButtonRole.soft,
-            systemImage: Icons.refresh,
+            icon: Icons.refresh,
             action: _resetToTheme,
           ),
           EdsButton('应用到 Runtime', action: _applyToTheme),
           EdsButton(
             '导出 JSON',
             role: EdsButtonRole.secondary,
-            systemImage: Icons.file_download_outlined,
+            icon: Icons.file_download_outlined,
             action: _exportJson,
           ),
         ],
