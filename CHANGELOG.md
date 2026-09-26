@@ -1,67 +1,45 @@
 # Changelog
 
-## Unreleased — Flutter-first component rollout
+## 0.3.0 — 2026-09-27
 
-在 Batch A 桌面正确性补全之后，继续完成 Button API 2、设置页控件、已有组件泛化和常用应用组件扩展。当前仍不提升 Flutter 包版本号，待 CI 全绿后统一确定发布版本。
-
-### Added
-
-- `EdsButton` 新增 `icon`、`isBusy`、`expands`、`EdsButton.custom` 和 `EdsButton.styled`。
-- `EdsCheckbox`、`EdsDropdown<T>`、`EdsSegmented<T>`。
-- `EdsTextField`、`EdsRadioGroup<T>` / `EdsRadio<T>`、`EdsSlider`。
-- `EdsChoicePill`，明确区分 Tag 型 Pill 与可选择 Pill。
-- `EdsAlertDialog`、`EdsConfirmDialog`。
-- `EdsMenuButton<T>` / `EdsMenuItem<T>`。
-- `EdsCollapsibleSection` 增加 initial / controlled expansion API。
-- `EdsPillFlow<T>` 泛型化，可通过 `labelBuilder` 绑定业务模型。
-
-### Changed
-
-- `EdsButton.dimension` 标记 Deprecated，新代码使用 `EdsButton.styled`。
-- Button 的 `systemImage` 标记 Deprecated，新代码使用 `icon`。
-- Button busy 状态不再被 Semantics 当成 disabled；它仍表达业务可用，但暂时不可重复激活。
-- Button 色彩 darken 从 RGB 通道乘法改为稳定的 `Color.lerp` 插值。
-- `EdsRadio` 使用 Flutter 新版 `RadioGroup` 模型，不依赖已废弃的 `groupValue/onChanged` Radio 参数。
-- Catalog 与示例迁移到 Button API 2。
-
-### Compatibility
-
-- 原有 `EdsButton('标题', ...)` 继续有效。
-- `systemImage` 和 `EdsButton.dimension` 暂时保留 Deprecated compatibility。
-- 原有 `EdsPillFlow(List<String>)` 通过泛型推断继续工作。
-- Toast service 仍不进入设计系统；Popover 暂缓，等待真实宿主场景后再确定抽象。
-
-## Unreleased — Batch A
-
-本轮从“Swift 行为移植”继续向 Flutter-first 桌面可用性补全，不改变 Flutter 包版本号。
+Flutter-first component rollout. This release completes the desktop correctness work from Batch A, introduces Button API 2, adds the high-frequency settings/form controls needed by host apps, and generalizes several existing components.
 
 ### Added
 
-- `EdsButton` 增加桌面键盘焦点、Tab 遍历、Enter / Space 激活、Semantics、
-  可选 `tooltip`、`focusNode`、`autofocus` 与 `semanticLabel`。
-- `EdsTypographyTokens` 增加 Flutter 专用 `fontFamily` /
-  `fontFamilyFallback` / `monoFontFamily` / `monoFontFamilyFallback`。
-- `EdsComparisonSection` 的标题与 Free/Pro 列标签允许宿主覆盖。
-- `EdsPill` 删除操作的 Semantics label / hint 允许宿主覆盖。
-- `EdsSidebarMenuItem.presetTint`：在 build 时从局部 `EdsThemeScope` 解析主题色。
+- `EdsButton`: `icon`, `isBusy`, `expands`, `focusNode`, `autofocus`, `EdsButton.custom`, and `EdsButton.styled`.
+- Desktop button interaction baseline: Tab focus, Enter / Space activation, focus ring, Tooltip and Semantics.
+- `EdsCheckbox`, `EdsDropdown<T>`, `EdsSegmented<T>`.
+- `EdsTextField`, `EdsRadioGroup<T>` / `EdsRadio<T>`, `EdsSlider`.
+- `EdsChoicePill`, separating choice/filter semantics from tag-style `EdsPill`.
+- `EdsAlertDialog`, `EdsConfirmDialog`.
+- `EdsMenuButton<T>` / `EdsMenuItem<T>`.
+- `EdsCollapsibleSection` initial and controlled expansion APIs plus keyboard/focus support.
+- `EdsPillFlow<T>` with `labelBuilder` and typed callbacks.
+- `EdsTypographyTokens`: `fontFamily`, `fontFamilyFallback`, `monoFontFamily`, `monoFontFamilyFallback`.
+- Host-overridable Comparison labels and Pill remove Semantics labels/hints.
+- Scope-aware Sidebar preset tint resolution.
 
 ### Changed
 
-- `context.edsBrightness` 在没有显式 `EdsThemeScope.brightness` 时优先读取
-  Material Theme / `ThemeMode`；没有 Material Theme 时回退到 `MediaQuery`
-  平台亮暗，最后回退 `Brightness.light`。
-- `EdsButton` hover 不再整体降低 opacity；改为只调整 surface，避免文字和图标
-  对比度随 hover 一起降低。
-- Sidebar 的主题型 preset tint 推荐使用 `presetTint` / `resolve(context)`。
+- `context.edsBrightness` now resolves in this order: explicit `EdsThemeScope.brightness` → ambient Material Theme / ThemeMode → platform brightness → light.
+- `EdsButton.dimension` is deprecated; new code should use `EdsButton.styled`.
+- Button `systemImage` is deprecated; new code should use `icon`.
+- Busy buttons remain semantically enabled but cannot be activated repeatedly while busy.
+- Button hover adjusts the surface instead of fading the whole control.
+- Button darkening uses stable `Color.lerp` interpolation instead of raw RGB channel multiplication.
+- `EdsRadio` uses Flutter's modern `RadioGroup` model.
+- Catalog and examples migrated to Button API 2.
+- Pill remove Semantics are emitted as a distinct action node.
+- Sidebar theme presets now resolve from the local `EdsThemeScope`.
 
 ### Compatibility
 
-- 原有 `EdsButton('标题', ...)`、`EdsButton.label(...)` 与
-  `EdsButton.dimension(...)` 调用方式继续有效。
-- `EdsSidebarIconPresetTint.color` 暂时保留并标记 Deprecated；它仍读取全局
-  `EdsTheme.instance`，新代码应使用局部 Scope 感知 API。
-- 旧 Swift-compatible JSON 不需要新增字体字段；Flutter 专用字体字段缺失时保持
-  原平台默认字体行为。
+- Existing `EdsButton('title', ...)` calls remain valid.
+- `systemImage` and `EdsButton.dimension` remain available as deprecated compatibility APIs.
+- Existing `EdsPillFlow(List<String>)` usage continues to work through generic type inference.
+- Old Swift-compatible theme JSON remains valid; Flutter-only typography fields are optional.
+- `EdsSidebarIconPresetTint.color` remains temporarily available as a deprecated global-theme compatibility path.
+- Toast service is intentionally outside EDS; Popover remains deferred until a real host interaction requires a stable abstraction.
 
 ## 0.2.0 — 2026-09-22
 
