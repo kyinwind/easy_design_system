@@ -263,6 +263,87 @@ void main() {
     expect(find.byTooltip('删除当前项目'), findsOneWidget);
   });
 
+
+  testWidgets('Button API 2 supports icon busy expanded custom and styled',
+      (tester) async {
+    var taps = 0;
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              EdsButton(
+                '保存',
+                icon: Icons.save,
+                expands: true,
+                action: () => taps++,
+              ),
+              EdsButton(
+                '处理中',
+                isBusy: true,
+                action: () => taps++,
+              ),
+              EdsButton.custom(
+                label: const Text('自定义'),
+                action: () => taps++,
+              ),
+              EdsButton.styled(
+                '删除',
+                emphasis: EdsButtonEmphasis.soft,
+                tone: EdsButtonTone.danger,
+                action: () => taps++,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    expect(find.byIcon(Icons.save), findsOneWidget);
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    expect(find.text('自定义'), findsOneWidget);
+    expect(find.text('删除'), findsOneWidget);
+
+    final expandedSize = tester.getSize(find.widgetWithText(EdsButton, '保存'));
+    expect(expandedSize.width, 800);
+
+    await tester.tap(find.text('处理中'), warnIfMissed: false);
+    expect(taps, 0);
+
+    await tester.tap(find.text('自定义'));
+    await tester.tap(find.text('删除'));
+    expect(taps, 2);
+  });
+
+  testWidgets('legacy systemImage and dimension APIs remain available',
+      (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: Column(
+            children: [
+              EdsButton(
+                '旧图标',
+                systemImage: Icons.check,
+                action: () {},
+              ),
+              EdsButton.dimension(
+                '旧样式',
+                emphasis: EdsButtonEmphasis.soft,
+                action: () {},
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    expect(find.byIcon(Icons.check), findsOneWidget);
+    expect(find.text('旧样式'), findsOneWidget);
+  });
+
   testWidgets('disabled button exposes disabled semantics', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
