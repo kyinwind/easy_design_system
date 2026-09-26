@@ -60,7 +60,7 @@ class SettingsDemoPage extends StatelessWidget {
                       EdsButton(
                         '立即升级',
                         role: EdsButtonRole.done,
-                        systemImage: Icons.check,
+                        icon: Icons.check,
                         action: () {},
                       ),
                     ],
