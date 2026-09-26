@@ -336,39 +336,66 @@ class EdsTextField extends StatelessWidget {
   }
 }
 
+/// Groups [EdsRadio] widgets with Flutter's modern RadioGroup behavior.
+///
+/// This provides APG-compatible keyboard navigation and semantics across all
+/// radio choices in the subtree.
+class EdsRadioGroup<T> extends StatelessWidget {
+  const EdsRadioGroup({
+    super.key,
+    required this.groupValue,
+    required this.onChanged,
+    required this.child,
+  });
+
+  final T? groupValue;
+  final ValueChanged<T?> onChanged;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return RadioGroup<T>(
+      groupValue: groupValue,
+      onChanged: onChanged,
+      child: child,
+    );
+  }
+}
+
 /// A single generic radio choice with optional label.
+///
+/// Place multiple radios under one [EdsRadioGroup] to get mutual exclusion,
+/// arrow-key navigation, Space activation and group semantics.
 class EdsRadio<T> extends StatelessWidget {
   const EdsRadio({
     super.key,
     required this.value,
-    required this.groupValue,
-    required this.onChanged,
     this.label,
+    this.enabled = true,
     this.focusNode,
     this.autofocus = false,
   });
 
   final T value;
-  final T? groupValue;
-  final ValueChanged<T?>? onChanged;
   final String? label;
+  final bool enabled;
   final FocusNode? focusNode;
   final bool autofocus;
-
-  bool get _selected => value == groupValue;
 
   @override
   Widget build(BuildContext context) {
     final tokens = context.edsTokens;
     final scheme = context.edsScheme;
+    final registry = RadioGroup.maybeOf<T>(context);
+    final selected = registry?.groupValue == value;
+    final isEnabled = enabled && registry != null;
 
-    Widget radio = Radio<T>(
+    final radio = Radio<T>(
       value: value,
-      groupValue: groupValue,
-      onChanged: onChanged,
       focusNode: focusNode,
       autofocus: autofocus,
       activeColor: tokens.colors.primary,
+      enabled: isEnabled,
     );
 
     final text = label;
@@ -377,11 +404,12 @@ class EdsRadio<T> extends StatelessWidget {
     }
 
     return Semantics(
-      checked: _selected,
+      checked: selected,
       inMutuallyExclusiveGroup: true,
+      enabled: isEnabled,
       child: InkWell(
         borderRadius: BorderRadius.circular(tokens.radius.sm),
-        onTap: onChanged == null ? null : () => onChanged!(value),
+        onTap: isEnabled ? () => registry.onChanged(value) : null,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
