@@ -246,7 +246,6 @@ class EdsSegmented<T> extends StatelessWidget {
   }
 }
 
-
 /// Token-driven text field for settings and forms.
 class EdsTextField extends StatelessWidget {
   const EdsTextField({
