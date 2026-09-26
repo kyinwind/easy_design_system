@@ -143,7 +143,7 @@ class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
                     trailing: EdsButton(
                       '更改',
                       role: EdsButtonRole.soft,
-                      systemImage: Icons.folder_outlined,
+                      icon: Icons.folder_outlined,
                       action: () {},
                     ),
                   ),
@@ -173,16 +173,16 @@ class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
           child: GalleryExample(
             'EDSButton',
             usage:
-                'EDSButton("保存设置", role: .primary, systemImage: "checkmark")',
+                'EDSButton("保存设置", role: .primary, icon: "checkmark")',
             child: EdsGroup(
               null,
               style: EdsGroupStyle.plain,
               child: catalogAdaptiveRow(context, <Widget>[
-                EdsButton('保存设置', systemImage: Icons.check, action: () {}),
+                EdsButton('保存设置', icon: Icons.check, action: () {}),
                 EdsButton(
                   '恢复默认',
                   role: EdsButtonRole.soft,
-                  systemImage: Icons.refresh,
+                  icon: Icons.refresh,
                   action: () {},
                 ),
               ]),
@@ -199,11 +199,11 @@ class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
         '空状态',
         child: GalleryExample(
           'EDSEmptyState',
-          usage: 'EDSEmptyState(systemImage: "tray", title: "暂无文件")',
+          usage: 'EDSEmptyState(icon: "tray", title: "暂无文件")',
           child: EdsGroup(
             null,
             child: EdsEmptyState(
-              systemImage: Icons.inbox_outlined,
+              icon: Icons.inbox_outlined,
               title: '暂无文件',
               message: '添加文件后会显示在这里。',
               actionTitle: '添加文件',
@@ -246,27 +246,27 @@ class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
         '按钮',
         child: GalleryExample(
           'EDSButton',
-          usage: 'EDSButton("主要操作", role: .primary, systemImage: "checkmark")',
+          usage: 'EDSButton("主要操作", role: .primary, icon: "checkmark")',
           child: EdsGroup(
             null,
             child: catalogAdaptiveRow(context, <Widget>[
-              EdsButton('主要操作', systemImage: Icons.check, action: () {}),
+              EdsButton('主要操作', icon: Icons.check, action: () {}),
               EdsButton(
                 '次要操作',
                 role: EdsButtonRole.secondary,
-                systemImage: Icons.tune,
+                icon: Icons.tune,
                 action: () {},
               ),
               EdsButton(
                 '轻量操作',
                 role: EdsButtonRole.soft,
-                systemImage: Icons.auto_awesome,
+                icon: Icons.auto_awesome,
                 action: () {},
               ),
               EdsButton(
                 '危险操作',
                 role: EdsButtonRole.danger,
-                systemImage: Icons.delete_outline,
+                icon: Icons.delete_outline,
                 action: () {},
               ),
             ]),
