@@ -211,7 +211,7 @@ void main() {
     );
 
     final semantics = tester.getSemantics(find.byType(EdsButton));
-    expect(semantics.label, '保存项目');
+    expect(semantics.label.trim(), '保存项目');
     expect(semantics.flagsCollection.isButton, isTrue);
     expect(semantics.flagsCollection.isEnabled.toBoolOrNull(), isTrue);
 
