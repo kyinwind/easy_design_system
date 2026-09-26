@@ -539,10 +539,13 @@ ContentView().easyDesignTheme(customTokens);
 ```dart
 EdsThemeScope(
   preset: EdsPresetTheme.orange,
-  brightness: Brightness.dark, // 缺省跟随 MediaQuery 平台亮度
+  brightness: Brightness.dark, // 可显式覆盖宿主 ThemeMode
   child: const PurchaseCard(),
 )
 ```
+
+未显式传 `brightness` 时，EDS 会读取 `Theme.of(context).brightness`，因此宿主的
+`ThemeMode.system / light / dark` 会自然同步到 EDS。
 
 ### 在自定义 Widget 中读取主题
 
@@ -659,6 +662,10 @@ EdsToggle(isOn: isEnabled, label: '启用自动处理', onChanged: (value) {})
 ```
 
 > Dart 没有 `.disabled()` 修饰器：`action` 传 `null` 即渲染为禁用态并忽略点击。
+>
+> `EdsButton` 支持桌面键盘焦点、Tab 遍历、Enter / Space 激活、Semantics 和可选
+> `tooltip`。需要控制焦点时可传 `focusNode` / `autofocus`，纯图标或自定义
+> label 场景可通过 `semanticLabel` 补充无障碍文案。
 
 #### 按钮的三个维度
 
@@ -796,7 +803,7 @@ EdsProgressPanel(
 - `EdsHeroPanel`：关键信息或付费权益强调面板（主题渐变 + 阴影）。
 - `EdsPill` / `EdsPillFlow`：标签和自动换行的标签集合，`EdsPillFlow` 内置 12 色轮转调色板与排序。
 - `EdsCollapsibleSection`：可折叠内容区。
-- `EdsComparisonSection`：Free/Pro 功能对比列表（窄屏自动切换单列布局）。
+- `EdsComparisonSection`：Free/Pro 功能对比列表（窄屏自动切换单列布局）；标题和列标签可由宿主传入，便于多语言。
 - `EdsSidebarGroupView` / `EdsSidebarIcon`：设置页式侧边栏分组与彩色图标。
 - `EdsIconMark`：对比表里的 ✓/– 勾选标记，也可单独使用。
 
@@ -812,7 +819,7 @@ final items = [
   EdsSidebarMenuItem(
     label: '收件箱',
     icon: Icons.inbox,
-    tint: EdsSidebarIconPresetTint.blue.color,
+    presetTint: EdsSidebarIconPresetTint.blue,
   ),
 ];
 
@@ -833,12 +840,26 @@ EdsSidebarGroupView(
 | `colors` | 主题色、强调色、成功/警告/危险色及派生 Soft 底色 |
 | `spacing` | `xxs` 到 `xxxl` 的间距尺度 |
 | `radius` | `sm` 到 `xl` 的圆角尺度 |
-| `typography` | Hero、页面标题、Section、正文、Caption 和等宽字体 |
+| `typography` | Hero、页面标题、Section、正文、Caption、字体家族和等宽字体 |
 | `controlSize` | 按钮、输入框和行高 |
 | `adaptiveLayout` | 紧凑/常规页面边距、可读宽度和触控目标 |
 | `stroke` | 边框粗细 |
 | `shadow` | 阴影颜色（hex 字符串）、透明度、半径和偏移 |
 | `heroGradient` | Hero 面板渐变 |
+
+```dart
+final customTypography = const EdsTypographyTokens().copyWith(
+  fontFamily: 'Microsoft YaHei UI',
+  fontFamilyFallback: const ['Segoe UI', 'sans-serif'],
+  monoFontFamily: 'Cascadia Mono',
+);
+
+final customTokens = const EdsDesignTokens().copyWith(
+  typography: customTypography,
+);
+```
+
+`fontFamily` 等字段是 Flutter 侧扩展 token；旧的 Swift-compatible JSON 不包含它们时仍按默认值解析。
 
 ```dart
 class FineGrainedPanel extends StatelessWidget {
@@ -949,7 +970,7 @@ flutter test   # 5 个 widget 用例
 | `Image(systemName: "checkmark")` | `Icons.check` | SF Symbols → Material 图标 |
 | `Binding<Bool>` | `isOn` + `onChanged` | 禁用态：`action` 传 `null` |
 
-其余有意偏差（亮暗语义色经 `EdsColorScheme.resolve` 显式解析、SwiftUI 遗留 `ButtonStyle` 不移植、`EDSSidebarIconPresetTint` 为枚举 + `.color`、文本截断用 `ellipsis`、内置文案保持中文等）与 Swift 版行为逐项对齐，测试套件移植自 `EasyDesignSystemTests`。
+其余有意偏差（亮暗语义色经 `EdsColorScheme.resolve` 显式解析、SwiftUI 遗留 `ButtonStyle` 不移植、Flutter 桌面端补充 Focus / Keyboard / Tooltip / Semantics、文本截断用 `ellipsis` 等）以“体验对齐、平台实现合理”为原则。主题型 Sidebar preset 请使用 `presetTint` 或 `resolve(context)`，旧 `.color` 仅为兼容保留。
 
 ## 9. 开发与验证
 
