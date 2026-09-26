@@ -31,6 +31,7 @@ export 'src/widgets/eds_dialogs.dart';
 export 'src/widgets/eds_group.dart';
 export 'src/widgets/eds_form_controls.dart';
 export 'src/widgets/eds_hero_panel.dart';
+export 'src/widgets/eds_menu.dart';
 export 'src/widgets/eds_icon_mark.dart';
 export 'src/widgets/eds_page.dart';
 export 'src/widgets/eds_page_section.dart';
