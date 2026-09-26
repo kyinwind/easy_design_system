@@ -97,6 +97,24 @@ void main() {
     expect(seenOverride, Brightness.dark);
   });
 
+  testWidgets('platform brightness is used without a Material theme',
+      (tester) async {
+    late Brightness seen;
+    await tester.pumpWidget(
+      MediaQuery(
+        data: const MediaQueryData(platformBrightness: Brightness.dark),
+        child: Builder(
+          builder: (context) {
+            seen = context.edsBrightness;
+            return const SizedBox();
+          },
+        ),
+      ),
+    );
+
+    expect(seen, Brightness.dark);
+  });
+
   testWidgets('ambient Material ThemeMode drives EDS brightness',
       (tester) async {
     late Brightness seen;
