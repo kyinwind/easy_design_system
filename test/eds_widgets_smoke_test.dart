@@ -193,6 +193,10 @@ void main() {
       const MaterialApp(
         home: Scaffold(
           body: EdsComparisonSection(
+            title: 'Feature comparison',
+            featureLabel: 'Feature',
+            freeLabel: 'Basic',
+            proLabel: 'Plus',
             features: [
               ('无限画布', true, true),
               ('团队协作', false, true),
@@ -202,7 +206,9 @@ void main() {
       ),
     );
 
-    expect(find.text('功能对比'), findsOneWidget);
+    expect(find.text('Feature comparison'), findsOneWidget);
+    expect(find.text('Basic'), findsOneWidget);
+    expect(find.text('Plus'), findsOneWidget);
     expect(find.text('无限画布'), findsOneWidget);
   });
 
@@ -211,12 +217,12 @@ void main() {
       EdsSidebarMenuItem(
         label: '收件箱',
         icon: Icons.inbox,
-        tint: EdsSidebarIconPresetTint.blue.color,
+        presetTint: EdsSidebarIconPresetTint.blue,
       ),
       EdsSidebarMenuItem(
         label: '云盘',
         icon: Icons.cloud,
-        tint: EdsSidebarIconPresetTint.green.color,
+        presetTint: EdsSidebarIconPresetTint.green,
       ),
     ];
     await tester.pumpWidget(
