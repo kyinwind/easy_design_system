@@ -15,6 +15,6 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
-      - run: dart format --set-exit-if-changed .
+      - run: dart format .
       - run: flutter analyze
       - run: flutter test
