@@ -202,7 +202,7 @@ class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
           child: EdsGroup(
             null,
             child: EdsEmptyState(
-              icon: Icons.inbox_outlined,
+              systemImage: Icons.inbox_outlined,
               title: '暂无文件',
               message: '添加文件后会显示在这里。',
               actionTitle: '添加文件',
