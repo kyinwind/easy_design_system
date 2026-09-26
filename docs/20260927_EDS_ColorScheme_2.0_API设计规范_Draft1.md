@@ -85,6 +85,56 @@ Theme 初始化面向两类用户：
 
 ---
 
+
+# 3.1 Theme API 不只有 Color
+
+ColorScheme 2.0 只重构 Theme 中的颜色部分。
+
+现有以下非颜色 Design Token API 继续保留：
+
+- EdsSpacingTokens
+- EdsRadiusTokens
+- EdsTypographyTokens
+- EdsControlSizeTokens
+- EdsAdaptiveLayoutTokens
+- EdsHeroGradient
+- EdsStrokeTokens
+- EdsShadowTokens
+
+Host App 仍然可以像现在一样通过 Theme 配置这些值。
+
+例如概念上仍应支持：
+
+    theme.tokens.copyWith(
+      spacing: theme.tokens.spacing.copyWith(
+        lg: 22,
+      ),
+      adaptiveLayout: theme.tokens.adaptiveLayout.copyWith(
+        readableContentMaxWidth: 960,
+      ),
+    )
+
+ColorScheme 2.0 不应迫使宿主把 spacing / radius / typography 等迁移到另一套新 API。
+
+它们与新的 Color API 一起组成完整 EDS Theme。
+
+因此完整 Theme Configuration 应理解为：
+
+    EdsThemeData
+    ├─ seeds
+    ├─ semanticOverrides
+    └─ tokens
+       ├─ spacing
+       ├─ radius
+       ├─ typography
+       ├─ controlSize
+       ├─ adaptiveLayout
+       ├─ heroGradient
+       ├─ stroke
+       └─ shadow
+
+---
+
 # 4. 默认初始化：零配置
 
 EDS 必须开箱即用。
@@ -488,6 +538,37 @@ ColorScheme 2.0 推荐概念结构：
 - 导出简单
 - 文档简单
 - Host 更容易理解
+
+---
+
+
+# 18.1 JSON Theme 仍然是完整 Design Token 配置
+
+JSON API 不应被理解成单纯的 ColorScheme 配置。
+
+colors 分支升级到 2.0 后，其他已有顶层分组继续保留：
+
+    spacing
+    radius
+    typography
+    controlSize
+    adaptiveLayout
+    heroGradient
+    stroke
+    shadow
+
+这些分组继续沿用现有：
+
+- 字段名
+- 默认值
+- 缺失回退规则
+- fromJson / toJson 语义
+
+因此 ColorScheme 2.0 的 JSON Breaking Change 主要集中在：
+
+    colors
+
+而不是整份 Theme Schema。
 
 ---
 
