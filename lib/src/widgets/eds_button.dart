@@ -324,6 +324,37 @@ class EdsButton extends StatelessWidget {
         _explicitIcon = icon ?? systemImage,
         _role = role;
 
+  /// Convenience initializer for a full-width primary/secondary action.
+  ///
+  /// This is equivalent to [EdsButton] with `expands: true`, while keeping
+  /// the default constructor content-sized.
+  factory EdsButton.fullWidth(
+    String title, {
+    Key? key,
+    EdsButtonRole role = EdsButtonRole.primary,
+    IconData? icon,
+    String? tooltip,
+    FocusNode? focusNode,
+    bool autofocus = false,
+    String? semanticLabel,
+    bool isBusy = false,
+    VoidCallback? action,
+  }) {
+    return EdsButton(
+      title,
+      key: key,
+      role: role,
+      icon: icon,
+      tooltip: tooltip,
+      focusNode: focusNode,
+      autofocus: autofocus,
+      semanticLabel: semanticLabel,
+      isBusy: isBusy,
+      expands: true,
+      action: action,
+    );
+  }
+
   /// Role-based initializer with a custom label widget, mirroring Swift's
   /// `EDSButton.label(_:role:action:)`.
   factory EdsButton.label(
