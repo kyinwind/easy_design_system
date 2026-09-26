@@ -3,38 +3,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets(
-    'EdsCheckbox toggles and keeps EDS label styling',
-    (tester) async {
-      var value = false;
+  testWidgets('EdsCheckbox toggles and keeps EDS label styling', (
+    tester,
+  ) async {
+    var value = false;
 
-      await tester.pumpWidget(
-        MaterialApp(
-          home: StatefulBuilder(
-            builder: (context, setState) {
-              return EdsCheckbox(
-                value: value,
-                label: '开机启动',
-                tooltip: '随系统启动',
-                onChanged: (next) => setState(() => value = next ?? false),
-              );
-            },
-          ),
+    await tester.pumpWidget(
+      MaterialApp(
+        home: StatefulBuilder(
+          builder: (context, setState) {
+            return EdsCheckbox(
+              value: value,
+              label: '开机启动',
+              tooltip: '随系统启动',
+              onChanged: (next) => setState(() => value = next ?? false),
+            );
+          },
         ),
-      );
+      ),
+    );
 
-      expect(find.text('开机启动'), findsOneWidget);
-      expect(find.byTooltip('随系统启动'), findsOneWidget);
+    expect(find.text('开机启动'), findsOneWidget);
+    expect(find.byTooltip('随系统启动'), findsOneWidget);
 
-      await tester.tap(find.text('开机启动'));
-      await tester.pump();
+    await tester.tap(find.text('开机启动'));
+    await tester.pump();
 
-      expect(value, isTrue);
-    },
-  );
+    expect(value, isTrue);
+  });
 
-  testWidgets('EdsDropdown is generic and reports selected value',
-      (tester) async {
+  testWidgets('EdsDropdown is generic and reports selected value', (
+    tester,
+  ) async {
     String? selected = 'a';
 
     await tester.pumpWidget(
@@ -60,8 +60,9 @@ void main() {
     expect(selected, 'b');
   });
 
-  testWidgets('EdsSegmented is generic and reports new selection',
-      (tester) async {
+  testWidgets('EdsSegmented is generic and reports new selection', (
+    tester,
+  ) async {
     var selected = 1;
 
     await tester.pumpWidget(
@@ -106,9 +107,9 @@ void main() {
     final segmented = tester.widget<SegmentedButton<int>>(
       find.byType(SegmentedButton<int>),
     );
-    final color = segmented.style?.foregroundColor?.resolve(
-      <WidgetState>{WidgetState.selected},
-    );
+    final color = segmented.style?.foregroundColor?.resolve(<WidgetState>{
+      WidgetState.selected,
+    });
     expect(color, const Color(0xFFFF5500));
   });
 }

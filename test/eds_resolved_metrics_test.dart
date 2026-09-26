@@ -37,33 +37,35 @@ void main() {
     expect(hybrid.supportsHoverEnhancement, isTrue);
   });
 
-  test('explicit adaptive padding overrides spacing compatibility fallback',
-      () {
-    final tokens = const EdsDesignTokens().copyWith(
-      spacing: const EdsSpacingTokens().copyWith(md: 17, xxl: 33),
-      adaptiveLayout: const EdsAdaptiveLayoutTokens().copyWith(
-        compactPagePadding: 20,
-        regularPagePadding: 36,
-      ),
-    );
+  test(
+    'explicit adaptive padding overrides spacing compatibility fallback',
+    () {
+      final tokens = const EdsDesignTokens().copyWith(
+        spacing: const EdsSpacingTokens().copyWith(md: 17, xxl: 33),
+        adaptiveLayout: const EdsAdaptiveLayoutTokens().copyWith(
+          compactPagePadding: 20,
+          regularPagePadding: 36,
+        ),
+      );
 
-    expect(
-      EdsResolvedMetrics.resolve(
-        tokens: tokens,
-        profile: EdsInteractionProfile.touch,
-        horizontalSizeClass: EdsSizeClass.compact,
-      ).pagePadding,
-      20,
-    );
-    expect(
-      EdsResolvedMetrics.resolve(
-        tokens: tokens,
-        profile: EdsInteractionProfile.pointer,
-        horizontalSizeClass: EdsSizeClass.regular,
-      ).pagePadding,
-      36,
-    );
-  });
+      expect(
+        EdsResolvedMetrics.resolve(
+          tokens: tokens,
+          profile: EdsInteractionProfile.touch,
+          horizontalSizeClass: EdsSizeClass.compact,
+        ).pagePadding,
+        20,
+      );
+      expect(
+        EdsResolvedMetrics.resolve(
+          tokens: tokens,
+          profile: EdsInteractionProfile.pointer,
+          horizontalSizeClass: EdsSizeClass.regular,
+        ).pagePadding,
+        36,
+      );
+    },
+  );
 
   test('null size class is treated as regular', () {
     final metrics = EdsResolvedMetrics.resolve(

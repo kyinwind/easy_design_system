@@ -122,10 +122,7 @@ class EdsDropdown<T> extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: tokens.spacing.sm),
       decoration: BoxDecoration(
         color: scheme.cardBackground,
-        border: Border.all(
-          color: scheme.border,
-          width: tokens.stroke.hairline,
-        ),
+        border: Border.all(color: scheme.border, width: tokens.stroke.hairline),
         borderRadius: BorderRadius.circular(tokens.radius.md),
       ),
       child: DropdownButtonHideUnderline(
@@ -230,10 +227,7 @@ class EdsSegmented<T> extends StatelessWidget {
               : scheme.cardBackground,
         ),
         side: WidgetStatePropertyAll(
-          BorderSide(
-            color: scheme.border,
-            width: tokens.stroke.hairline,
-          ),
+          BorderSide(color: scheme.border, width: tokens.stroke.hairline),
         ),
         shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
@@ -328,10 +322,7 @@ class EdsTextField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(tokens.radius.md),
-          borderSide: BorderSide(
-            color: tokens.colors.primary,
-            width: 1.5,
-          ),
+          borderSide: BorderSide(color: tokens.colors.primary, width: 1.5),
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(tokens.radius.md),

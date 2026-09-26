@@ -35,9 +35,11 @@ class EdsBadge extends StatelessWidget {
   const EdsBadge(this.text, {super.key, this.style = EdsBadgeStyle.accent});
 
   /// Displays the text verbatim, mirroring Swift's `init(verbatim:style:)`.
-  const EdsBadge.verbatim(String text,
-      {Key? key, EdsBadgeStyle style = EdsBadgeStyle.accent})
-      : this(text, key: key, style: style);
+  const EdsBadge.verbatim(
+    String text, {
+    Key? key,
+    EdsBadgeStyle style = EdsBadgeStyle.accent,
+  }) : this(text, key: key, style: style);
 
   final String text;
   final EdsBadgeStyle style;

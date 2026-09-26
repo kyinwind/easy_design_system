@@ -7,10 +7,12 @@ void main() {
     EdsTheme.instance.tokens = const EdsDesignTokens();
   });
 
-  testWidgets('environment uses local tokens before global tokens',
-      (tester) async {
-    final global = const EdsDesignTokens()
-        .copyWith(spacing: const EdsSpacingTokens().copyWith(md: 17));
+  testWidgets('environment uses local tokens before global tokens', (
+    tester,
+  ) async {
+    final global = const EdsDesignTokens().copyWith(
+      spacing: const EdsSpacingTokens().copyWith(md: 17),
+    );
     EdsTheme.instance.tokens = global;
 
     late EdsDesignTokens seenGlobal;
@@ -26,9 +28,7 @@ void main() {
     );
     expect(seenGlobal.spacing.md, 17);
 
-    final local = global.copyWith(
-      spacing: global.spacing.copyWith(md: 29),
-    );
+    final local = global.copyWith(spacing: global.spacing.copyWith(md: 29));
     late EdsDesignTokens seenLocal;
     await tester.pumpWidget(
       MaterialApp(
@@ -65,8 +65,9 @@ void main() {
     expect(seen.colors.primary, EdsPresetTheme.orange.tokens.colors.primary);
   });
 
-  testWidgets('brightness override beats the platform brightness',
-      (tester) async {
+  testWidgets('brightness override beats the platform brightness', (
+    tester,
+  ) async {
     late Brightness seenPlain;
     late Brightness seenOverride;
     await tester.pumpWidget(
@@ -97,8 +98,9 @@ void main() {
     expect(seenOverride, Brightness.dark);
   });
 
-  testWidgets('platform brightness is used without a Material theme',
-      (tester) async {
+  testWidgets('platform brightness is used without a Material theme', (
+    tester,
+  ) async {
     late Brightness seen;
     await tester.pumpWidget(
       MediaQuery(
@@ -115,8 +117,9 @@ void main() {
     expect(seen, Brightness.dark);
   });
 
-  testWidgets('ambient Material ThemeMode drives EDS brightness',
-      (tester) async {
+  testWidgets('ambient Material ThemeMode drives EDS brightness', (
+    tester,
+  ) async {
     late Brightness seen;
     await tester.pumpWidget(
       MaterialApp(
@@ -135,8 +138,9 @@ void main() {
     expect(seen, Brightness.dark);
   });
 
-  testWidgets('explicit EDS brightness still beats Material ThemeMode',
-      (tester) async {
+  testWidgets('explicit EDS brightness still beats Material ThemeMode', (
+    tester,
+  ) async {
     late Brightness seen;
     await tester.pumpWidget(
       MaterialApp(

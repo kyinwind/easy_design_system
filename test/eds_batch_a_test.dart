@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('sidebar preset tint resolves from local theme scope',
-      (tester) async {
+  testWidgets('sidebar preset tint resolves from local theme scope', (
+    tester,
+  ) async {
     const localPrimary = Color(0xFFAA3366);
     final tokens = const EdsDesignTokens().copyWith(
       colors: const EdsColorTokens().copyWith(primary: localPrimary),
@@ -35,8 +36,9 @@ void main() {
     expect(icon.tint, localPrimary);
   });
 
-  testWidgets('pill remove semantics can be localized by host app',
-      (tester) async {
+  testWidgets('pill remove semantics can be localized by host app', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(

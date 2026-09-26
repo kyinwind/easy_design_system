@@ -70,11 +70,8 @@ class EdsThemeScope extends StatelessWidget {
     }
     return ValueListenableBuilder<EdsDesignTokens>(
       valueListenable: EdsTheme.instance.tokensListenable,
-      builder: (context, value, _) => _EdsTokensScope(
-        tokens: value,
-        brightness: brightness,
-        child: child,
-      ),
+      builder: (context, value, _) =>
+          _EdsTokensScope(tokens: value, brightness: brightness, child: child),
     );
   }
 }

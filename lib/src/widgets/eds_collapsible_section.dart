@@ -70,8 +70,9 @@ class _EdsCollapsibleSectionState extends State<EdsCollapsibleSection> {
     final tokens = context.edsTokens;
     final scheme = context.edsScheme;
     final reduceMotion = MediaQuery.maybeDisableAnimationsOf(context) ?? false;
-    final duration =
-        reduceMotion ? Duration.zero : const Duration(milliseconds: 200);
+    final duration = reduceMotion
+        ? Duration.zero
+        : const Duration(milliseconds: 200);
     final title = widget.title;
 
     return Container(

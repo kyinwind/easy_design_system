@@ -84,8 +84,12 @@ class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
     };
   }
 
-  Widget _page(BuildContext context, String title, String subtitle,
-      List<Widget> sections) {
+  Widget _page(
+    BuildContext context,
+    String title,
+    String subtitle,
+    List<Widget> sections,
+  ) {
     final tokens = context.edsTokens;
     return EdsPage(
       title,
@@ -173,22 +177,15 @@ class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
             child: EdsGroup(
               null,
               style: EdsGroupStyle.plain,
-              child: catalogAdaptiveRow(
-                context,
-                <Widget>[
-                  EdsButton(
-                    '保存设置',
-                    systemImage: Icons.check,
-                    action: () {},
-                  ),
-                  EdsButton(
-                    '恢复默认',
-                    role: EdsButtonRole.soft,
-                    systemImage: Icons.refresh,
-                    action: () {},
-                  ),
-                ],
-              ),
+              child: catalogAdaptiveRow(context, <Widget>[
+                EdsButton('保存设置', systemImage: Icons.check, action: () {}),
+                EdsButton(
+                  '恢复默认',
+                  role: EdsButtonRole.soft,
+                  systemImage: Icons.refresh,
+                  action: () {},
+                ),
+              ]),
             ),
           ),
         ),
@@ -197,217 +194,182 @@ class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
   }
 
   Widget _statesExample(BuildContext context) {
-    return _page(
-      context,
-      '状态模式',
-      '空状态、错误状态、加载状态和进度面板是最常见的页面片段。',
-      <Widget>[
-        EdsPageSection(
-          '空状态',
-          child: GalleryExample(
-            'EDSEmptyState',
-            usage: 'EDSEmptyState(systemImage: "tray", title: "暂无文件")',
+    return _page(context, '状态模式', '空状态、错误状态、加载状态和进度面板是最常见的页面片段。', <Widget>[
+      EdsPageSection(
+        '空状态',
+        child: GalleryExample(
+          'EDSEmptyState',
+          usage: 'EDSEmptyState(systemImage: "tray", title: "暂无文件")',
+          child: EdsGroup(
+            null,
+            child: EdsEmptyState(
+              systemImage: Icons.inbox_outlined,
+              title: '暂无文件',
+              message: '添加文件后会显示在这里。',
+              actionTitle: '添加文件',
+              actionSystemImage: Icons.add,
+              action: () {},
+            ),
+          ),
+        ),
+      ),
+      EdsPageSection(
+        '错误和加载',
+        child: catalogAdaptiveRow(context, <Widget>[
+          GalleryExample(
+            'EDSErrorState',
+            usage: 'EDSErrorState(title: "加载失败", actionTitle: "重试")',
             child: EdsGroup(
               null,
-              child: EdsEmptyState(
-                systemImage: Icons.inbox_outlined,
-                title: '暂无文件',
-                message: '添加文件后会显示在这里。',
-                actionTitle: '添加文件',
-                actionSystemImage: Icons.add,
+              child: EdsErrorState(
+                title: '加载失败',
+                message: '请检查网络后重试。',
+                actionTitle: '重试',
                 action: () {},
               ),
             ),
           ),
-        ),
-        EdsPageSection(
-          '错误和加载',
-          child: catalogAdaptiveRow(
-            context,
-            <Widget>[
-              GalleryExample(
-                'EDSErrorState',
-                usage: 'EDSErrorState(title: "加载失败", actionTitle: "重试")',
-                child: EdsGroup(
-                  null,
-                  child: EdsErrorState(
-                    title: '加载失败',
-                    message: '请检查网络后重试。',
-                    actionTitle: '重试',
-                    action: () {},
-                  ),
-                ),
-              ),
-              const GalleryExample(
-                'EDSLoadingState',
-                usage: 'EDSLoadingState("正在处理", message: "...")',
-                child: EdsGroup(
-                  null,
-                  child: EdsLoadingState(message: '这通常只需要几秒。'),
-                ),
-              ),
-            ],
+          const GalleryExample(
+            'EDSLoadingState',
+            usage: 'EDSLoadingState("正在处理", message: "...")',
+            child: EdsGroup(null, child: EdsLoadingState(message: '这通常只需要几秒。')),
           ),
-        ),
-      ],
-    );
+        ]),
+      ),
+    ]);
   }
 
   Widget _controlsExample(BuildContext context) {
     final tokens = context.edsTokens;
-    return _page(
-      context,
-      '基础控件',
-      '按钮、徽章和开关默认跟随 EDSTheme。',
-      <Widget>[
-        EdsPageSection(
-          '按钮',
-          child: GalleryExample(
-            'EDSButton',
-            usage:
-                'EDSButton("主要操作", role: .primary, systemImage: "checkmark")',
-            child: EdsGroup(
-              null,
-              child: catalogAdaptiveRow(
-                context,
-                <Widget>[
-                  EdsButton(
-                    '主要操作',
-                    systemImage: Icons.check,
-                    action: () {},
-                  ),
-                  EdsButton(
-                    '次要操作',
-                    role: EdsButtonRole.secondary,
-                    systemImage: Icons.tune,
-                    action: () {},
-                  ),
-                  EdsButton(
-                    '轻量操作',
-                    role: EdsButtonRole.soft,
-                    systemImage: Icons.auto_awesome,
-                    action: () {},
-                  ),
-                  EdsButton(
-                    '危险操作',
-                    role: EdsButtonRole.danger,
-                    systemImage: Icons.delete_outline,
-                    action: () {},
-                  ),
-                ],
+    return _page(context, '基础控件', '按钮、徽章和开关默认跟随 EDSTheme。', <Widget>[
+      EdsPageSection(
+        '按钮',
+        child: GalleryExample(
+          'EDSButton',
+          usage: 'EDSButton("主要操作", role: .primary, systemImage: "checkmark")',
+          child: EdsGroup(
+            null,
+            child: catalogAdaptiveRow(context, <Widget>[
+              EdsButton('主要操作', systemImage: Icons.check, action: () {}),
+              EdsButton(
+                '次要操作',
+                role: EdsButtonRole.secondary,
+                systemImage: Icons.tune,
+                action: () {},
               ),
+              EdsButton(
+                '轻量操作',
+                role: EdsButtonRole.soft,
+                systemImage: Icons.auto_awesome,
+                action: () {},
+              ),
+              EdsButton(
+                '危险操作',
+                role: EdsButtonRole.danger,
+                systemImage: Icons.delete_outline,
+                action: () {},
+              ),
+            ]),
+          ),
+        ),
+      ),
+      EdsPageSection(
+        '徽章和开关',
+        child: GalleryExample(
+          'EDSBadge + EDSToggle',
+          usage: 'EDSBadge("已完成", style: .success) / EDSToggle(isOn: \$value)',
+          child: EdsGroup(
+            null,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: tokens.spacing.sm,
+              children: <Widget>[
+                catalogAdaptiveRow(context, <Widget>[
+                  const EdsBadge('Pro'),
+                  const EdsBadge('已完成', style: EdsBadgeStyle.success),
+                  const EdsBadge('待处理', style: EdsBadgeStyle.warning),
+                  const EdsBadge('失败', style: EdsBadgeStyle.danger),
+                  const EdsBadge.verbatim(
+                    'v1.0.0',
+                    style: EdsBadgeStyle.neutral,
+                  ),
+                ]),
+                EdsSettingRow(
+                  '启用自动处理',
+                  subtitle: '适合二元开关型设置。',
+                  trailing: EdsToggle(
+                    isOn: _isEnabled,
+                    label: '启用',
+                    onChanged: (value) => setState(() {
+                      _isEnabled = value;
+                    }),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
-        EdsPageSection(
-          '徽章和开关',
-          child: GalleryExample(
-            'EDSBadge + EDSToggle',
-            usage:
-                'EDSBadge("已完成", style: .success) / EDSToggle(isOn: \$value)',
-            child: EdsGroup(
-              null,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: tokens.spacing.sm,
-                children: <Widget>[
-                  catalogAdaptiveRow(
-                    context,
-                    <Widget>[
-                      const EdsBadge('Pro'),
-                      const EdsBadge('已完成', style: EdsBadgeStyle.success),
-                      const EdsBadge('待处理', style: EdsBadgeStyle.warning),
-                      const EdsBadge('失败', style: EdsBadgeStyle.danger),
-                      const EdsBadge.verbatim(
-                        'v1.0.0',
-                        style: EdsBadgeStyle.neutral,
-                      ),
-                    ],
-                  ),
-                  EdsSettingRow(
-                    '启用自动处理',
-                    subtitle: '适合二元开关型设置。',
-                    trailing: EdsToggle(
-                      isOn: _isEnabled,
-                      label: '启用',
-                      onChanged: (value) => setState(() {
-                        _isEnabled = value;
-                      }),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
+      ),
+    ]);
   }
 
   Widget _rowsExample(BuildContext context) {
     final tokens = context.edsTokens;
-    return _page(
-      context,
-      '行和标签',
-      '设置行、键值行、内联字段和流式标签。',
-      <Widget>[
-        EdsPageSection(
-          '设置行',
-          child: GalleryExample(
-            'EDSSettingRow + EDSValueRow',
-            usage:
-                'EDSSettingRow("标题") { trailing } / EDSValueRow("标题", value: "值")',
-            child: EdsGroup(
-              null,
-              child: Column(
-                children: <Widget>[
-                  const EdsSettingRow(
-                    '图片输出格式',
-                    subtitle: '用于批量处理后的默认格式。',
-                    trailing: EdsBadge('PNG'),
-                  ),
-                  EdsValueRow(
-                    '今日处理',
-                    value: '128 张',
-                    tone: tokens.colors.success,
-                  ),
-                  EdsValueRow(
-                    '缓存占用',
-                    value: '240 MB',
-                    tone: tokens.colors.warning,
-                  ),
-                ],
-              ),
+    return _page(context, '行和标签', '设置行、键值行、内联字段和流式标签。', <Widget>[
+      EdsPageSection(
+        '设置行',
+        child: GalleryExample(
+          'EDSSettingRow + EDSValueRow',
+          usage: 'EDSSettingRow("标题") { trailing } / EDSValueRow("标题", value: "值")',
+          child: EdsGroup(
+            null,
+            child: Column(
+              children: <Widget>[
+                const EdsSettingRow(
+                  '图片输出格式',
+                  subtitle: '用于批量处理后的默认格式。',
+                  trailing: EdsBadge('PNG'),
+                ),
+                EdsValueRow(
+                  '今日处理',
+                  value: '128 张',
+                  tone: tokens.colors.success,
+                ),
+                EdsValueRow(
+                  '缓存占用',
+                  value: '240 MB',
+                  tone: tokens.colors.warning,
+                ),
+              ],
             ),
           ),
         ),
-        const EdsPageSection(
-          '流式标签',
-          child: GalleryExample(
-            'EDSPillFlow',
-            usage:
-                'EDSPillFlow(items, sortOrder: .ascending, showsRemoveButton: true)',
-            child: EdsGroup(
-              null,
-              child: EdsPillFlow(
-                <String>[
-                  '75%',
-                  '100%',
-                  '110%',
-                  '1280x720',
-                  '1920x1080',
-                  '2560x1600',
-                  '4K'
-                ],
-                sortOrder: EdsPillFlowSortOrder.ascending,
-                minItemWidth: 88,
-                showsRemoveButton: true,
-              ),
+      ),
+      const EdsPageSection(
+        '流式标签',
+        child: GalleryExample(
+          'EDSPillFlow',
+          usage: 'EDSPillFlow(items, sortOrder: .ascending, showsRemoveButton: true)',
+          child: EdsGroup(
+            null,
+            child: EdsPillFlow(
+              <String>[
+                '75%',
+                '100%',
+                '110%',
+                '1280x720',
+                '1920x1080',
+                '2560x1600',
+                '4K',
+              ],
+              sortOrder: EdsPillFlowSortOrder.ascending,
+              minItemWidth: 88,
+              showsRemoveButton: true,
             ),
           ),
         ),
-      ],
-    );
+      ),
+    ]);
   }
 
   Widget _surfacesExample(BuildContext context) {
@@ -464,36 +426,33 @@ class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
           child: GalleryExample(
             'EDSCard',
             usage: 'EDSCard { ... } / EDSCard(background: ...) { ... }',
-            child: catalogAdaptiveRow(
-              context,
-              <Widget>[
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 360),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: EdsCard(
-                      child: Text(
-                        '默认 EDSCard 只提供 padding，不绘制背景。',
-                        style: tokens.typography.body,
-                      ),
+            child: catalogAdaptiveRow(context, <Widget>[
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 360),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: EdsCard(
+                    child: Text(
+                      '默认 EDSCard 只提供 padding，不绘制背景。',
+                      style: tokens.typography.body,
                     ),
                   ),
                 ),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 360),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: EdsCard(
-                      background: tokens.colors.accentSoft,
-                      child: Text(
-                        '显式传入 background 时才绘制背景和圆角。',
-                        style: tokens.typography.body,
-                      ),
+              ),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 360),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: EdsCard(
+                    background: tokens.colors.accentSoft,
+                    child: Text(
+                      '显式传入 background 时才绘制背景和圆角。',
+                      style: tokens.typography.body,
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ]),
           ),
         ),
         const EdsPageSection(

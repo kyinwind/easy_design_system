@@ -36,12 +36,12 @@ class EdsResolvedMetrics {
     const adaptiveDefaults = EdsAdaptiveLayoutTokens();
     final compactPagePadding =
         adaptive.compactPagePadding == adaptiveDefaults.compactPagePadding
-            ? tokens.spacing.md
-            : adaptive.compactPagePadding;
+        ? tokens.spacing.md
+        : adaptive.compactPagePadding;
     final regularPagePadding =
         adaptive.regularPagePadding == adaptiveDefaults.regularPagePadding
-            ? tokens.spacing.xxl
-            : adaptive.regularPagePadding;
+        ? tokens.spacing.xxl
+        : adaptive.regularPagePadding;
 
     final double minimumInteractiveDimension;
     switch (resolvedProfile) {
@@ -97,10 +97,10 @@ class EdsResolvedMetrics {
 
   @override
   int get hashCode => Object.hash(
-        pagePadding,
-        readableContentMaxWidth,
-        minimumInteractiveDimension,
-        supportsHoverEnhancement,
-        showsPersistentAuxiliaryActions,
-      );
+    pagePadding,
+    readableContentMaxWidth,
+    minimumInteractiveDimension,
+    supportsHoverEnhancement,
+    showsPersistentAuxiliaryActions,
+  );
 }

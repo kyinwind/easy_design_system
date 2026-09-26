@@ -4,13 +4,19 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('easy recipe maps all semantic scenes', () {
     final tokens = const EdsDesignTokens().copyWith(
-      spacing:
-          const EdsSpacingTokens().copyWith(xs: 7, md: 15, lg: 21, xxl: 35),
+      spacing: const EdsSpacingTokens().copyWith(
+        xs: 7,
+        md: 15,
+        lg: 21,
+        xxl: 35,
+      ),
       radius: const EdsRadiusTokens().copyWith(md: 13),
     );
 
-    final page =
-        EdsEasyRecipe.resolve(style: EdsEasyStyle.page, tokens: tokens);
+    final page = EdsEasyRecipe.resolve(
+      style: EdsEasyStyle.page,
+      tokens: tokens,
+    );
     expect(page.padding, 35);
     expect(page.width, const EdsEasyResolvedWidth.fixed(880));
     expect(page.background, EdsEasyBackgroundPolicy.inherited);
@@ -38,8 +44,10 @@ void main() {
     expect(group.cornerRadius, 13);
     expect(group.showsShadow, isFalse);
 
-    final card =
-        EdsEasyRecipe.resolve(style: EdsEasyStyle.card, tokens: tokens);
+    final card = EdsEasyRecipe.resolve(
+      style: EdsEasyStyle.card,
+      tokens: tokens,
+    );
     expect(card.background, EdsEasyBackgroundPolicy.card);
     expect(card.showsBorder, isTrue);
     expect(card.showsShadow, isTrue);

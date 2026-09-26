@@ -89,10 +89,7 @@ void main() {
       () => decodeThemeJson('{"colors": {"primary": 42}}'),
       throwsFormatException,
     );
-    expect(
-      () => decodeThemeJson('[1, 2, 3]'),
-      throwsFormatException,
-    );
+    expect(() => decodeThemeJson('[1, 2, 3]'), throwsFormatException);
   });
 
   test('typography font families round-trip and resolve into text styles', () {

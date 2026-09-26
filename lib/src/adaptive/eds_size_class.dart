@@ -11,7 +11,7 @@ enum EdsSizeClass {
   compact,
 
   /// Width-regular layouts (tablets, desktops, split view).
-  regular;
+  regular,
 }
 
 extension EdsSizeClassContextX on BuildContext {

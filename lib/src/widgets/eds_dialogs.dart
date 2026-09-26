@@ -35,10 +35,7 @@ class EdsAlertDialog extends StatelessWidget {
       surfaceTintColor: Colors.transparent,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(tokens.radius.lg),
-        side: BorderSide(
-          color: scheme.border,
-          width: tokens.stroke.hairline,
-        ),
+        side: BorderSide(color: scheme.border, width: tokens.stroke.hairline),
       ),
       icon: icon,
       title: titleText == null
@@ -108,16 +105,10 @@ class EdsConfirmDialog extends StatelessWidget {
       title: title,
       content: Text(message),
       actions: <Widget>[
-        EdsButton(
-          cancelTitle,
-          role: EdsButtonRole.normal,
-          action: onCancel,
-        ),
+        EdsButton(cancelTitle, role: EdsButtonRole.normal, action: onCancel),
         EdsButton(
           confirmTitle,
-          role: isDestructive
-              ? EdsButtonRole.danger
-              : EdsButtonRole.primary,
+          role: isDestructive ? EdsButtonRole.danger : EdsButtonRole.primary,
           action: onConfirm,
         ),
       ],

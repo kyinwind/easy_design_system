@@ -33,9 +33,7 @@ class EdsPresetTheme {
   static const EdsPresetTheme defaultTheme = EdsPresetTheme(
     id: 'default',
     name: '默认蓝色',
-    tokens: EdsDesignTokens(
-      heroGradient: EdsDesignTokens.heroGradientBlue,
-    ),
+    tokens: EdsDesignTokens(heroGradient: EdsDesignTokens.heroGradientBlue),
   );
 
   /// The generic blue theme; an alias of [defaultTheme], like Swift's

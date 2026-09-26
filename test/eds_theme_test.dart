@@ -10,10 +10,11 @@ void main() {
   });
 
   test('generic presets expose the documented ids', () {
-    expect(
-      EdsPresetTheme.allPresets.map((preset) => preset.id).toList(),
-      ['default', 'orange', 'purple'],
-    );
+    expect(EdsPresetTheme.allPresets.map((preset) => preset.id).toList(), [
+      'default',
+      'orange',
+      'purple',
+    ]);
   });
 
   test('blue is an alias of the default preset', () {
@@ -37,10 +38,7 @@ void main() {
       );
     });
 
-    expect(
-      EdsColorHex.toHex(EdsTheme.instance.colors.primary),
-      '#3185FF',
-    );
+    expect(EdsColorHex.toHex(EdsTheme.instance.colors.primary), '#3185FF');
     expect(EdsTheme.instance.spacing.md, 16);
   });
 
@@ -50,10 +48,7 @@ void main() {
 
     EdsTheme.instance.configureJsonString('{"colors": {"primary": "#FF6B00"}}');
 
-    expect(
-      EdsColorHex.toHex(EdsTheme.instance.colors.primary),
-      '#FF6B00',
-    );
+    expect(EdsColorHex.toHex(EdsTheme.instance.colors.primary), '#FF6B00');
     expect(notified, isTrue);
   });
 
@@ -94,15 +89,14 @@ void main() {
     expect(spacingPos, greaterThan(colorsPos));
   });
 
-  test('applyDefaultThemeFromPackage loads the bundled default theme',
-      () async {
-    await EdsTheme.instance.applyDefaultThemeFromPackage();
+  test(
+    'applyDefaultThemeFromPackage loads the bundled default theme',
+    () async {
+      await EdsTheme.instance.applyDefaultThemeFromPackage();
 
-    expect(
-      EdsColorHex.toHex(EdsTheme.instance.colors.primary),
-      '#3185FF',
-    );
-    expect(EdsTheme.instance.spacing.md, 16);
-    expect(EdsTheme.instance.adaptiveLayout.readableContentMaxWidth, 880);
-  });
+      expect(EdsColorHex.toHex(EdsTheme.instance.colors.primary), '#3185FF');
+      expect(EdsTheme.instance.spacing.md, 16);
+      expect(EdsTheme.instance.adaptiveLayout.readableContentMaxWidth, 880);
+    },
+  );
 }

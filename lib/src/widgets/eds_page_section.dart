@@ -57,11 +57,7 @@ class EdsPageSection extends StatelessWidget {
         if (showsDivider)
           Padding(
             padding: EdgeInsets.only(bottom: tokens.spacing.md),
-            child: Divider(
-              height: 1,
-              thickness: 1,
-              color: scheme.border,
-            ),
+            child: Divider(height: 1, thickness: 1, color: scheme.border),
           ),
         child,
       ],

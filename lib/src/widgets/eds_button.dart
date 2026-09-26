@@ -93,35 +93,35 @@ extension EdsButtonRoleX on EdsButtonRole {
   EdsButtonAppearance get appearance {
     return switch (this) {
       EdsButtonRole.primary => const EdsButtonAppearance(
-          emphasis: EdsButtonEmphasis.filled,
-          tone: EdsButtonTone.accent,
-          size: EdsButtonSize.regular,
-        ),
+        emphasis: EdsButtonEmphasis.filled,
+        tone: EdsButtonTone.accent,
+        size: EdsButtonSize.regular,
+      ),
       EdsButtonRole.secondary => const EdsButtonAppearance(
-          emphasis: EdsButtonEmphasis.medium,
-          tone: EdsButtonTone.accent,
-          size: EdsButtonSize.regular,
-        ),
+        emphasis: EdsButtonEmphasis.medium,
+        tone: EdsButtonTone.accent,
+        size: EdsButtonSize.regular,
+      ),
       EdsButtonRole.soft => const EdsButtonAppearance(
-          emphasis: EdsButtonEmphasis.soft,
-          tone: EdsButtonTone.accent,
-          size: EdsButtonSize.regular,
-        ),
+        emphasis: EdsButtonEmphasis.soft,
+        tone: EdsButtonTone.accent,
+        size: EdsButtonSize.regular,
+      ),
       EdsButtonRole.danger => const EdsButtonAppearance(
-          emphasis: EdsButtonEmphasis.filled,
-          tone: EdsButtonTone.danger,
-          size: EdsButtonSize.regular,
-        ),
+        emphasis: EdsButtonEmphasis.filled,
+        tone: EdsButtonTone.danger,
+        size: EdsButtonSize.regular,
+      ),
       EdsButtonRole.done => const EdsButtonAppearance(
-          emphasis: EdsButtonEmphasis.filled,
-          tone: EdsButtonTone.success,
-          size: EdsButtonSize.regular,
-        ),
+        emphasis: EdsButtonEmphasis.filled,
+        tone: EdsButtonTone.success,
+        size: EdsButtonSize.regular,
+      ),
       EdsButtonRole.normal => const EdsButtonAppearance(
-          emphasis: EdsButtonEmphasis.soft,
-          tone: EdsButtonTone.neutral,
-          size: EdsButtonSize.regular,
-        ),
+        emphasis: EdsButtonEmphasis.soft,
+        tone: EdsButtonTone.neutral,
+        size: EdsButtonSize.regular,
+      ),
     };
   }
 
@@ -133,8 +133,7 @@ extension EdsButtonRoleX on EdsButtonRole {
       EdsButtonRole.secondary ||
       EdsButtonRole.soft ||
       EdsButtonRole.danger ||
-      EdsButtonRole.normal =>
-        null,
+      EdsButtonRole.normal => null,
     };
   }
 }
@@ -216,13 +215,15 @@ class EdsButtonAppearance {
         background = toneColor.withValues(alpha: 0.25);
         borderColor = null;
       case EdsButtonEmphasis.outline:
-        foreground =
-            tone == EdsButtonTone.success ? scheme.textPrimary : toneColor;
+        foreground = tone == EdsButtonTone.success
+            ? scheme.textPrimary
+            : toneColor;
         background = null;
         borderColor = scheme.border;
       case EdsButtonEmphasis.soft:
-        foreground =
-            tone == EdsButtonTone.success ? scheme.textPrimary : toneColor;
+        foreground = tone == EdsButtonTone.success
+            ? scheme.textPrimary
+            : toneColor;
         background = toneSoftColor;
         borderColor = null;
       case EdsButtonEmphasis.plain:
@@ -243,8 +244,9 @@ class EdsButtonAppearance {
       EdsButtonSize.large => tokens.spacing.lg,
     };
 
-    final double borderWidth =
-        emphasis == EdsButtonEmphasis.outline ? tokens.stroke.hairline : 1.5;
+    final double borderWidth = emphasis == EdsButtonEmphasis.outline
+        ? tokens.stroke.hairline
+        : 1.5;
 
     return EdsResolvedButtonVisual(
       foreground: foreground,
@@ -314,13 +316,15 @@ class EdsButton extends StatelessWidget {
     this.isBusy = false,
     this.expands = false,
     this.action,
-  })  : assert(icon == null || systemImage == null,
-            'Provide either icon or systemImage, not both.'),
-        appearance = role.appearance,
-        _title = title,
-        _labelWidget = null,
-        _explicitIcon = icon ?? systemImage,
-        _role = role;
+  }) : assert(
+         icon == null || systemImage == null,
+         'Provide either icon or systemImage, not both.',
+       ),
+       appearance = role.appearance,
+       _title = title,
+       _labelWidget = null,
+       _explicitIcon = icon ?? systemImage,
+       _role = role;
 
   /// Role-based initializer with a custom label widget, mirroring Swift's
   /// `EDSButton.label(_:role:action:)`.
@@ -402,8 +406,10 @@ class EdsButton extends StatelessWidget {
     bool expands = false,
     VoidCallback? action,
   }) {
-    assert(icon == null || systemImage == null,
-        'Provide either icon or systemImage, not both.');
+    assert(
+      icon == null || systemImage == null,
+      'Provide either icon or systemImage, not both.',
+    );
     return EdsButton._(
       key: key,
       appearance: EdsButtonAppearance(
@@ -472,10 +478,10 @@ class EdsButton extends StatelessWidget {
     Widget? labelWidget,
     IconData? explicitIcon,
     EdsButtonRole? role,
-  })  : _title = title,
-        _labelWidget = labelWidget,
-        _explicitIcon = explicitIcon,
-        _role = role;
+  }) : _title = title,
+       _labelWidget = labelWidget,
+       _explicitIcon = explicitIcon,
+       _role = role;
 
   final EdsButtonAppearance appearance;
 
@@ -580,10 +586,7 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
       profile: context.edsInteractionProfile,
       horizontalSizeClass: context.edsSizeClass,
     );
-    final visual = widget.appearance.resolve(
-      tokens: tokens,
-      scheme: scheme,
-    );
+    final visual = widget.appearance.resolve(tokens: tokens, scheme: scheme);
     final reduceMotion = MediaQuery.maybeDisableAnimationsOf(context) ?? false;
     final enabled = widget.action != null && !widget.isBusy;
     final showsHover = metrics.supportsHoverEnhancement && _isHovered;
@@ -644,17 +647,15 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
           )
         : visual.background;
     current = AnimatedContainer(
-      duration:
-          reduceMotion ? Duration.zero : const Duration(milliseconds: 120),
+      duration: reduceMotion
+          ? Duration.zero
+          : const Duration(milliseconds: 120),
       curve: Curves.easeInOut,
       decoration: BoxDecoration(
         color: hoverBackground,
         border: visual.borderColor == null
             ? null
-            : Border.all(
-                color: visual.borderColor!,
-                width: visual.borderWidth,
-              ),
+            : Border.all(color: visual.borderColor!, width: visual.borderWidth),
         borderRadius: BorderRadius.circular(tokens.radius.md),
         boxShadow: _isFocused && enabled
             ? <BoxShadow>[

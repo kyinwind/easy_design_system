@@ -17,11 +17,11 @@ class CatalogThemeEntry {
   final EdsPresetTheme preset;
 
   List<Color> get swatchColors => <Color>[
-        preset.tokens.colors.primary,
-        preset.tokens.colors.success,
-        preset.tokens.colors.warning,
-        preset.tokens.colors.danger,
-      ];
+    preset.tokens.colors.primary,
+    preset.tokens.colors.success,
+    preset.tokens.colors.warning,
+    preset.tokens.colors.danger,
+  ];
 }
 
 abstract final class CatalogThemeCatalog {
@@ -78,8 +78,10 @@ abstract final class CatalogThemeCatalog {
     ),
   ];
 
-  static List<CatalogThemeEntry> get all =>
-      <CatalogThemeEntry>[...builtIn, ...custom];
+  static List<CatalogThemeEntry> get all => <CatalogThemeEntry>[
+    ...builtIn,
+    ...custom,
+  ];
 
   static CatalogThemeEntry? entryById(String id) {
     for (final entry in all) {
@@ -163,8 +165,9 @@ class _CatalogThemeBarState extends State<CatalogThemeBar> {
         children: <Widget>[
           Text(
             '预览主题',
-            style: tokens.typography.captionStrong
-                .copyWith(color: scheme.textSecondary),
+            style: tokens.typography.captionStrong.copyWith(
+              color: scheme.textSecondary,
+            ),
           ),
           SizedBox(width: tokens.spacing.sm),
           PopupMenuButton<String>(
@@ -184,11 +187,15 @@ class _CatalogThemeBarState extends State<CatalogThemeBar> {
               children: <Widget>[
                 Text(
                   entry?.name ?? '未知主题',
-                  style: tokens.typography.bodyStrong
-                      .copyWith(color: scheme.textPrimary),
+                  style: tokens.typography.bodyStrong.copyWith(
+                    color: scheme.textPrimary,
+                  ),
                 ),
-                Icon(Icons.arrow_drop_down,
-                    size: 18, color: scheme.textSecondary),
+                Icon(
+                  Icons.arrow_drop_down,
+                  size: 18,
+                  color: scheme.textSecondary,
+                ),
               ],
             ),
           ),
@@ -217,7 +224,9 @@ class _CatalogThemeBarState extends State<CatalogThemeBar> {
   }
 
   PopupMenuItem<String> _menuItem(
-      BuildContext context, CatalogThemeEntry entry) {
+    BuildContext context,
+    CatalogThemeEntry entry,
+  ) {
     final scheme = context.edsScheme;
     return PopupMenuItem<String>(
       value: entry.id,

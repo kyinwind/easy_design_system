@@ -45,18 +45,18 @@ class EdsPageTitle extends StatelessWidget {
 /// constructor and the [EdsSectionTitle.text] factory.
 class EdsSectionTitle extends StatelessWidget {
   const EdsSectionTitle(String title, {super.key, String? subtitle})
-      : _titleString = title,
-        _titleText = null,
-        _subtitleString = subtitle,
-        _subtitleText = null;
+    : _titleString = title,
+      _titleText = null,
+      _subtitleString = subtitle,
+      _subtitleText = null;
 
   /// Builds a section title from pre-built [Text] widgets, mirroring
   /// Swift's `init(title: Text, subtitle: Text?)`.
   const EdsSectionTitle.text(Text title, {super.key, Text? subtitle})
-      : _titleString = null,
-        _titleText = title,
-        _subtitleString = null,
-        _subtitleText = subtitle;
+    : _titleString = null,
+      _titleText = title,
+      _subtitleString = null,
+      _subtitleText = subtitle;
 
   final String? _titleString;
   final Text? _titleText;

@@ -165,10 +165,7 @@ class EdsInlineField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: tokens.spacing.xs,
-      children: <Widget>[
-        EdsLabelText(label),
-        child,
-      ],
+      children: <Widget>[EdsLabelText(label), child],
     );
   }
 }
@@ -224,9 +221,7 @@ class EdsMultilineSubtitleRow extends StatelessWidget {
           color: iconColor,
           borderRadius: BorderRadius.circular(6),
         ),
-        child: Center(
-          child: Icon(systemIcon, size: 14, color: Colors.white),
-        ),
+        child: Center(child: Icon(systemIcon, size: 14, color: Colors.white)),
       );
     } else {
       iconView = null;

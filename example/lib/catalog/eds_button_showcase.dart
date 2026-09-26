@@ -46,14 +46,16 @@ class EdsButtonShowcase extends StatelessWidget {
       children: <Widget>[
         Text(
           '按钮三维模型',
-          style:
-              tokens.typography.bodyStrong.copyWith(color: scheme.textPrimary),
+          style: tokens.typography.bodyStrong.copyWith(
+            color: scheme.textPrimary,
+          ),
         ),
         Text(
           '底层实现由 emphasis × tone × size 三个正交维度驱动；'
           'Role 是一张预设别名表，两者汇入同一份渲染实现。',
-          style:
-              tokens.typography.caption.copyWith(color: scheme.textSecondary),
+          style: tokens.typography.caption.copyWith(
+            color: scheme.textSecondary,
+          ),
         ),
       ],
     );
@@ -84,14 +86,16 @@ class EdsButtonShowcase extends StatelessWidget {
             children: <Widget>[
               Text(
                 title,
-                style: tokens.typography.bodyStrong
-                    .copyWith(color: scheme.textPrimary),
+                style: tokens.typography.bodyStrong.copyWith(
+                  color: scheme.textPrimary,
+                ),
               ),
               if (subtitle != null)
                 Text(
                   subtitle,
-                  style: tokens.typography.caption
-                      .copyWith(color: scheme.textSecondary),
+                  style: tokens.typography.caption.copyWith(
+                    color: scheme.textSecondary,
+                  ),
                 ),
             ],
           ),
@@ -127,8 +131,9 @@ class EdsButtonShowcase extends StatelessWidget {
           Text(
             '最后一个未指定 role，走默认 .primary。'
             '这行能编译即证明三维初始化未产生重载歧义。',
-            style:
-                tokens.typography.caption.copyWith(color: scheme.textTertiary),
+            style: tokens.typography.caption.copyWith(
+              color: scheme.textTertiary,
+            ),
           ),
         ],
       ),
@@ -158,8 +163,9 @@ class EdsButtonShowcase extends StatelessWidget {
                     width: columnWidth,
                     child: Text(
                       tone.name,
-                      style: tokens.typography.caption
-                          .copyWith(color: scheme.textSecondary),
+                      style: tokens.typography.caption.copyWith(
+                        color: scheme.textSecondary,
+                      ),
                     ),
                   ),
               ],
@@ -171,8 +177,9 @@ class EdsButtonShowcase extends StatelessWidget {
                     width: labelWidth,
                     child: Text(
                       emphasis.name,
-                      style: tokens.typography.caption
-                          .copyWith(color: scheme.textSecondary),
+                      style: tokens.typography.caption.copyWith(
+                        color: scheme.textSecondary,
+                      ),
                     ),
                   ),
                   for (final tone in EdsButtonTone.values)
@@ -221,15 +228,14 @@ class EdsButtonShowcase extends StatelessWidget {
     final tokens = context.edsTokens;
     final scheme = context.edsScheme;
     Widget caption(String text) => Text(
-          text,
-          style:
-              tokens.typography.caption.copyWith(color: scheme.textSecondary),
-        );
+      text,
+      style: tokens.typography.caption.copyWith(color: scheme.textSecondary),
+    );
     Widget column(String label, Widget child) => Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: tokens.spacing.xs,
-          children: <Widget>[caption(label), child],
-        );
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: tokens.spacing.xs,
+      children: <Widget>[caption(label), child],
+    );
     return _section(
       context,
       '可点击性验收 · .done vs EDSBadge',
@@ -353,8 +359,9 @@ class EdsButtonShowcase extends StatelessWidget {
           width: 72,
           child: Text(
             label,
-            style:
-                tokens.typography.caption.copyWith(color: scheme.textSecondary),
+            style: tokens.typography.caption.copyWith(
+              color: scheme.textSecondary,
+            ),
           ),
         ),
         lhs,
@@ -457,13 +464,15 @@ class EdsButtonShowcase extends StatelessWidget {
             children: <Widget>[
               Text(
                 title,
-                style: tokens.typography.caption
-                    .copyWith(color: scheme.textPrimary),
+                style: tokens.typography.caption.copyWith(
+                  color: scheme.textPrimary,
+                ),
               ),
               Text(
                 note,
-                style: tokens.typography.caption
-                    .copyWith(color: scheme.textTertiary),
+                style: tokens.typography.caption.copyWith(
+                  color: scheme.textTertiary,
+                ),
               ),
             ],
           ),

@@ -131,8 +131,9 @@ void main() {
     expect(visual.foreground, scheme.textPrimary);
   });
 
-  testWidgets('button renders title and icon and fires action on tap',
-      (tester) async {
+  testWidgets('button renders title and icon and fires action on tap', (
+    tester,
+  ) async {
     var taps = 0;
     await tester.pumpWidget(
       MaterialApp(
@@ -156,8 +157,9 @@ void main() {
     expect(taps, 1);
   });
 
-  testWidgets('dimension factory renders three-dimensional primitives',
-      (tester) async {
+  testWidgets('dimension factory renders three-dimensional primitives', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
@@ -179,11 +181,7 @@ void main() {
   testWidgets('null action renders disabled and ignores taps', (tester) async {
     await tester.pumpWidget(
       const MaterialApp(
-        home: Scaffold(
-          body: Center(
-            child: _DisabledButton(),
-          ),
-        ),
+        home: Scaffold(body: Center(child: _DisabledButton())),
       ),
     );
 
@@ -192,8 +190,9 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('button exposes semantics and can be activated from keyboard',
-      (tester) async {
+  testWidgets('button exposes semantics and can be activated from keyboard', (
+    tester,
+  ) async {
     var activations = 0;
     final focusNode = FocusNode();
     addTearDown(focusNode.dispose);
@@ -229,9 +228,7 @@ void main() {
   testWidgets('hover keeps button content fully opaque', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
-        home: Scaffold(
-          body: EdsButton('Hover', action: () {}),
-        ),
+        home: Scaffold(body: EdsButton('Hover', action: () {})),
       ),
     );
 
@@ -251,11 +248,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          body: EdsButton(
-            '删除',
-            tooltip: '删除当前项目',
-            action: () {},
-          ),
+          body: EdsButton('删除', tooltip: '删除当前项目', action: () {}),
         ),
       ),
     );
@@ -263,8 +256,9 @@ void main() {
     expect(find.byTooltip('删除当前项目'), findsOneWidget);
   });
 
-  testWidgets('Button API 2 supports icon busy expanded custom and styled',
-      (tester) async {
+  testWidgets('Button API 2 supports icon busy expanded custom and styled', (
+    tester,
+  ) async {
     var taps = 0;
 
     await tester.pumpWidget(
@@ -279,15 +273,8 @@ void main() {
                 expands: true,
                 action: () => taps++,
               ),
-              EdsButton(
-                '处理中',
-                isBusy: true,
-                action: () => taps++,
-              ),
-              EdsButton.custom(
-                label: const Text('自定义'),
-                action: () => taps++,
-              ),
+              EdsButton('处理中', isBusy: true, action: () => taps++),
+              EdsButton.custom(label: const Text('自定义'), action: () => taps++),
               EdsButton.styled(
                 '删除',
                 emphasis: EdsButtonEmphasis.soft,
@@ -316,18 +303,15 @@ void main() {
     expect(taps, 2);
   });
 
-  testWidgets('legacy systemImage and dimension APIs remain available',
-      (tester) async {
+  testWidgets('legacy systemImage and dimension APIs remain available', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
           body: Column(
             children: [
-              EdsButton(
-                '旧图标',
-                systemImage: Icons.check,
-                action: () {},
-              ),
+              EdsButton('旧图标', systemImage: Icons.check, action: () {}),
               EdsButton.dimension(
                 '旧样式',
                 emphasis: EdsButtonEmphasis.soft,
@@ -346,9 +330,7 @@ void main() {
   testWidgets('disabled button exposes disabled semantics', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
-        home: Scaffold(
-          body: EdsButton('不可用', semanticLabel: '不可用按钮'),
-        ),
+        home: Scaffold(body: EdsButton('不可用', semanticLabel: '不可用按钮')),
       ),
     );
 

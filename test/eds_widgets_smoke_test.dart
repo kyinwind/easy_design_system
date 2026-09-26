@@ -78,10 +78,7 @@ void main() {
   testWidgets('page stack', (tester) async {
     await tester.pumpWidget(
       const MaterialApp(
-        home: EdsPageStack(
-          title: '账户',
-          child: Text('Stack body'),
-        ),
+        home: EdsPageStack(title: '账户', child: Text('Stack body')),
       ),
     );
 
@@ -103,10 +100,7 @@ void main() {
                 subtitle: 'Subtitle',
                 child: Text('Row child'),
               ),
-              EdsMultilineSubtitleRow(
-                systemIcon: Icons.book,
-                title: 'Image',
-              ),
+              EdsMultilineSubtitleRow(systemIcon: Icons.book, title: 'Image'),
             ],
           ),
         ),
@@ -122,18 +116,9 @@ void main() {
         home: Scaffold(
           body: ListView(
             children: [
-              EdsPill(
-                '标签',
-                tone: EdsPillTone.defaultPalette[0],
-                action: () {},
-              ),
-              EdsPillFlow(
-                const ['香蕉', '苹果', '樱桃'],
-                onRemove: (item) {},
-              ),
-              const EdsFlowLayout(
-                children: [Text('Flow 1'), Text('Flow 2')],
-              ),
+              EdsPill('标签', tone: EdsPillTone.defaultPalette[0], action: () {}),
+              EdsPillFlow(const ['香蕉', '苹果', '樱桃'], onRemove: (item) {}),
+              const EdsFlowLayout(children: [Text('Flow 1'), Text('Flow 2')]),
             ],
           ),
         ),
@@ -197,10 +182,7 @@ void main() {
             featureLabel: 'Feature',
             freeLabel: 'Basic',
             proLabel: 'Plus',
-            features: [
-              ('无限画布', true, true),
-              ('团队协作', false, true),
-            ],
+            features: [('无限画布', true, true), ('团队协作', false, true)],
           ),
         ),
       ),
@@ -248,10 +230,7 @@ void main() {
         home: Scaffold(
           body: Column(
             children: [
-              EdsSidebarIcon(
-                icon: Icons.inbox,
-                tint: Color(0xFFF9B135),
-              ),
+              EdsSidebarIcon(icon: Icons.inbox, tint: Color(0xFFF9B135)),
               EdsIconMark(isOn: true),
               EdsIconMark(isOn: false),
             ],
@@ -315,11 +294,7 @@ class _ReadmeAccountPage extends StatelessWidget {
           const EdsPageTitle('账户'),
           EdsSettingRow(
             '自动同步',
-            trailing: EdsToggle(
-              isOn: true,
-              label: '启用',
-              onChanged: (value) {},
-            ),
+            trailing: EdsToggle(isOn: true, label: '启用', onChanged: (value) {}),
           ).easyDesign(style: EdsEasyStyle.group),
         ],
       ).easyDesign(style: EdsEasyStyle.page),

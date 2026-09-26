@@ -27,12 +27,12 @@ enum EasyGallerySection {
   }
 
   Color get tint => switch (this) {
-        EasyGallerySection.overview => const Color(0xFF007AFF),
-        EasyGallerySection.layout => const Color(0xFF5856D6),
-        EasyGallerySection.surfaces => const Color(0xFF30B0C7),
-        EasyGallerySection.themes => const Color(0xFFFF9500),
-        EasyGallerySection.stress => const Color(0xFFAF52DE),
-      };
+    EasyGallerySection.overview => const Color(0xFF007AFF),
+    EasyGallerySection.layout => const Color(0xFF5856D6),
+    EasyGallerySection.surfaces => const Color(0xFF30B0C7),
+    EasyGallerySection.themes => const Color(0xFFFF9500),
+    EasyGallerySection.stress => const Color(0xFFAF52DE),
+  };
 
   EdsSidebarMenuItem get menuItem =>
       EdsSidebarMenuItem(id: id, label: label, icon: icon, tint: tint);
@@ -78,8 +78,12 @@ class _EdsEasyApiDesignSystemGalleryState
     };
   }
 
-  Widget _detailPage(BuildContext context, String title, String subtitle,
-      List<Widget> children) {
+  Widget _detailPage(
+    BuildContext context,
+    String title,
+    String subtitle,
+    List<Widget> children,
+  ) {
     final tokens = context.edsTokens;
     return SingleChildScrollView(
       child: Column(
@@ -202,8 +206,10 @@ class _EdsEasyApiDesignSystemGalleryState
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: tokens.spacing.xs,
             children: <Widget>[
-              const EdsSectionTitle('通用设置',
-                  subtitle: '自适应 subtle 表面、标准 padding 和圆角。'),
+              const EdsSectionTitle(
+                '通用设置',
+                subtitle: '自适应 subtle 表面、标准 padding 和圆角。',
+              ),
               EdsSettingRow(
                 '自动更新',
                 subtitle: '定期检查新版本。',
@@ -267,17 +273,18 @@ class _EdsEasyApiDesignSystemGalleryState
               ),
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 340),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: tokens.spacing.xs,
-                  children: <Widget>[
-                    const Text('仅这个子树使用橙色主题'),
-                    EdsButton('继续', action: () {}),
-                  ],
-                ).easyDesignPreset(
-                  EdsPresetTheme.orange,
-                  style: EdsEasyStyle.card,
-                ),
+                child:
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: tokens.spacing.xs,
+                      children: <Widget>[
+                        const Text('仅这个子树使用橙色主题'),
+                        EdsButton('继续', action: () {}),
+                      ],
+                    ).easyDesignPreset(
+                      EdsPresetTheme.orange,
+                      style: EdsEasyStyle.card,
+                    ),
               ),
             ],
           ),
@@ -285,8 +292,10 @@ class _EdsEasyApiDesignSystemGalleryState
         EasyApiExample(
           '仅传递主题',
           usage: '.easyDesignTheme(.purple)',
-          child: EdsButton('紫色主题按钮', action: () {})
-              .easyDesignThemePreset(EdsPresetTheme.purple),
+          child: EdsButton(
+            '紫色主题按钮',
+            action: () {},
+          ).easyDesignThemePreset(EdsPresetTheme.purple),
         ),
       ],
     );
@@ -312,18 +321,22 @@ class _EdsEasyApiDesignSystemGalleryState
                   for (var item = 0; item < 3; item++)
                     ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: 280),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: tokens.spacing.xs,
-                        children: <Widget>[
-                          Text('项目 ${item + 1}'),
-                          const EdsBadge('正常', style: EdsBadgeStyle.success),
-                        ],
-                      ).easyDesign(
-                        style: item % 2 == 0
-                            ? EdsEasyStyle.group
-                            : EdsEasyStyle.card,
-                      ),
+                      child:
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: tokens.spacing.xs,
+                            children: <Widget>[
+                              Text('项目 ${item + 1}'),
+                              const EdsBadge(
+                                '正常',
+                                style: EdsBadgeStyle.success,
+                              ),
+                            ],
+                          ).easyDesign(
+                            style: item % 2 == 0
+                                ? EdsEasyStyle.group
+                                : EdsEasyStyle.card,
+                          ),
                     ),
                 ],
               ),

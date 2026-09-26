@@ -118,7 +118,9 @@ class EdsEasyRecipe {
     final padding = options.padding.resolve(tokens.spacing);
     if (padding != null) {
       recipe = recipe._replacing(
-          padding: padding, paddingAxis: EdsEasyPaddingAxis.all);
+        padding: padding,
+        paddingAxis: EdsEasyPaddingAxis.all,
+      );
     }
 
     switch (options.maxContentWidth) {
@@ -140,8 +142,9 @@ class EdsEasyRecipe {
           recipe = recipe._replacing(background: EdsEasyBackgroundPolicy.page);
         }
       case EdsEasyVisibility.hidden:
-        recipe =
-            recipe._replacing(background: EdsEasyBackgroundPolicy.inherited);
+        recipe = recipe._replacing(
+          background: EdsEasyBackgroundPolicy.inherited,
+        );
     }
 
     return recipe;
@@ -161,59 +164,59 @@ class EdsEasyRecipe {
 
     return switch (style) {
       EdsEasyStyle.page => EdsEasyRecipe(
-          padding: metrics.pagePadding,
-          paddingAxis: EdsEasyPaddingAxis.all,
-          width: EdsEasyResolvedWidth.fixed(metrics.readableContentMaxWidth),
-          background: EdsEasyBackgroundPolicy.inherited,
-          cornerRadius: 0,
-          showsBorder: false,
-          showsShadow: false,
-        ),
+        padding: metrics.pagePadding,
+        paddingAxis: EdsEasyPaddingAxis.all,
+        width: EdsEasyResolvedWidth.fixed(metrics.readableContentMaxWidth),
+        background: EdsEasyBackgroundPolicy.inherited,
+        cornerRadius: 0,
+        showsBorder: false,
+        showsShadow: false,
+      ),
       EdsEasyStyle.content => EdsEasyRecipe(
-          padding: tokens.spacing.md,
-          paddingAxis: EdsEasyPaddingAxis.all,
-          width: EdsEasyResolvedWidth.fill,
-          background: EdsEasyBackgroundPolicy.inherited,
-          cornerRadius: 0,
-          showsBorder: false,
-          showsShadow: false,
-        ),
+        padding: tokens.spacing.md,
+        paddingAxis: EdsEasyPaddingAxis.all,
+        width: EdsEasyResolvedWidth.fill,
+        background: EdsEasyBackgroundPolicy.inherited,
+        cornerRadius: 0,
+        showsBorder: false,
+        showsShadow: false,
+      ),
       EdsEasyStyle.section => EdsEasyRecipe(
-          padding: tokens.spacing.xs,
-          paddingAxis: EdsEasyPaddingAxis.vertical,
-          width: EdsEasyResolvedWidth.fill,
-          background: EdsEasyBackgroundPolicy.inherited,
-          cornerRadius: 0,
-          showsBorder: false,
-          showsShadow: false,
-        ),
+        padding: tokens.spacing.xs,
+        paddingAxis: EdsEasyPaddingAxis.vertical,
+        width: EdsEasyResolvedWidth.fill,
+        background: EdsEasyBackgroundPolicy.inherited,
+        cornerRadius: 0,
+        showsBorder: false,
+        showsShadow: false,
+      ),
       EdsEasyStyle.group => EdsEasyRecipe(
-          padding: tokens.spacing.lg,
-          paddingAxis: EdsEasyPaddingAxis.all,
-          width: EdsEasyResolvedWidth.fill,
-          background: EdsEasyBackgroundPolicy.subtle,
-          cornerRadius: tokens.radius.md,
-          showsBorder: false,
-          showsShadow: false,
-        ),
+        padding: tokens.spacing.lg,
+        paddingAxis: EdsEasyPaddingAxis.all,
+        width: EdsEasyResolvedWidth.fill,
+        background: EdsEasyBackgroundPolicy.subtle,
+        cornerRadius: tokens.radius.md,
+        showsBorder: false,
+        showsShadow: false,
+      ),
       EdsEasyStyle.card => EdsEasyRecipe(
-          padding: tokens.spacing.lg,
-          paddingAxis: EdsEasyPaddingAxis.all,
-          width: EdsEasyResolvedWidth.fill,
-          background: EdsEasyBackgroundPolicy.card,
-          cornerRadius: tokens.radius.md,
-          showsBorder: true,
-          showsShadow: true,
-        ),
+        padding: tokens.spacing.lg,
+        paddingAxis: EdsEasyPaddingAxis.all,
+        width: EdsEasyResolvedWidth.fill,
+        background: EdsEasyBackgroundPolicy.card,
+        cornerRadius: tokens.radius.md,
+        showsBorder: true,
+        showsShadow: true,
+      ),
       EdsEasyStyle.plain => const EdsEasyRecipe(
-          padding: 0,
-          paddingAxis: EdsEasyPaddingAxis.all,
-          width: EdsEasyResolvedWidth.unchanged,
-          background: EdsEasyBackgroundPolicy.inherited,
-          cornerRadius: 0,
-          showsBorder: false,
-          showsShadow: false,
-        ),
+        padding: 0,
+        paddingAxis: EdsEasyPaddingAxis.all,
+        width: EdsEasyResolvedWidth.unchanged,
+        background: EdsEasyBackgroundPolicy.inherited,
+        cornerRadius: 0,
+        showsBorder: false,
+        showsShadow: false,
+      ),
     };
   }
 
@@ -269,12 +272,12 @@ class EdsEasyRecipe {
 
   @override
   int get hashCode => Object.hash(
-        padding,
-        paddingAxis,
-        width,
-        background,
-        cornerRadius,
-        showsBorder,
-        showsShadow,
-      );
+    padding,
+    paddingAxis,
+    width,
+    background,
+    cornerRadius,
+    showsBorder,
+    showsShadow,
+  );
 }

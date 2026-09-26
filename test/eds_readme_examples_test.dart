@@ -7,9 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   testWidgets('readme settings page example builds', (tester) async {
     await tester.pumpWidget(
-      const EdsThemeScope(
-        child: MaterialApp(home: _ReadmeSettingsPage()),
-      ),
+      const EdsThemeScope(child: MaterialApp(home: _ReadmeSettingsPage())),
     );
 
     expect(find.text('设置'), findsOneWidget);
@@ -19,8 +17,9 @@ void main() {
     expect(find.text('立即升级'), findsOneWidget);
   });
 
-  testWidgets('readme account page with interaction profile override builds',
-      (tester) async {
+  testWidgets('readme account page with interaction profile override builds', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       const MaterialApp(home: Scaffold(body: _ReadmeAccountPage())),
     );
@@ -40,15 +39,13 @@ void main() {
 
     addTearDown(() {
       EdsTheme.instance.applyPreset(EdsPresetTheme.defaultTheme);
-      expect(
-        EdsTheme.instance.tokens.colors.primary,
-        const Color(0xFF3185FF),
-      );
+      expect(EdsTheme.instance.tokens.colors.primary, const Color(0xFF3185FF));
     });
   });
 
-  testWidgets('readme runtime listener rebuilds on theme change',
-      (tester) async {
+  testWidgets('readme runtime listener rebuilds on theme change', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
@@ -76,8 +73,9 @@ void main() {
     );
   });
 
-  testWidgets('readme buttons: roles, dimensions and label factory',
-      (tester) async {
+  testWidgets('readme buttons: roles, dimensions and label factory', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
@@ -155,8 +153,9 @@ void main() {
     expect(find.text('缓存占用'), findsOneWidget);
   });
 
-  testWidgets('readme local theme scope with preset and brightness',
-      (tester) async {
+  testWidgets('readme local theme scope with preset and brightness', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       const EdsThemeScope(
         preset: EdsPresetTheme.orange,
@@ -238,10 +237,7 @@ class _ReadmeSettingsPageState extends State<_ReadmeSettingsPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const EdsSectionTitle(
-                      '专业版',
-                      subtitle: '解锁更多高级功能。',
-                    ),
+                    const EdsSectionTitle('专业版', subtitle: '解锁更多高级功能。'),
                     Row(
                       children: [
                         const EdsBadge('推荐', style: EdsBadgeStyle.accent),
@@ -276,11 +272,7 @@ class _ReadmeAccountPage extends StatelessWidget {
           const EdsPageTitle('账户'),
           EdsSettingRow(
             '自动同步',
-            trailing: EdsToggle(
-              isOn: true,
-              label: '启用',
-              onChanged: (value) {},
-            ),
+            trailing: EdsToggle(isOn: true, label: '启用', onChanged: (value) {}),
           ).easyDesign(style: EdsEasyStyle.group),
         ],
       ).easyDesignInteractionProfile(EdsInteractionProfile.touch),
@@ -295,10 +287,7 @@ class _ThemeIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return ColoredBox(
       color: context.edsTokens.colors.primary,
-      child: const Padding(
-        padding: EdgeInsets.all(8),
-        child: Text('主题色已配置'),
-      ),
+      child: const Padding(padding: EdgeInsets.all(8), child: Text('主题色已配置')),
     );
   }
 }
@@ -323,8 +312,9 @@ class _FineGrainedPanel extends StatelessWidget {
               Text('自定义面板', style: tokens.typography.sectionTitle),
               Text(
                 '这里使用完整 Token 进行精细控制。',
-                style: tokens.typography.body
-                    .copyWith(color: scheme.textSecondary),
+                style: tokens.typography.body.copyWith(
+                  color: scheme.textSecondary,
+                ),
               ),
             ],
           ),

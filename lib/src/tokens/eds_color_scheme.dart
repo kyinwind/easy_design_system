@@ -36,7 +36,9 @@ class EdsColorScheme {
 
   /// Resolves the semantic color roles for [tokens] under [brightness].
   factory EdsColorScheme.resolve(
-      EdsDesignTokens tokens, Brightness brightness) {
+    EdsDesignTokens tokens,
+    Brightness brightness,
+  ) {
     final dark = brightness == Brightness.dark;
     final base = dark ? const Color(0xFFFFFFFF) : const Color(0xFF000000);
     return EdsColorScheme._(
@@ -96,16 +98,16 @@ class EdsColorScheme {
 
   @override
   int get hashCode => Object.hash(
-        label,
-        textPrimary,
-        textSecondary,
-        textTertiary,
-        pageBackground,
-        cardBackground,
-        cardGrayBackground,
-        subtleFill,
-        border,
-      );
+    label,
+    textPrimary,
+    textSecondary,
+    textTertiary,
+    pageBackground,
+    cardBackground,
+    cardGrayBackground,
+    subtleFill,
+    border,
+  );
 }
 
 extension EdsColorSchemeContextX on BuildContext {

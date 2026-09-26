@@ -386,34 +386,67 @@ class EdsTypographyTokens {
       heroSize: _readDouble(json, 'heroSize', defaults.heroSize),
       heroWeight: _readString(json, 'heroWeight', defaults.heroWeight),
       pageTitleSize: _readDouble(json, 'pageTitleSize', defaults.pageTitleSize),
-      pageTitleWeight:
-          _readString(json, 'pageTitleWeight', defaults.pageTitleWeight),
-      sectionTitleSize:
-          _readDouble(json, 'sectionTitleSize', defaults.sectionTitleSize),
-      sectionTitleWeight:
-          _readString(json, 'sectionTitleWeight', defaults.sectionTitleWeight),
+      pageTitleWeight: _readString(
+        json,
+        'pageTitleWeight',
+        defaults.pageTitleWeight,
+      ),
+      sectionTitleSize: _readDouble(
+        json,
+        'sectionTitleSize',
+        defaults.sectionTitleSize,
+      ),
+      sectionTitleWeight: _readString(
+        json,
+        'sectionTitleWeight',
+        defaults.sectionTitleWeight,
+      ),
       body15Size: _readDouble(json, 'body15Size', defaults.body15Size),
       body15Weight: _readString(json, 'body15Weight', defaults.body15Weight),
-      body15StrongSize:
-          _readDouble(json, 'body15StrongSize', defaults.body15StrongSize),
-      body15StrongWeight:
-          _readString(json, 'body15StrongWeight', defaults.body15StrongWeight),
+      body15StrongSize: _readDouble(
+        json,
+        'body15StrongSize',
+        defaults.body15StrongSize,
+      ),
+      body15StrongWeight: _readString(
+        json,
+        'body15StrongWeight',
+        defaults.body15StrongWeight,
+      ),
       bodySize: _readDouble(json, 'bodySize', defaults.bodySize),
       bodyWeight: _readString(json, 'bodyWeight', defaults.bodyWeight),
-      bodyStrongSize:
-          _readDouble(json, 'bodyStrongSize', defaults.bodyStrongSize),
-      bodyStrongWeight:
-          _readString(json, 'bodyStrongWeight', defaults.bodyStrongWeight),
+      bodyStrongSize: _readDouble(
+        json,
+        'bodyStrongSize',
+        defaults.bodyStrongSize,
+      ),
+      bodyStrongWeight: _readString(
+        json,
+        'bodyStrongWeight',
+        defaults.bodyStrongWeight,
+      ),
       captionSize: _readDouble(json, 'captionSize', defaults.captionSize),
       captionWeight: _readString(json, 'captionWeight', defaults.captionWeight),
-      captionStrongSize:
-          _readDouble(json, 'captionStrongSize', defaults.captionStrongSize),
+      captionStrongSize: _readDouble(
+        json,
+        'captionStrongSize',
+        defaults.captionStrongSize,
+      ),
       captionStrongWeight: _readString(
-          json, 'captionStrongWeight', defaults.captionStrongWeight),
-      monoCaptionSize:
-          _readDouble(json, 'monoCaptionSize', defaults.monoCaptionSize),
-      monoCaptionWeight:
-          _readString(json, 'monoCaptionWeight', defaults.monoCaptionWeight),
+        json,
+        'captionStrongWeight',
+        defaults.captionStrongWeight,
+      ),
+      monoCaptionSize: _readDouble(
+        json,
+        'monoCaptionSize',
+        defaults.monoCaptionSize,
+      ),
+      monoCaptionWeight: _readString(
+        json,
+        'monoCaptionWeight',
+        defaults.monoCaptionWeight,
+      ),
     );
   }
 
@@ -478,31 +511,31 @@ class EdsTypographyTokens {
 
   @override
   int get hashCode => Object.hashAll(<Object?>[
-        heroSize,
-        heroWeight,
-        pageTitleSize,
-        pageTitleWeight,
-        sectionTitleSize,
-        sectionTitleWeight,
-        body15Size,
-        body15Weight,
-        body15StrongSize,
-        body15StrongWeight,
-        bodySize,
-        bodyWeight,
-        bodyStrongSize,
-        bodyStrongWeight,
-        captionSize,
-        captionWeight,
-        captionStrongSize,
-        captionStrongWeight,
-        monoCaptionSize,
-        monoCaptionWeight,
-        fontFamily,
-        ...?fontFamilyFallback,
-        monoFontFamily,
-        ...?monoFontFamilyFallback,
-      ]);
+    heroSize,
+    heroWeight,
+    pageTitleSize,
+    pageTitleWeight,
+    sectionTitleSize,
+    sectionTitleWeight,
+    body15Size,
+    body15Weight,
+    body15StrongSize,
+    body15StrongWeight,
+    bodySize,
+    bodyWeight,
+    bodyStrongSize,
+    bodyStrongWeight,
+    captionSize,
+    captionWeight,
+    captionStrongSize,
+    captionStrongWeight,
+    monoCaptionSize,
+    monoCaptionWeight,
+    fontFamily,
+    ...?fontFamilyFallback,
+    monoFontFamily,
+    ...?monoFontFamilyFallback,
+  ]);
 }
 
 /// Visual control sizes.
@@ -601,16 +634,31 @@ class EdsAdaptiveLayoutTokens {
     }
     const defaults = EdsAdaptiveLayoutTokens();
     return EdsAdaptiveLayoutTokens(
-      compactPagePadding:
-          _readDouble(json, 'compactPagePadding', defaults.compactPagePadding),
-      regularPagePadding:
-          _readDouble(json, 'regularPagePadding', defaults.regularPagePadding),
+      compactPagePadding: _readDouble(
+        json,
+        'compactPagePadding',
+        defaults.compactPagePadding,
+      ),
+      regularPagePadding: _readDouble(
+        json,
+        'regularPagePadding',
+        defaults.regularPagePadding,
+      ),
       readableContentMaxWidth: _readDouble(
-          json, 'readableContentMaxWidth', defaults.readableContentMaxWidth),
-      minimumTouchTarget:
-          _readDouble(json, 'minimumTouchTarget', defaults.minimumTouchTarget),
+        json,
+        'readableContentMaxWidth',
+        defaults.readableContentMaxWidth,
+      ),
+      minimumTouchTarget: _readDouble(
+        json,
+        'minimumTouchTarget',
+        defaults.minimumTouchTarget,
+      ),
       minimumHybridTarget: _readDouble(
-          json, 'minimumHybridTarget', defaults.minimumHybridTarget),
+        json,
+        'minimumHybridTarget',
+        defaults.minimumHybridTarget,
+      ),
     );
   }
 
@@ -636,12 +684,12 @@ class EdsAdaptiveLayoutTokens {
 
   @override
   int get hashCode => Object.hash(
-        compactPagePadding,
-        regularPagePadding,
-        readableContentMaxWidth,
-        minimumTouchTarget,
-        minimumHybridTarget,
-      );
+    compactPagePadding,
+    regularPagePadding,
+    readableContentMaxWidth,
+    minimumTouchTarget,
+    minimumHybridTarget,
+  );
 }
 
 /// The hero panel gradient. Direction: top-leading → bottom-trailing.
@@ -655,10 +703,10 @@ class EdsHeroGradient {
   final Color endColor;
 
   LinearGradient get gradient => LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: <Color>[startColor, endColor],
-      );
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: <Color>[startColor, endColor],
+  );
 
   EdsHeroGradient copyWith({Color? startColor, Color? endColor}) {
     return EdsHeroGradient(
@@ -887,10 +935,12 @@ class EdsDesignTokens {
       spacing: EdsSpacingTokens.fromJson(_readGroup(json, 'spacing')),
       radius: EdsRadiusTokens.fromJson(_readGroup(json, 'radius')),
       typography: EdsTypographyTokens.fromJson(_readGroup(json, 'typography')),
-      controlSize:
-          EdsControlSizeTokens.fromJson(_readGroup(json, 'controlSize')),
-      adaptiveLayout:
-          EdsAdaptiveLayoutTokens.fromJson(_readGroup(json, 'adaptiveLayout')),
+      controlSize: EdsControlSizeTokens.fromJson(
+        _readGroup(json, 'controlSize'),
+      ),
+      adaptiveLayout: EdsAdaptiveLayoutTokens.fromJson(
+        _readGroup(json, 'adaptiveLayout'),
+      ),
       heroGradient: EdsHeroGradient.fromJson(_readGroup(json, 'heroGradient')),
       stroke: EdsStrokeTokens.fromJson(_readGroup(json, 'stroke')),
       shadow: EdsShadowTokens.fromJson(_readGroup(json, 'shadow')),
@@ -943,16 +993,16 @@ class EdsDesignTokens {
 
   @override
   int get hashCode => Object.hash(
-        colors,
-        spacing,
-        radius,
-        typography,
-        controlSize,
-        adaptiveLayout,
-        heroGradient,
-        stroke,
-        shadow,
-      );
+    colors,
+    spacing,
+    radius,
+    typography,
+    controlSize,
+    adaptiveLayout,
+    heroGradient,
+    stroke,
+    shadow,
+  );
 }
 
 Map<String, Object?>? _readGroup(Map<String, Object?> json, String key) {
@@ -964,7 +1014,8 @@ Map<String, Object?>? _readGroup(Map<String, Object?> json, String key) {
     return value;
   }
   throw FormatException(
-      'Expected an object for "$key" but found ${value.runtimeType}.');
+    'Expected an object for "$key" but found ${value.runtimeType}.',
+  );
 }
 
 double _readDouble(Map<String, Object?> json, String key, double fallback) {
@@ -976,7 +1027,8 @@ double _readDouble(Map<String, Object?> json, String key, double fallback) {
     return value.toDouble();
   }
   throw FormatException(
-      'Expected a number for "$key" but found ${value.runtimeType}.');
+    'Expected a number for "$key" but found ${value.runtimeType}.',
+  );
 }
 
 String? _readNullableString(Map<String, Object?> json, String key) {
@@ -984,7 +1036,8 @@ String? _readNullableString(Map<String, Object?> json, String key) {
   if (value == null) return null;
   if (value is String) return value;
   throw FormatException(
-      'Expected a string for "$key" but found ${value.runtimeType}.');
+    'Expected a string for "$key" but found ${value.runtimeType}.',
+  );
 }
 
 List<String>? _readStringList(Map<String, Object?> json, String key) {
@@ -994,7 +1047,8 @@ List<String>? _readStringList(Map<String, Object?> json, String key) {
     return value.cast<String>();
   }
   throw FormatException(
-      'Expected a string array for "$key" but found ${value.runtimeType}.');
+    'Expected a string array for "$key" but found ${value.runtimeType}.',
+  );
 }
 
 bool _listEquals(List<String>? a, List<String>? b) {
@@ -1015,7 +1069,8 @@ String _readString(Map<String, Object?> json, String key, String fallback) {
     return value;
   }
   throw FormatException(
-      'Expected a string for "$key" but found ${value.runtimeType}.');
+    'Expected a string for "$key" but found ${value.runtimeType}.',
+  );
 }
 
 Color _readColor(Map<String, Object?> json, String key, Color fallback) {
@@ -1029,7 +1084,8 @@ Color _readColor(Map<String, Object?> json, String key, Color fallback) {
     return EdsColorHex.parseRgb(value);
   }
   throw FormatException(
-      'Expected a hex string for "$key" but found ${value.runtimeType}.');
+    'Expected a hex string for "$key" but found ${value.runtimeType}.',
+  );
 }
 
 /// Normalizes integral doubles to ints so exported JSON matches Swift's

@@ -59,41 +59,53 @@ class EdsPillTone {
   /// `EDSPillTone.defaultPalette`.
   static final List<EdsPillTone> defaultPalette = <EdsPillTone>[
     EdsPillTone(
-        background: const Color(0xFFEAF2FF),
-        foreground: const Color(0xFF246BCE)),
+      background: const Color(0xFFEAF2FF),
+      foreground: const Color(0xFF246BCE),
+    ),
     EdsPillTone(
-        background: const Color(0xFFEAF8F0),
-        foreground: const Color(0xFF218B4E)),
+      background: const Color(0xFFEAF8F0),
+      foreground: const Color(0xFF218B4E),
+    ),
     EdsPillTone(
-        background: const Color(0xFFFFF4E6),
-        foreground: const Color(0xFFB76100)),
+      background: const Color(0xFFFFF4E6),
+      foreground: const Color(0xFFB76100),
+    ),
     EdsPillTone(
-        background: const Color(0xFFF3EDFF),
-        foreground: const Color(0xFF6F42C1)),
+      background: const Color(0xFFF3EDFF),
+      foreground: const Color(0xFF6F42C1),
+    ),
     EdsPillTone(
-        background: const Color(0xFFEAF7FA),
-        foreground: const Color(0xFF087990)),
+      background: const Color(0xFFEAF7FA),
+      foreground: const Color(0xFF087990),
+    ),
     EdsPillTone(
-        background: const Color(0xFFFDECEF),
-        foreground: const Color(0xFFC7354D)),
+      background: const Color(0xFFFDECEF),
+      foreground: const Color(0xFFC7354D),
+    ),
     EdsPillTone(
-        background: const Color(0xFFFFF0F7),
-        foreground: const Color(0xFFB83280)),
+      background: const Color(0xFFFFF0F7),
+      foreground: const Color(0xFFB83280),
+    ),
     EdsPillTone(
-        background: const Color(0xFFEEF2FF),
-        foreground: const Color(0xFF4F46E5)),
+      background: const Color(0xFFEEF2FF),
+      foreground: const Color(0xFF4F46E5),
+    ),
     EdsPillTone(
-        background: const Color(0xFFECFDF5),
-        foreground: const Color(0xFF047857)),
+      background: const Color(0xFFECFDF5),
+      foreground: const Color(0xFF047857),
+    ),
     EdsPillTone(
-        background: const Color(0xFFFEFCE8),
-        foreground: const Color(0xFFA16207)),
+      background: const Color(0xFFFEFCE8),
+      foreground: const Color(0xFFA16207),
+    ),
     EdsPillTone(
-        background: const Color(0xFFF1F5F9),
-        foreground: const Color(0xFF475569)),
+      background: const Color(0xFFF1F5F9),
+      foreground: const Color(0xFF475569),
+    ),
     EdsPillTone(
-        background: const Color(0xFFF0FDFA),
-        foreground: const Color(0xFF0F766E)),
+      background: const Color(0xFFF0FDFA),
+      foreground: const Color(0xFF0F766E),
+    ),
   ];
 
   @override
@@ -247,8 +259,9 @@ class _EdsPillState extends State<EdsPill> {
         ignoring: !visible,
         child: AnimatedOpacity(
           opacity: visible ? 1.0 : 0.0,
-          duration:
-              reduceMotion ? Duration.zero : const Duration(milliseconds: 120),
+          duration: reduceMotion
+              ? Duration.zero
+              : const Duration(milliseconds: 120),
           curve: Curves.easeInOut,
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
@@ -261,9 +274,7 @@ class _EdsPillState extends State<EdsPill> {
               child: const SizedBox(
                 width: 16,
                 height: 16,
-                child: Center(
-                  child: Icon(Icons.cancel, size: 13),
-                ),
+                child: Center(child: Icon(Icons.cancel, size: 13)),
               ),
             ),
           ),
@@ -367,10 +378,10 @@ class EdsPillFlow<T> extends StatelessWidget {
             showsRemoveButton: showsRemoveButton,
             action: onTap == null ? null : () => onTap!(sorted[index]),
             onRemove: onRemove == null ? null : () => onRemove!(sorted[index]),
-            removeSemanticLabel:
-                removeSemanticLabelBuilder?.call(sorted[index]),
-            removeSemanticHint:
-                removeSemanticHintBuilder?.call(sorted[index]),
+            removeSemanticLabel: removeSemanticLabelBuilder?.call(
+              sorted[index],
+            ),
+            removeSemanticHint: removeSemanticHintBuilder?.call(sorted[index]),
           ),
       ],
     );

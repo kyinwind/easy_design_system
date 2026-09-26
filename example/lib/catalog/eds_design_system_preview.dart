@@ -207,14 +207,16 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
               children: <Widget>[
                 Text(
                   '预设',
-                  style: tokens.typography.captionStrong
-                      .copyWith(color: scheme.textSecondary),
+                  style: tokens.typography.captionStrong.copyWith(
+                    color: scheme.textSecondary,
+                  ),
                 ),
                 SizedBox(width: tokens.spacing.xs),
                 Text(
                   _selectedPreset?.name ?? '（当前）',
-                  style: tokens.typography.bodyStrong
-                      .copyWith(color: scheme.textPrimary),
+                  style: tokens.typography.bodyStrong.copyWith(
+                    color: scheme.textPrimary,
+                  ),
                 ),
                 Icon(
                   Icons.arrow_drop_down,
@@ -261,11 +263,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                 spacing: 8,
                 children: <Widget>[
                   _colorSwatchRow(context, 'Primary', _draftColors.primary),
-                  _colorSwatchRow(
-                    context,
-                    'Accent（废弃）',
-                    _draftColors.accent,
-                  ),
+                  _colorSwatchRow(context, 'Accent（废弃）', _draftColors.accent),
                   _colorSwatchRow(context, 'Success', _draftColors.success),
                   _colorSwatchRow(context, 'Warning', _draftColors.warning),
                   _colorSwatchRow(context, 'Danger', _draftColors.danger),
@@ -298,8 +296,9 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                       _previewButton(
                         context,
                         '柔和',
-                        background:
-                            _draftColors.primary.withValues(alpha: 0.12),
+                        background: _draftColors.primary.withValues(
+                          alpha: 0.12,
+                        ),
                         foreground: _draftColors.primary,
                       ),
                       _previewButton(
@@ -342,8 +341,9 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                     '章节标题 Section',
                     style: TextStyle(
                       fontSize: _draftTypography.sectionTitleSize,
-                      fontWeight:
-                          _fontWeight(_draftTypography.sectionTitleWeight),
+                      fontWeight: _fontWeight(
+                        _draftTypography.sectionTitleWeight,
+                      ),
                       color: _draftColors.primary,
                     ),
                   ),
@@ -369,12 +369,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
             _previewSection(
               context,
               '侧边栏',
-              Row(
-                children: <Widget>[
-                  _sidebarPreview(context),
-                  const Spacer(),
-                ],
-              ),
+              Row(children: <Widget>[_sidebarPreview(context), const Spacer()]),
             ),
             _previewSection(
               context,
@@ -417,8 +412,9 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
       children: <Widget>[
         Text(
           title,
-          style:
-              tokens.typography.caption.copyWith(color: scheme.textSecondary),
+          style: tokens.typography.caption.copyWith(
+            color: scheme.textSecondary,
+          ),
         ),
         content,
       ],
@@ -438,14 +434,16 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
         const SizedBox(width: 8),
         Text(
           label,
-          style:
-              tokens.typography.caption.copyWith(color: scheme.textSecondary),
+          style: tokens.typography.caption.copyWith(
+            color: scheme.textSecondary,
+          ),
         ),
         const SizedBox(width: 8),
         Text(
           EdsColorHex.toHex(color),
-          style: tokens.typography.monoCaption
-              .copyWith(color: scheme.textSecondary),
+          style: tokens.typography.monoCaption.copyWith(
+            color: scheme.textSecondary,
+          ),
         ),
       ],
     );
@@ -512,18 +510,8 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: _draftSpacing.xxs,
         children: <Widget>[
-          _sidebarItem(
-            context,
-            Icons.home_outlined,
-            '首页',
-            'home',
-          ),
-          _sidebarItem(
-            context,
-            Icons.settings_outlined,
-            '设置',
-            'settings',
-          ),
+          _sidebarItem(context, Icons.home_outlined, '首页', 'home'),
+          _sidebarItem(context, Icons.settings_outlined, '设置', 'settings'),
         ],
       ),
     );
@@ -693,7 +681,10 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
   }
 
   Widget _roundedRectPreview(
-      BuildContext context, String label, double radius) {
+    BuildContext context,
+    String label,
+    double radius,
+  ) {
     final tokens = context.edsTokens;
     final scheme = context.edsScheme;
     return Column(
@@ -709,13 +700,17 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
         ),
         Text(
           '${radius.round()}',
-          style: tokens.typography.monoCaption
-              .copyWith(color: scheme.textSecondary, fontSize: 10),
+          style: tokens.typography.monoCaption.copyWith(
+            color: scheme.textSecondary,
+            fontSize: 10,
+          ),
         ),
         Text(
           label,
-          style: tokens.typography.caption
-              .copyWith(color: scheme.textSecondary, fontSize: 10),
+          style: tokens.typography.caption.copyWith(
+            color: scheme.textSecondary,
+            fontSize: 10,
+          ),
         ),
       ],
     );
@@ -777,8 +772,9 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                 'Hero Start',
                 _draftHeroGradient.startColor,
                 (color) => setState(() {
-                  _draftHeroGradient =
-                      _draftHeroGradient.copyWith(startColor: color);
+                  _draftHeroGradient = _draftHeroGradient.copyWith(
+                    startColor: color,
+                  );
                 }),
               ),
               _colorRow(
@@ -786,216 +782,243 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                 'Hero End',
                 _draftHeroGradient.endColor,
                 (color) => setState(() {
-                  _draftHeroGradient =
-                      _draftHeroGradient.copyWith(endColor: color);
+                  _draftHeroGradient = _draftHeroGradient.copyWith(
+                    endColor: color,
+                  );
                 }),
               ),
             ]),
             _editorSection(context, '间距', <Widget>[
               _sliderRow(
-                  context,
-                  'xxs',
-                  _draftSpacing.xxs,
-                  0,
-                  80,
-                  (value) => setState(() {
-                        _draftSpacing = _draftSpacing.copyWith(xxs: value);
-                      })),
+                context,
+                'xxs',
+                _draftSpacing.xxs,
+                0,
+                80,
+                (value) => setState(() {
+                  _draftSpacing = _draftSpacing.copyWith(xxs: value);
+                }),
+              ),
               _sliderRow(
-                  context,
-                  'xs',
-                  _draftSpacing.xs,
-                  0,
-                  80,
-                  (value) => setState(() {
-                        _draftSpacing = _draftSpacing.copyWith(xs: value);
-                      })),
+                context,
+                'xs',
+                _draftSpacing.xs,
+                0,
+                80,
+                (value) => setState(() {
+                  _draftSpacing = _draftSpacing.copyWith(xs: value);
+                }),
+              ),
               _sliderRow(
-                  context,
-                  'sm',
-                  _draftSpacing.sm,
-                  0,
-                  80,
-                  (value) => setState(() {
-                        _draftSpacing = _draftSpacing.copyWith(sm: value);
-                      })),
+                context,
+                'sm',
+                _draftSpacing.sm,
+                0,
+                80,
+                (value) => setState(() {
+                  _draftSpacing = _draftSpacing.copyWith(sm: value);
+                }),
+              ),
               _sliderRow(
-                  context,
-                  'md',
-                  _draftSpacing.md,
-                  0,
-                  80,
-                  (value) => setState(() {
-                        _draftSpacing = _draftSpacing.copyWith(md: value);
-                      })),
+                context,
+                'md',
+                _draftSpacing.md,
+                0,
+                80,
+                (value) => setState(() {
+                  _draftSpacing = _draftSpacing.copyWith(md: value);
+                }),
+              ),
               _sliderRow(
-                  context,
-                  'lg',
-                  _draftSpacing.lg,
-                  0,
-                  80,
-                  (value) => setState(() {
-                        _draftSpacing = _draftSpacing.copyWith(lg: value);
-                      })),
+                context,
+                'lg',
+                _draftSpacing.lg,
+                0,
+                80,
+                (value) => setState(() {
+                  _draftSpacing = _draftSpacing.copyWith(lg: value);
+                }),
+              ),
               _sliderRow(
-                  context,
-                  'xl',
-                  _draftSpacing.xl,
-                  0,
-                  80,
-                  (value) => setState(() {
-                        _draftSpacing = _draftSpacing.copyWith(xl: value);
-                      })),
+                context,
+                'xl',
+                _draftSpacing.xl,
+                0,
+                80,
+                (value) => setState(() {
+                  _draftSpacing = _draftSpacing.copyWith(xl: value);
+                }),
+              ),
               _sliderRow(
-                  context,
-                  'xxl',
-                  _draftSpacing.xxl,
-                  0,
-                  80,
-                  (value) => setState(() {
-                        _draftSpacing = _draftSpacing.copyWith(xxl: value);
-                      })),
+                context,
+                'xxl',
+                _draftSpacing.xxl,
+                0,
+                80,
+                (value) => setState(() {
+                  _draftSpacing = _draftSpacing.copyWith(xxl: value);
+                }),
+              ),
               _sliderRow(
-                  context,
-                  'xxxl',
-                  _draftSpacing.xxxl,
-                  0,
-                  80,
-                  (value) => setState(() {
-                        _draftSpacing = _draftSpacing.copyWith(xxxl: value);
-                      })),
+                context,
+                'xxxl',
+                _draftSpacing.xxxl,
+                0,
+                80,
+                (value) => setState(() {
+                  _draftSpacing = _draftSpacing.copyWith(xxxl: value);
+                }),
+              ),
             ]),
             _editorSection(context, '圆角', <Widget>[
               _sliderRow(
-                  context,
-                  'sm',
-                  _draftRadius.sm,
-                  0,
-                  40,
-                  (value) => setState(() {
-                        _draftRadius = _draftRadius.copyWith(sm: value);
-                      })),
+                context,
+                'sm',
+                _draftRadius.sm,
+                0,
+                40,
+                (value) => setState(() {
+                  _draftRadius = _draftRadius.copyWith(sm: value);
+                }),
+              ),
               _sliderRow(
-                  context,
-                  'md',
-                  _draftRadius.md,
-                  0,
-                  40,
-                  (value) => setState(() {
-                        _draftRadius = _draftRadius.copyWith(md: value);
-                      })),
+                context,
+                'md',
+                _draftRadius.md,
+                0,
+                40,
+                (value) => setState(() {
+                  _draftRadius = _draftRadius.copyWith(md: value);
+                }),
+              ),
               _sliderRow(
-                  context,
-                  'lg',
-                  _draftRadius.lg,
-                  0,
-                  40,
-                  (value) => setState(() {
-                        _draftRadius = _draftRadius.copyWith(lg: value);
-                      })),
+                context,
+                'lg',
+                _draftRadius.lg,
+                0,
+                40,
+                (value) => setState(() {
+                  _draftRadius = _draftRadius.copyWith(lg: value);
+                }),
+              ),
               _sliderRow(
-                  context,
-                  'xl',
-                  _draftRadius.xl,
-                  0,
-                  40,
-                  (value) => setState(() {
-                        _draftRadius = _draftRadius.copyWith(xl: value);
-                      })),
+                context,
+                'xl',
+                _draftRadius.xl,
+                0,
+                40,
+                (value) => setState(() {
+                  _draftRadius = _draftRadius.copyWith(xl: value);
+                }),
+              ),
             ]),
             _editorSection(context, '字体大小', <Widget>[
               _stepperRow(
-                  context,
-                  'Hero',
-                  _draftTypography.heroSize,
-                  16,
-                  60,
-                  (value) => setState(() {
-                        _draftTypography =
-                            _draftTypography.copyWith(heroSize: value);
-                      })),
+                context,
+                'Hero',
+                _draftTypography.heroSize,
+                16,
+                60,
+                (value) => setState(() {
+                  _draftTypography = _draftTypography.copyWith(heroSize: value);
+                }),
+              ),
               _stepperRow(
-                  context,
-                  'PageTitle',
-                  _draftTypography.pageTitleSize,
-                  10,
-                  40,
-                  (value) => setState(() {
-                        _draftTypography =
-                            _draftTypography.copyWith(pageTitleSize: value);
-                      })),
+                context,
+                'PageTitle',
+                _draftTypography.pageTitleSize,
+                10,
+                40,
+                (value) => setState(() {
+                  _draftTypography = _draftTypography.copyWith(
+                    pageTitleSize: value,
+                  );
+                }),
+              ),
               _stepperRow(
-                  context,
-                  'SectionTitle',
-                  _draftTypography.sectionTitleSize,
-                  10,
-                  36,
-                  (value) => setState(() {
-                        _draftTypography =
-                            _draftTypography.copyWith(sectionTitleSize: value);
-                      })),
+                context,
+                'SectionTitle',
+                _draftTypography.sectionTitleSize,
+                10,
+                36,
+                (value) => setState(() {
+                  _draftTypography = _draftTypography.copyWith(
+                    sectionTitleSize: value,
+                  );
+                }),
+              ),
               _stepperRow(
-                  context,
-                  'Body15',
-                  _draftTypography.body15Size,
-                  10,
-                  32,
-                  (value) => setState(() {
-                        _draftTypography =
-                            _draftTypography.copyWith(body15Size: value);
-                      })),
+                context,
+                'Body15',
+                _draftTypography.body15Size,
+                10,
+                32,
+                (value) => setState(() {
+                  _draftTypography = _draftTypography.copyWith(
+                    body15Size: value,
+                  );
+                }),
+              ),
               _stepperRow(
-                  context,
-                  'Body',
-                  _draftTypography.bodySize,
-                  10,
-                  28,
-                  (value) => setState(() {
-                        _draftTypography =
-                            _draftTypography.copyWith(bodySize: value);
-                      })),
+                context,
+                'Body',
+                _draftTypography.bodySize,
+                10,
+                28,
+                (value) => setState(() {
+                  _draftTypography = _draftTypography.copyWith(bodySize: value);
+                }),
+              ),
               _stepperRow(
-                  context,
-                  'Caption',
-                  _draftTypography.captionSize,
-                  8,
-                  24,
-                  (value) => setState(() {
-                        _draftTypography =
-                            _draftTypography.copyWith(captionSize: value);
-                      })),
+                context,
+                'Caption',
+                _draftTypography.captionSize,
+                8,
+                24,
+                (value) => setState(() {
+                  _draftTypography = _draftTypography.copyWith(
+                    captionSize: value,
+                  );
+                }),
+              ),
             ]),
             _editorSection(context, '控件尺寸', <Widget>[
               _stepperRow(
-                  context,
-                  'Button Height',
-                  _draftControlSize.buttonHeight,
-                  24,
-                  60,
-                  (value) => setState(() {
-                        _draftControlSize =
-                            _draftControlSize.copyWith(buttonHeight: value);
-                      })),
+                context,
+                'Button Height',
+                _draftControlSize.buttonHeight,
+                24,
+                60,
+                (value) => setState(() {
+                  _draftControlSize = _draftControlSize.copyWith(
+                    buttonHeight: value,
+                  );
+                }),
+              ),
               _stepperRow(
-                  context,
-                  'Field Height',
-                  _draftControlSize.fieldHeight,
-                  24,
-                  60,
-                  (value) => setState(() {
-                        _draftControlSize =
-                            _draftControlSize.copyWith(fieldHeight: value);
-                      })),
+                context,
+                'Field Height',
+                _draftControlSize.fieldHeight,
+                24,
+                60,
+                (value) => setState(() {
+                  _draftControlSize = _draftControlSize.copyWith(
+                    fieldHeight: value,
+                  );
+                }),
+              ),
               _stepperRow(
-                  context,
-                  'Row MinHeight',
-                  _draftControlSize.rowMinHeight,
-                  36,
-                  80,
-                  (value) => setState(() {
-                        _draftControlSize =
-                            _draftControlSize.copyWith(rowMinHeight: value);
-                      })),
+                context,
+                'Row MinHeight',
+                _draftControlSize.rowMinHeight,
+                36,
+                80,
+                (value) => setState(() {
+                  _draftControlSize = _draftControlSize.copyWith(
+                    rowMinHeight: value,
+                  );
+                }),
+              ),
             ]),
           ],
         ),
@@ -1011,14 +1034,12 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
       children: <Widget>[
         Text(
           title,
-          style: tokens.typography.sectionTitle
-              .copyWith(color: scheme.textPrimary),
+          style: tokens.typography.sectionTitle.copyWith(
+            color: scheme.textPrimary,
+          ),
         ),
         const SizedBox(height: 8),
-        Column(
-          spacing: 8,
-          children: rows,
-        ),
+        Column(spacing: 8, children: rows),
         const SizedBox(height: 12),
         Divider(height: 1, thickness: 1, color: scheme.border),
       ],
@@ -1039,8 +1060,9 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
           width: 80,
           child: Text(
             label,
-            style:
-                tokens.typography.caption.copyWith(color: scheme.textPrimary),
+            style: tokens.typography.caption.copyWith(
+              color: scheme.textPrimary,
+            ),
           ),
         ),
         const SizedBox(width: 8),
@@ -1059,8 +1081,9 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
         const SizedBox(width: 8),
         Text(
           EdsColorHex.toHex(color),
-          style: tokens.typography.monoCaption
-              .copyWith(color: scheme.textSecondary),
+          style: tokens.typography.monoCaption.copyWith(
+            color: scheme.textSecondary,
+          ),
         ),
       ],
     );
@@ -1100,8 +1123,9 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
           width: 50,
           child: Text(
             label,
-            style:
-                tokens.typography.caption.copyWith(color: scheme.textPrimary),
+            style: tokens.typography.caption.copyWith(
+              color: scheme.textPrimary,
+            ),
           ),
         ),
         const SizedBox(width: 8),
@@ -1121,8 +1145,9 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
           child: Text(
             '${value.round()}',
             textAlign: TextAlign.end,
-            style: tokens.typography.monoCaption
-                .copyWith(color: scheme.textSecondary),
+            style: tokens.typography.monoCaption.copyWith(
+              color: scheme.textSecondary,
+            ),
           ),
         ),
       ],
@@ -1145,8 +1170,9 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
           width: 80,
           child: Text(
             label,
-            style:
-                tokens.typography.caption.copyWith(color: scheme.textPrimary),
+            style: tokens.typography.caption.copyWith(
+              color: scheme.textPrimary,
+            ),
           ),
         ),
         const SizedBox(width: 8),
@@ -1162,8 +1188,9 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
           child: Text(
             '${value.round()}',
             textAlign: TextAlign.center,
-            style: tokens.typography.monoCaption
-                .copyWith(color: scheme.textSecondary),
+            style: tokens.typography.monoCaption.copyWith(
+              color: scheme.textSecondary,
+            ),
           ),
         ),
         IconButton(
@@ -1270,8 +1297,9 @@ class _CatalogColorPickerDialogState extends State<CatalogColorPickerDialog> {
                   child: TextField(
                     controller: _hexController,
                     onChanged: _onHexChanged,
-                    style: tokens.typography.monoCaption
-                        .copyWith(color: scheme.textPrimary),
+                    style: tokens.typography.monoCaption.copyWith(
+                      color: scheme.textPrimary,
+                    ),
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       isDense: true,
@@ -1330,8 +1358,9 @@ class _CatalogColorPickerDialogState extends State<CatalogColorPickerDialog> {
           width: 20,
           child: Text(
             label,
-            style:
-                tokens.typography.caption.copyWith(color: scheme.textSecondary),
+            style: tokens.typography.caption.copyWith(
+              color: scheme.textSecondary,
+            ),
           ),
         ),
         Expanded(
@@ -1349,8 +1378,9 @@ class _CatalogColorPickerDialogState extends State<CatalogColorPickerDialog> {
           child: Text(
             '$value',
             textAlign: TextAlign.end,
-            style: tokens.typography.monoCaption
-                .copyWith(color: scheme.textSecondary),
+            style: tokens.typography.monoCaption.copyWith(
+              color: scheme.textSecondary,
+            ),
           ),
         ),
       ],

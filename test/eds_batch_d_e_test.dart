@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('collapsible supports uncontrolled initial state', (tester) async {
+  testWidgets('collapsible supports uncontrolled initial state', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
@@ -19,8 +21,9 @@ void main() {
     expect(find.text('Body'), findsOneWidget);
   });
 
-  testWidgets('collapsible controlled mode reports requested changes',
-      (tester) async {
+  testWidgets('collapsible controlled mode reports requested changes', (
+    tester,
+  ) async {
     bool? requested;
 
     await tester.pumpWidget(
@@ -44,10 +47,7 @@ void main() {
   });
 
   testWidgets('generic pill flow preserves model values', (tester) async {
-    const items = [
-      _Tag(2, 'Beta'),
-      _Tag(1, 'Alpha'),
-    ];
+    const items = [_Tag(2, 'Beta'), _Tag(1, 'Alpha')];
     _Tag? tapped;
 
     await tester.pumpWidget(
@@ -90,11 +90,7 @@ void main() {
                 label: 'One',
                 onChanged: (_) {},
               ),
-              EdsSlider(
-                value: 0.5,
-                onChanged: (_) {},
-                label: '50%',
-              ),
+              EdsSlider(value: 0.5, onChanged: (_) {}, label: '50%'),
               EdsConfirmDialog(
                 title: 'Delete',
                 message: 'Confirm',

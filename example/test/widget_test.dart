@@ -25,7 +25,9 @@ void main() {
     expect(find.byType(EdsSidebarGroupView), findsOneWidget);
     expect(find.text('标准页面'), findsOneWidget);
     expect(
-        find.text('EDSPageSection + EDSGroup + EDSSettingRow'), findsOneWidget);
+      find.text('EDSPageSection + EDSGroup + EDSSettingRow'),
+      findsOneWidget,
+    );
     expect(find.text('EDSProgressPanel'), findsOneWidget);
     expect(find.text('模型下载'), findsOneWidget);
     expect(find.text('状态反馈'), findsOneWidget);

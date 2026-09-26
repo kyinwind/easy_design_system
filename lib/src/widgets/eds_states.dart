@@ -179,7 +179,7 @@ class EdsProgressPanel extends StatelessWidget {
         spacing: tokens.spacing.sm,
         children: <Widget>[
           _headerText(context),
-          if (actionButton != null) actionButton
+          if (actionButton != null) actionButton,
         ],
       );
     } else {

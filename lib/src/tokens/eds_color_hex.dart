@@ -38,9 +38,10 @@ abstract final class EdsColorHex {
       _parse(hex, EdsColorHexFormat.rgba, allowsEightDigitHex: true);
 
   /// Parses a hex string with an explicit eight-digit alpha layout.
-  static Color parse(String hex,
-          {EdsColorHexFormat format = EdsColorHexFormat.argb}) =>
-      _parse(hex, format, allowsEightDigitHex: true);
+  static Color parse(
+    String hex, {
+    EdsColorHexFormat format = EdsColorHexFormat.argb,
+  }) => _parse(hex, format, allowsEightDigitHex: true);
 
   /// Formats a color as `#RRGGBB` (uppercase). Alpha is dropped, matching
   /// Swift's `Color.toHex()`.
@@ -54,13 +55,18 @@ abstract final class EdsColorHex {
   static String _hex2(int value) =>
       value.toRadixString(16).toUpperCase().padLeft(2, '0');
 
-  static Color _parse(String hex, EdsColorHexFormat format,
-      {required bool allowsEightDigitHex}) {
+  static Color _parse(
+    String hex,
+    EdsColorHexFormat format, {
+    required bool allowsEightDigitHex,
+  }) {
     // Trim characters that are not alphanumeric from both ends, mirroring
     // `CharacterSet.alphanumerics.inverted` in Swift. ASCII-only is enough for
     // well-formed hex input.
-    final trimmed =
-        hex.replaceAll(RegExp(r'^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$'), '');
+    final trimmed = hex.replaceAll(
+      RegExp(r'^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$'),
+      '',
+    );
 
     // Scanner.scanHexInt64 skips an optional `0x`/`0X` prefix, then reads the
     // leading hex-digit run and yields 0 when the string does not start with a

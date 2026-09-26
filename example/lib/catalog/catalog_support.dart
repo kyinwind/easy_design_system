@@ -31,10 +31,7 @@ class CatalogSplitScaffold extends StatelessWidget {
           return Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              SizedBox(
-                width: 256,
-                child: _sidebar(context),
-              ),
+              SizedBox(width: 256, child: _sidebar(context)),
               VerticalDivider(
                 width: 1,
                 thickness: 1,
@@ -47,11 +44,7 @@ class CatalogSplitScaffold extends StatelessWidget {
         return Column(
           children: <Widget>[
             _chipRow(context),
-            Divider(
-              height: 1,
-              thickness: 1,
-              color: context.edsScheme.border,
-            ),
+            Divider(height: 1, thickness: 1, color: context.edsScheme.border),
             Expanded(child: child),
           ],
         );
@@ -136,8 +129,9 @@ class GalleryExample extends StatelessWidget {
           children: <Widget>[
             Text(
               title,
-              style: tokens.typography.bodyStrong
-                  .copyWith(color: tokens.colors.primary),
+              style: tokens.typography.bodyStrong.copyWith(
+                color: tokens.colors.primary,
+              ),
             ),
             Container(
               width: double.infinity,
@@ -151,8 +145,9 @@ class GalleryExample extends StatelessWidget {
               ),
               child: Text(
                 usage,
-                style: tokens.typography.monoCaption
-                    .copyWith(color: scheme.textSecondary),
+                style: tokens.typography.monoCaption.copyWith(
+                  color: scheme.textSecondary,
+                ),
               ),
             ),
           ],
