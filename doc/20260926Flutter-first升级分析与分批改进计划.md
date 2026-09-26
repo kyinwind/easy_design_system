@@ -948,21 +948,26 @@ fontFamily
 
 目标：现有组件可放心用于 Flutter 桌面 App。
 
-内容：
+实现状态（2026-09-26）：
 
-- [ ] EdsButton Focus
-- [ ] Enter / Space
-- [ ] Semantics
-- [ ] Tooltip
-- [ ] Focus ring
-- [ ] ThemeMode brightness
-- [ ] Sidebar Scope fix
-- [ ] Comparison 文案可覆盖
-- [ ] Pill remove semantics 可覆盖
-- [ ] Typography fontFamily / fallback
-- [ ] Button hover 对比度修复
-- [ ] 对应 tests
-- [ ] README / CHANGELOG / migration notes
+- [x] EdsButton Focus
+- [x] Enter / Space
+- [x] Semantics
+- [x] Tooltip
+- [x] Focus ring
+- [x] ThemeMode brightness
+- [x] Sidebar Scope fix
+- [x] Comparison 文案可覆盖
+- [x] Pill remove semantics 可覆盖
+- [x] Typography fontFamily / fallback
+- [x] Button hover 对比度修复
+- [x] 对应 tests 已补齐
+- [x] README / CHANGELOG / migration notes
+- [ ] GitHub CI 全绿确认
+- [ ] RightClickMate Windows 实机回归
+
+> 代码实现已进入 CI / 宿主回归阶段。只有 CI 全绿且 RightClickMate 验证通过后，
+> Batch A 才视为正式完成；在此之前不提升 Flutter 包版本号。
 
 **这批完成后优先让 RightClickMate 回归测试。**
 
