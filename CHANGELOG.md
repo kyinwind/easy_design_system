@@ -16,8 +16,9 @@
 
 ### Changed
 
-- `context.edsBrightness` 在没有显式 `EdsThemeScope.brightness` 时读取
-  `Theme.of(context).brightness`，从而跟随宿主 `ThemeMode`。
+- `context.edsBrightness` 在没有显式 `EdsThemeScope.brightness` 时优先读取
+  Material Theme / `ThemeMode`；没有 Material Theme 时回退到 `MediaQuery`
+  平台亮暗，最后回退 `Brightness.light`。
 - `EdsButton` hover 不再整体降低 opacity；改为只调整 surface，避免文字和图标
   对比度随 hover 一起降低。
 - Sidebar 的主题型 preset tint 推荐使用 `presetTint` / `resolve(context)`。
