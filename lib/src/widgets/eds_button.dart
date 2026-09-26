@@ -256,14 +256,13 @@ class EdsButtonAppearance {
     );
   }
 
-  /// Darkens a color by multiplying each RGB channel by [factor].
+  /// Darkens a color while preserving alpha.
+  ///
+  /// [factor] is the amount of the original color to keep. A value of 0.7
+  /// blends 70% original color with 30% black.
   static Color _darkened(Color color, double factor) {
-    return Color.from(
-      alpha: color.a,
-      red: color.r * factor,
-      green: color.g * factor,
-      blue: color.b * factor,
-    );
+    final black = Colors.black.withValues(alpha: color.a);
+    return Color.lerp(black, color, factor) ?? color;
   }
 }
 
