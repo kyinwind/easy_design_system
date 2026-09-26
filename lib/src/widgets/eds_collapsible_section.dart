@@ -19,6 +19,8 @@ class EdsCollapsibleSection extends StatefulWidget {
     this.initiallyExpanded = false,
     this.isExpanded,
     this.onExpansionChanged,
+    this.focusNode,
+    this.autofocus = false,
   });
 
   final String? title;
@@ -32,6 +34,11 @@ class EdsCollapsibleSection extends StatefulWidget {
 
   /// Called whenever the header requests an expansion state change.
   final ValueChanged<bool>? onExpansionChanged;
+
+  /// Optional focus node for desktop keyboard traversal.
+  final FocusNode? focusNode;
+
+  final bool autofocus;
 
   @override
   State<EdsCollapsibleSection> createState() => _EdsCollapsibleSectionState();
@@ -84,11 +91,14 @@ class _EdsCollapsibleSectionState extends State<EdsCollapsibleSection> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: _toggle,
-            child: MouseRegion(
-              cursor: SystemMouseCursors.click,
+          Semantics(
+            button: true,
+            expanded: _effectiveExpanded,
+            child: InkWell(
+              focusNode: widget.focusNode,
+              autofocus: widget.autofocus,
+              mouseCursor: SystemMouseCursors.click,
+              onTap: _toggle,
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Row(
