@@ -585,6 +585,7 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
           onExit: reduceMotion ? null : (_) => _setHovered(false),
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
+            excludeFromSemantics: true,
             onTapDown: reduceMotion ? null : (_) => _setPressed(true),
             onTapUp: reduceMotion ? null : (_) => _setPressed(false),
             onTapCancel: reduceMotion ? null : () => _setPressed(false),
