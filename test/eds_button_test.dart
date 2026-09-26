@@ -303,7 +303,6 @@ void main() {
     expect(taps, 2);
   });
 
-
   testWidgets(
     'fullWidth convenience API expands while default stays content-sized',
     (tester) async {

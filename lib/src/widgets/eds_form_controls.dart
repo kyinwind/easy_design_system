@@ -169,7 +169,6 @@ class EdsDropdown<T> extends StatelessWidget {
   }
 }
 
-
 /// Form-integrated counterpart to [EdsDropdown].
 ///
 /// Use this inside a Flutter [Form] when validation, saving or automatic
@@ -449,7 +448,6 @@ class EdsTextField extends StatelessWidget {
   }
 }
 
-
 /// Form-integrated counterpart to [EdsTextField].
 ///
 /// Use this inside a Flutter [Form] when validation, saving or automatic
@@ -480,9 +478,9 @@ class EdsTextFormField extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
   }) : assert(
-         controller == null || initialValue == null,
-         'initialValue must be null when controller is provided.',
-       );
+          controller == null || initialValue == null,
+          'initialValue must be null when controller is provided.',
+        );
 
   final TextEditingController? controller;
   final String? initialValue;
@@ -699,7 +697,6 @@ class EdsSlider extends StatelessWidget {
     );
   }
 }
-
 
 InputDecoration _edsInputDecoration(
   BuildContext context, {
