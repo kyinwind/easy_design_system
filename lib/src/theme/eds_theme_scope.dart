@@ -92,18 +92,15 @@ extension EdsThemeContextX on BuildContext {
   /// The effective brightness for this subtree.
   ///
   /// An explicit `EdsThemeScope.brightness` wins. Otherwise an ambient
-  /// Material theme is used when available so `ThemeMode.light/dark` is
-  /// respected; platform brightness is the fallback, then light.
+  /// Material theme is used so `ThemeMode.system/light/dark` is respected.
+  /// Flutter's `Theme.of` provides its own fallback when no explicit Theme
+  /// ancestor is installed.
   Brightness get edsBrightness {
     final scope = dependOnInheritedWidgetOfExactType<_EdsTokensScope>();
     if (scope?.brightness != null) {
       return scope!.brightness!;
     }
-    final materialTheme = Theme.maybeOf(this);
-    if (materialTheme != null) {
-      return materialTheme.brightness;
-    }
-    return MediaQuery.maybePlatformBrightnessOf(this) ?? Brightness.light;
+    return Theme.of(this).brightness;
   }
 }
 
