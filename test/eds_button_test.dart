@@ -327,9 +327,9 @@ void main() {
     expect(find.text('旧样式'), findsOneWidget);
   });
 
-
-  testWidgets('busy button remains semantically enabled but cannot activate',
-      (tester) async {
+  testWidgets('busy button remains semantically enabled but cannot activate', (
+    tester,
+  ) async {
     var taps = 0;
     await tester.pumpWidget(
       MaterialApp(

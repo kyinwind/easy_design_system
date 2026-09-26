@@ -47,8 +47,9 @@ void main() {
     expect(find.text('Body'), findsNothing);
   });
 
-
-  testWidgets('collapsible header supports keyboard activation', (tester) async {
+  testWidgets('collapsible header supports keyboard activation', (
+    tester,
+  ) async {
     final focusNode = FocusNode();
     addTearDown(focusNode.dispose);
 
@@ -95,7 +96,6 @@ void main() {
     await tester.tap(find.text('Alpha'));
     expect(tapped?.id, 1);
   });
-
 
   testWidgets('choice pill and menu preserve typed values', (tester) async {
     var selected = false;
