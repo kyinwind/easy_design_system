@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('EdsCheckbox toggles and keeps EDS label styling', (tester) async {
+  testWidgets(
+    'EdsCheckbox toggles and keeps EDS label styling',
+    (tester) async {
     var value = false;
 
     await tester.pumpWidget(
@@ -27,8 +29,9 @@ void main() {
     await tester.tap(find.text('开机启动'));
     await tester.pump();
 
-    expect(value, isTrue);
-  });
+      expect(value, isTrue);
+    },
+  );
 
   testWidgets('EdsDropdown is generic and reports selected value',
       (tester) async {
