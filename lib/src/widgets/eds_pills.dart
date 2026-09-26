@@ -211,6 +211,8 @@ class _EdsPillState extends State<EdsPill> {
     );
 
     return Semantics(
+      container: true,
+      explicitChildNodes: true,
       label: widget.title,
       button: widget.action != null,
       onTap: widget.action,
@@ -236,6 +238,7 @@ class _EdsPillState extends State<EdsPill> {
   ) {
     final visible = metrics.showsPersistentAuxiliaryActions || _isHovering;
     return Semantics(
+      container: true,
       label: widget.removeSemanticLabel ?? '删除 ${widget.title}',
       hint: widget.removeSemanticHint ?? '从列表中移除',
       button: true,
