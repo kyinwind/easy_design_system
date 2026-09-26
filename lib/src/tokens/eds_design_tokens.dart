@@ -497,10 +497,10 @@ class EdsTypographyTokens {
         captionStrongWeight,
         monoCaptionSize,
         monoCaptionWeight,
-      fontFamily,
-      ...?fontFamilyFallback,
-      monoFontFamily,
-      ...?monoFontFamilyFallback,
+        fontFamily,
+        ...?fontFamilyFallback,
+        monoFontFamily,
+        ...?monoFontFamilyFallback,
       ]);
 }
 
