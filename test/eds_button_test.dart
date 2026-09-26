@@ -303,6 +303,35 @@ void main() {
     expect(taps, 2);
   });
 
+
+  testWidgets(
+    'fullWidth convenience API expands while default stays content-sized',
+    (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: EdsButton('普通', action: () {}),
+                ),
+                EdsButton.fullWidth('整行', action: () {}),
+              ],
+            ),
+          ),
+        ),
+      );
+
+      final normalSize = tester.getSize(find.widgetWithText(EdsButton, '普通'));
+      final fullSize = tester.getSize(find.widgetWithText(EdsButton, '整行'));
+
+      expect(normalSize.width, lessThan(fullSize.width));
+      expect(fullSize.width, 800);
+    },
+  );
+
   testWidgets('legacy systemImage and dimension APIs remain available', (
     tester,
   ) async {
