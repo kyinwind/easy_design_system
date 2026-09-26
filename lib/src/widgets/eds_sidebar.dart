@@ -18,8 +18,11 @@ class EdsSidebarMenuItem {
     String? id,
     required this.label,
     required this.icon,
-    required this.tint,
-  }) : id = id ?? _autoId();
+    this.tint,
+    this.presetTint,
+  })  : assert(tint != null || presetTint != null,
+            'Either tint or presetTint must be provided.'),
+        id = id ?? _autoId();
 
   static int _counter = 0;
 
@@ -28,7 +31,16 @@ class EdsSidebarMenuItem {
   final String id;
   final String label;
   final IconData icon;
-  final Color tint;
+
+  /// Explicit fixed tint. Prefer [presetTint] when the color should follow
+  /// the scoped EDS theme.
+  final Color? tint;
+
+  /// Theme-aware preset tint resolved at build time.
+  final EdsSidebarIconPresetTint? presetTint;
+
+  Color resolveTint(BuildContext context) =>
+      presetTint?.resolve(context) ?? tint!;
 
   @override
   bool operator ==(Object other) {
@@ -36,11 +48,12 @@ class EdsSidebarMenuItem {
         other.id == id &&
         other.label == label &&
         other.icon == icon &&
-        other.tint == tint;
+        other.tint == tint &&
+        other.presetTint == presetTint;
   }
 
   @override
-  int get hashCode => Object.hash(id, label, icon, tint);
+  int get hashCode => Object.hash(id, label, icon, tint, presetTint);
 }
 
 /// Icon size tiers for [EdsSidebarIcon]. Mirrors Swift's
@@ -103,10 +116,13 @@ class EdsSidebarIcon extends StatelessWidget {
 /// Preset tints for sidebar icons, mirroring Swift's
 /// `EDSSidebarIconPresetTint`.
 ///
-/// Deviation from Swift: the theme-backed cases read
-/// [EdsTheme.instance], matching the Swift singleton read. The fixed
-/// platform colors (gray/pink/purple/teal/indigo) use their light-appearance
-/// values because Dart colors do not resolve dynamically per appearance.
+/// Theme-backed cases should be resolved with [resolve] so local
+/// [EdsThemeScope] overrides are honored. The legacy [color] getter is kept
+/// for source compatibility and reads the global [EdsTheme.instance].
+///
+/// Fixed platform colors (gray/pink/purple/teal/indigo) use their
+/// light-appearance values because Dart colors do not resolve dynamically per
+/// appearance.
 enum EdsSidebarIconPresetTint {
   blue,
   green,
@@ -118,6 +134,19 @@ enum EdsSidebarIconPresetTint {
   teal,
   indigo;
 
+  Color resolve(BuildContext context) => switch (this) {
+        EdsSidebarIconPresetTint.blue => context.edsTokens.colors.primary,
+        EdsSidebarIconPresetTint.green => context.edsTokens.colors.success,
+        EdsSidebarIconPresetTint.orange => context.edsTokens.colors.warning,
+        EdsSidebarIconPresetTint.red => context.edsTokens.colors.danger,
+        EdsSidebarIconPresetTint.gray => const Color(0xFF8E8E93),
+        EdsSidebarIconPresetTint.pink => const Color(0xFFFF2D55),
+        EdsSidebarIconPresetTint.purple => const Color(0xFFAF52DE),
+        EdsSidebarIconPresetTint.teal => const Color(0xFF30B0C7),
+        EdsSidebarIconPresetTint.indigo => const Color(0xFF5856D6),
+      };
+
+  @Deprecated('Use resolve(context) so local EdsThemeScope is respected.')
   Color get color => switch (this) {
         EdsSidebarIconPresetTint.blue => EdsTheme.instance.colors.primary,
         EdsSidebarIconPresetTint.green => EdsTheme.instance.colors.success,
@@ -178,7 +207,7 @@ class EdsSidebarItemButton extends StatelessWidget {
                 children: <Widget>[
                   EdsSidebarIcon(
                     icon: item.icon,
-                    tint: item.tint,
+                    tint: item.resolveTint(context),
                     size: EdsSidebarIconSize.small,
                   ),
                   Expanded(
