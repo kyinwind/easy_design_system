@@ -240,7 +240,9 @@ void main() {
     await mouse.moveTo(tester.getCenter(find.text('Hover')));
     await tester.pumpAndSettle();
 
-    final opacity = tester.widget<AnimatedOpacity>(find.byType(AnimatedOpacity));
+    final opacity = tester.widget<AnimatedOpacity>(
+      find.byType(AnimatedOpacity),
+    );
     expect(opacity.opacity, 1.0);
   });
 
