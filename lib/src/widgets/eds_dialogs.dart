@@ -115,8 +115,9 @@ class EdsConfirmDialog extends StatelessWidget {
         ),
         EdsButton(
           confirmTitle,
-          role:
-              isDestructive ? EdsButtonRole.danger : EdsButtonRole.primary,
+          role: isDestructive
+              ? EdsButtonRole.danger
+              : EdsButtonRole.primary,
           action: onConfirm,
         ),
       ],
