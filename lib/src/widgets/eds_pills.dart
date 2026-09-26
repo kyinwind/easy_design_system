@@ -303,7 +303,7 @@ enum EdsPillFlowSortOrder {
 ///   [EdsPillTone.defaultPalette].
 /// - `localizedStandardCompare` is approximated with a case-insensitive
 ///   comparison.
-class EdsPillFlow extends StatelessWidget {
+class EdsPillFlow<T> extends StatelessWidget {
   const EdsPillFlow(
     this.items, {
     super.key,
@@ -313,11 +313,14 @@ class EdsPillFlow extends StatelessWidget {
     this.minItemWidth,
     this.palette,
     this.showsRemoveButton = false,
+    this.labelBuilder,
+    this.removeSemanticLabelBuilder,
+    this.removeSemanticHintBuilder,
     this.onTap,
     this.onRemove,
   });
 
-  final List<String> items;
+  final List<T> items;
   final EdsPillFlowSortOrder sortOrder;
 
   /// Horizontal spacing between pills. Defaults to `spacing.sm`.
@@ -333,8 +336,18 @@ class EdsPillFlow extends StatelessWidget {
   final List<EdsPillTone>? palette;
 
   final bool showsRemoveButton;
-  final ValueChanged<String>? onTap;
-  final ValueChanged<String>? onRemove;
+
+  /// Maps an item to its visible label. Defaults to [Object.toString].
+  final String Function(T item)? labelBuilder;
+
+  /// Optional localized accessibility label for each remove affordance.
+  final String Function(T item)? removeSemanticLabelBuilder;
+
+  /// Optional localized accessibility hint for each remove affordance.
+  final String Function(T item)? removeSemanticHintBuilder;
+
+  final ValueChanged<T>? onTap;
+  final ValueChanged<T>? onRemove;
 
   @override
   Widget build(BuildContext context) {
@@ -348,28 +361,38 @@ class EdsPillFlow extends StatelessWidget {
       children: <Widget>[
         for (var index = 0; index < sorted.length; index++)
           EdsPill(
-            sorted[index],
+            _labelFor(sorted[index]),
             tone: effectivePalette[index % effectivePalette.length],
             minWidth: minItemWidth,
             showsRemoveButton: showsRemoveButton,
             action: onTap == null ? null : () => onTap!(sorted[index]),
             onRemove: onRemove == null ? null : () => onRemove!(sorted[index]),
+            removeSemanticLabel:
+                removeSemanticLabelBuilder?.call(sorted[index]),
+            removeSemanticHint:
+                removeSemanticHintBuilder?.call(sorted[index]),
           ),
       ],
     );
   }
 
-  List<String> get _sortedItems {
+  String _labelFor(T item) => labelBuilder?.call(item) ?? item.toString();
+
+  List<T> get _sortedItems {
     switch (sortOrder) {
       case EdsPillFlowSortOrder.original:
         return items;
       case EdsPillFlowSortOrder.ascending:
-        return <String>[...items]..sort(
-            (a, b) => a.toLowerCase().compareTo(b.toLowerCase()),
+        return <T>[...items]
+          ..sort(
+            (a, b) =>
+                _labelFor(a).toLowerCase().compareTo(_labelFor(b).toLowerCase()),
           );
       case EdsPillFlowSortOrder.descending:
-        return <String>[...items]..sort(
-            (a, b) => b.toLowerCase().compareTo(a.toLowerCase()),
+        return <T>[...items]
+          ..sort(
+            (a, b) =>
+                _labelFor(b).toLowerCase().compareTo(_labelFor(a).toLowerCase()),
           );
     }
   }
