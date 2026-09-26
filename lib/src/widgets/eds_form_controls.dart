@@ -169,6 +169,97 @@ class EdsDropdown<T> extends StatelessWidget {
   }
 }
 
+
+/// Form-integrated counterpart to [EdsDropdown].
+///
+/// Use this inside a Flutter [Form] when validation, saving or automatic
+/// validation is required.
+class EdsDropdownFormField<T> extends StatelessWidget {
+  const EdsDropdownFormField({
+    super.key,
+    required this.items,
+    required this.labelBuilder,
+    this.initialValue,
+    this.onChanged,
+    this.onSaved,
+    this.validator,
+    this.errorBuilder,
+    this.errorText,
+    this.autovalidateMode = AutovalidateMode.disabled,
+    this.label,
+    this.hint,
+    this.focusNode,
+    this.autofocus = false,
+    this.isExpanded = false,
+    this.enabled = true,
+  });
+
+  final T? initialValue;
+  final List<T> items;
+  final String Function(T value) labelBuilder;
+  final ValueChanged<T?>? onChanged;
+  final FormFieldSetter<T>? onSaved;
+  final FormFieldValidator<T>? validator;
+  final FormFieldErrorBuilder? errorBuilder;
+
+  /// Forces an error state without running [validator].
+  final String? errorText;
+
+  final AutovalidateMode autovalidateMode;
+  final String? label;
+  final String? hint;
+  final FocusNode? focusNode;
+  final bool autofocus;
+  final bool isExpanded;
+  final bool enabled;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.edsTokens;
+    final scheme = context.edsScheme;
+
+    return DropdownButtonFormField<T>(
+      initialValue: initialValue,
+      items: <DropdownMenuItem<T>>[
+        for (final item in items)
+          DropdownMenuItem<T>(
+            value: item,
+            child: Text(
+              labelBuilder(item),
+              style: tokens.typography
+                  .edsTextStyle(EdsFontRole.body)
+                  .copyWith(color: scheme.textPrimary),
+            ),
+          ),
+      ],
+      onChanged: enabled ? onChanged : null,
+      onSaved: onSaved,
+      validator: validator,
+      errorBuilder: errorBuilder,
+      forceErrorText: errorText,
+      autovalidateMode: autovalidateMode,
+      focusNode: focusNode,
+      autofocus: autofocus,
+      isExpanded: isExpanded,
+      dropdownColor: scheme.cardBackground,
+      iconEnabledColor: scheme.textSecondary,
+      borderRadius: BorderRadius.circular(tokens.radius.md),
+      hint: hint == null
+          ? null
+          : Text(
+              hint!,
+              style: tokens.typography
+                  .edsTextStyle(EdsFontRole.body)
+                  .copyWith(color: scheme.textSecondary),
+            ),
+      decoration: _edsInputDecoration(
+        context,
+        label: label,
+      ),
+    );
+  }
+}
+
 /// Generic single-selection segmented control.
 ///
 /// Uses Flutter's keyboard and semantics behavior while applying EDS tokens
@@ -262,6 +353,7 @@ class EdsTextField extends StatelessWidget {
     this.textInputAction,
     this.prefixIcon,
     this.suffixIcon,
+    this.errorText,
   });
 
   final TextEditingController? controller;
@@ -279,6 +371,9 @@ class EdsTextField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
+
+  /// Explicit error text for non-Form usage.
+  final String? errorText;
 
   @override
   Widget build(BuildContext context) {
@@ -312,6 +407,10 @@ class EdsTextField extends StatelessWidget {
         fillColor: scheme.cardBackground,
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
+        errorText: errorText,
+        errorStyle: tokens.typography
+            .edsTextStyle(EdsFontRole.caption)
+            .copyWith(color: tokens.colors.danger),
         contentPadding: EdgeInsets.symmetric(
           horizontal: tokens.spacing.sm,
           vertical: tokens.spacing.xs,
@@ -334,6 +433,115 @@ class EdsTextField extends StatelessWidget {
             width: tokens.stroke.hairline,
           ),
         ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(tokens.radius.md),
+          borderSide: BorderSide(
+            color: tokens.colors.danger,
+            width: tokens.stroke.hairline,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(tokens.radius.md),
+          borderSide: BorderSide(color: tokens.colors.danger, width: 1.5),
+        ),
+      ),
+    );
+  }
+}
+
+
+/// Form-integrated counterpart to [EdsTextField].
+///
+/// Use this inside a Flutter [Form] when validation, saving or automatic
+/// validation is required. For simple input without Form lifecycle, prefer
+/// [EdsTextField].
+class EdsTextFormField extends StatelessWidget {
+  const EdsTextFormField({
+    super.key,
+    this.controller,
+    this.initialValue,
+    this.focusNode,
+    this.label,
+    this.hint,
+    this.errorText,
+    this.onChanged,
+    this.onSubmitted,
+    this.onSaved,
+    this.validator,
+    this.errorBuilder,
+    this.autovalidateMode = AutovalidateMode.disabled,
+    this.enabled = true,
+    this.autofocus = false,
+    this.obscureText = false,
+    this.minLines,
+    this.maxLines = 1,
+    this.keyboardType,
+    this.textInputAction,
+    this.prefixIcon,
+    this.suffixIcon,
+  }) : assert(
+         controller == null || initialValue == null,
+         'initialValue must be null when controller is provided.',
+       );
+
+  final TextEditingController? controller;
+  final String? initialValue;
+  final FocusNode? focusNode;
+  final String? label;
+  final String? hint;
+
+  /// Forces an error state without running [validator].
+  final String? errorText;
+
+  final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
+  final FormFieldSetter<String>? onSaved;
+  final FormFieldValidator<String>? validator;
+  final FormFieldErrorBuilder? errorBuilder;
+  final AutovalidateMode autovalidateMode;
+  final bool enabled;
+  final bool autofocus;
+  final bool obscureText;
+  final int? minLines;
+  final int? maxLines;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.edsTokens;
+    final scheme = context.edsScheme;
+    final textStyle = tokens.typography
+        .edsTextStyle(EdsFontRole.body)
+        .copyWith(color: scheme.textPrimary);
+
+    return TextFormField(
+      controller: controller,
+      initialValue: initialValue,
+      focusNode: focusNode,
+      enabled: enabled,
+      autofocus: autofocus,
+      obscureText: obscureText,
+      minLines: minLines,
+      maxLines: maxLines,
+      keyboardType: keyboardType,
+      textInputAction: textInputAction,
+      onChanged: onChanged,
+      onFieldSubmitted: onSubmitted,
+      onSaved: onSaved,
+      validator: validator,
+      errorBuilder: errorBuilder,
+      forceErrorText: errorText,
+      autovalidateMode: autovalidateMode,
+      style: textStyle,
+      decoration: _edsInputDecoration(
+        context,
+        label: label,
+        hint: hint,
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
       ),
     );
   }
@@ -490,4 +698,68 @@ class EdsSlider extends StatelessWidget {
       ),
     );
   }
+}
+
+
+InputDecoration _edsInputDecoration(
+  BuildContext context, {
+  String? label,
+  String? hint,
+  Widget? prefixIcon,
+  Widget? suffixIcon,
+}) {
+  final tokens = context.edsTokens;
+  final scheme = context.edsScheme;
+  final textStyle = tokens.typography
+      .edsTextStyle(EdsFontRole.body)
+      .copyWith(color: scheme.textPrimary);
+
+  return InputDecoration(
+    labelText: label,
+    hintText: hint,
+    hintStyle: textStyle.copyWith(color: scheme.textTertiary),
+    labelStyle: tokens.typography
+        .edsTextStyle(EdsFontRole.caption)
+        .copyWith(color: scheme.textSecondary),
+    errorStyle: tokens.typography
+        .edsTextStyle(EdsFontRole.caption)
+        .copyWith(color: tokens.colors.danger),
+    filled: true,
+    fillColor: scheme.cardBackground,
+    prefixIcon: prefixIcon,
+    suffixIcon: suffixIcon,
+    contentPadding: EdgeInsets.symmetric(
+      horizontal: tokens.spacing.sm,
+      vertical: tokens.spacing.xs,
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(tokens.radius.md),
+      borderSide: BorderSide(
+        color: scheme.border,
+        width: tokens.stroke.hairline,
+      ),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(tokens.radius.md),
+      borderSide: BorderSide(color: tokens.colors.primary, width: 1.5),
+    ),
+    disabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(tokens.radius.md),
+      borderSide: BorderSide(
+        color: scheme.border.withValues(alpha: 0.5),
+        width: tokens.stroke.hairline,
+      ),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(tokens.radius.md),
+      borderSide: BorderSide(
+        color: tokens.colors.danger,
+        width: tokens.stroke.hairline,
+      ),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(tokens.radius.md),
+      borderSide: BorderSide(color: tokens.colors.danger, width: 1.5),
+    ),
+  );
 }
