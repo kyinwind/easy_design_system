@@ -93,14 +93,14 @@ extension EdsThemeContextX on BuildContext {
   ///
   /// An explicit `EdsThemeScope.brightness` wins. Otherwise an ambient
   /// Material theme is used so `ThemeMode.system/light/dark` is respected.
-  /// Flutter's `Theme.of` provides its own fallback when no explicit Theme
-  /// ancestor is installed.
+  /// Without a Material theme, Flutter falls back to the platform brightness
+  /// from `MediaQuery`; without either signal, EDS defaults to light.
   Brightness get edsBrightness {
     final scope = dependOnInheritedWidgetOfExactType<_EdsTokensScope>();
     if (scope?.brightness != null) {
       return scope!.brightness!;
     }
-    return Theme.of(this).brightness;
+    return Theme.maybeBrightnessOf(this) ?? Brightness.light;
   }
 }
 
