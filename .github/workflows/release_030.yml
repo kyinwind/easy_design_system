@@ -1,0 +1,41 @@
+name: Release 0.3.0 Once
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: dart format --set-exit-if-changed .
+      - run: flutter analyze
+      - run: flutter test
+      - name: Verify release version and tag availability
+        run: |
+          grep -q '^version: 0.3.0$' pubspec.yaml
+          if git ls-remote --exit-code --tags origin refs/tags/0.3.0 >/dev/null 2>&1; then
+            echo "Tag 0.3.0 already exists"
+            exit 1
+          fi
+      - name: Remove one-shot workflow, commit, and tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/release_030.yml
+          git commit -m "release: finalize 0.3.0"
+          git tag -a 0.3.0 -m "easy_design_system 0.3.0"
+          git push origin HEAD:main
+          git push origin 0.3.0
