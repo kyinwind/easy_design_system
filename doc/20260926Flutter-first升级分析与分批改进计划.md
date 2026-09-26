@@ -1019,6 +1019,18 @@ fontFamily
 Toast service 不进入 EDS；如以后需要，可由 EDS 提供视觉 Widget，
 全局 Overlay / 队列 / Service 更适合 `my_flutter_app_tools`。
 
+### 发布状态（0.3.0）
+
+截至 2026-09-27：
+
+- [x] Batch A-E 计划内主体能力已实现
+- [x] Catalog / README / CHANGELOG 已同步
+- [x] `pubspec.yaml` 版本提升到 `0.3.0`
+- [x] CI 恢复严格 format / analyze / test
+- [ ] Git tag `0.3.0`（需在 Git 客户端执行）
+- [ ] RightClickMate 集中批量迁移与 Windows 实机回归
+- [ ] Popover：继续暂缓，等待真实宿主场景
+
 ### 当前验证策略
 
 开发流程已根据实际迁移计划调整为：
