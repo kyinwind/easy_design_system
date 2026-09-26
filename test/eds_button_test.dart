@@ -263,7 +263,6 @@ void main() {
     expect(find.byTooltip('删除当前项目'), findsOneWidget);
   });
 
-
   testWidgets('Button API 2 supports icon busy expanded custom and styled',
       (tester) async {
     var taps = 0;
