@@ -198,4 +198,67 @@ class _DisabledButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return EdsButton('不可用');
   }
+
+  testWidgets('button exposes semantics and can be activated from keyboard',
+      (tester) async {
+    var activations = 0;
+    final focusNode = FocusNode();
+    addTearDown(focusNode.dispose);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: EdsButton(
+            '保存',
+            semanticLabel: '保存项目',
+            focusNode: focusNode,
+            action: () => activations++,
+          ),
+        ),
+      ),
+    );
+
+    final semantics = tester.getSemantics(find.byType(EdsButton));
+    expect(semantics.label, '保存项目');
+    expect(semantics.hasFlag(SemanticsFlag.isButton), isTrue);
+    expect(semantics.hasFlag(SemanticsFlag.isEnabled), isTrue);
+
+    focusNode.requestFocus();
+    await tester.pump();
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await tester.pump();
+
+    expect(activations, 1);
+  });
+
+  testWidgets('button supports optional tooltip', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: EdsButton(
+            '删除',
+            tooltip: '删除当前项目',
+            action: () {},
+          ),
+        ),
+      ),
+    );
+
+    expect(find.byTooltip('删除当前项目'), findsOneWidget);
+  });
+
+  testWidgets('disabled button exposes disabled semantics', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: EdsButton('不可用', semanticLabel: '不可用按钮'),
+        ),
+      ),
+    );
+
+    final semantics = tester.getSemantics(find.byType(EdsButton));
+    expect(semantics.hasFlag(SemanticsFlag.isButton), isTrue);
+    expect(semantics.hasFlag(SemanticsFlag.isEnabled), isFalse);
+  });
+
 }
