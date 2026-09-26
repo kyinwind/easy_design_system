@@ -950,83 +950,97 @@ fontFamily
 
 实现状态（2026-09-26）：
 
-- [x] EdsButton Focus
-- [x] Enter / Space
-- [x] Semantics
-- [x] Tooltip
-- [x] Focus ring
-- [x] ThemeMode brightness
+- [x] EdsButton Focus / Enter / Space / Semantics / Tooltip / Focus ring
+- [x] ThemeMode brightness 与无 Material Theme 的平台亮暗回退
 - [x] Sidebar Scope fix
 - [x] Comparison 文案可覆盖
 - [x] Pill remove semantics 可覆盖
 - [x] Typography fontFamily / fallback
 - [x] Button hover 对比度修复
-- [x] 对应 tests 已补齐
-- [x] README / CHANGELOG / migration notes
-- [x] GitHub CI 全绿确认（format / analyze / 76 tests）
-- [ ] RightClickMate Windows 实机回归
-
-> Batch A 的代码实现与自动化验证已经完成：GitHub CI 的 format、analyze 和 76 个测试均通过。
-> 当前只剩 RightClickMate Windows 实机回归；宿主验证通过后 Batch A 才视为正式完成，
-> 在此之前不提升 Flutter 包版本号。
-
-**这批完成后优先让 RightClickMate 回归测试。**
+- [x] 自动化测试覆盖
 
 ## Batch B — Button API 2
 
 目标：让 EdsButton 成为真正的主力通用按钮。
 
-内容：
+实现状态：
 
-- [ ] `icon`
-- [ ] `isBusy`
-- [ ] `expands`
-- [ ] `focusNode`
-- [ ] `autofocus`
-- [ ] 新高级 label API
-- [ ] `systemImage` Deprecated
-- [ ] `dimension` 新命名 + Deprecated compatibility
-- [ ] busy / expanded / keyboard widget tests
-- [ ] Catalog 示例更新
+- [x] `icon`
+- [x] `isBusy`
+- [x] `expands`
+- [x] `focusNode`
+- [x] `autofocus`
+- [x] `EdsButton.custom`
+- [x] `EdsButton.styled`
+- [x] `systemImage` Deprecated compatibility
+- [x] `dimension` Deprecated compatibility
+- [x] busy / expanded / keyboard / legacy compatibility tests
+- [x] Catalog / 示例迁移到新 API
+- [x] busy 与 disabled 语义分离
 
 ## Batch C — Settings Controls
 
-目标：设置类 App 的常见页面尽可能不再混用 Material visual controls。
+目标：设置类 App 的常见页面尽可能不再混用裸 Material visual controls。
 
-内容：
+实现状态：
 
-- [ ] EdsCheckbox
-- [ ] EdsDropdown<T>
-- [ ] EdsSegmented<T>
-- [ ] shared interaction-state conventions
-- [ ] keyboard / focus / semantics
-- [ ] Touch / Pointer adaptive tests
-- [ ] RightClickMate 接入验证
+- [x] `EdsCheckbox`
+- [x] `EdsDropdown<T>`
+- [x] `EdsSegmented<T>`
+- [x] 泛型 value API
+- [x] ThemeScope / Typography / Token styling
+- [x] 复用 Flutter 原生 Focus / Keyboard / Semantics 行为
+- [x] 对应 widget tests
 
 ## Batch D — Existing Components 2
 
-内容：
+实现状态：
 
-- [ ] EdsCollapsibleSection controlled API
-- [ ] EdsPillFlow<T>
-- [ ] Pill selected / choice 语义方案
-- [ ] remove action responsive layout
-- [ ] Button darken algorithm
-- [ ] EdsGroup.plain（如仍有需求）
-- [ ] 文档与 Catalog
+- [x] EdsCollapsibleSection controlled / uncontrolled API
+- [x] EdsPillFlow<T>
+- [x] EdsChoicePill（与 Tag 型 EdsPill 分离）
+- [x] Button darken 改为稳定的颜色插值
+- [x] EdsGroup.plain 已存在，无需新增
+- [x] 泛型 Pill / Collapsible tests
+- [x] remove action 继续保留占位，避免 pointer hover 时 Pill 宽度跳变
 
 ## Batch E — Application UI Completeness
 
-候选：
+实现状态：
 
-- EdsTextField
-- EdsRadio
-- EdsSlider
-- EdsAlertDialog
-- EdsConfirmDialog
-- EdsMenu / Popover
+- [x] EdsTextField
+- [x] EdsRadioGroup<T> / EdsRadio<T>（采用 Flutter 新 RadioGroup API）
+- [x] EdsSlider
+- [x] EdsAlertDialog
+- [x] EdsConfirmDialog
+- [x] EdsMenuButton<T>
+- [ ] Popover：暂缓，等待真实宿主交互场景后再确定抽象
 
-Toast service 不默认进入本批。
+Toast service 不进入 EDS；如以后需要，可由 EDS 提供视觉 Widget，
+全局 Overlay / 队列 / Service 更适合 `my_flutter_app_tools`。
+
+### 当前验证策略
+
+开发流程已根据实际迁移计划调整为：
+
+```text
+Batch A-E 包内能力完善
+        ↓
+Catalog / README / tests
+        ↓
+format + analyze + flutter test 全绿
+        ↓
+确定 Flutter 包版本并打 tag
+        ↓
+RightClickMate 批量替换原生组件
+        ↓
+Windows 宿主集中回归
+        ↓
+真实问题再回流 EDS
+```
+
+RightClickMate 不再作为每个 Batch 的阻塞验收点。这样可以避免宿主项目反复迁移，
+等 EDS 的常用组件体系稳定后一次性替换，效率更高。
 
 ---
 
@@ -1185,20 +1199,21 @@ RightClickMate 是第一轮比较系统的“真实 App 反向验证”。
 
 本文确认后，不直接同时做所有条目。
 
-推荐开发顺序：
+当前开发顺序调整为：
 
 ```text
-Batch A
+EDS Batch A-E 集中完善
   ↓
-RightClickMate 回归
+包内自动化验证 + Catalog 验证
   ↓
-Batch B
+版本发布 / tag
   ↓
-RightClickMate / ppt_to_video 回归
+RightClickMate 集中批量迁移
   ↓
-Batch C
+Windows 实机回归
   ↓
-再根据真实需求决定 D / E
+宿主反馈回流下一轮 EDS
 ```
 
-这样每一轮都由真实 App 验证，不让 easy_design_system 变成一个“组件很多，但实际没人验证”的组件库。
+真实宿主验证仍然重要，但放到设计系统常用能力基本完整之后集中进行，
+避免宿主在 API 尚未稳定时反复替换和返工。
