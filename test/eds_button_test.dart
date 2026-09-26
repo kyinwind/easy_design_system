@@ -190,15 +190,6 @@ void main() {
     await tester.pump();
     expect(tester.takeException(), isNull);
   });
-}
-
-class _DisabledButton extends StatelessWidget {
-  const _DisabledButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return EdsButton('不可用');
-  }
 
   testWidgets('button exposes semantics and can be activated from keyboard',
       (tester) async {
@@ -261,5 +252,15 @@ class _DisabledButton extends StatelessWidget {
     expect(semantics.hasFlag(SemanticsFlag.isButton), isTrue);
     expect(semantics.hasFlag(SemanticsFlag.isEnabled), isFalse);
   });
+
+}
+
+class _DisabledButton extends StatelessWidget {
+  const _DisabledButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return EdsButton('不可用');
+  }
 
 }
