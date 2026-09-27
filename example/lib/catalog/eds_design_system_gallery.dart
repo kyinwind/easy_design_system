@@ -333,12 +333,12 @@ class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
                 EdsValueRow(
                   '今日处理',
                   value: '128 张',
-                  tone: context.edsScheme.successForeground,
+                  tone: EdsValueTone.success,
                 ),
                 EdsValueRow(
                   '缓存占用',
                   value: '240 MB',
-                  tone: context.edsScheme.warningForeground,
+                  tone: EdsValueTone.warning,
                 ),
               ],
             ),
@@ -426,7 +426,7 @@ class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
           '底层卡片',
           child: GalleryExample(
             'EDSCard',
-            usage: 'EDSCard { ... } / EDSCard(background: ...) { ... }',
+            usage: 'EDSCard { ... } / EDSCard(style: .raised) { ... }',
             child: catalogAdaptiveRow(context, <Widget>[
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 360),
@@ -445,9 +445,9 @@ class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
                 child: SizedBox(
                   width: double.infinity,
                   child: EdsCard(
-                    background: context.edsScheme.brandForegroundSoft,
+                    style: EdsCardStyle.raised,
                     child: Text(
-                      '显式传入 background 时才绘制背景和圆角。',
+                      'raised 样式使用 EDS 语义 Surface 和圆角。',
                       style: tokens.typography.body,
                     ),
                   ),
