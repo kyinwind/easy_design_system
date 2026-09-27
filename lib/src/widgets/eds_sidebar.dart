@@ -117,9 +117,8 @@ class EdsSidebarIcon extends StatelessWidget {
 /// Preset tints for sidebar icons, mirroring Swift's
 /// `EDSSidebarIconPresetTint`.
 ///
-/// Theme-backed cases should be resolved with [resolve] so local
-/// [EdsThemeScope] overrides are honored. The legacy [color] getter is kept
-/// for source compatibility and reads the global [EdsTheme.instance].
+/// Theme-backed cases are resolved with [resolve] so local
+/// [EdsThemeScope] overrides and brightness are honored.
 ///
 /// Fixed platform colors (gray/pink/purple/teal/indigo) use their
 /// light-appearance values because Dart colors do not resolve dynamically per
