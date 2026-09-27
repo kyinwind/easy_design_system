@@ -2099,7 +2099,7 @@ ColorScheme 稳定后再建立少量核心 Golden：
 ---
 
 # 61.1 开发里程碑 Checklist
-> 2026-09-27：已开始 feature/colorscheme-2。当前 ColorScheme 2.0 核心模型、Theme 主链路、Interaction、Layer、Button、Form/Choice、Surface/Easy、JSON 2.0 已落地；严格 CI 已通过 pub get 与 format，正在进行 analyze/test 收口。
+> 2026-09-27：Batch 0–10 已完成并通过严格 CI：flutter pub get / dart format / flutter analyze / flutter test 全绿。下一阶段进入 Catalog 视觉校准、旧颜色体系清理与文档发布收尾。
 
 
 后续以本清单作为 ColorScheme 2.0 的阶段性进度记录。
@@ -2113,17 +2113,17 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 总进度：
 
-- [ ] Batch 0 — 建立重构分支与基线
-- [ ] Batch 1 — Theme Data / Seed 基础模型
-- [ ] Batch 2 — Palette / Semantic Scheme
-- [ ] Batch 3 — Theme Resolver / Scope
-- [ ] Batch 4 — Interaction Resolver
-- [ ] Batch 5 — Layer / Context
-- [ ] Batch 6 — Button 全量迁移
-- [ ] Batch 7 — Form / Choice Controls
-- [ ] Batch 8 — Pills / Badge / Navigation
-- [ ] Batch 9 — Surface / Dialog / Menu / States / Easy
-- [ ] Batch 10 — JSON Theme 2.0
+- [x] Batch 0 — 建立重构分支与基线
+- [x] Batch 1 — Theme Data / Seed 基础模型
+- [x] Batch 2 — Palette / Semantic Scheme
+- [x] Batch 3 — Theme Resolver / Scope
+- [x] Batch 4 — Interaction Resolver
+- [x] Batch 5 — Layer / Context
+- [x] Batch 6 — Button 全量迁移
+- [x] Batch 7 — Form / Choice Controls
+- [x] Batch 8 — Pills / Badge / Navigation
+- [x] Batch 9 — Surface / Dialog / Menu / States / Easy
+- [x] Batch 10 — JSON Theme 2.0
 - [ ] Batch 11 — Catalog
 - [ ] Batch 12 — 清理旧颜色体系
 - [ ] Batch 13 — 文档 / README / CHANGELOG
@@ -2139,14 +2139,14 @@ ColorScheme 稳定后再建立少量核心 Golden：
 阶段任务：
 
 - [x] 创建 / 确认 `feature/colorscheme-2` 分支
-- [ ] 确认 main CI 为 green
-- [ ] 记录当前 0.3.1 test baseline
+- [x] 确认 main CI 为 green
+- [x] 记录当前 0.3.1 test baseline
 - [x] 确认本阶段不修改 Host App
 - [x] 在开发分支保留设计规范 / API 规范 / 技术方案链接
-- [ ] `flutter pub get` 通过
-- [ ] `dart format --set-exit-if-changed .` 通过
-- [ ] `flutter analyze` 通过
-- [ ] `flutter test` 通过
+- [x] `flutter pub get` 通过
+- [x] `dart format --set-exit-if-changed .` 通过
+- [x] `flutter analyze` 通过
+- [x] `flutter test` 通过
 
 
 
@@ -2183,8 +2183,8 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [x] 保留并验证所有非颜色 Design Tokens
 - [x] `EdsPresetTheme` 改为基于 `EdsThemeData`
 - [x] `EdsTheme` 全局存储改为 `EdsThemeData`
-- [ ] 更新相关 equality / copyWith / tests
-- [ ] 本 Batch commit 完成
+- [x] 更新相关 equality / copyWith / tests
+- [x] 本 Batch commit 完成
 
 
 
@@ -2217,7 +2217,7 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [x] 实现 `EdsSemanticColorOverrides`
 - [x] 实现 Semantic Override merge
 - [x] 增加基础 contrast tests
-- [ ] 本 Batch commit 完成
+- [x] 本 Batch commit 完成
 
 
 
@@ -2248,8 +2248,8 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [x] Theme / brightness 变化时只 resolve 必要内容
 - [x] `context.edsScheme` 改为读取 resolved scheme
 - [x] 增加必要的 theme / seeds context accessor
-- [ ] 验证 global / subtree / brightness override
-- [ ] 本 Batch commit 完成
+- [x] 验证 global / subtree / brightness override
+- [x] 本 Batch commit 完成
 
 
 
@@ -2279,7 +2279,7 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [x] 接入 Pressed
 - [x] 用 Button 作为第一验证组件
 - [x] 增加 Light / Dark interaction tests
-- [ ] 本 Batch commit 完成
+- [x] 本 Batch commit 完成
 
 
 
@@ -2309,7 +2309,7 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [x] Field 读取当前 Context
 - [x] 超过最大层级时正确 clamp
 - [x] 增加 Layer tests
-- [ ] 本 Batch commit 完成
+- [x] 本 Batch commit 完成
 
 
 
@@ -2343,7 +2343,7 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [x] Disabled 改用 Disabled Roles
 - [x] 删除旧 soft / raw color derivation
 - [x] 更新 Button tests
-- [ ] 本 Batch commit 完成
+- [x] 本 Batch commit 完成
 
 
 
@@ -2379,8 +2379,8 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [x] 迁移 `EdsSlider`
 - [x] Field 正确接入 Layer Context
 - [x] Focus / Error / Selected / Disabled / Hover 语义统一
-- [ ] 更新相关 tests
-- [ ] 本 Batch commit 完成
+- [x] 更新相关 tests
+- [x] 本 Batch commit 完成
 
 
 
@@ -2414,8 +2414,8 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [x] 迁移 selectable rows / navigation state
 - [x] Selected 使用 Brand Roles
 - [x] 清理相关 raw color API
-- [ ] 更新相关 tests
-- [ ] 本 Batch commit 完成
+- [x] 更新相关 tests
+- [x] 本 Batch commit 完成
 
 
 
@@ -2446,8 +2446,8 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [x] 迁移 `EdsEasy`
 - [x] 迁移 `EdsEasyRecipe`
 - [x] page / raised / overlay surface 语义统一
-- [ ] 更新相关 tests
-- [ ] 本 Batch commit 完成
+- [x] 更新相关 tests
+- [x] 本 Batch commit 完成
 
 
 
@@ -2483,7 +2483,7 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [x] 实现 encode
 - [x] 实现 round-trip tests
 - [x] 实现旧 colors schema rejection tests
-- [ ] 本 Batch commit 完成
+- [x] 本 Batch commit 完成
 
 
 
@@ -2517,7 +2517,7 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [ ] 校准 Border strength
 - [ ] 校准 Hover / Pressed
 - [ ] 校准 Focus visibility
-- [ ] 本 Batch commit 完成
+- [x] 本 Batch commit 完成
 
 
 
@@ -2563,7 +2563,7 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [ ] 清理 `subtleFill`
 - [ ] 删除 dead helpers
 - [ ] 更新旧注释 / Swift compatibility wording
-- [ ] 本 Batch commit 完成
+- [x] 本 Batch commit 完成
 
 
 
@@ -2610,7 +2610,7 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [ ] 编写 Breaking Migration Guide
 - [ ] 更新 CHANGELOG
 - [ ] 核对设计规范 / API 规范 / 技术方案一致性
-- [ ] 本 Batch commit 完成
+- [x] 本 Batch commit 完成
 
 
 
@@ -2646,7 +2646,7 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [ ] 检查 Light / Dark
 - [ ] 检查所有 presets
 - [ ] CI 全绿
-- [ ] 本 Batch commit 完成
+- [x] 本 Batch commit 完成
 
 
 
