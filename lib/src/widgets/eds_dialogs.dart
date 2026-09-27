@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../color/eds_layer.dart';
 import '../primitives/eds_font.dart';
 import '../theme/eds_theme_scope.dart';
 import '../tokens/eds_color_scheme.dart';
@@ -30,12 +31,14 @@ class EdsAlertDialog extends StatelessWidget {
     final scheme = context.edsScheme;
     final titleText = title;
 
-    return AlertDialog(
-      backgroundColor: scheme.cardBackground,
+    return EdsLayerScope(
+      layer: EdsLayer.overlay,
+      child: AlertDialog(
+      backgroundColor: scheme.surfaceOverlay,
       surfaceTintColor: Colors.transparent,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(tokens.radius.lg),
-        side: BorderSide(color: scheme.border, width: tokens.stroke.hairline),
+        side: BorderSide(color: scheme.borderStrong, width: tokens.stroke.hairline),
       ),
       icon: icon,
       title: titleText == null
@@ -44,12 +47,12 @@ class EdsAlertDialog extends StatelessWidget {
               titleText,
               style: tokens.typography
                   .edsTextStyle(EdsFontRole.pageTitle)
-                  .copyWith(color: scheme.textPrimary),
+                  .copyWith(color: scheme.foregroundPrimary),
             ),
       content: DefaultTextStyle.merge(
         style: tokens.typography
             .edsTextStyle(EdsFontRole.body)
-            .copyWith(color: scheme.textSecondary),
+            .copyWith(color: scheme.foregroundSecondary),
         child: content,
       ),
       actions: actions,
@@ -70,6 +73,7 @@ class EdsAlertDialog extends StatelessWidget {
         tokens.spacing.lg,
         tokens.spacing.lg,
         0,
+      ),
       ),
     );
   }
