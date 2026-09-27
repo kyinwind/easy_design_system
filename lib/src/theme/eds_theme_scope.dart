@@ -1,27 +1,32 @@
 import 'package:flutter/material.dart';
 
 import '../color/eds_color_seeds.dart';
+import '../tokens/eds_color_scheme.dart';
 import '../tokens/eds_design_tokens.dart';
 import 'eds_preset_theme.dart';
+import 'eds_resolved_theme.dart';
 import 'eds_theme.dart';
 import 'eds_theme_data.dart';
+import 'eds_theme_resolver.dart';
 
-class _EdsThemeConfigScope extends InheritedWidget {
-  const _EdsThemeConfigScope({
-    required this.themeData,
-    required this.brightness,
+class _EdsThemeScopeData extends InheritedWidget {
+  const _EdsThemeScopeData({
+    required this.resolvedTheme,
+    required this.explicitBrightness,
     required super.child,
   });
 
-  final EdsThemeData themeData;
-  final Brightness? brightness;
+  final EdsResolvedTheme resolvedTheme;
+  final Brightness? explicitBrightness;
 
   @override
-  bool updateShouldNotify(_EdsThemeConfigScope oldWidget) =>
-      themeData != oldWidget.themeData || brightness != oldWidget.brightness;
+  bool updateShouldNotify(_EdsThemeScopeData oldWidget) =>
+      resolvedTheme.configuration != oldWidget.resolvedTheme.configuration ||
+      resolvedTheme.brightness != oldWidget.resolvedTheme.brightness ||
+      explicitBrightness != oldWidget.explicitBrightness;
 }
 
-/// Injects EDS theme configuration into a subtree.
+/// Injects and resolves EDS theme configuration for a subtree.
 ///
 /// Resolution order:
 /// explicit [theme] > [preset] > inherited/global theme, then optional
@@ -40,21 +45,11 @@ class EdsThemeScope extends StatelessWidget {
           'Provide either theme or preset, not both.',
         );
 
-  /// Full explicit theme configuration.
   final EdsThemeData? theme;
-
-  /// Preset used as the subtree base theme.
   final EdsPresetTheme? preset;
-
-  /// Partial chromatic seed overrides applied on top of the base theme.
   final EdsColorSeedOverrides? seeds;
-
-  /// Optional non-color token replacement for this subtree.
   final EdsDesignTokens? tokens;
-
-  /// Explicit brightness override.
   final Brightness? brightness;
-
   final Widget child;
 
   EdsThemeData _applyOverrides(EdsThemeData base) {
@@ -70,54 +65,68 @@ class EdsThemeScope extends StatelessWidget {
     return value;
   }
 
+  Widget _buildResolved(
+    BuildContext context,
+    EdsThemeData configuration, {
+    Brightness? inheritedExplicitBrightness,
+  }) {
+    final explicit = brightness ?? inheritedExplicitBrightness;
+    final effectiveBrightness =
+        explicit ?? Theme.maybeBrightnessOf(context) ?? Brightness.light;
+    final resolved = EdsThemeResolver.resolve(
+      theme: _applyOverrides(configuration),
+      brightness: effectiveBrightness,
+    );
+
+    return _EdsThemeScopeData(
+      resolvedTheme: resolved,
+      explicitBrightness: explicit,
+      child: child,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final explicitBase = theme ?? preset?.theme;
     if (explicitBase != null) {
-      return _EdsThemeConfigScope(
-        themeData: _applyOverrides(explicitBase),
-        brightness: brightness,
-        child: child,
-      );
+      return _buildResolved(context, explicitBase);
     }
 
     final inherited =
-        context.dependOnInheritedWidgetOfExactType<_EdsThemeConfigScope>();
+        context.dependOnInheritedWidgetOfExactType<_EdsThemeScopeData>();
     if (inherited != null) {
-      return _EdsThemeConfigScope(
-        themeData: _applyOverrides(inherited.themeData),
-        brightness: brightness ?? inherited.brightness,
-        child: child,
+      return _buildResolved(
+        context,
+        inherited.resolvedTheme.configuration,
+        inheritedExplicitBrightness: inherited.explicitBrightness,
       );
     }
 
     return ValueListenableBuilder<EdsThemeData>(
       valueListenable: EdsTheme.instance.themeListenable,
-      builder: (context, value, _) => _EdsThemeConfigScope(
-        themeData: _applyOverrides(value),
-        brightness: brightness,
-        child: child,
-      ),
+      builder: (context, value, _) => _buildResolved(context, value),
     );
   }
 }
 
 extension EdsThemeContextX on BuildContext {
-  EdsThemeData get edsThemeData =>
-      dependOnInheritedWidgetOfExactType<_EdsThemeConfigScope>()?.themeData ??
-      EdsTheme.instance.themeData;
+  EdsResolvedTheme get edsResolvedTheme {
+    final scope = dependOnInheritedWidgetOfExactType<_EdsThemeScopeData>();
+    if (scope != null) return scope.resolvedTheme;
 
-  EdsDesignTokens get edsTokens => edsThemeData.tokens;
-
-  EdsColorSeeds get edsSeeds => edsThemeData.seeds;
-
-  Brightness get edsBrightness {
-    final scope = dependOnInheritedWidgetOfExactType<_EdsThemeConfigScope>();
-    if (scope?.brightness != null) {
-      return scope!.brightness!;
-    }
-    return Theme.maybeBrightnessOf(this) ?? Brightness.light;
+    final effectiveBrightness =
+        Theme.maybeBrightnessOf(this) ?? Brightness.light;
+    return EdsThemeResolver.resolve(
+      theme: EdsTheme.instance.themeData,
+      brightness: effectiveBrightness,
+    );
   }
+
+  EdsThemeData get edsThemeData => edsResolvedTheme.configuration;
+  EdsDesignTokens get edsTokens => edsResolvedTheme.tokens;
+  EdsColorSeeds get edsSeeds => edsResolvedTheme.seeds;
+  EdsColorScheme get edsScheme => edsResolvedTheme.colorScheme;
+  Brightness get edsBrightness => edsResolvedTheme.brightness;
 }
 
 extension EdsThemeWidgetX on Widget {
