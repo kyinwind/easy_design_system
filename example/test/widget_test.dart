@@ -177,10 +177,21 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Color Foundation'), findsOneWidget);
+    expect(find.text('语义色彩校准'), findsOneWidget);
+    expect(find.text('当前 EDS'), findsOneWidget);
+    expect(find.text('Material 对齐'), findsOneWidget);
+    expect(find.text('Fluent 风格'), findsOneWidget);
+    expect(find.textContaining('三级文字'), findsNWidgets(3));
     expect(find.text('Layer / Context'), findsOneWidget);
     expect(find.text('Component Matrix'), findsOneWidget);
     expect(find.text('Light'), findsOneWidget);
     expect(find.text('Dark'), findsOneWidget);
+
+    await tester.tap(find.text('默认蓝色'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('紫色').last);
+    await tester.pumpAndSettle();
+    expect(find.text('紫色'), findsOneWidget);
 
     await tester.tap(find.text('Dark'));
     await tester.pumpAndSettle();

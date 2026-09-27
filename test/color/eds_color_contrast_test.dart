@@ -59,8 +59,8 @@ void main() {
           );
           expect(
             contrastRatio(scheme.foregroundTertiary, surface.$2),
-            greaterThanOrEqualTo(3),
-            reason: 'tertiary content on ${surface.$1}',
+            greaterThanOrEqualTo(4.5),
+            reason: 'tertiary text on ${surface.$1} must meet WCAG AA',
           );
         }
       });

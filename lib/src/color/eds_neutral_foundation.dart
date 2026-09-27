@@ -14,7 +14,7 @@ abstract final class EdsNeutralFoundation {
 
   static const Color lightForegroundPrimary = Color(0xFF111113);
   static const Color lightForegroundSecondary = Color(0xFF626267);
-  static const Color lightForegroundTertiary = Color(0xFF8A8A90);
+  static const Color lightForegroundTertiary = Color(0xFF6C6C72);
   static const Color lightForegroundDisabled = Color(0xFFB3B3B8);
   static const Color lightForegroundInverse = Color(0xFFFFFFFF);
 
@@ -39,7 +39,7 @@ abstract final class EdsNeutralFoundation {
 
   static const Color darkForegroundPrimary = Color(0xFFF5F5F6);
   static const Color darkForegroundSecondary = Color(0xFFB6B6BC);
-  static const Color darkForegroundTertiary = Color(0xFF8D8D95);
+  static const Color darkForegroundTertiary = Color(0xFF97979F);
   static const Color darkForegroundDisabled = Color(0xFF66666D);
   static const Color darkForegroundInverse = Color(0xFF111113);
 

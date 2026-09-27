@@ -41,6 +41,9 @@ ColorScheme 2.0 breaking release。
 
 - 新增 ColorScheme 2.0 Catalog Showcase：Color Foundation、Layer、
   Component Matrix、Blue / Orange / Purple、Light / Dark。
+- 新增当前 EDS / Material 对齐 / Fluent 风格三方案语义色彩校准视图。
+- `foregroundTertiary` 调整为浅色 `#6C6C72`、暗色 `#97979F`，
+  确保在全部中性 Surface 上达到 WCAG AA `4.5:1` 文字对比度。
 - 新增 Seed / Semantic Scheme / Contrast / Interaction / Layer /
   Theme JSON 测试。
 - 迁移现有 Widget / README compile / example tests。

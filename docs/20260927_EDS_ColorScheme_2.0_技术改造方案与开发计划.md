@@ -2133,7 +2133,7 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [x] Batch 14 — 最终 CI
 - [ ] Host Migration — RightClickMate
 - [ ] Host Migration — VideoHero
-- [ ] Release — ColorScheme 2.0 Breaking Version
+- [x] Release — ColorScheme 2.0 Breaking Version（0.4.0）
 
 ---
 

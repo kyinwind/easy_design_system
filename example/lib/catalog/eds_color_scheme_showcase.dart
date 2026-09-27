@@ -1,6 +1,8 @@
 import 'package:easy_design_system/easy_design_system.dart';
 import 'package:flutter/material.dart';
 
+import 'eds_color_calibration_showcase.dart';
+
 class EdsColorSchemeShowcase extends StatefulWidget {
   const EdsColorSchemeShowcase({super.key});
 
@@ -35,6 +37,10 @@ class _EdsColorSchemeShowcaseState extends State<EdsColorSchemeShowcase> {
                   spacing: tokens.spacing.xl,
                   children: <Widget>[
                     _toolbar(context),
+                    EdsColorCalibrationShowcase(
+                      preset: _preset,
+                      brightness: _brightness,
+                    ),
                     _colorFoundation(context),
                     _layerShowcase(context),
                     _componentMatrix(context),
