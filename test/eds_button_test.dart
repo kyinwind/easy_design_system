@@ -17,7 +17,7 @@ void main() {
       EdsButtonRole.primary.appearance,
       const EdsButtonAppearance(
         emphasis: EdsButtonEmphasis.filled,
-        tone: EdsButtonTone.accent,
+        tone: EdsButtonTone.brand,
         size: EdsButtonSize.regular,
       ),
     );
@@ -25,7 +25,7 @@ void main() {
       EdsButtonRole.secondary.appearance,
       const EdsButtonAppearance(
         emphasis: EdsButtonEmphasis.medium,
-        tone: EdsButtonTone.accent,
+        tone: EdsButtonTone.brand,
         size: EdsButtonSize.regular,
       ),
     );
@@ -33,7 +33,7 @@ void main() {
       EdsButtonRole.soft.appearance,
       const EdsButtonAppearance(
         emphasis: EdsButtonEmphasis.soft,
-        tone: EdsButtonTone.accent,
+        tone: EdsButtonTone.brand,
         size: EdsButtonSize.regular,
       ),
     );
@@ -60,73 +60,123 @@ void main() {
       const EdsButtonAppearance(),
       const EdsButtonAppearance(
         emphasis: EdsButtonEmphasis.filled,
-        tone: EdsButtonTone.accent,
+        tone: EdsButtonTone.brand,
         size: EdsButtonSize.regular,
       ),
     );
   });
 
-  test('medium emphasis has 25% tinted background', () {
+  test('medium emphasis uses an intermediate brand surface', () {
     const tokens = EdsDesignTokens();
-    final scheme = EdsColorScheme.resolve(tokens, Brightness.light);
+    final scheme = EdsColorScheme.resolve(
+      seeds: const EdsColorSeeds(),
+      brightness: Brightness.light,
+    );
     const appearance = EdsButtonAppearance(
       emphasis: EdsButtonEmphasis.medium,
-      tone: EdsButtonTone.accent,
+      tone: EdsButtonTone.brand,
     );
-    final visual = appearance.resolve(tokens: tokens, scheme: scheme);
+    final visual = appearance.resolve(
+      tokens: tokens,
+      scheme: scheme,
+      seeds: const EdsColorSeeds(),
+      brightness: Brightness.light,
+    );
 
-    expect(visual.background, tokens.colors.primary.withValues(alpha: 0.25));
+    expect(visual.background, isNotNull);
+    expect(visual.background, isNot(scheme.brandSurfaceStrong));
+    expect(visual.foreground, scheme.brandForeground);
     expect(visual.borderColor, isNull);
   });
 
-  test('medium neutral uses textPrimary foreground', () {
+  test('medium neutral uses primary neutral foreground', () {
     const tokens = EdsDesignTokens();
-    final scheme = EdsColorScheme.resolve(tokens, Brightness.light);
+    final scheme = EdsColorScheme.resolve(
+      seeds: const EdsColorSeeds(),
+      brightness: Brightness.light,
+    );
     const appearance = EdsButtonAppearance(
       emphasis: EdsButtonEmphasis.medium,
       tone: EdsButtonTone.neutral,
     );
-    final visual = appearance.resolve(tokens: tokens, scheme: scheme);
+    final visual = appearance.resolve(
+      tokens: tokens,
+      scheme: scheme,
+      seeds: const EdsColorSeeds(),
+      brightness: Brightness.light,
+    );
 
-    expect(visual.foreground, scheme.textPrimary);
+    expect(visual.foreground, scheme.foregroundPrimary);
   });
 
   test('outline emphasis uses border color and transparent background', () {
     const tokens = EdsDesignTokens();
-    final scheme = EdsColorScheme.resolve(tokens, Brightness.light);
+    final scheme = EdsColorScheme.resolve(
+      seeds: const EdsColorSeeds(),
+      brightness: Brightness.light,
+    );
     const appearance = EdsButtonAppearance(
       emphasis: EdsButtonEmphasis.outline,
-      tone: EdsButtonTone.accent,
+      tone: EdsButtonTone.brand,
     );
-    final visual = appearance.resolve(tokens: tokens, scheme: scheme);
+    final visual = appearance.resolve(
+      tokens: tokens,
+      scheme: scheme,
+      seeds: const EdsColorSeeds(),
+      brightness: Brightness.light,
+    );
 
     expect(visual.background, isNull);
-    expect(visual.borderColor, scheme.border);
-    expect(visual.foreground, tokens.colors.primary);
+    expect(visual.borderColor, scheme.brandBorder);
+    expect(visual.foreground, scheme.brandForeground);
   });
 
-  test('filled success/warning use white foreground', () {
+  test('filled success/warning use their semantic on-strong colors', () {
     const tokens = EdsDesignTokens();
-    final scheme = EdsColorScheme.resolve(tokens, Brightness.light);
+    final scheme = EdsColorScheme.resolve(
+      seeds: const EdsColorSeeds(),
+      brightness: Brightness.light,
+    );
 
-    for (final tone in [EdsButtonTone.success, EdsButtonTone.warning]) {
-      final appearance = EdsButtonAppearance(
-        emphasis: EdsButtonEmphasis.filled,
-        tone: tone,
-      );
-      final visual = appearance.resolve(tokens: tokens, scheme: scheme);
-      expect(visual.foreground, Colors.white, reason: '$tone filled');
-    }
+    final success = const EdsButtonAppearance(
+      emphasis: EdsButtonEmphasis.filled,
+      tone: EdsButtonTone.success,
+    ).resolve(
+      tokens: tokens,
+      scheme: scheme,
+      seeds: const EdsColorSeeds(),
+      brightness: Brightness.light,
+    );
+    final warning = const EdsButtonAppearance(
+      emphasis: EdsButtonEmphasis.filled,
+      tone: EdsButtonTone.warning,
+    ).resolve(
+      tokens: tokens,
+      scheme: scheme,
+      seeds: const EdsColorSeeds(),
+      brightness: Brightness.light,
+    );
+
+    expect(success.foreground, scheme.successOnStrong);
+    expect(warning.foreground, scheme.warningOnStrong);
   });
 
-  test('outline success uses textPrimary foreground', () {
+  test('outline success uses success semantic foreground', () {
     const tokens = EdsDesignTokens();
-    final scheme = EdsColorScheme.resolve(tokens, Brightness.light);
+    final scheme = EdsColorScheme.resolve(
+      seeds: const EdsColorSeeds(),
+      brightness: Brightness.light,
+    );
     const appearance = EdsButtonAppearance(
       emphasis: EdsButtonEmphasis.outline,
       tone: EdsButtonTone.success,
     );
-    final visual = appearance.resolve(tokens: tokens, scheme: scheme);
+    final visual = appearance.resolve(
+      tokens: tokens,
+      scheme: scheme,
+      seeds: const EdsColorSeeds(),
+      brightness: Brightness.light,
+    );
 
     expect(visual.foreground, scheme.textPrimary);
   });
@@ -225,12 +275,22 @@ void main() {
     expect(activations, 2);
   });
 
-  testWidgets('hover keeps button content fully opaque', (tester) async {
+  testWidgets('hover changes semantic button surface without opacity hacks', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(body: EdsButton('Hover', action: () {})),
       ),
     );
+
+    BoxDecoration decoration() {
+      final container =
+          tester.widget<AnimatedContainer>(find.byType(AnimatedContainer));
+      return container.decoration! as BoxDecoration;
+    }
+
+    final restColor = decoration().color;
 
     final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
     addTearDown(mouse.removePointer);
@@ -238,10 +298,9 @@ void main() {
     await mouse.moveTo(tester.getCenter(find.text('Hover')));
     await tester.pumpAndSettle();
 
-    final opacity = tester.widget<AnimatedOpacity>(
-      find.byType(AnimatedOpacity),
-    );
-    expect(opacity.opacity, 1.0);
+    final hoverColor = decoration().color;
+    expect(hoverColor, isNot(restColor));
+    expect(find.byType(AnimatedOpacity), findsNothing);
   });
 
   testWidgets('button supports optional tooltip', (tester) async {
