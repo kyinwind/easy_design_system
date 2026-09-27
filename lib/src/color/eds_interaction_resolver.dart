@@ -79,6 +79,24 @@ abstract final class EdsInteractionResolver {
     return palette.tone((base + delta).clamp(0, 100).toInt());
   }
 
+  static Color neutralStrongSurface({
+    required Brightness brightness,
+    required EdsInteractionState state,
+  }) {
+    final dark = brightness == Brightness.dark;
+    return switch (state) {
+      EdsInteractionState.rest => dark
+          ? EdsNeutralFoundation.darkNeutralStrongRest
+          : EdsNeutralFoundation.lightNeutralStrongRest,
+      EdsInteractionState.hovered => dark
+          ? EdsNeutralFoundation.darkNeutralStrongHover
+          : EdsNeutralFoundation.lightNeutralStrongHover,
+      EdsInteractionState.pressed => dark
+          ? EdsNeutralFoundation.darkNeutralStrongPressed
+          : EdsNeutralFoundation.lightNeutralStrongPressed,
+    };
+  }
+
   static Color neutralSurface({
     required Brightness brightness,
     required EdsInteractionState state,
