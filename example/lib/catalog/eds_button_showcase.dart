@@ -47,14 +47,14 @@ class EdsButtonShowcase extends StatelessWidget {
         Text(
           '按钮三维模型',
           style: tokens.typography.bodyStrong.copyWith(
-            color: scheme.textPrimary,
+            color: scheme.foregroundPrimary,
           ),
         ),
         Text(
           '底层实现由 emphasis × tone × size 三个正交维度驱动；'
           'Role 是一张预设别名表，两者汇入同一份渲染实现。',
           style: tokens.typography.caption.copyWith(
-            color: scheme.textSecondary,
+            color: scheme.foregroundSecondary,
           ),
         ),
       ],
@@ -73,7 +73,7 @@ class EdsButtonShowcase extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(tokens.spacing.lg),
       decoration: BoxDecoration(
-        color: scheme.cardBackground,
+        color: scheme.surfaceRaised,
         borderRadius: BorderRadius.circular(tokens.radius.lg),
       ),
       child: Column(
@@ -87,14 +87,14 @@ class EdsButtonShowcase extends StatelessWidget {
               Text(
                 title,
                 style: tokens.typography.bodyStrong.copyWith(
-                  color: scheme.textPrimary,
+                  color: scheme.foregroundPrimary,
                 ),
               ),
               if (subtitle != null)
                 Text(
                   subtitle,
                   style: tokens.typography.caption.copyWith(
-                    color: scheme.textSecondary,
+                    color: scheme.foregroundSecondary,
                   ),
                 ),
             ],
@@ -132,7 +132,7 @@ class EdsButtonShowcase extends StatelessWidget {
             '最后一个未指定 role，走默认 .primary。'
             '这行能编译即证明三维初始化未产生重载歧义。',
             style: tokens.typography.caption.copyWith(
-              color: scheme.textTertiary,
+              color: scheme.foregroundTertiary,
             ),
           ),
         ],
@@ -164,7 +164,7 @@ class EdsButtonShowcase extends StatelessWidget {
                     child: Text(
                       tone.name,
                       style: tokens.typography.caption.copyWith(
-                        color: scheme.textSecondary,
+                        color: scheme.foregroundSecondary,
                       ),
                     ),
                   ),
@@ -178,7 +178,7 @@ class EdsButtonShowcase extends StatelessWidget {
                     child: Text(
                       emphasis.name,
                       style: tokens.typography.caption.copyWith(
-                        color: scheme.textSecondary,
+                        color: scheme.foregroundSecondary,
                       ),
                     ),
                   ),
@@ -230,7 +230,7 @@ class EdsButtonShowcase extends StatelessWidget {
     Widget caption(String text) => Text(
           text,
           style:
-              tokens.typography.caption.copyWith(color: scheme.textSecondary),
+              tokens.typography.caption.copyWith(color: scheme.foregroundSecondary),
         );
     Widget column(String label, Widget child) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -286,7 +286,7 @@ class EdsButtonShowcase extends StatelessWidget {
             EdsButton.styled(
               '确定',
               emphasis: EdsButtonEmphasis.filled,
-              tone: EdsButtonTone.accent,
+              tone: EdsButtonTone.brand,
               size: EdsButtonSize.regular,
               action: () {},
             ),
@@ -298,7 +298,7 @@ class EdsButtonShowcase extends StatelessWidget {
             EdsButton.styled(
               '取消',
               emphasis: EdsButtonEmphasis.outline,
-              tone: EdsButtonTone.accent,
+              tone: EdsButtonTone.brand,
               size: EdsButtonSize.regular,
               action: () {},
             ),
@@ -310,7 +310,7 @@ class EdsButtonShowcase extends StatelessWidget {
             EdsButton.styled(
               '管理',
               emphasis: EdsButtonEmphasis.soft,
-              tone: EdsButtonTone.accent,
+              tone: EdsButtonTone.brand,
               size: EdsButtonSize.regular,
               action: () {},
             ),
@@ -361,7 +361,7 @@ class EdsButtonShowcase extends StatelessWidget {
           child: Text(
             label,
             style: tokens.typography.caption.copyWith(
-              color: scheme.textSecondary,
+              color: scheme.foregroundSecondary,
             ),
           ),
         ),
@@ -399,7 +399,7 @@ class EdsButtonShowcase extends StatelessWidget {
             EdsButton.styled(
               '更多',
               emphasis: EdsButtonEmphasis.plain,
-              tone: EdsButtonTone.accent,
+              tone: EdsButtonTone.brand,
               icon: Icons.more_horiz,
               action: () {},
             ),
@@ -411,7 +411,7 @@ class EdsButtonShowcase extends StatelessWidget {
             EdsButton.styled(
               '刷新',
               emphasis: EdsButtonEmphasis.outline,
-              tone: EdsButtonTone.accent,
+              tone: EdsButtonTone.brand,
               size: EdsButtonSize.small,
               action: () {},
             ),
@@ -423,7 +423,7 @@ class EdsButtonShowcase extends StatelessWidget {
             EdsButton.styled(
               '开始处理',
               emphasis: EdsButtonEmphasis.filled,
-              tone: EdsButtonTone.accent,
+              tone: EdsButtonTone.brand,
               size: EdsButtonSize.large,
               action: () {},
             ),
@@ -466,13 +466,13 @@ class EdsButtonShowcase extends StatelessWidget {
               Text(
                 title,
                 style: tokens.typography.caption.copyWith(
-                  color: scheme.textPrimary,
+                  color: scheme.foregroundPrimary,
                 ),
               ),
               Text(
                 note,
                 style: tokens.typography.caption.copyWith(
-                  color: scheme.textTertiary,
+                  color: scheme.foregroundTertiary,
                 ),
               ),
             ],
