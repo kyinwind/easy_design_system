@@ -12,7 +12,7 @@ void main() {
         home: Scaffold(
           body: ListView(
             children: [
-              const EdsBadge('Pro', style: EdsBadgeStyle.accent),
+              const EdsBadge('Pro', style: EdsBadgeStyle.brand),
               EdsToggle(isOn: true, label: '自动更新', onChanged: (value) {}),
               const EdsPageTitle('账户'),
               const EdsSectionTitle('通用'),
