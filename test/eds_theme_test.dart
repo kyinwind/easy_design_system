@@ -45,6 +45,30 @@ void main() {
     expect(EdsTheme.instance.spacing.md, 18);
   });
 
+  test('configureTheme applies preset, seed and semantic overrides', () {
+    EdsTheme.instance.configureTheme(
+      preset: EdsPresetTheme.orange,
+      seeds: const EdsColorSeedOverrides(
+        brand: Color(0xFF8B5CF6),
+      ),
+      semanticOverrides: const EdsSemanticOverrides(
+        light: EdsSemanticColorOverrides(
+          surfaceRaised: Color(0xFFFDFDFD),
+        ),
+      ),
+    );
+
+    expect(EdsTheme.instance.seeds.brand, const Color(0xFF8B5CF6));
+    expect(
+      EdsTheme.instance.themeData.semanticOverrides.light?.surfaceRaised,
+      const Color(0xFFFDFDFD),
+    );
+    expect(
+      EdsTheme.instance.heroGradient,
+      EdsPresetTheme.orange.theme.tokens.heroGradient,
+    );
+  });
+
   test('configureJsonString decodes and notifies listeners', () {
     var notified = false;
     EdsTheme.instance.themeListenable.addListener(() => notified = true);
