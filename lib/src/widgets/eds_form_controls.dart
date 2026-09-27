@@ -313,8 +313,8 @@ class EdsSegmented<T> extends StatelessWidget {
         ),
         foregroundColor: WidgetStateProperty.resolveWith(
           (states) => states.contains(WidgetState.selected)
-              ? tokens.colors.primary
-              : scheme.textSecondary,
+              ? scheme.brandForeground
+              : scheme.foregroundSecondary,
         ),
         backgroundColor: WidgetStateProperty.resolveWith(
           (states) => states.contains(WidgetState.selected)
