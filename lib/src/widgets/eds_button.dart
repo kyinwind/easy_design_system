@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../adaptive/eds_interaction_profile.dart';
 import '../adaptive/eds_resolved_metrics.dart';
 import '../adaptive/eds_size_class.dart';
+import '../color/eds_interaction_resolver.dart';
 import '../primitives/eds_font.dart';
 import '../theme/eds_theme_scope.dart';
 import '../tokens/eds_color_scheme.dart';
@@ -33,8 +34,11 @@ enum EdsButtonEmphasis {
 
 /// Semantic tone of a button. Mirrors Swift's `EDSButton.Tone`.
 enum EdsButtonTone {
-  /// Theme accent, for regular actions.
-  accent,
+  /// Theme brand, for regular actions.
+  brand,
+
+  /// Informational actions.
+  information,
 
   /// Neutral gray.
   neutral,
@@ -64,16 +68,16 @@ enum EdsButtonSize {
 /// Preset alias table: each role maps to a fixed emphasis/tone/size
 /// combination. Mirrors Swift's `EDSButton.Role`.
 enum EdsButtonRole {
-  /// Filled accent. Equivalent to `filled + accent + regular`.
+  /// Filled brand. Equivalent to `filled + brand + regular`.
   primary,
 
-  /// Medium accent (25% tinted). Equivalent to `medium + accent + regular`.
+  /// Medium brand (25% tinted). Equivalent to `medium + brand + regular`.
   ///
-  /// Was `outline + accent` before 0.4.0; outline was retired and secondary
+  /// Was `outline + brand` before 0.4.0; outline was retired and secondary
   /// automatically followed to medium — caller source code needs no change.
   secondary,
 
-  /// Soft accent. Equivalent to `soft + accent + regular`.
+  /// Soft brand. Equivalent to `soft + brand + regular`.
   soft,
 
   /// Filled danger. Equivalent to `filled + danger + regular`.
@@ -94,17 +98,17 @@ extension EdsButtonRoleX on EdsButtonRole {
     return switch (this) {
       EdsButtonRole.primary => const EdsButtonAppearance(
           emphasis: EdsButtonEmphasis.filled,
-          tone: EdsButtonTone.accent,
+          tone: EdsButtonTone.brand,
           size: EdsButtonSize.regular,
         ),
       EdsButtonRole.secondary => const EdsButtonAppearance(
           emphasis: EdsButtonEmphasis.medium,
-          tone: EdsButtonTone.accent,
+          tone: EdsButtonTone.brand,
           size: EdsButtonSize.regular,
         ),
       EdsButtonRole.soft => const EdsButtonAppearance(
           emphasis: EdsButtonEmphasis.soft,
-          tone: EdsButtonTone.accent,
+          tone: EdsButtonTone.brand,
           size: EdsButtonSize.regular,
         ),
       EdsButtonRole.danger => const EdsButtonAppearance(
@@ -145,7 +149,7 @@ extension EdsButtonRoleX on EdsButtonRole {
 class EdsButtonAppearance {
   const EdsButtonAppearance({
     this.emphasis = EdsButtonEmphasis.filled,
-    this.tone = EdsButtonTone.accent,
+    this.tone = EdsButtonTone.brand,
     this.size = EdsButtonSize.regular,
   });
 
@@ -164,105 +168,203 @@ class EdsButtonAppearance {
   @override
   int get hashCode => Object.hash(emphasis, tone, size);
 
-  /// Resolves this appearance into concrete visual values.
-  ///
-  /// Public so tests can verify visual rules without widget tests.
+  /// Resolves this appearance into concrete semantic visual values.
   EdsResolvedButtonVisual resolve({
     required EdsDesignTokens tokens,
     required EdsColorScheme scheme,
+    required EdsColorSeeds seeds,
+    required Brightness brightness,
+    EdsInteractionState state = EdsInteractionState.rest,
+    bool enabled = true,
   }) {
-    final colors = tokens.colors;
+    if (!enabled) {
+      return EdsResolvedButtonVisual(
+        foreground: scheme.foregroundDisabled,
+        background: switch (emphasis) {
+          EdsButtonEmphasis.filled ||
+          EdsButtonEmphasis.medium ||
+          EdsButtonEmphasis.soft =>
+            scheme.surfaceDisabled,
+          EdsButtonEmphasis.outline || EdsButtonEmphasis.plain => null,
+        },
+        borderColor: emphasis == EdsButtonEmphasis.outline
+            ? scheme.borderDisabled
+            : null,
+        borderWidth:
+            emphasis == EdsButtonEmphasis.outline ? tokens.stroke.hairline : 1.5,
+        height: _height(tokens),
+        horizontalPadding: _horizontalPadding(tokens),
+      );
+    }
 
-    final Color toneColor = switch (tone) {
-      EdsButtonTone.accent => colors.primary,
-      EdsButtonTone.neutral => scheme.label,
-      EdsButtonTone.danger => colors.danger,
-      EdsButtonTone.success => colors.success,
-      EdsButtonTone.warning => colors.warning,
-    };
+    final family = _interactionFamily;
+    final foreground = _toneForeground(scheme);
+    final onStrong = _toneOnStrong(scheme);
+    final border = _toneBorder(scheme);
 
-    final Color toneSoftColor = switch (tone) {
-      EdsButtonTone.accent => colors.primarySoft,
-      EdsButtonTone.neutral => scheme.label.withValues(alpha: 0.12),
-      EdsButtonTone.danger => colors.dangerSoft,
-      EdsButtonTone.success => colors.successSoft,
-      EdsButtonTone.warning => colors.warningSoft,
-    };
-
-    final Color foreground;
+    final Color resolvedForeground;
     final Color? background;
     final Color? borderColor;
 
-    switch (emphasis) {
-      case EdsButtonEmphasis.filled:
-        switch (tone) {
-          case EdsButtonTone.neutral:
-            foreground = scheme.pageBackground;
-            background = scheme.label.withValues(alpha: 0.75);
-          case EdsButtonTone.accent:
-          case EdsButtonTone.danger:
-            foreground = Colors.white;
-            background = toneColor;
-          case EdsButtonTone.success:
-          case EdsButtonTone.warning:
-            foreground = Colors.white;
-            background = toneColor;
-        }
-        borderColor = null;
-      case EdsButtonEmphasis.medium:
-        foreground = tone == EdsButtonTone.neutral
-            ? scheme.textPrimary
-            : _darkened(toneColor, 0.7);
-        background = toneColor.withValues(alpha: 0.25);
-        borderColor = null;
-      case EdsButtonEmphasis.outline:
-        foreground =
-            tone == EdsButtonTone.success ? scheme.textPrimary : toneColor;
-        background = null;
-        borderColor = scheme.border;
-      case EdsButtonEmphasis.soft:
-        foreground =
-            tone == EdsButtonTone.success ? scheme.textPrimary : toneColor;
-        background = toneSoftColor;
-        borderColor = null;
-      case EdsButtonEmphasis.plain:
-        foreground = toneColor;
-        background = null;
-        borderColor = null;
+    if (tone == EdsButtonTone.neutral) {
+      resolvedForeground = emphasis == EdsButtonEmphasis.filled
+          ? scheme.foregroundInverse
+          : scheme.foregroundPrimary;
+      switch (emphasis) {
+        case EdsButtonEmphasis.filled:
+          background = state == EdsInteractionState.rest
+              ? scheme.foregroundPrimary
+              : EdsInteractionResolver.neutralSurface(
+                  brightness: brightness,
+                  state: state,
+                );
+          borderColor = null;
+        case EdsButtonEmphasis.medium:
+        case EdsButtonEmphasis.soft:
+          background = state == EdsInteractionState.rest
+              ? scheme.surfaceSunken
+              : EdsInteractionResolver.neutralSurface(
+                  brightness: brightness,
+                  state: state,
+                );
+          borderColor = null;
+        case EdsButtonEmphasis.outline:
+          background = state == EdsInteractionState.rest
+              ? null
+              : EdsInteractionResolver.neutralSurface(
+                  brightness: brightness,
+                  state: state,
+                );
+          borderColor = scheme.borderDefault;
+        case EdsButtonEmphasis.plain:
+          background = state == EdsInteractionState.rest
+              ? null
+              : EdsInteractionResolver.neutralSurface(
+                  brightness: brightness,
+                  state: state,
+                );
+          borderColor = null;
+      }
+    } else {
+      resolvedForeground =
+          emphasis == EdsButtonEmphasis.filled ? onStrong : foreground;
+      switch (emphasis) {
+        case EdsButtonEmphasis.filled:
+          background = EdsInteractionResolver.strongSurface(
+            family: family!,
+            seeds: seeds,
+            brightness: brightness,
+            state: state,
+          );
+          borderColor = null;
+        case EdsButtonEmphasis.medium:
+          background = EdsInteractionResolver.mediumSurface(
+            family: family!,
+            seeds: seeds,
+            brightness: brightness,
+            state: state,
+          );
+          borderColor = null;
+        case EdsButtonEmphasis.soft:
+          background = EdsInteractionResolver.softSurface(
+            family: family!,
+            seeds: seeds,
+            brightness: brightness,
+            state: state,
+          );
+          borderColor = null;
+        case EdsButtonEmphasis.outline:
+          background = state == EdsInteractionState.rest
+              ? null
+              : EdsInteractionResolver.softSurface(
+                  family: family!,
+                  seeds: seeds,
+                  brightness: brightness,
+                  state: state,
+                );
+          borderColor = border;
+        case EdsButtonEmphasis.plain:
+          background = state == EdsInteractionState.rest
+              ? null
+              : EdsInteractionResolver.softSurface(
+                  family: family!,
+                  seeds: seeds,
+                  brightness: brightness,
+                  state: state,
+                );
+          borderColor = null;
+      }
     }
 
-    final double height = switch (size) {
+    return EdsResolvedButtonVisual(
+      foreground: resolvedForeground,
+      background: background,
+      borderColor: borderColor,
+      borderWidth:
+          emphasis == EdsButtonEmphasis.outline ? tokens.stroke.hairline : 1.5,
+      height: _height(tokens),
+      horizontalPadding: _horizontalPadding(tokens),
+    );
+  }
+
+  double _height(EdsDesignTokens tokens) {
+    return switch (size) {
       EdsButtonSize.small => 28,
       EdsButtonSize.regular => tokens.controlSize.buttonHeight,
       EdsButtonSize.large => 44,
     };
+  }
 
-    final double horizontalPadding = switch (size) {
+  double _horizontalPadding(EdsDesignTokens tokens) {
+    return switch (size) {
       EdsButtonSize.small => tokens.spacing.sm,
       EdsButtonSize.regular => tokens.spacing.md,
       EdsButtonSize.large => tokens.spacing.lg,
     };
-
-    final double borderWidth =
-        emphasis == EdsButtonEmphasis.outline ? tokens.stroke.hairline : 1.5;
-
-    return EdsResolvedButtonVisual(
-      foreground: foreground,
-      background: background,
-      borderColor: borderColor,
-      borderWidth: borderWidth,
-      height: height,
-      horizontalPadding: horizontalPadding,
-    );
   }
 
-  /// Darkens a color while preserving alpha.
-  ///
-  /// [factor] is the amount of the original color to keep. A value of 0.7
-  /// blends 70% original color with 30% black.
-  static Color _darkened(Color color, double factor) {
-    final black = Colors.black.withValues(alpha: color.a);
-    return Color.lerp(black, color, factor) ?? color;
+  EdsInteractionColorFamily? get _interactionFamily {
+    return switch (tone) {
+      EdsButtonTone.neutral => null,
+      EdsButtonTone.brand => EdsInteractionColorFamily.brand,
+      EdsButtonTone.information => EdsInteractionColorFamily.information,
+      EdsButtonTone.success => EdsInteractionColorFamily.success,
+      EdsButtonTone.warning => EdsInteractionColorFamily.warning,
+      EdsButtonTone.danger => EdsInteractionColorFamily.danger,
+    };
+  }
+
+  Color _toneForeground(EdsColorScheme scheme) {
+    return switch (tone) {
+      EdsButtonTone.neutral => scheme.foregroundPrimary,
+      EdsButtonTone.brand => scheme.brandForeground,
+      EdsButtonTone.information => scheme.informationForeground,
+      EdsButtonTone.success => scheme.successForeground,
+      EdsButtonTone.warning => scheme.warningForeground,
+      EdsButtonTone.danger => scheme.dangerForeground,
+    };
+  }
+
+  Color _toneBorder(EdsColorScheme scheme) {
+    return switch (tone) {
+      EdsButtonTone.neutral => scheme.borderDefault,
+      EdsButtonTone.brand => scheme.brandBorder,
+      EdsButtonTone.information => scheme.informationBorder,
+      EdsButtonTone.success => scheme.successBorder,
+      EdsButtonTone.warning => scheme.warningBorder,
+      EdsButtonTone.danger => scheme.dangerBorder,
+    };
+  }
+
+  Color _toneOnStrong(EdsColorScheme scheme) {
+    return switch (tone) {
+      EdsButtonTone.neutral => scheme.foregroundInverse,
+      EdsButtonTone.brand => scheme.brandOnStrong,
+      EdsButtonTone.information => scheme.informationOnStrong,
+      EdsButtonTone.success => scheme.successOnStrong,
+      EdsButtonTone.warning => scheme.warningOnStrong,
+      EdsButtonTone.danger => scheme.dangerOnStrong,
+    };
   }
 }
 
@@ -423,7 +525,7 @@ class EdsButton extends StatelessWidget {
     String title, {
     Key? key,
     required EdsButtonEmphasis emphasis,
-    EdsButtonTone tone = EdsButtonTone.accent,
+    EdsButtonTone tone = EdsButtonTone.brand,
     EdsButtonSize size = EdsButtonSize.regular,
     IconData? icon,
     @Deprecated('Use icon instead.') IconData? systemImage,
@@ -463,7 +565,7 @@ class EdsButton extends StatelessWidget {
     String title, {
     Key? key,
     required EdsButtonEmphasis emphasis,
-    EdsButtonTone tone = EdsButtonTone.accent,
+    EdsButtonTone tone = EdsButtonTone.brand,
     EdsButtonSize size = EdsButtonSize.regular,
     IconData? icon,
     String? tooltip,
