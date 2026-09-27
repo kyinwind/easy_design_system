@@ -583,7 +583,7 @@ Purple / Orange Preset 只应覆盖需要变化的 Family。
 
     material_color_utilities
 
-当前 pub.dev 稳定版本为 0.13.1，最低 Dart SDK 3.5，与本包当前 Dart 3.6 约束兼容。
+实现阶段确认 Flutter 3.47.5 将 `material_color_utilities` 固定为 0.13.0，因此本包显式依赖 `^0.13.0`，与 Flutter SDK pin 保持一致。
 
 推荐在 pubspec.yaml 中显式声明直接依赖，而不是依赖 Flutter 的传递依赖。
 
