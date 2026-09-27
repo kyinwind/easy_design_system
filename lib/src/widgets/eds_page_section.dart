@@ -42,14 +42,14 @@ class EdsPageSection extends StatelessWidget {
                 title,
                 style: tokens.typography
                     .edsTextStyle(EdsFontRole.sectionTitle)
-                    .copyWith(color: scheme.textPrimary),
+                    .copyWith(color: scheme.foregroundPrimary),
               ),
               if (subtitleText != null)
                 Text(
                   subtitleText,
                   style: tokens.typography
                       .edsTextStyle(EdsFontRole.caption)
-                      .copyWith(color: scheme.textSecondary),
+                      .copyWith(color: scheme.foregroundSecondary),
                 ),
             ],
           ),
@@ -57,7 +57,7 @@ class EdsPageSection extends StatelessWidget {
         if (showsDivider)
           Padding(
             padding: EdgeInsets.only(bottom: tokens.spacing.md),
-            child: Divider(height: 1, thickness: 1, color: scheme.border),
+            child: Divider(height: 1, thickness: 1, color: scheme.borderSubtle),
           ),
         child,
       ],
