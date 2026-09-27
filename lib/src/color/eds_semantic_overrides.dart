@@ -104,6 +104,58 @@ class EdsSemanticColorOverrides {
 
   bool get isEmpty => toJson().isEmpty;
 
+  EdsSemanticColorOverrides merge(EdsSemanticColorOverrides patch) {
+    return EdsSemanticColorOverrides(
+      surfacePage: patch.surfacePage ?? surfacePage,
+      surfaceBase: patch.surfaceBase ?? surfaceBase,
+      surfaceRaised: patch.surfaceRaised ?? surfaceRaised,
+      surfaceSunken: patch.surfaceSunken ?? surfaceSunken,
+      surfaceOverlay: patch.surfaceOverlay ?? surfaceOverlay,
+      surfaceDisabled: patch.surfaceDisabled ?? surfaceDisabled,
+      foregroundPrimary: patch.foregroundPrimary ?? foregroundPrimary,
+      foregroundSecondary: patch.foregroundSecondary ?? foregroundSecondary,
+      foregroundTertiary: patch.foregroundTertiary ?? foregroundTertiary,
+      foregroundDisabled: patch.foregroundDisabled ?? foregroundDisabled,
+      foregroundInverse: patch.foregroundInverse ?? foregroundInverse,
+      borderSubtle: patch.borderSubtle ?? borderSubtle,
+      borderDefault: patch.borderDefault ?? borderDefault,
+      borderStrong: patch.borderStrong ?? borderStrong,
+      borderSelected: patch.borderSelected ?? borderSelected,
+      borderFocus: patch.borderFocus ?? borderFocus,
+      borderDisabled: patch.borderDisabled ?? borderDisabled,
+      borderDanger: patch.borderDanger ?? borderDanger,
+      brandForeground: patch.brandForeground ?? brandForeground,
+      brandSurface: patch.brandSurface ?? brandSurface,
+      brandSurfaceStrong: patch.brandSurfaceStrong ?? brandSurfaceStrong,
+      brandBorder: patch.brandBorder ?? brandBorder,
+      brandOnStrong: patch.brandOnStrong ?? brandOnStrong,
+      informationForeground:
+          patch.informationForeground ?? informationForeground,
+      informationSurface: patch.informationSurface ?? informationSurface,
+      informationSurfaceStrong:
+          patch.informationSurfaceStrong ?? informationSurfaceStrong,
+      informationBorder: patch.informationBorder ?? informationBorder,
+      informationOnStrong: patch.informationOnStrong ?? informationOnStrong,
+      successForeground: patch.successForeground ?? successForeground,
+      successSurface: patch.successSurface ?? successSurface,
+      successSurfaceStrong:
+          patch.successSurfaceStrong ?? successSurfaceStrong,
+      successBorder: patch.successBorder ?? successBorder,
+      successOnStrong: patch.successOnStrong ?? successOnStrong,
+      warningForeground: patch.warningForeground ?? warningForeground,
+      warningSurface: patch.warningSurface ?? warningSurface,
+      warningSurfaceStrong:
+          patch.warningSurfaceStrong ?? warningSurfaceStrong,
+      warningBorder: patch.warningBorder ?? warningBorder,
+      warningOnStrong: patch.warningOnStrong ?? warningOnStrong,
+      dangerForeground: patch.dangerForeground ?? dangerForeground,
+      dangerSurface: patch.dangerSurface ?? dangerSurface,
+      dangerSurfaceStrong: patch.dangerSurfaceStrong ?? dangerSurfaceStrong,
+      dangerBorder: patch.dangerBorder ?? dangerBorder,
+      dangerOnStrong: patch.dangerOnStrong ?? dangerOnStrong,
+    );
+  }
+
   factory EdsSemanticColorOverrides.fromJson(Map<String, Object?>? json) {
     if (json == null) return const EdsSemanticColorOverrides();
 
@@ -258,6 +310,21 @@ class EdsSemanticOverrides {
 
   final EdsSemanticColorOverrides? light;
   final EdsSemanticColorOverrides? dark;
+
+  EdsSemanticOverrides merge(EdsSemanticOverrides patch) {
+    EdsSemanticColorOverrides? mergeSide(
+      EdsSemanticColorOverrides? base,
+      EdsSemanticColorOverrides? next,
+    ) {
+      if (next == null) return base;
+      return (base ?? const EdsSemanticColorOverrides()).merge(next);
+    }
+
+    return EdsSemanticOverrides(
+      light: mergeSide(light, patch.light),
+      dark: mergeSide(dark, patch.dark),
+    );
+  }
 
   factory EdsSemanticOverrides.fromJson(Map<String, Object?>? json) {
     if (json == null) return const EdsSemanticOverrides();
