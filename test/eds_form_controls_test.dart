@@ -84,15 +84,13 @@ void main() {
     expect(selected, 2);
   });
 
-  testWidgets('form controls follow local EDS theme tokens', (tester) async {
-    const local = EdsDesignTokens(
-      colors: EdsColorTokens(primary: Color(0xFFFF5500)),
-    );
+  testWidgets('form controls follow local EDS brand seed', (tester) async {
+    const brand = Color(0xFFFF5500);
 
     await tester.pumpWidget(
       const MaterialApp(
         home: EdsThemeScope(
-          tokens: local,
+          seeds: EdsColorSeedOverrides(brand: brand),
           child: Scaffold(
             body: EdsSegmented<int>(
               value: 1,
@@ -110,7 +108,11 @@ void main() {
     final color = segmented.style?.foregroundColor?.resolve(<WidgetState>{
       WidgetState.selected,
     });
-    expect(color, const Color(0xFFFF5500));
+    final expected = EdsColorScheme.resolve(
+      seeds: const EdsColorSeeds(brand: brand),
+      brightness: Brightness.light,
+    );
+    expect(color, expected.brandForeground);
   });
 
   testWidgets('EdsTextField shows explicit errorText', (tester) async {
