@@ -2099,7 +2099,7 @@ ColorScheme 稳定后再建立少量核心 Golden：
 ---
 
 # 61.1 开发里程碑 Checklist
-> 2026-09-27：已开始 feature/colorscheme-2。Batch 1 核心模型与 Theme 主链路已落地；组件仍引用旧颜色 API，当前属于预期 Breaking 中间态，待后续 Batch 迁移后再执行完整 analyze/test 验收。
+> 2026-09-27：已开始 feature/colorscheme-2。当前 ColorScheme 2.0 核心模型、Theme 主链路、Interaction、Layer、Button、Form/Choice、Surface/Easy、JSON 2.0 已落地；严格 CI 已通过 pub get 与 format，正在进行 analyze/test 收口。
 
 
 后续以本清单作为 ColorScheme 2.0 的阶段性进度记录。
@@ -2209,14 +2209,14 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 阶段任务：
 
-- [ ] 添加 `material_color_utilities` 直接依赖
-- [ ] 实现 `EdsTonalPalette`
-- [ ] 实现 `EdsNeutralFoundation`
-- [ ] 实现新的 `EdsColorScheme`
-- [ ] 实现 Brand / Information / Success / Warning / Danger Tone Mapping
-- [ ] 实现 `EdsSemanticColorOverrides`
-- [ ] 实现 Semantic Override merge
-- [ ] 增加基础 contrast tests
+- [x] 添加 `material_color_utilities` 直接依赖
+- [x] 实现 `EdsTonalPalette`
+- [x] 实现 `EdsNeutralFoundation`
+- [x] 实现新的 `EdsColorScheme`
+- [x] 实现 Brand / Information / Success / Warning / Danger Tone Mapping
+- [x] 实现 `EdsSemanticColorOverrides`
+- [x] 实现 Semantic Override merge
+- [x] 增加基础 contrast tests
 - [ ] 本 Batch commit 完成
 
 
@@ -2242,12 +2242,12 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 阶段任务：
 
-- [ ] 实现 `EdsThemeResolver`
-- [ ] 实现 `EdsResolvedTheme`
-- [ ] 重构 `EdsThemeScope`
-- [ ] Theme / brightness 变化时只 resolve 必要内容
-- [ ] `context.edsScheme` 改为读取 resolved scheme
-- [ ] 增加必要的 theme / seeds context accessor
+- [x] 实现 `EdsThemeResolver`
+- [x] 实现 `EdsResolvedTheme`
+- [x] 重构 `EdsThemeScope`
+- [x] Theme / brightness 变化时只 resolve 必要内容
+- [x] `context.edsScheme` 改为读取 resolved scheme
+- [x] 增加必要的 theme / seeds context accessor
 - [ ] 验证 global / subtree / brightness override
 - [ ] 本 Batch commit 完成
 
@@ -2272,13 +2272,13 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 阶段任务：
 
-- [ ] 定义内部 Interaction State 模型
-- [ ] 实现 Neutral interaction mapping
-- [ ] 实现 Chromatic tone movement
-- [ ] 接入 Hover
-- [ ] 接入 Pressed
-- [ ] 用 Button 作为第一验证组件
-- [ ] 增加 Light / Dark interaction tests
+- [x] 定义内部 Interaction State 模型
+- [x] 实现 Neutral interaction mapping
+- [x] 实现 Chromatic tone movement
+- [x] 接入 Hover
+- [x] 接入 Pressed
+- [x] 用 Button 作为第一验证组件
+- [x] 增加 Light / Dark interaction tests
 - [ ] 本 Batch commit 完成
 
 
@@ -2300,15 +2300,15 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 阶段任务：
 
-- [ ] 实现 `EdsLayer`
-- [ ] 实现 `EdsLayerScope`
-- [ ] 实现 `EdsLayerResolver`
-- [ ] Page 建立 Base Context
-- [ ] Card / Group 建立 Raised / Nested Context
-- [ ] Dialog / Menu 建立 Overlay Context
-- [ ] Field 读取当前 Context
-- [ ] 超过最大层级时正确 clamp
-- [ ] 增加 Layer tests
+- [x] 实现 `EdsLayer`
+- [x] 实现 `EdsLayerScope`
+- [x] 实现 `EdsLayerResolver`
+- [x] Page 建立 Base Context
+- [x] Card / Group 建立 Raised / Nested Context
+- [x] Dialog / Menu 建立 Overlay Context
+- [x] Field 读取当前 Context
+- [x] 超过最大层级时正确 clamp
+- [x] 增加 Layer tests
 - [ ] 本 Batch commit 完成
 
 
@@ -2331,18 +2331,18 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 阶段任务：
 
-- [ ] `EdsButtonTone.accent → brand`
-- [ ] 新增 `information` tone
-- [ ] filled 映射到 Semantic Roles
-- [ ] medium 映射到新 Palette / Recipe
-- [ ] outline 映射到 Semantic Roles
-- [ ] soft 映射到 Semantic Roles
-- [ ] plain 映射到 Semantic Roles
-- [ ] Hover / Pressed 改用 Interaction Resolver
-- [ ] Focus 使用 Focus Recipe
-- [ ] Disabled 改用 Disabled Roles
-- [ ] 删除旧 soft / raw color derivation
-- [ ] 更新 Button tests
+- [x] `EdsButtonTone.accent → brand`
+- [x] 新增 `information` tone
+- [x] filled 映射到 Semantic Roles
+- [x] medium 映射到新 Palette / Recipe
+- [x] outline 映射到 Semantic Roles
+- [x] soft 映射到 Semantic Roles
+- [x] plain 映射到 Semantic Roles
+- [x] Hover / Pressed 改用 Interaction Resolver
+- [x] Focus 使用 Focus Recipe
+- [x] Disabled 改用 Disabled Roles
+- [x] 删除旧 soft / raw color derivation
+- [x] 更新 Button tests
 - [ ] 本 Batch commit 完成
 
 
@@ -2368,17 +2368,17 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 阶段任务：
 
-- [ ] 迁移 `EdsTextField`
-- [ ] 迁移 `EdsTextFormField`
-- [ ] 迁移 `EdsDropdown`
-- [ ] 迁移 `EdsDropdownFormField`
-- [ ] 迁移 `EdsCheckbox`
-- [ ] 迁移 `EdsRadio`
-- [ ] 迁移 `EdsRadioGroup`
-- [ ] 迁移 `EdsSegmented`
-- [ ] 迁移 `EdsSlider`
-- [ ] Field 正确接入 Layer Context
-- [ ] Focus / Error / Selected / Disabled / Hover 语义统一
+- [x] 迁移 `EdsTextField`
+- [x] 迁移 `EdsTextFormField`
+- [x] 迁移 `EdsDropdown`
+- [x] 迁移 `EdsDropdownFormField`
+- [x] 迁移 `EdsCheckbox`
+- [x] 迁移 `EdsRadio`
+- [x] 迁移 `EdsRadioGroup`
+- [x] 迁移 `EdsSegmented`
+- [x] 迁移 `EdsSlider`
+- [x] Field 正确接入 Layer Context
+- [x] Focus / Error / Selected / Disabled / Hover 语义统一
 - [ ] 更新相关 tests
 - [ ] 本 Batch commit 完成
 
@@ -2407,13 +2407,13 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 阶段任务：
 
-- [ ] 迁移普通 Pill
-- [ ] 迁移 `EdsChoicePill`
-- [ ] 迁移 `EdsBadge`
-- [ ] 迁移 `EdsSidebar`
-- [ ] 迁移 selectable rows / navigation state
-- [ ] Selected 使用 Brand Roles
-- [ ] 清理相关 raw color API
+- [x] 迁移普通 Pill
+- [x] 迁移 `EdsChoicePill`
+- [x] 迁移 `EdsBadge`
+- [x] 迁移 `EdsSidebar`
+- [x] 迁移 selectable rows / navigation state
+- [x] Selected 使用 Brand Roles
+- [x] 清理相关 raw color API
 - [ ] 更新相关 tests
 - [ ] 本 Batch commit 完成
 
@@ -2437,15 +2437,15 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 阶段任务：
 
-- [ ] 迁移 `EdsPage`
-- [ ] 迁移 `EdsCard`
-- [ ] 迁移 `EdsGroup`
-- [ ] 迁移 Dialog
-- [ ] 迁移 Menu
-- [ ] 迁移 States
-- [ ] 迁移 `EdsEasy`
-- [ ] 迁移 `EdsEasyRecipe`
-- [ ] page / raised / overlay surface 语义统一
+- [x] 迁移 `EdsPage`
+- [x] 迁移 `EdsCard`
+- [x] 迁移 `EdsGroup`
+- [x] 迁移 Dialog
+- [x] 迁移 Menu
+- [x] 迁移 States
+- [x] 迁移 `EdsEasy`
+- [x] 迁移 `EdsEasyRecipe`
+- [x] page / raised / overlay surface 语义统一
 - [ ] 更新相关 tests
 - [ ] 本 Batch commit 完成
 
@@ -2473,16 +2473,16 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 阶段任务：
 
-- [ ] 实现新 colors.seeds schema
-- [ ] 实现 semanticOverrides.light
-- [ ] 实现 semanticOverrides.dark
-- [ ] 保留 spacing / radius / typography / controlSize / adaptiveLayout / heroGradient / stroke / shadow 原 schema
-- [ ] 更新 bundled default theme JSON
-- [ ] 默认 JSON 显式包含 stroke / shadow
-- [ ] 实现 decode
-- [ ] 实现 encode
-- [ ] 实现 round-trip tests
-- [ ] 实现旧 colors schema rejection tests
+- [x] 实现新 colors.seeds schema
+- [x] 实现 semanticOverrides.light
+- [x] 实现 semanticOverrides.dark
+- [x] 保留 spacing / radius / typography / controlSize / adaptiveLayout / heroGradient / stroke / shadow 原 schema
+- [x] 更新 bundled default theme JSON
+- [x] 默认 JSON 显式包含 stroke / shadow
+- [x] 实现 decode
+- [x] 实现 encode
+- [x] 实现 round-trip tests
+- [x] 实现旧 colors schema rejection tests
 - [ ] 本 Batch commit 完成
 
 
