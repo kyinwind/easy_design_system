@@ -35,7 +35,7 @@ class CatalogSplitScaffold extends StatelessWidget {
               VerticalDivider(
                 width: 1,
                 thickness: 1,
-                color: context.edsScheme.border,
+                color: context.edsScheme.borderDefault,
               ),
               Expanded(child: child),
             ],
@@ -44,7 +44,7 @@ class CatalogSplitScaffold extends StatelessWidget {
         return Column(
           children: <Widget>[
             _chipRow(context),
-            Divider(height: 1, thickness: 1, color: context.edsScheme.border),
+            Divider(height: 1, thickness: 1, color: context.edsScheme.borderDefault),
             Expanded(child: child),
           ],
         );
@@ -55,7 +55,7 @@ class CatalogSplitScaffold extends StatelessWidget {
   Widget _sidebar(BuildContext context) {
     final tokens = context.edsTokens;
     return Container(
-      color: context.edsScheme.cardBackground,
+      color: context.edsScheme.surfaceRaised,
       padding: EdgeInsets.all(tokens.spacing.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,7 +77,7 @@ class CatalogSplitScaffold extends StatelessWidget {
   Widget _chipRow(BuildContext context) {
     final tokens = context.edsTokens;
     return Container(
-      color: context.edsScheme.cardBackground,
+      color: context.edsScheme.surfaceRaised,
       padding: EdgeInsets.symmetric(
         horizontal: tokens.spacing.md,
         vertical: tokens.spacing.xs,
@@ -130,7 +130,7 @@ class GalleryExample extends StatelessWidget {
             Text(
               title,
               style: tokens.typography.bodyStrong.copyWith(
-                color: tokens.colors.primary,
+                color: context.edsScheme.brandForeground,
               ),
             ),
             Container(
@@ -140,13 +140,13 @@ class GalleryExample extends StatelessWidget {
                 vertical: tokens.spacing.xs,
               ),
               decoration: BoxDecoration(
-                color: scheme.subtleFill,
+                color: scheme.surfaceSunken,
                 borderRadius: BorderRadius.circular(tokens.radius.sm),
               ),
               child: Text(
                 usage,
                 style: tokens.typography.monoCaption.copyWith(
-                  color: scheme.textSecondary,
+                  color: scheme.foregroundSecondary,
                 ),
               ),
             ),
