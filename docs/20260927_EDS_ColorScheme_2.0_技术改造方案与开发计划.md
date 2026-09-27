@@ -2124,7 +2124,7 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [x] Batch 8 — Pills / Badge / Navigation
 - [x] Batch 9 — Surface / Dialog / Menu / States / Easy
 - [x] Batch 10 — JSON Theme 2.0
-- [ ] Batch 11 — Catalog
+- [x] Batch 11 — Catalog
 - [ ] Batch 12 — 清理旧颜色体系
 - [ ] Batch 13 — 文档 / README / CHANGELOG
 - [ ] Batch 14 — 最终 CI
@@ -2506,11 +2506,11 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 阶段任务：
 
-- [ ] 新增 Color Foundation 页面
-- [ ] 新增 Layer 页面
-- [ ] 新增 Component Matrix
-- [ ] 支持 Blue / Orange / Purple 切换
-- [ ] 支持 Light / Dark 切换
+- [x] 新增 Color Foundation 页面
+- [x] 新增 Layer 页面
+- [x] 新增 Component Matrix
+- [x] 支持 Blue / Orange / Purple 切换
+- [x] 支持 Light / Dark 切换
 - [ ] 校准 Brand Tone Mapping
 - [ ] 校准 Warning Tone Mapping
 - [ ] 校准 Surface hierarchy
