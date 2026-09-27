@@ -1,4 +1,5 @@
 import 'package:easy_design_system/easy_design_system.dart';
+import 'package:easy_design_system_example/catalog/eds_design_system_preview.dart';
 import 'package:easy_design_system_example/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,6 +11,69 @@ void main() {
 
   tearDown(() {
     EdsTheme.instance.applyPreset(EdsPresetTheme.defaultTheme);
+  });
+
+  test('Catalog Preview 保留未编辑的 Theme 字段并可完整导出', () {
+    const semanticOverrides = EdsSemanticOverrides(
+      light: EdsSemanticColorOverrides(
+        surfaceRaised: Color(0xFFF1F2F3),
+      ),
+      dark: EdsSemanticColorOverrides(
+        borderStrong: Color(0xFF778899),
+      ),
+    );
+    const adaptiveLayout = EdsAdaptiveLayoutTokens(
+      compactPagePadding: 19,
+      regularPagePadding: 37,
+      readableContentMaxWidth: 913,
+      minimumTouchTarget: 47,
+      minimumHybridTarget: 43,
+    );
+    const stroke = EdsStrokeTokens(hairline: 1.5);
+    const shadow = EdsShadowTokens(
+      color: '#123456',
+      opacity: 0.17,
+      radius: 23,
+      x: 2,
+      y: 11,
+    );
+    const baseTheme = EdsThemeData(
+      semanticOverrides: semanticOverrides,
+      tokens: EdsDesignTokens(
+        adaptiveLayout: adaptiveLayout,
+        stroke: stroke,
+        shadow: shadow,
+      ),
+    );
+    final editedSeeds = baseTheme.seeds.copyWith(
+      brand: const Color(0xFF3344EE),
+    );
+    final editedSpacing = baseTheme.tokens.spacing.copyWith(md: 21);
+    final editedRadius = baseTheme.tokens.radius.copyWith(lg: 17);
+
+    final draft = buildCatalogPreviewTheme(
+      baseTheme: baseTheme,
+      seeds: editedSeeds,
+      spacing: editedSpacing,
+      radius: editedRadius,
+      typography: baseTheme.tokens.typography,
+      controlSize: baseTheme.tokens.controlSize,
+      heroGradient: baseTheme.tokens.heroGradient,
+    );
+
+    expect(draft.seeds, editedSeeds);
+    expect(draft.tokens.spacing, editedSpacing);
+    expect(draft.tokens.radius, editedRadius);
+    expect(draft.semanticOverrides, same(semanticOverrides));
+    expect(draft.tokens.adaptiveLayout, same(adaptiveLayout));
+    expect(draft.tokens.stroke, same(stroke));
+    expect(draft.tokens.shadow, same(shadow));
+
+    final exported = decodeThemeJson(encodeThemeJson(draft));
+    expect(exported.semanticOverrides, semanticOverrides);
+    expect(exported.tokens.adaptiveLayout, adaptiveLayout);
+    expect(exported.tokens.stroke, stroke);
+    expect(exported.tokens.shadow, shadow);
   });
 
   testWidgets('启动后展示主题条与 Gallery 默认节', (tester) async {
@@ -50,6 +114,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('应用到 Runtime'), findsOneWidget);
     expect(find.text('导出 JSON'), findsOneWidget);
+    expect(find.text('未在编辑器中展示的 Theme Token 会原样保留。'), findsOneWidget);
     expect(find.text('颜色'), findsWidgets);
 
     await tester.tap(find.widgetWithText(Tab, '设置'));

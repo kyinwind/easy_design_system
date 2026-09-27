@@ -4,6 +4,31 @@ import 'package:flutter/services.dart';
 
 import 'catalog_support.dart';
 
+/// Builds the preview theme by patching only fields exposed by the editor.
+///
+/// Theme fields that the Catalog cannot edit yet must remain anchored to
+/// [baseTheme], so applying or exporting a draft never resets them.
+EdsThemeData buildCatalogPreviewTheme({
+  required EdsThemeData baseTheme,
+  required EdsColorSeeds seeds,
+  required EdsSpacingTokens spacing,
+  required EdsRadiusTokens radius,
+  required EdsTypographyTokens typography,
+  required EdsControlSizeTokens controlSize,
+  required EdsHeroGradient heroGradient,
+}) {
+  return baseTheme.copyWith(
+    seeds: seeds,
+    tokens: baseTheme.tokens.copyWith(
+      spacing: spacing,
+      radius: radius,
+      typography: typography,
+      controlSize: controlSize,
+      heroGradient: heroGradient,
+    ),
+  );
+}
+
 class EdsDesignSystemPreview extends StatefulWidget {
   const EdsDesignSystemPreview({super.key});
 
@@ -42,15 +67,14 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
   }
 
   EdsThemeData _buildDraftTheme() {
-    return _baseTheme.copyWith(
+    return buildCatalogPreviewTheme(
+      baseTheme: _baseTheme,
       seeds: _draftSeeds,
-      tokens: _baseTheme.tokens.copyWith(
-        spacing: _draftSpacing,
-        radius: _draftRadius,
-        typography: _draftTypography,
-        controlSize: _draftControlSize,
-        heroGradient: _draftHeroGradient,
-      ),
+      spacing: _draftSpacing,
+      radius: _draftRadius,
+      typography: _draftTypography,
+      controlSize: _draftControlSize,
+      heroGradient: _draftHeroGradient,
     );
   }
 
@@ -724,6 +748,13 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Text(
+              '未在编辑器中展示的 Theme Token 会原样保留。',
+              style: tokens.typography.caption.copyWith(
+                color: scheme.foregroundSecondary,
+              ),
+            ),
+            SizedBox(height: tokens.spacing.sm),
             _editorSection(context, '颜色', <Widget>[
               _colorRow(
                 context,

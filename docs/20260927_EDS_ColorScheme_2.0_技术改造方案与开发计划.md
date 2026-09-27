@@ -2511,6 +2511,8 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [x] 新增 Component Matrix
 - [x] 支持 Blue / Orange / Purple 切换
 - [x] 支持 Light / Dark 切换
+- [x] Preview 在应用 / 导出时保留未编辑的 Theme 字段，并补充回归测试
+- [x] 排查 Catalog 的旧颜色 API 残留
 - [ ] 校准 Brand Tone Mapping
 - [ ] 校准 Warning Tone Mapping
 - [ ] 校准 Surface hierarchy
