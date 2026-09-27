@@ -110,8 +110,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
         return Column(
           children: <Widget>[
             _actionBar(context),
-            Divider(
-                height: 1, thickness: 1, color: scheme.borderDefault),
+            Divider(height: 1, thickness: 1, color: scheme.borderDefault),
             Expanded(
               child: isWide
                   ? Row(
@@ -1277,8 +1276,7 @@ class _CatalogColorPickerDialogState extends State<CatalogColorPickerDialog> {
                   decoration: BoxDecoration(
                     color: _currentColor,
                     borderRadius: BorderRadius.circular(6),
-                    border: Border.all(
-                        color: scheme.borderDefault, width: 1),
+                    border: Border.all(color: scheme.borderDefault, width: 1),
                   ),
                 ),
                 const SizedBox(width: 12),
