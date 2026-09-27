@@ -79,7 +79,7 @@ enum EdsPillTone {
     teal,
   ];
 
-  _EdsResolvedPillTone resolve(Brightness brightness) {
+  _EdsResolvedPillTone _resolve(Brightness brightness) {
     final palette = EdsTonalPalette.fromSeed(_seed);
     final dark = brightness == Brightness.dark;
     return _EdsResolvedPillTone(
@@ -156,7 +156,7 @@ class _EdsPillState extends State<EdsPill> {
       horizontalSizeClass: context.edsSizeClass,
     );
     final reduceMotion = MediaQuery.maybeDisableAnimationsOf(context) ?? false;
-    final resolvedTone = widget.tone.resolve(context.edsBrightness);
+    final resolvedTone = widget.tone._resolve(context.edsBrightness);
 
     Widget content = Row(
       mainAxisSize: MainAxisSize.min,
