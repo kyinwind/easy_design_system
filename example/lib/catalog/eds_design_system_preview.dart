@@ -110,7 +110,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
         return Column(
           children: <Widget>[
             _actionBar(context),
-            Divider(height: 1, thickness: 1, color: scheme.borderDefault),
+            Divider(height: 1, thickness: 1, color: scheme.borderDefaultDefault),
             Expanded(
               child: isWide
                   ? Row(
@@ -120,7 +120,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                         VerticalDivider(
                           width: 1,
                           thickness: 1,
-                          color: scheme.borderDefault,
+                          color: scheme.borderDefaultDefault,
                         ),
                         SizedBox(width: 380, child: _editorPanel(context)),
                       ],
@@ -1029,7 +1029,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
         const SizedBox(height: 8),
         Column(spacing: 8, children: rows),
         const SizedBox(height: 12),
-        Divider(height: 1, thickness: 1, color: scheme.borderDefault),
+        Divider(height: 1, thickness: 1, color: scheme.borderDefaultDefault),
       ],
     );
   }
@@ -1062,7 +1062,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
             decoration: BoxDecoration(
               color: color,
               borderRadius: BorderRadius.circular(4),
-              border: Border.all(color: scheme.borderDefault, width: 1),
+              border: Border.all(color: scheme.borderDefaultDefault, width: 1),
             ),
           ),
         ),
@@ -1276,7 +1276,7 @@ class _CatalogColorPickerDialogState extends State<CatalogColorPickerDialog> {
                   decoration: BoxDecoration(
                     color: _currentColor,
                     borderRadius: BorderRadius.circular(6),
-                    border: Border.all(color: scheme.borderDefault, width: 1),
+                    border: Border.all(color: scheme.borderDefaultDefault, width: 1),
                   ),
                 ),
                 const SizedBox(width: 12),
