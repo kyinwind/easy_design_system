@@ -1,5 +1,57 @@
 # Changelog
 
+## 0.4.0
+
+> ColorScheme 2.0 breaking release（开发中）。
+
+### Theme / Color System
+
+- 新增 Seed → Tonal Palette → Semantic Color Scheme → Component Recipe 架构。
+- 新增 `EdsThemeData`、`EdsColorSeeds`、`EdsColorSeedOverrides`、
+  `EdsSemanticOverrides` 与 `EdsResolvedTheme`。
+- `EdsDesignTokens` 继续管理 spacing / radius / typography / controlSize /
+  adaptiveLayout / heroGradient / stroke / shadow，但不再保存 colors。
+- 新增 EDS-owned Neutral Foundation、Brand / Information / Success /
+  Warning / Danger Semantic Families。
+- 新增 Interaction Resolver 与 Layer / Context。
+- Seed Palette 使用 perceptual tonal palette，当前基于
+  `material_color_utilities`。
+
+### Breaking API
+
+- 删除 `EdsColorTokens` 与旧 `primary / accent / *Soft` 颜色体系。
+- `EdsButtonTone.accent` 改为 `EdsButtonTone.brand`，新增
+  `information`。
+- `EdsBadgeStyle.accent` 改为 `EdsBadgeStyle.brand`。
+- `EdsValueRow.tone` 从 Raw Color 改为 `EdsValueTone`。
+- `EdsCard` / `EdsGroup` 不再提供标准组件级 Raw Background Override。
+- `EdsTheme.instance.tokensListenable` 改为 `themeListenable`。
+- JSON `colors.primary` 等旧 schema 被替换为
+  `colors.seeds + colors.semanticOverrides`，不保留兼容解析。
+
+### Components
+
+- Button / Form Controls / Choice / Badge / Sidebar / Surface / Dialog /
+  Menu / States / Easy API 全部迁移到 Semantic Color Scheme。
+- Focus / Selected / Primary Action / Active Navigation 默认使用 Brand。
+- Disabled 使用独立 Semantic Roles，不再统一整组件 opacity。
+- Field Surface 支持 Layer Context。
+
+### Catalog / Tests
+
+- 新增 ColorScheme 2.0 Catalog Showcase：Color Foundation、Layer、
+  Component Matrix、Blue / Orange / Purple、Light / Dark。
+- 新增 Seed / Semantic Scheme / Contrast / Interaction / Layer /
+  Theme JSON 测试。
+- 迁移现有 Widget / README compile / example tests。
+
+### Migration
+
+- 详见
+  `docs/20260927_EDS_ColorScheme_2.0_Breaking_Migration_Guide.md`。
+
+---
+
 ## 0.3.1 — 2026-09-27
 
 Host-app form integration improvements discovered during the RightClickMate migration.
