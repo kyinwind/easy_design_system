@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../primitives/eds_font.dart';
 import '../theme/eds_theme_scope.dart';
-import '../tokens/eds_color_scheme.dart';
 
 /// A collapsible section with an expanding header, mirroring Swift's
 /// `EDSCollapsibleSection`.
