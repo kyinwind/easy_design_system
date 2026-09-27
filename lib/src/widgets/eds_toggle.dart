@@ -8,8 +8,7 @@ import '../tokens/eds_color_scheme.dart';
 ///
 /// Deviations from Swift:
 /// - Swift's `Binding<Bool>` maps to [isOn] plus [onChanged].
-/// - The switch track tint follows the theme primary color via a scoped
-///   [SwitchTheme].
+/// - The selected switch track follows the scoped Brand semantic color.
 class EdsToggle extends StatelessWidget {
   const EdsToggle({
     super.key,
@@ -45,7 +44,7 @@ class EdsToggle extends StatelessWidget {
                   label,
                   style: tokens.typography
                       .edsTextStyle(EdsFontRole.body)
-                      .copyWith(color: context.edsScheme.textPrimary),
+                      .copyWith(color: context.edsScheme.foregroundPrimary),
                 ),
               ),
               if (expands) const Spacer(),
@@ -54,7 +53,7 @@ class EdsToggle extends StatelessWidget {
                 data: SwitchTheme.of(context).copyWith(
                   trackColor: WidgetStateProperty.resolveWith(
                     (states) => states.contains(WidgetState.selected)
-                        ? tokens.colors.primary
+                        ? context.edsScheme.brandSurfaceStrong
                         : null,
                   ),
                 ),
