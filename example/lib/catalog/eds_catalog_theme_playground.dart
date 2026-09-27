@@ -208,8 +208,8 @@ class _CatalogThemeBarState extends State<CatalogThemeBar> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: color,
-                      border:
-                          Border.all(color: scheme.borderDefaultDefault, width: 0.5),
+                      border: Border.all(
+                          color: scheme.borderDefaultDefault, width: 0.5),
                     ),
                   ),
                 ),
