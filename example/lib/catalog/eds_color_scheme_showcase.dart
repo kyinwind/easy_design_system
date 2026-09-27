@@ -316,7 +316,7 @@ class _EdsColorSchemeShowcaseState extends State<EdsColorSchemeShowcase> {
           EdsCheckbox(
             value: _checked,
             label: 'Selected → Brand',
-            onChanged: (value) => setState(() => _checked = value),
+            onChanged: (value) => setState(() => _checked = value ?? false),
           ),
           EdsToggle(
             isOn: _toggle,
@@ -326,7 +326,7 @@ class _EdsColorSchemeShowcaseState extends State<EdsColorSchemeShowcase> {
           EdsSegmented<int>(
             value: _segment,
             values: const <int>[0, 1, 2],
-            labelBuilder: (value) => Text('Option ${value + 1}'),
+            labelBuilder: (value) => 'Option ${value + 1}',
             onChanged: (value) => setState(() => _segment = value),
           ),
           const EdsTextField(
