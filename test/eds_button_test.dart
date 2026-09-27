@@ -178,7 +178,7 @@ void main() {
       brightness: Brightness.light,
     );
 
-    expect(visual.foreground, scheme.textPrimary);
+    expect(visual.foreground, scheme.successForeground);
   });
 
   testWidgets('button renders title and icon and fires action on tap', (
