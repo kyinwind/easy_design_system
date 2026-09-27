@@ -84,7 +84,7 @@ class _EdsCollapsibleSectionState extends State<EdsCollapsibleSection> {
     return Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: scheme.cardBackground,
+        color: scheme.surfaceRaised,
         borderRadius: BorderRadius.circular(tokens.radius.md),
       ),
       child: Column(
@@ -108,7 +108,7 @@ class _EdsCollapsibleSectionState extends State<EdsCollapsibleSection> {
                           title,
                           style: tokens.typography
                               .edsTextStyle(EdsFontRole.sectionTitle)
-                              .copyWith(color: scheme.textPrimary),
+                              .copyWith(color: scheme.foregroundPrimary),
                         ),
                       )
                     else
@@ -120,7 +120,7 @@ class _EdsCollapsibleSectionState extends State<EdsCollapsibleSection> {
                       child: Icon(
                         Icons.chevron_right,
                         size: 12,
-                        color: scheme.textSecondary,
+                        color: scheme.foregroundSecondary,
                       ),
                     ),
                   ],
@@ -144,7 +144,7 @@ class _EdsCollapsibleSectionState extends State<EdsCollapsibleSection> {
                           child: Divider(
                             height: 1,
                             thickness: 1,
-                            color: scheme.border,
+                            color: scheme.borderSubtle,
                           ),
                         ),
                       Padding(
