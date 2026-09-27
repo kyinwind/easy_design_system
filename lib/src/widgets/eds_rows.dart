@@ -91,15 +91,30 @@ class EdsSettingRow extends StatelessWidget {
   }
 }
 
+/// Semantic tone for [EdsValueRow] values.
+enum EdsValueTone {
+  neutral,
+  brand,
+  information,
+  success,
+  warning,
+  danger,
+}
+
 /// A row showing a label and a value, mirroring Swift's `EDSValueRow`.
 class EdsValueRow extends StatelessWidget {
-  const EdsValueRow(this.title, {super.key, required this.value, this.tone});
+  const EdsValueRow(
+    this.title, {
+    super.key,
+    required this.value,
+    this.tone = EdsValueTone.neutral,
+  });
 
   final String title;
   final String value;
 
-  /// Optional color override for the value text.
-  final Color? tone;
+  /// Semantic intent for the value text.
+  final EdsValueTone tone;
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +136,16 @@ class EdsValueRow extends StatelessWidget {
       value,
       style: tokens.typography
           .edsTextStyle(EdsFontRole.bodyStrong)
-          .copyWith(color: tone ?? scheme.foregroundPrimary),
+          .copyWith(
+            color: switch (tone) {
+              EdsValueTone.neutral => scheme.foregroundPrimary,
+              EdsValueTone.brand => scheme.brandForeground,
+              EdsValueTone.information => scheme.informationForeground,
+              EdsValueTone.success => scheme.successForeground,
+              EdsValueTone.warning => scheme.warningForeground,
+              EdsValueTone.danger => scheme.dangerForeground,
+            },
+          ),
     );
 
     final Widget content;
