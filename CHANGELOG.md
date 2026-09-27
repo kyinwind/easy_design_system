@@ -1,8 +1,8 @@
 # Changelog
 
-## 0.4.0
+## 0.4.0 — 2026-09-27
 
-> ColorScheme 2.0 breaking release（开发中）。
+ColorScheme 2.0 breaking release。
 
 ### Theme / Color System
 

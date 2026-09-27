@@ -62,14 +62,14 @@ dependencies:
     path: ../easy_design_system
 ```
 
-方式二：Git 依赖（其他机器或 CI 构建时，用标签锁定版本）：
+方式二：Git 依赖（其他机器或 CI 构建时，跟随 `main` 获取最新版本）：
 
 ```yaml
 dependencies:
   easy_design_system:
     git:
       url: https://github.com/kyinwind/easy_design_system.git
-      ref: 0.3.1
+      ref: main
 ```
 
 然后在 Dart 文件中导入：
@@ -78,7 +78,7 @@ dependencies:
 import 'package:easy_design_system/easy_design_system.dart';
 ```
 
-> ColorScheme 2.0 为下一 Breaking 版本开发内容；当前开发分支为 `feature/colorscheme-2`。正式发布版本号将在合并前更新。
+> 当前版本为 `0.4.0`（ColorScheme 2.0 Breaking Release）。生产环境如需完全可复现的依赖，请在对应版本标签发布后将 `ref` 改为该标签。
 
 ## 3. 使用向导
 
