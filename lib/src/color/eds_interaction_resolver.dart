@@ -41,7 +41,7 @@ abstract final class EdsInteractionResolver {
       EdsInteractionState.hovered => dark ? 5 : -5,
       EdsInteractionState.pressed => dark ? 10 : -10,
     };
-    return palette.tone((base + delta).clamp(0, 100));
+    return palette.tone((base + delta).clamp(0, 100).toInt());
   }
 
   static Color softSurface({
