@@ -20,6 +20,7 @@ export 'src/easy/eds_easy_style.dart';
 export 'src/primitives/eds_font.dart';
 export 'src/primitives/eds_surface.dart';
 export 'src/theme/eds_preset_theme.dart';
+export 'src/theme/eds_resolved_theme.dart';
 export 'src/theme/eds_theme.dart';
 export 'src/theme/eds_theme_data.dart';
 export 'src/theme/eds_theme_json.dart';
