@@ -8,8 +8,8 @@ import 'eds_theme_data.dart';
 /// Decodes ColorScheme 2.0 theme configuration.
 ///
 /// The top-level non-color token groups keep their existing schema. The
-/// `colors` branch now contains `seeds`; semantic overrides are added by the
-/// next ColorScheme implementation batch.
+/// `colors` branch contains `seeds` plus optional brightness-specific
+/// `semanticOverrides`.
 EdsThemeData decodeThemeJson(String json) {
   final Object? decoded;
   try {
