@@ -29,12 +29,12 @@ enum GallerySection {
   }
 
   Color get tint {
-    final colors = EdsTheme.instance.tokens.colors;
+    final seeds = EdsTheme.instance.seeds;
     return switch (this) {
-      GallerySection.page => colors.primary,
-      GallerySection.states => colors.warning,
-      GallerySection.controls => colors.success,
-      GallerySection.buttons => colors.danger,
+      GallerySection.page => seeds.brand,
+      GallerySection.states => seeds.warning,
+      GallerySection.controls => seeds.success,
+      GallerySection.buttons => seeds.danger,
       GallerySection.rows => const Color(0xFFAF52DE),
       GallerySection.surfaces => const Color(0xFF30B0C7),
     };
