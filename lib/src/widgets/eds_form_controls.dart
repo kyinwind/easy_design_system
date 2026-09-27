@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../adaptive/eds_interaction_profile.dart';
 import '../adaptive/eds_resolved_metrics.dart';
 import '../adaptive/eds_size_class.dart';
+import '../color/eds_layer.dart';
+import '../color/eds_layer_resolver.dart';
 import '../primitives/eds_font.dart';
 import '../theme/eds_theme_scope.dart';
 import '../tokens/eds_color_scheme.dart';
@@ -39,9 +41,9 @@ class EdsCheckbox extends StatelessWidget {
       onChanged: onChanged,
       focusNode: focusNode,
       autofocus: autofocus,
-      activeColor: tokens.colors.primary,
-      checkColor: Colors.white,
-      side: BorderSide(color: scheme.border, width: tokens.stroke.hairline),
+      activeColor: scheme.brandSurfaceStrong,
+      checkColor: scheme.brandOnStrong,
+      side: BorderSide(color: scheme.borderDefault, width: tokens.stroke.hairline),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(tokens.radius.sm / 2),
       ),
@@ -66,7 +68,7 @@ class EdsCheckbox extends StatelessWidget {
                     text,
                     style: tokens.typography
                         .edsTextStyle(EdsFontRole.body)
-                        .copyWith(color: scheme.textPrimary),
+                        .copyWith(color: scheme.foregroundPrimary),
                   ),
                 ),
               ],
@@ -124,8 +126,8 @@ class EdsDropdown<T> extends StatelessWidget {
       ),
       padding: EdgeInsets.symmetric(horizontal: tokens.spacing.sm),
       decoration: BoxDecoration(
-        color: scheme.cardBackground,
-        border: Border.all(color: scheme.border, width: tokens.stroke.hairline),
+        color: EdsLayerResolver.fieldSurface(scheme, context.edsLayer),
+        border: Border.all(color: scheme.borderDefault, width: tokens.stroke.hairline),
         borderRadius: BorderRadius.circular(tokens.radius.md),
       ),
       child: DropdownButtonHideUnderline(
@@ -139,7 +141,7 @@ class EdsDropdown<T> extends StatelessWidget {
                   labelBuilder(item),
                   style: tokens.typography
                       .edsTextStyle(EdsFontRole.body)
-                      .copyWith(color: scheme.textPrimary),
+                      .copyWith(color: scheme.foregroundPrimary),
                 ),
               ),
           ],
@@ -149,15 +151,15 @@ class EdsDropdown<T> extends StatelessWidget {
                   hint!,
                   style: tokens.typography
                       .edsTextStyle(EdsFontRole.body)
-                      .copyWith(color: scheme.textSecondary),
+                      .copyWith(color: scheme.foregroundSecondary),
                 ),
           onChanged: onChanged,
           focusNode: focusNode,
           autofocus: autofocus,
           isExpanded: isExpanded,
           borderRadius: BorderRadius.circular(tokens.radius.md),
-          dropdownColor: scheme.cardBackground,
-          iconEnabledColor: scheme.textSecondary,
+          dropdownColor: scheme.surfaceOverlay,
+          iconEnabledColor: scheme.foregroundSecondary,
         ),
       ),
     );
@@ -227,7 +229,7 @@ class EdsDropdownFormField<T> extends StatelessWidget {
               labelBuilder(item),
               style: tokens.typography
                   .edsTextStyle(EdsFontRole.body)
-                  .copyWith(color: scheme.textPrimary),
+                  .copyWith(color: scheme.foregroundPrimary),
             ),
           ),
       ],
@@ -240,8 +242,8 @@ class EdsDropdownFormField<T> extends StatelessWidget {
       focusNode: focusNode,
       autofocus: autofocus,
       isExpanded: isExpanded,
-      dropdownColor: scheme.cardBackground,
-      iconEnabledColor: scheme.textSecondary,
+      dropdownColor: scheme.surfaceOverlay,
+      iconEnabledColor: scheme.foregroundSecondary,
       borderRadius: BorderRadius.circular(tokens.radius.md),
       hint: hint == null
           ? null
@@ -249,7 +251,7 @@ class EdsDropdownFormField<T> extends StatelessWidget {
               hint!,
               style: tokens.typography
                   .edsTextStyle(EdsFontRole.body)
-                  .copyWith(color: scheme.textSecondary),
+                  .copyWith(color: scheme.foregroundSecondary),
             ),
       decoration: _edsInputDecoration(
         context,
@@ -316,11 +318,11 @@ class EdsSegmented<T> extends StatelessWidget {
         ),
         backgroundColor: WidgetStateProperty.resolveWith(
           (states) => states.contains(WidgetState.selected)
-              ? tokens.colors.primarySoft
-              : scheme.cardBackground,
+              ? scheme.brandSurface
+              : EdsLayerResolver.fieldSurface(scheme, context.edsLayer),
         ),
         side: WidgetStatePropertyAll(
-          BorderSide(color: scheme.border, width: tokens.stroke.hairline),
+          BorderSide(color: scheme.borderDefault, width: tokens.stroke.hairline),
         ),
         shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
@@ -380,7 +382,7 @@ class EdsTextField extends StatelessWidget {
     final scheme = context.edsScheme;
     final textStyle = tokens.typography
         .edsTextStyle(EdsFontRole.body)
-        .copyWith(color: scheme.textPrimary);
+        .copyWith(color: scheme.foregroundPrimary);
 
     return TextField(
       controller: controller,
@@ -395,54 +397,13 @@ class EdsTextField extends StatelessWidget {
       onChanged: onChanged,
       onSubmitted: onSubmitted,
       style: textStyle,
-      decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-        hintStyle: textStyle.copyWith(color: scheme.textTertiary),
-        labelStyle: tokens.typography
-            .edsTextStyle(EdsFontRole.caption)
-            .copyWith(color: scheme.textSecondary),
-        filled: true,
-        fillColor: scheme.cardBackground,
+      decoration: _edsInputDecoration(
+        context,
+        label: label,
+        hint: hint,
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         errorText: errorText,
-        errorStyle: tokens.typography
-            .edsTextStyle(EdsFontRole.caption)
-            .copyWith(color: tokens.colors.danger),
-        contentPadding: EdgeInsets.symmetric(
-          horizontal: tokens.spacing.sm,
-          vertical: tokens.spacing.xs,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(tokens.radius.md),
-          borderSide: BorderSide(
-            color: scheme.border,
-            width: tokens.stroke.hairline,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(tokens.radius.md),
-          borderSide: BorderSide(color: tokens.colors.primary, width: 1.5),
-        ),
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(tokens.radius.md),
-          borderSide: BorderSide(
-            color: scheme.border.withValues(alpha: 0.5),
-            width: tokens.stroke.hairline,
-          ),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(tokens.radius.md),
-          borderSide: BorderSide(
-            color: tokens.colors.danger,
-            width: tokens.stroke.hairline,
-          ),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(tokens.radius.md),
-          borderSide: BorderSide(color: tokens.colors.danger, width: 1.5),
-        ),
       ),
     );
   }
@@ -513,7 +474,7 @@ class EdsTextFormField extends StatelessWidget {
     final scheme = context.edsScheme;
     final textStyle = tokens.typography
         .edsTextStyle(EdsFontRole.body)
-        .copyWith(color: scheme.textPrimary);
+        .copyWith(color: scheme.foregroundPrimary);
 
     return TextFormField(
       controller: controller,
@@ -603,7 +564,7 @@ class EdsRadio<T> extends StatelessWidget {
       value: value,
       focusNode: focusNode,
       autofocus: autofocus,
-      activeColor: tokens.colors.primary,
+      activeColor: scheme.brandSurfaceStrong,
       enabled: isEnabled,
     );
 
@@ -631,7 +592,7 @@ class EdsRadio<T> extends StatelessWidget {
                   text,
                   style: tokens.typography
                       .edsTextStyle(EdsFontRole.body)
-                      .copyWith(color: scheme.textPrimary),
+                      .copyWith(color: scheme.foregroundPrimary),
                 ),
               ),
             ],
@@ -674,14 +635,14 @@ class EdsSlider extends StatelessWidget {
 
     return SliderTheme(
       data: SliderTheme.of(context).copyWith(
-        activeTrackColor: tokens.colors.primary,
-        inactiveTrackColor: scheme.border,
-        thumbColor: tokens.colors.primary,
-        overlayColor: tokens.colors.primary.withValues(alpha: 0.10),
-        valueIndicatorColor: tokens.colors.primary,
+        activeTrackColor: scheme.brandSurfaceStrong,
+        inactiveTrackColor: scheme.borderDefault,
+        thumbColor: scheme.brandSurfaceStrong,
+        overlayColor: scheme.brandSurface,
+        valueIndicatorColor: scheme.brandSurfaceStrong,
         valueIndicatorTextStyle: tokens.typography
             .edsTextStyle(EdsFontRole.captionStrong)
-            .copyWith(color: Colors.white),
+            .copyWith(color: scheme.brandOnStrong),
       ),
       child: Slider(
         value: value,
@@ -704,25 +665,27 @@ InputDecoration _edsInputDecoration(
   String? hint,
   Widget? prefixIcon,
   Widget? suffixIcon,
+  String? errorText,
 }) {
   final tokens = context.edsTokens;
   final scheme = context.edsScheme;
   final textStyle = tokens.typography
       .edsTextStyle(EdsFontRole.body)
-      .copyWith(color: scheme.textPrimary);
+      .copyWith(color: scheme.foregroundPrimary);
 
   return InputDecoration(
     labelText: label,
     hintText: hint,
-    hintStyle: textStyle.copyWith(color: scheme.textTertiary),
+    hintStyle: textStyle.copyWith(color: scheme.foregroundTertiary),
     labelStyle: tokens.typography
         .edsTextStyle(EdsFontRole.caption)
-        .copyWith(color: scheme.textSecondary),
+        .copyWith(color: scheme.foregroundSecondary),
+    errorText: errorText,
     errorStyle: tokens.typography
         .edsTextStyle(EdsFontRole.caption)
-        .copyWith(color: tokens.colors.danger),
+        .copyWith(color: scheme.dangerForeground),
     filled: true,
-    fillColor: scheme.cardBackground,
+    fillColor: EdsLayerResolver.fieldSurface(scheme, context.edsLayer),
     prefixIcon: prefixIcon,
     suffixIcon: suffixIcon,
     contentPadding: EdgeInsets.symmetric(
@@ -732,31 +695,31 @@ InputDecoration _edsInputDecoration(
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(tokens.radius.md),
       borderSide: BorderSide(
-        color: scheme.border,
+        color: scheme.borderDefault,
         width: tokens.stroke.hairline,
       ),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(tokens.radius.md),
-      borderSide: BorderSide(color: tokens.colors.primary, width: 1.5),
+      borderSide: BorderSide(color: scheme.borderFocus, width: 1.5),
     ),
     disabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(tokens.radius.md),
       borderSide: BorderSide(
-        color: scheme.border.withValues(alpha: 0.5),
+        color: scheme.borderDisabled,
         width: tokens.stroke.hairline,
       ),
     ),
     errorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(tokens.radius.md),
       borderSide: BorderSide(
-        color: tokens.colors.danger,
+        color: scheme.dangerBorder,
         width: tokens.stroke.hairline,
       ),
     ),
     focusedErrorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(tokens.radius.md),
-      borderSide: BorderSide(color: tokens.colors.danger, width: 1.5),
+      borderSide: BorderSide(color: scheme.dangerBorder, width: 1.5),
     ),
   );
 }
