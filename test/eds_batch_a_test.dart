@@ -8,9 +8,7 @@ void main() {
     tester,
   ) async {
     const localPrimary = Color(0xFFAA3366);
-    final tokens = const EdsDesignTokens().copyWith(
-      colors: const EdsColorTokens().copyWith(primary: localPrimary),
-    );
+    const seeds = EdsColorSeedOverrides(brand: localPrimary);
     final item = EdsSidebarMenuItem(
       label: 'Inbox',
       icon: Icons.inbox,
@@ -20,7 +18,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: EdsThemeScope(
-          tokens: tokens,
+          seeds: seeds,
           child: Scaffold(
             body: EdsSidebarItemButton(
               item: item,
@@ -33,7 +31,11 @@ void main() {
     );
 
     final icon = tester.widget<EdsSidebarIcon>(find.byType(EdsSidebarIcon));
-    expect(icon.tint, localPrimary);
+    final expected = EdsColorScheme.resolve(
+      seeds: const EdsColorSeeds(brand: localPrimary),
+      brightness: Brightness.light,
+    );
+    expect(icon.tint, expected.brandSurfaceStrong);
   });
 
   testWidgets('pill remove semantics can be localized by host app', (
