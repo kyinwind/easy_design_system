@@ -74,7 +74,7 @@ void main() {
     await tester.tap(find.text('橙').last);
     await tester.pumpAndSettle();
 
-    expect(EdsTheme.instance.context.edsScheme.brandForeground, const Color(0xFFFF6B00));
+    expect(EdsTheme.instance.seeds.brand, const Color(0xFFFF6B00));
     expect(find.text('橙'), findsOneWidget);
   });
 
