@@ -202,7 +202,7 @@ class EdsProgressPanel extends StatelessWidget {
         children: <Widget>[
           EdsSidebarIcon(
             icon: systemImage,
-            tint: scheme.brandSurfaceStrong,
+            tone: EdsSidebarIconTone.blue,
             size: EdsSidebarIconSize.medium,
           ),
           Expanded(
