@@ -27,7 +27,7 @@ enum GallerySection {
         return section;
       }
     }
-    return GallerySection.colors;
+    return GallerySection.page;
   }
 
   EdsSidebarIconTone get tone => switch (this) {
@@ -52,7 +52,7 @@ class EdsDesignSystemGallery extends StatefulWidget {
 }
 
 class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
-  GallerySection _selection = GallerySection.colors;
+  GallerySection _selection = GallerySection.page;
   bool _isEnabled = true;
   final double _progress = 0.42;
 
