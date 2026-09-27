@@ -313,9 +313,8 @@ class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
   }
 
   Widget _rowsExample(BuildContext context) {
-    final tokens = context.edsTokens;
     return _page(context, '行和标签', '设置行、键值行、内联字段和流式标签。', <Widget>[
-      EdsPageSection(
+      const EdsPageSection(
         '设置行',
         child: GalleryExample(
           'EDSSettingRow + EDSValueRow',
