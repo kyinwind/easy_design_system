@@ -36,13 +36,13 @@ class CatalogHomePage extends StatelessWidget {
       length: 4,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: scheme.cardBackground,
-          foregroundColor: scheme.textPrimary,
+          backgroundColor: scheme.surfaceRaised,
+          foregroundColor: scheme.foregroundPrimary,
           title: const Text('EasyDesignSystem Catalog'),
           bottom: TabBar(
-            indicatorColor: tokens.colors.primary,
-            labelColor: scheme.textPrimary,
-            unselectedLabelColor: scheme.textSecondary,
+            indicatorColor: context.edsScheme.brandForeground,
+            labelColor: scheme.foregroundPrimary,
+            unselectedLabelColor: scheme.foregroundSecondary,
             tabs: const <Widget>[
               Tab(icon: Icon(Icons.grid_view_outlined), text: '组件'),
               Tab(icon: Icon(Icons.auto_awesome), text: 'Easy API'),
@@ -54,7 +54,7 @@ class CatalogHomePage extends StatelessWidget {
         body: Column(
           children: <Widget>[
             const CatalogThemeBar(),
-            Divider(height: 1, thickness: 1, color: scheme.border),
+            Divider(height: 1, thickness: 1, color: scheme.borderDefault),
             const Expanded(
               child: TabBarView(
                 children: <Widget>[
