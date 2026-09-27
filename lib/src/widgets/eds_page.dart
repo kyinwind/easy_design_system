@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../adaptive/eds_interaction_profile.dart';
 import '../adaptive/eds_resolved_metrics.dart';
 import '../adaptive/eds_size_class.dart';
+import '../color/eds_layer.dart';
 import '../theme/eds_theme_scope.dart';
 import '../tokens/eds_color_scheme.dart';
 import 'eds_text.dart';
@@ -61,11 +62,14 @@ class EdsPage extends StatelessWidget {
     }
     if (showsBackground) {
       content = ColoredBox(
-        color: context.edsScheme.pageBackground,
+        color: context.edsScheme.surfacePage,
         child: content,
       );
     }
-    return SizedBox.expand(child: content);
+    return EdsLayerScope(
+      layer: EdsLayer.base,
+      child: SizedBox.expand(child: content),
+    );
   }
 }
 
