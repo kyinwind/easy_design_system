@@ -323,16 +323,16 @@ class EdsChoicePill extends StatelessWidget {
       label: Text(title),
       avatar: icon,
       showCheckmark: false,
-      backgroundColor: scheme.cardBackground,
-      selectedColor: tokens.colors.primarySoft,
+      backgroundColor: scheme.surfaceBase,
+      selectedColor: scheme.brandSurface,
       side: BorderSide(
-        color: selected ? tokens.colors.primary : scheme.border,
+        color: selected ? scheme.brandBorder : scheme.borderDefault,
         width: tokens.stroke.hairline,
       ),
       shape: const StadiumBorder(),
       labelStyle:
           tokens.typography.edsTextStyle(EdsFontRole.captionStrong).copyWith(
-                color: selected ? tokens.colors.primary : scheme.textSecondary,
+                color: selected ? scheme.brandForeground : scheme.foregroundSecondary,
               ),
     );
 
