@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   setUp(() {
-    EdsTheme.instance.tokens = const EdsDesignTokens();
+    EdsTheme.instance.themeData = EdsPresetTheme.defaultTheme.theme;
   });
 
   testWidgets('environment uses local tokens before global tokens', (
@@ -13,7 +13,7 @@ void main() {
     final global = const EdsDesignTokens().copyWith(
       spacing: const EdsSpacingTokens().copyWith(md: 17),
     );
-    EdsTheme.instance.tokens = global;
+    EdsTheme.instance.themeData = EdsTheme.instance.themeData.copyWith(tokens: global);
 
     late EdsDesignTokens seenGlobal;
     await tester.pumpWidget(
@@ -47,8 +47,9 @@ void main() {
     expect(EdsTheme.instance.tokens.spacing.md, 17);
   });
 
-  testWidgets('preset scope installs preset tokens', (tester) async {
+  testWidgets('preset scope installs preset seeds and tokens', (tester) async {
     late EdsDesignTokens seen;
+    late EdsColorSeeds seeds;
     await tester.pumpWidget(
       MaterialApp(
         home: EdsThemeScope(
@@ -56,13 +57,15 @@ void main() {
           child: Builder(
             builder: (context) {
               seen = context.edsTokens;
+              seeds = context.edsSeeds;
               return const SizedBox();
             },
           ),
         ),
       ),
     );
-    expect(seen.colors.primary, EdsPresetTheme.orange.tokens.colors.primary);
+    expect(seeds.brand, EdsPresetTheme.orange.theme.seeds.brand);
+    expect(seen.heroGradient, EdsPresetTheme.orange.theme.tokens.heroGradient);
   });
 
   testWidgets('brightness override beats the platform brightness', (
