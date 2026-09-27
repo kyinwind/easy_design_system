@@ -28,20 +28,17 @@ enum GallerySection {
     return GallerySection.page;
   }
 
-  Color get tint {
-    final seeds = EdsTheme.instance.seeds;
-    return switch (this) {
-      GallerySection.page => seeds.brand,
-      GallerySection.states => seeds.warning,
-      GallerySection.controls => seeds.success,
-      GallerySection.buttons => seeds.danger,
-      GallerySection.rows => const Color(0xFFAF52DE),
-      GallerySection.surfaces => const Color(0xFF30B0C7),
-    };
-  }
+  EdsSidebarIconTone get tone => switch (this) {
+        GallerySection.page => EdsSidebarIconTone.blue,
+        GallerySection.states => EdsSidebarIconTone.orange,
+        GallerySection.controls => EdsSidebarIconTone.green,
+        GallerySection.buttons => EdsSidebarIconTone.red,
+        GallerySection.rows => EdsSidebarIconTone.purple,
+        GallerySection.surfaces => EdsSidebarIconTone.teal,
+      };
 
   EdsSidebarMenuItem get menuItem =>
-      EdsSidebarMenuItem(id: id, label: label, icon: icon, tint: tint);
+      EdsSidebarMenuItem(id: id, label: label, icon: icon, tone: tone);
 }
 
 class EdsDesignSystemGallery extends StatefulWidget {
