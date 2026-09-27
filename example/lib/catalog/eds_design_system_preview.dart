@@ -542,7 +542,8 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
               child: Icon(
                 icon,
                 size: 16,
-                color: isSelected ? _draftSeeds.brand : scheme.foregroundSecondary,
+                color:
+                    isSelected ? _draftSeeds.brand : scheme.foregroundSecondary,
               ),
             ),
             SizedBox(width: _draftSpacing.sm),

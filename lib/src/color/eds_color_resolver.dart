@@ -77,22 +77,32 @@ abstract final class EdsColorResolver {
       brandSurfaceStrong: _familyStrong(brand, EdsFamilyToneMap.brand, dark),
       brandBorder: _familyBorder(brand, EdsFamilyToneMap.brand, dark),
       brandOnStrong: _familyOnStrong(brand, EdsFamilyToneMap.brand, dark),
-      informationForeground: _familyForeground(information, EdsFamilyToneMap.information, dark),
-      informationSurface: _familySurface(information, EdsFamilyToneMap.information, dark),
-      informationSurfaceStrong: _familyStrong(information, EdsFamilyToneMap.information, dark),
-      informationBorder: _familyBorder(information, EdsFamilyToneMap.information, dark),
-      informationOnStrong: _familyOnStrong(information, EdsFamilyToneMap.information, dark),
-      successForeground: _familyForeground(success, EdsFamilyToneMap.success, dark),
+      informationForeground:
+          _familyForeground(information, EdsFamilyToneMap.information, dark),
+      informationSurface:
+          _familySurface(information, EdsFamilyToneMap.information, dark),
+      informationSurfaceStrong:
+          _familyStrong(information, EdsFamilyToneMap.information, dark),
+      informationBorder:
+          _familyBorder(information, EdsFamilyToneMap.information, dark),
+      informationOnStrong:
+          _familyOnStrong(information, EdsFamilyToneMap.information, dark),
+      successForeground:
+          _familyForeground(success, EdsFamilyToneMap.success, dark),
       successSurface: _familySurface(success, EdsFamilyToneMap.success, dark),
-      successSurfaceStrong: _familyStrong(success, EdsFamilyToneMap.success, dark),
+      successSurfaceStrong:
+          _familyStrong(success, EdsFamilyToneMap.success, dark),
       successBorder: _familyBorder(success, EdsFamilyToneMap.success, dark),
       successOnStrong: _familyOnStrong(success, EdsFamilyToneMap.success, dark),
-      warningForeground: _familyForeground(warning, EdsFamilyToneMap.warning, dark),
+      warningForeground:
+          _familyForeground(warning, EdsFamilyToneMap.warning, dark),
       warningSurface: _familySurface(warning, EdsFamilyToneMap.warning, dark),
-      warningSurfaceStrong: _familyStrong(warning, EdsFamilyToneMap.warning, dark),
+      warningSurfaceStrong:
+          _familyStrong(warning, EdsFamilyToneMap.warning, dark),
       warningBorder: _familyBorder(warning, EdsFamilyToneMap.warning, dark),
       warningOnStrong: _familyOnStrong(warning, EdsFamilyToneMap.warning, dark),
-      dangerForeground: _familyForeground(danger, EdsFamilyToneMap.danger, dark),
+      dangerForeground:
+          _familyForeground(danger, EdsFamilyToneMap.danger, dark),
       dangerSurface: _familySurface(danger, EdsFamilyToneMap.danger, dark),
       dangerSurfaceStrong: _familyStrong(danger, EdsFamilyToneMap.danger, dark),
       dangerBorder: _familyBorder(danger, EdsFamilyToneMap.danger, dark),

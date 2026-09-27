@@ -54,7 +54,8 @@ class EdsMenuButton<T> extends StatelessWidget {
       surfaceTintColor: Colors.transparent,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(tokens.radius.md),
-        side: BorderSide(color: scheme.borderStrong, width: tokens.stroke.hairline),
+        side: BorderSide(
+            color: scheme.borderStrong, width: tokens.stroke.hairline),
       ),
       itemBuilder: (context) => <PopupMenuEntry<T>>[
         for (final item in items)

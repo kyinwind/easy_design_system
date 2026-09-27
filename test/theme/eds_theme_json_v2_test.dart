@@ -23,8 +23,8 @@ void main() {
     final decoded = decodeThemeJson(encoded);
 
     expect(decoded.seeds.brand, theme.seeds.brand);
-    expect(decoded.semanticOverrides.dark?.surfaceRaised,
-        const Color(0xFF222226));
+    expect(
+        decoded.semanticOverrides.dark?.surfaceRaised, const Color(0xFF222226));
     expect(decoded.tokens.spacing.lg, 22);
     expect(decoded.tokens.radius.md, 14);
   });

@@ -42,7 +42,8 @@ class EdsCheckbox extends StatelessWidget {
       autofocus: autofocus,
       activeColor: scheme.brandSurfaceStrong,
       checkColor: scheme.brandOnStrong,
-      side: BorderSide(color: scheme.borderDefault, width: tokens.stroke.hairline),
+      side: BorderSide(
+          color: scheme.borderDefault, width: tokens.stroke.hairline),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(tokens.radius.sm / 2),
       ),
@@ -126,7 +127,8 @@ class EdsDropdown<T> extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: tokens.spacing.sm),
       decoration: BoxDecoration(
         color: EdsLayerResolver.fieldSurface(scheme, context.edsLayer),
-        border: Border.all(color: scheme.borderDefault, width: tokens.stroke.hairline),
+        border: Border.all(
+            color: scheme.borderDefault, width: tokens.stroke.hairline),
         borderRadius: BorderRadius.circular(tokens.radius.md),
       ),
       child: DropdownButtonHideUnderline(
@@ -321,7 +323,8 @@ class EdsSegmented<T> extends StatelessWidget {
               : EdsLayerResolver.fieldSurface(scheme, context.edsLayer),
         ),
         side: WidgetStatePropertyAll(
-          BorderSide(color: scheme.borderDefault, width: tokens.stroke.hairline),
+          BorderSide(
+              color: scheme.borderDefault, width: tokens.stroke.hairline),
         ),
         shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(

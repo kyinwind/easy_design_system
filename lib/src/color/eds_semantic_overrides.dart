@@ -138,14 +138,12 @@ class EdsSemanticColorOverrides {
       informationOnStrong: patch.informationOnStrong ?? informationOnStrong,
       successForeground: patch.successForeground ?? successForeground,
       successSurface: patch.successSurface ?? successSurface,
-      successSurfaceStrong:
-          patch.successSurfaceStrong ?? successSurfaceStrong,
+      successSurfaceStrong: patch.successSurfaceStrong ?? successSurfaceStrong,
       successBorder: patch.successBorder ?? successBorder,
       successOnStrong: patch.successOnStrong ?? successOnStrong,
       warningForeground: patch.warningForeground ?? warningForeground,
       warningSurface: patch.warningSurface ?? warningSurface,
-      warningSurfaceStrong:
-          patch.warningSurfaceStrong ?? warningSurfaceStrong,
+      warningSurfaceStrong: patch.warningSurfaceStrong ?? warningSurfaceStrong,
       warningBorder: patch.warningBorder ?? warningBorder,
       warningOnStrong: patch.warningOnStrong ?? warningOnStrong,
       dangerForeground: patch.dangerForeground ?? dangerForeground,
@@ -290,8 +288,7 @@ class EdsSemanticColorOverrides {
         'warningSurfaceStrong': hex(warningSurfaceStrong!),
       if (warningBorder != null) 'warningBorder': hex(warningBorder!),
       if (warningOnStrong != null) 'warningOnStrong': hex(warningOnStrong!),
-      if (dangerForeground != null)
-        'dangerForeground': hex(dangerForeground!),
+      if (dangerForeground != null) 'dangerForeground': hex(dangerForeground!),
       if (dangerSurface != null) 'dangerSurface': hex(dangerSurface!),
       if (dangerSurfaceStrong != null)
         'dangerSurfaceStrong': hex(dangerSurfaceStrong!),
@@ -356,5 +353,4 @@ class EdsSemanticOverrides {
 
   @override
   int get hashCode => Object.hash(light, dark);
-
 }

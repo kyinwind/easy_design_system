@@ -229,8 +229,8 @@ class EdsButtonShowcase extends StatelessWidget {
     final scheme = context.edsScheme;
     Widget caption(String text) => Text(
           text,
-          style:
-              tokens.typography.caption.copyWith(color: scheme.foregroundSecondary),
+          style: tokens.typography.caption
+              .copyWith(color: scheme.foregroundSecondary),
         );
     Widget column(String label, Widget child) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,

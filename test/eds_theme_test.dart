@@ -22,7 +22,8 @@ void main() {
   });
 
   test('purple preset changes brand but keeps default status seeds', () {
-    expect(EdsColorHex.toHex(EdsPresetTheme.purple.theme.seeds.brand), '#8B5CF6');
+    expect(
+        EdsColorHex.toHex(EdsPresetTheme.purple.theme.seeds.brand), '#8B5CF6');
     expect(
       EdsColorHex.toHex(EdsPresetTheme.purple.theme.seeds.success),
       '#27B15A',

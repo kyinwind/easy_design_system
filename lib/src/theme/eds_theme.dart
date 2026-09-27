@@ -57,8 +57,7 @@ class EdsTheme {
     }
     if (semanticOverrides != null) {
       value = value.copyWith(
-        semanticOverrides:
-            value.semanticOverrides.merge(semanticOverrides),
+        semanticOverrides: value.semanticOverrides.merge(semanticOverrides),
       );
     }
     if (tokens != null) {

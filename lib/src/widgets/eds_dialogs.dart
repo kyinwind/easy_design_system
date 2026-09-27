@@ -33,46 +33,47 @@ class EdsAlertDialog extends StatelessWidget {
     return EdsLayerScope(
       layer: EdsLayer.overlay,
       child: AlertDialog(
-      backgroundColor: scheme.surfaceOverlay,
-      surfaceTintColor: Colors.transparent,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(tokens.radius.lg),
-        side: BorderSide(color: scheme.borderStrong, width: tokens.stroke.hairline),
-      ),
-      icon: icon,
-      title: titleText == null
-          ? null
-          : Text(
-              titleText,
-              style: tokens.typography
-                  .edsTextStyle(EdsFontRole.pageTitle)
-                  .copyWith(color: scheme.foregroundPrimary),
-            ),
-      content: DefaultTextStyle.merge(
-        style: tokens.typography
-            .edsTextStyle(EdsFontRole.body)
-            .copyWith(color: scheme.foregroundSecondary),
-        child: content,
-      ),
-      actions: actions,
-      actionsPadding: EdgeInsets.fromLTRB(
-        tokens.spacing.lg,
-        0,
-        tokens.spacing.lg,
-        tokens.spacing.lg,
-      ),
-      contentPadding: EdgeInsets.fromLTRB(
-        tokens.spacing.lg,
-        tokens.spacing.md,
-        tokens.spacing.lg,
-        tokens.spacing.lg,
-      ),
-      titlePadding: EdgeInsets.fromLTRB(
-        tokens.spacing.lg,
-        tokens.spacing.lg,
-        tokens.spacing.lg,
-        0,
-      ),
+        backgroundColor: scheme.surfaceOverlay,
+        surfaceTintColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(tokens.radius.lg),
+          side: BorderSide(
+              color: scheme.borderStrong, width: tokens.stroke.hairline),
+        ),
+        icon: icon,
+        title: titleText == null
+            ? null
+            : Text(
+                titleText,
+                style: tokens.typography
+                    .edsTextStyle(EdsFontRole.pageTitle)
+                    .copyWith(color: scheme.foregroundPrimary),
+              ),
+        content: DefaultTextStyle.merge(
+          style: tokens.typography
+              .edsTextStyle(EdsFontRole.body)
+              .copyWith(color: scheme.foregroundSecondary),
+          child: content,
+        ),
+        actions: actions,
+        actionsPadding: EdgeInsets.fromLTRB(
+          tokens.spacing.lg,
+          0,
+          tokens.spacing.lg,
+          tokens.spacing.lg,
+        ),
+        contentPadding: EdgeInsets.fromLTRB(
+          tokens.spacing.lg,
+          tokens.spacing.md,
+          tokens.spacing.lg,
+          tokens.spacing.lg,
+        ),
+        titlePadding: EdgeInsets.fromLTRB(
+          tokens.spacing.lg,
+          tokens.spacing.lg,
+          tokens.spacing.lg,
+          0,
+        ),
       ),
     );
   }

@@ -78,8 +78,7 @@ class EdsColorSeeds {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(brand, information, success, warning, danger);
+  int get hashCode => Object.hash(brand, information, success, warning, danger);
 }
 
 /// Partial host overrides applied on top of a preset's complete seed set.
@@ -118,8 +117,7 @@ class EdsColorSeedOverrides {
 
   Map<String, Object?> toJson() => <String, Object?>{
         if (brand != null) 'brand': EdsColorHex.toHex(brand!),
-        if (information != null)
-          'information': EdsColorHex.toHex(information!),
+        if (information != null) 'information': EdsColorHex.toHex(information!),
         if (success != null) 'success': EdsColorHex.toHex(success!),
         if (warning != null) 'warning': EdsColorHex.toHex(warning!),
         if (danger != null) 'danger': EdsColorHex.toHex(danger!),
@@ -136,8 +134,7 @@ class EdsColorSeedOverrides {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(brand, information, success, warning, danger);
+  int get hashCode => Object.hash(brand, information, success, warning, danger);
 }
 
 Color _readColor(

@@ -44,7 +44,10 @@ class CatalogSplitScaffold extends StatelessWidget {
         return Column(
           children: <Widget>[
             _chipRow(context),
-            Divider(height: 1, thickness: 1, color: context.edsScheme.borderDefault),
+            Divider(
+                height: 1,
+                thickness: 1,
+                color: context.edsScheme.borderDefault),
             Expanded(child: child),
           ],
         );

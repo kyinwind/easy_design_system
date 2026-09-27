@@ -133,9 +133,7 @@ class EdsValueRow extends StatelessWidget {
     );
     final valueText = Text(
       value,
-      style: tokens.typography
-          .edsTextStyle(EdsFontRole.bodyStrong)
-          .copyWith(
+      style: tokens.typography.edsTextStyle(EdsFontRole.bodyStrong).copyWith(
             color: switch (tone) {
               EdsValueTone.neutral => scheme.foregroundPrimary,
               EdsValueTone.brand => scheme.brandForeground,

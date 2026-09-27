@@ -135,8 +135,10 @@ enum EdsSidebarIconPresetTint {
 
   Color resolve(BuildContext context) => switch (this) {
         EdsSidebarIconPresetTint.blue => context.edsScheme.brandSurfaceStrong,
-        EdsSidebarIconPresetTint.green => context.edsScheme.successSurfaceStrong,
-        EdsSidebarIconPresetTint.orange => context.edsScheme.warningSurfaceStrong,
+        EdsSidebarIconPresetTint.green =>
+          context.edsScheme.successSurfaceStrong,
+        EdsSidebarIconPresetTint.orange =>
+          context.edsScheme.warningSurfaceStrong,
         EdsSidebarIconPresetTint.red => context.edsScheme.dangerSurfaceStrong,
         EdsSidebarIconPresetTint.gray => const Color(0xFF8E8E93),
         EdsSidebarIconPresetTint.pink => const Color(0xFFFF2D55),
@@ -144,7 +146,6 @@ enum EdsSidebarIconPresetTint {
         EdsSidebarIconPresetTint.teal => const Color(0xFF30B0C7),
         EdsSidebarIconPresetTint.indigo => const Color(0xFF5856D6),
       };
-
 }
 
 /// A single sidebar menu entry, mirroring Swift's `EDSSidebarItemButton`.

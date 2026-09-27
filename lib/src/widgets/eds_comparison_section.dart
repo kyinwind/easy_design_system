@@ -121,7 +121,8 @@ class EdsComparisonSection extends StatelessWidget {
         ),
       );
       if (index != features.length - 1) {
-        children.add(Divider(height: 1, thickness: 1, color: scheme.borderSubtle));
+        children
+            .add(Divider(height: 1, thickness: 1, color: scheme.borderSubtle));
       }
     }
     return Column(

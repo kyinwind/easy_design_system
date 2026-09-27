@@ -13,7 +13,8 @@ void main() {
     final global = const EdsDesignTokens().copyWith(
       spacing: const EdsSpacingTokens().copyWith(md: 17),
     );
-    EdsTheme.instance.themeData = EdsTheme.instance.themeData.copyWith(tokens: global);
+    EdsTheme.instance.themeData =
+        EdsTheme.instance.themeData.copyWith(tokens: global);
 
     late EdsDesignTokens seenGlobal;
     await tester.pumpWidget(

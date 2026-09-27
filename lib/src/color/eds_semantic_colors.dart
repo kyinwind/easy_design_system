@@ -177,14 +177,12 @@ class EdsSemanticColors {
       informationOnStrong: informationOnStrong ?? this.informationOnStrong,
       successForeground: successForeground ?? this.successForeground,
       successSurface: successSurface ?? this.successSurface,
-      successSurfaceStrong:
-          successSurfaceStrong ?? this.successSurfaceStrong,
+      successSurfaceStrong: successSurfaceStrong ?? this.successSurfaceStrong,
       successBorder: successBorder ?? this.successBorder,
       successOnStrong: successOnStrong ?? this.successOnStrong,
       warningForeground: warningForeground ?? this.warningForeground,
       warningSurface: warningSurface ?? this.warningSurface,
-      warningSurfaceStrong:
-          warningSurfaceStrong ?? this.warningSurfaceStrong,
+      warningSurfaceStrong: warningSurfaceStrong ?? this.warningSurfaceStrong,
       warningBorder: warningBorder ?? this.warningBorder,
       warningOnStrong: warningOnStrong ?? this.warningOnStrong,
       dangerForeground: dangerForeground ?? this.dangerForeground,

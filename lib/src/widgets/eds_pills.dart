@@ -329,10 +329,12 @@ class EdsChoicePill extends StatelessWidget {
         width: tokens.stroke.hairline,
       ),
       shape: const StadiumBorder(),
-      labelStyle:
-          tokens.typography.edsTextStyle(EdsFontRole.captionStrong).copyWith(
-                color: selected ? scheme.brandForeground : scheme.foregroundSecondary,
-              ),
+      labelStyle: tokens.typography
+          .edsTextStyle(EdsFontRole.captionStrong)
+          .copyWith(
+            color:
+                selected ? scheme.brandForeground : scheme.foregroundSecondary,
+          ),
     );
 
     if (tooltip != null && tooltip!.isNotEmpty) {

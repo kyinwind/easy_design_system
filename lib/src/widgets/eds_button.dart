@@ -191,8 +191,9 @@ class EdsButtonAppearance {
         borderColor: emphasis == EdsButtonEmphasis.outline
             ? scheme.borderDisabled
             : null,
-        borderWidth:
-            emphasis == EdsButtonEmphasis.outline ? tokens.stroke.hairline : 1.5,
+        borderWidth: emphasis == EdsButtonEmphasis.outline
+            ? tokens.stroke.hairline
+            : 1.5,
         height: _height(tokens),
         horizontalPadding: _horizontalPadding(tokens),
       );
