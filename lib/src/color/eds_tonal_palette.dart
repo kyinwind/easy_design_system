@@ -18,6 +18,6 @@ class EdsTonalPalette {
   /// Resolves a perceptual tone in the inclusive 0..100 range.
   Color tone(int tone) {
     assert(tone >= 0 && tone <= 100);
-    return Color(_palette.get(tone.clamp(0, 100)));
+    return Color(_palette.get(tone.clamp(0, 100).toInt()));
   }
 }
