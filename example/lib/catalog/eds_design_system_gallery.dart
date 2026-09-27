@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 import 'catalog_support.dart';
 import 'eds_button_showcase.dart';
+import 'eds_color_scheme_showcase.dart';
 
 enum GallerySection {
+  colors('ColorScheme', Icons.palette_outlined),
   page('标准页面', Icons.dashboard_outlined),
   states('状态模式', Icons.blur_circular),
   controls('基础控件', Icons.toggle_on_outlined),
@@ -25,10 +27,11 @@ enum GallerySection {
         return section;
       }
     }
-    return GallerySection.page;
+    return GallerySection.colors;
   }
 
   EdsSidebarIconTone get tone => switch (this) {
+        GallerySection.colors => EdsSidebarIconTone.purple,
         GallerySection.page => EdsSidebarIconTone.blue,
         GallerySection.states => EdsSidebarIconTone.orange,
         GallerySection.controls => EdsSidebarIconTone.green,
@@ -49,7 +52,7 @@ class EdsDesignSystemGallery extends StatefulWidget {
 }
 
 class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
-  GallerySection _selection = GallerySection.page;
+  GallerySection _selection = GallerySection.colors;
   bool _isEnabled = true;
   final double _progress = 0.42;
 
@@ -72,6 +75,7 @@ class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
 
   Widget _selectedContent(BuildContext context) {
     return switch (_selection) {
+      GallerySection.colors => const EdsColorSchemeShowcase(),
       GallerySection.page => _pageExample(context),
       GallerySection.states => _statesExample(context),
       GallerySection.controls => _controlsExample(context),
