@@ -30,7 +30,6 @@ class CatalogHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tokens = context.edsTokens;
     final scheme = context.edsScheme;
     return DefaultTabController(
       length: 4,
