@@ -78,6 +78,8 @@ dependencies:
 import 'package:easy_design_system/easy_design_system.dart';
 ```
 
+> ColorScheme 2.0 为下一 Breaking 版本开发内容；当前开发分支为 `feature/colorscheme-2`。正式发布版本号将在合并前更新。
+
 ## 3. 使用向导
 
 如果你只想快速开始，完成下面两个步骤就可以使用 easy_design_system。后续章节都是更详细的规则、定制能力和组件参考，可以需要时再阅读。
@@ -91,12 +93,12 @@ import 'package:easy_design_system/easy_design_system.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  // Dart Token 不可变，configure 通过 copyWith 返回新值（对应 Swift 的 inout 闭包）。
-  EdsTheme.instance.configure((tokens) {
-    return tokens.copyWith(
-      colors: tokens.colors.copyWith(primary: const Color(0xFF0000FF)),
-    );
-  });
+  // 最常见的主题定制只需要替换 Brand Seed。
+  EdsTheme.instance.configureTheme(
+    seeds: const EdsColorSeedOverrides(
+      brand: Color(0xFF0000FF),
+    ),
+  );
 
   runApp(const MyApp());
 }
@@ -107,7 +109,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return EdsThemeScope(
-      // 不显式传 tokens 时，Scope 订阅全局主题；
+      // 不显式传 theme 时，Scope 订阅全局主题；
       // 之后修改 EdsTheme.instance 会让整棵子树自动重建。
       child: MaterialApp(
         theme: ThemeData(fontFamily: 'PingFang SC'),
@@ -207,7 +209,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
                     Row(
                       children: [
-                        const EdsBadge('推荐', style: EdsBadgeStyle.accent),
+                        const EdsBadge('推荐', style: EdsBadgeStyle.brand),
                         const Spacer(),
                         EdsButton(
                           '立即升级',
@@ -448,13 +450,15 @@ ContentView().easyDesignInteractionProfile(EdsInteractionProfile.touch);
 也可以通过主题统一调整自适应值：
 
 ```dart
-EdsTheme.instance.configure((tokens) {
-  return tokens.copyWith(
-    adaptiveLayout: tokens.adaptiveLayout.copyWith(
-      compactPagePadding: 20,
-      regularPagePadding: 36,
-      readableContentMaxWidth: 960,
-      minimumTouchTarget: 44,
+EdsTheme.instance.configure((theme) {
+  return theme.copyWith(
+    tokens: theme.tokens.copyWith(
+      adaptiveLayout: theme.tokens.adaptiveLayout.copyWith(
+        compactPagePadding: 20,
+        regularPagePadding: 36,
+        readableContentMaxWidth: 960,
+        minimumTouchTarget: 44,
+      ),
     ),
   );
 });
@@ -468,10 +472,17 @@ EdsTheme.instance.configure((tokens) {
 
 ```dart
 void main() {
-  EdsTheme.instance.configure((tokens) {
-    return tokens.copyWith(
-      colors: tokens.colors.copyWith(primary: const Color(0xFF0000FF)),
-      spacing: tokens.spacing.copyWith(lg: 22),
+  EdsTheme.instance.configureTheme(
+    seeds: const EdsColorSeedOverrides(
+      brand: Color(0xFF0000FF),
+    ),
+  );
+
+  EdsTheme.instance.configure((theme) {
+    return theme.copyWith(
+      tokens: theme.tokens.copyWith(
+        spacing: theme.tokens.spacing.copyWith(lg: 22),
+      ),
     );
   });
 
@@ -487,15 +498,15 @@ EdsTheme.instance.applyPreset(EdsPresetTheme.orange);
 
 当前提供 `defaultTheme`、`blue`、`orange` 和 `purple`，其中 `blue` 是 `defaultTheme` 的别名。
 
-> **主题色只有一个字段：`tokens.colors.primary`。** 组件里所有"跟随主题色"的渲染（实心按钮、浅底按钮、侧边栏选中态）都读它。`tokens.colors.accent` 仅为兼容 Swift JSON schema 保留，包内不读取——变更主题色请改 `primary`。
+> **ColorScheme 2.0 使用 Seed 驱动。** 最常见的品牌定制只需要设置 `EdsColorSeedOverrides(brand: ...)`；Focus、Selected、Primary Action、Active Navigation 会自动跟随 Brand。Information / Success / Warning / Danger 是独立语义家族，不会因为 Brand 改变而被一起染色。
 
 ### 运行时换主题
 
-`EdsTheme.instance` 基于 `ValueNotifier`。`EdsThemeScope` 未显式传 tokens 时会订阅全局变化，任何时刻再次 `configure` / `applyPreset`，整棵子树自动重建，无需额外代码。也可以直接监听：
+`EdsTheme.instance` 基于 `ValueNotifier`。`EdsThemeScope` 未显式传 theme 时会订阅全局变化，任何时刻再次 `configure` / `applyPreset`，整棵子树自动重建，无需额外代码。也可以直接监听：
 
 ```dart
 ListenableBuilder(
-  listenable: EdsTheme.instance.tokensListenable,
+  listenable: EdsTheme.instance.themeListenable,
   builder: (context, _) => const ThemeIndicator(),
 )
 ```
@@ -511,13 +522,22 @@ PurchaseCard().easyDesignPreset(
 );
 ```
 
-也可以直接传入 Token：
+如果只想在局部替换 Brand Seed，可以直接使用 `EdsThemeScope`：
+
+```dart
+EdsThemeScope(
+  seeds: const EdsColorSeedOverrides(
+    brand: Color(0xFFAF52DE),
+  ),
+  child: const PurchaseCard(),
+);
+```
+
+非颜色 Token 仍然可以单独覆盖：
 
 ```dart
 final customTokens = const EdsDesignTokens().copyWith(
-  colors: const EdsColorTokens().copyWith(
-    primary: Color(0xFFAF52DE),
-  ),
+  spacing: const EdsSpacingTokens().copyWith(lg: 22),
 );
 
 PurchaseCard().easyDesignTokens(
@@ -573,19 +593,42 @@ class CustomPanel extends StatelessWidget {
 
 ```dart
 EdsTheme.instance.tokens.spacing.md
-EdsTheme.instance.tokens.colors.primary
+EdsTheme.instance.seeds.brand
 ```
 
 语义色（含亮暗解析）通过 `context.edsScheme` 读取：
 
 ```dart
 final scheme = context.edsScheme;
-scheme.textPrimary;    // 主文本
-scheme.textSecondary;  // 次文本
-scheme.pageBackground; // 页面背景（亮 #F7F7F7 / 暗 #1E1E20）
-scheme.cardBackground; // 卡片背景（亮 #FFFFFF / 暗 #2A2A2C）
-scheme.border;         // 发丝分隔线
+scheme.foregroundPrimary;   // 主文本
+scheme.foregroundSecondary; // 次文本
+scheme.surfacePage;         // 页面背景
+scheme.surfaceRaised;       // Raised 容器
+scheme.borderDefault;       // 默认边框
+scheme.brandForeground;     // Brand 前景色
+scheme.brandSurfaceStrong;  // Brand 强表面
+scheme.dangerForeground;    // Danger 前景色
 ```
+
+### Semantic Override
+
+Seed 适合调整整个 Brand / Status 家族；如果产品需要精调某个语义角色，可以使用 Light / Dark 分开的部分覆盖：
+
+```dart
+EdsThemeScope(
+  semanticOverrides: const EdsSemanticOverrides(
+    light: EdsSemanticColorOverrides(
+      surfaceRaised: Color(0xFFFDFDFD),
+    ),
+    dark: EdsSemanticColorOverrides(
+      surfaceRaised: Color(0xFF29292D),
+    ),
+  ),
+  child: const PurchaseCard(),
+)
+```
+
+没有覆盖的角色继续由 Seed → Tonal Palette → Semantic Mapping 自动生成。
 
 ## 6. 精细 API
 
@@ -629,8 +672,8 @@ EdsGroup('通用', subtitle: '常用偏好', child: content)
 // 默认 EdsCard：只提供 padding，不绘制背景
 EdsCard(child: content)
 
-// 需要时显式提供背景
-EdsCard(background: context.edsScheme.cardBackground, child: content)
+// 需要标准 Raised 表面时使用语义样式
+EdsCard(style: EdsCardStyle.raised, child: content)
 ```
 
 精细组件的默认行为不强制等于 Easy Recipe。例如 Easy `.card` 会提供完整卡片表面，而精细 `EdsCard` 默认是轻量 padding 容器。
@@ -651,7 +694,7 @@ Row(
 
 Row(
   children: const [
-    EdsBadge('Pro', style: EdsBadgeStyle.accent),
+    EdsBadge('Pro', style: EdsBadgeStyle.brand),
     EdsBadge('已完成', style: EdsBadgeStyle.success),
     EdsBadge('待处理', style: EdsBadgeStyle.warning),
     EdsBadge('失败', style: EdsBadgeStyle.danger),
@@ -744,7 +787,7 @@ EdsSlider(
 | 维度 | 取值 | 含义 |
 | --- | --- | --- |
 | `Emphasis` | `filled` `medium` `outline` `soft` `plain` | 视觉分量——这块按钮"多重" |
-| `Tone` | `accent` `neutral` `danger` `success` `warning` | 语义色调——这块按钮"是什么性质" |
+| `Tone` | `brand` `neutral` `information` `success` `warning` `danger` | 语义色调——这块按钮"是什么性质" |
 | `Size` | `small`(28) `regular`(34) `large`(44) | 尺寸档位 |
 
 ```dart
@@ -793,9 +836,9 @@ EdsButton.fullWidth(
 
 | `Role` | 等价于 |
 | --- | --- |
-| `primary` | `filled` + `accent` + `regular` |
-| `secondary` | `medium` + `accent` + `regular` |
-| `soft` | `soft` + `accent` + `regular` |
+| `primary` | `filled` + `brand` + `regular` |
+| `secondary` | `medium` + `brand` + `regular` |
+| `soft` | `soft` + `brand` + `regular` |
 | `danger` | `filled` + `danger` + `regular` |
 | `done` | `filled` + `success` + `regular`，并自动补 `check` 图标 |
 | `normal` | `soft` + `neutral` + `regular` |
@@ -838,14 +881,14 @@ const EdsMonoText('/Users/name/Documents/Exports')
 const EdsSettingRow(
   '图片格式',
   subtitle: '批量处理的默认格式。',
-  trailing: EdsBadge('PNG', style: EdsBadgeStyle.accent),
+  trailing: EdsBadge('PNG', style: EdsBadgeStyle.brand),
 )
 
 const EdsValueRow('缓存占用', value: '240 MB')
-const EdsValueRow('剩余空间', value: '仅剩 1 GB', tone: Color(0xFFE54444))
+const EdsValueRow('剩余空间', value: '仅剩 1 GB', tone: EdsValueTone.danger)
 ```
 
-`EdsValueRow.tone` 直接接收 `Color?`，缺省跟随主文本。行组件会跟随交互档案自动满足最小触控目标；无障碍大字号下 `EdsSettingRow` 自动切换为上下堆叠布局。
+`EdsValueRow.tone` 接收语义 `EdsValueTone`，可选 `neutral / brand / information / success / warning / danger`；不允许通过单组件 Raw Color 绕过 Theme。行组件会跟随交互档案自动满足最小触控目标；无障碍大字号下 `EdsSettingRow` 自动切换为上下堆叠布局。
 
 ### 状态与特殊组件
 
@@ -898,7 +941,7 @@ final items = [
   EdsSidebarMenuItem(
     label: '收件箱',
     icon: Icons.inbox,
-    presetTint: EdsSidebarIconPresetTint.blue,
+    tone: EdsSidebarIconTone.blue,
   ),
 ];
 
@@ -912,11 +955,10 @@ EdsSidebarGroupView(
 
 ### 直接使用 Token
 
-`EdsDesignTokens` 包含：
+`EdsDesignTokens` 只包含非颜色 Design Tokens；颜色由 `EdsThemeData.seeds + semanticOverrides` 与运行时 `EdsColorScheme` 管理：
 
 | Token | 用途 |
 | --- | --- |
-| `colors` | 主题色、强调色、成功/警告/危险色及派生 Soft 底色 |
 | `spacing` | `xxs` 到 `xxxl` 的间距尺度 |
 | `radius` | `sm` 到 `xl` 的圆角尺度 |
 | `typography` | Hero、页面标题、Section、正文、Caption、字体家族和等宽字体 |
@@ -952,7 +994,7 @@ class FineGrainedPanel extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(tokens.radius.lg),
       child: ColoredBox(
-        color: scheme.cardBackground,
+        color: scheme.surfaceRaised,
         child: Padding(
           padding: EdgeInsets.all(tokens.spacing.xxxl),
           child: Column(
@@ -962,7 +1004,7 @@ class FineGrainedPanel extends StatelessWidget {
               Text(
                 '这里使用完整 Token 进行精细控制。',
                 style: tokens.typography.body
-                    .copyWith(color: scheme.textSecondary),
+                    .copyWith(color: scheme.foregroundSecondary),
               ),
             ],
           ),
@@ -989,7 +1031,7 @@ metrics.interactiveHeight(34);       // max(视觉高度, 触控目标)
 
 ### JSON 主题
 
-可以从 Asset 加载 JSON（schema 与 Swift 版完全兼容，缺失字段自动回退默认值）：
+可以从 Asset 加载完整 Theme JSON。非颜色 Token 分组继续沿用原 schema；ColorScheme 2.0 的 `colors` 分支使用 `seeds + semanticOverrides`：
 
 ```dart
 await EdsTheme.instance.configureJsonAsset('assets/theme.json');
@@ -998,7 +1040,9 @@ await EdsTheme.instance.configureJsonAsset('assets/theme.json');
 从字符串加载：
 
 ```dart
-EdsTheme.instance.configureJsonString('{"colors": {"primary": "#FF6B00"}}');
+EdsTheme.instance.configureJsonString(
+  '{"colors":{"seeds":{"brand":"#FF6B00"}}}',
+);
 ```
 
 导出当前主题：
@@ -1017,7 +1061,7 @@ await EdsTheme.instance.applyDefaultThemeFromPackage();
 
 仓库的 [`example/`](example/) 提供一个可直接运行的 Catalog App（对齐 Swift 版 `Examples/Catalog`），四个 Tab 全局可切换预览主题：
 
-- **组件** — `EdsDesignSystemGallery`：精细 API 组件 Gallery（标准页面 / 状态模式 / 基础控件 / 按钮三维模型 / 行与标签 / 容器分层）
+- **组件** — `EdsDesignSystemGallery`：精细 API 组件 Gallery，并包含 ColorScheme 2.0 校准页（Semantic Roles / Layer / Component Matrix / Preset / Light-Dark）
 - **Easy API** — `EdsEasyApiDesignSystemGallery`：六种语义场景效果对照（含局部主题）
 - **主题** — `EdsDesignSystemPreview`：Token 可视化编辑器，实时预览 + 预设切换 + 应用到 Runtime + JSON 导出
 - **设置** — 设置页骨架演示：Hero 面板 + 标签流 + 功能对比表
@@ -1037,7 +1081,7 @@ flutter test   # 5 个 widget 用例
 | Swift | Dart | 说明 |
 | --- | --- | --- |
 | `EDSTheme.shared` | `EdsTheme.instance` | 单例 + `ValueListenable` |
-| `tokens.colors.primary = .blue` | `tokens.copyWith(colors: ...)` | Dart Token 不可变 |
+| `tokens.colors.primary = .blue` | `EdsColorSeedOverrides(brand: ...)` | Flutter 2.0 使用 Brand Seed |
 | `EDSPresetTheme.default` | `EdsPresetTheme.defaultTheme` | `default` 是 Dart 保留字 |
 | `configure(jsonResource:)` | `configureJsonAsset(path)` | Dart 无重载，资产路径全名 |
 | `Color(hexRGB:)` | `EdsColorHex.parseRgb` | 另有 `parseArgb` / `parseRgba` |
@@ -1045,11 +1089,11 @@ flutter test   # 5 个 widget 用例
 | `EDSButton.Role.normal` | `EdsButtonRole.normal` | 0.4.1 新增：灰底次级 |
 | `EDSButton(_:emphasis:tone:size:)` | `EdsButton.styled(...)` | 命名构造器 |
 | `.easyDesign(_:theme:options:)` | `.easyDesignPreset(theme, ...)` | 避免扩展重名 |
-| `.easyDesignTheme(_:)` | `.easyDesignTheme(tokens)` / `.easyDesignThemePreset(preset)` | scope-only 修饰器 |
+| `.easyDesignTheme(_:)` | `.easyDesignTheme(tokens)` / `.easyDesignThemePreset(preset)` / `EdsThemeScope(seeds: ...)` | scope-only 修饰器 |
 | `Image(systemName: "checkmark")` | `Icons.check` | SF Symbols → Material 图标 |
 | `Binding<Bool>` | `isOn` + `onChanged` | 禁用态：`action` 传 `null` |
 
-其余有意偏差（亮暗语义色经 `EdsColorScheme.resolve` 显式解析、SwiftUI 遗留 `ButtonStyle` 不移植、Flutter 桌面端补充 Focus / Keyboard / Tooltip / Semantics、文本截断用 `ellipsis` 等）以“体验对齐、平台实现合理”为原则。主题型 Sidebar preset 请使用 `presetTint` 或 `resolve(context)`，旧 `.color` 仅为兼容保留。
+其余有意偏差（ColorScheme 2.0 使用 Seed → Tonal Palette → Semantic Role、SwiftUI 遗留 `ButtonStyle` 不移植、Flutter 桌面端补充 Focus / Keyboard / Tooltip / Semantics、文本截断用 `ellipsis` 等）以“体验对齐、平台实现合理”为原则。Sidebar 使用 `EdsSidebarIconTone`，不提供单实例 Raw Color override。
 
 ## 9. 开发与验证
 
