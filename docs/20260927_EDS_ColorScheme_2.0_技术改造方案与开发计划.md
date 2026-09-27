@@ -2099,6 +2099,8 @@ ColorScheme 稳定后再建立少量核心 Golden：
 ---
 
 # 61.1 开发里程碑 Checklist
+> 2026-09-27：已开始 feature/colorscheme-2。Batch 1 核心模型与 Theme 主链路已落地；组件仍引用旧颜色 API，当前属于预期 Breaking 中间态，待后续 Batch 迁移后再执行完整 analyze/test 验收。
+
 
 后续以本清单作为 ColorScheme 2.0 的阶段性进度记录。
 
@@ -2136,11 +2138,11 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 阶段任务：
 
-- [ ] 创建 / 确认 `feature/colorscheme-2` 分支
+- [x] 创建 / 确认 `feature/colorscheme-2` 分支
 - [ ] 确认 main CI 为 green
 - [ ] 记录当前 0.3.1 test baseline
-- [ ] 确认本阶段不修改 Host App
-- [ ] 在开发分支保留设计规范 / API 规范 / 技术方案链接
+- [x] 确认本阶段不修改 Host App
+- [x] 在开发分支保留设计规范 / API 规范 / 技术方案链接
 - [ ] `flutter pub get` 通过
 - [ ] `dart format --set-exit-if-changed .` 通过
 - [ ] `flutter analyze` 通过
@@ -2174,13 +2176,13 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 阶段任务：
 
-- [ ] 新增 `EdsThemeData`
-- [ ] 新增 `EdsColorSeeds`
-- [ ] 新增 `EdsColorSeedOverrides`
-- [ ] 从 `EdsDesignTokens` 删除 `colors`
-- [ ] 保留并验证所有非颜色 Design Tokens
-- [ ] `EdsPresetTheme` 改为基于 `EdsThemeData`
-- [ ] `EdsTheme` 全局存储改为 `EdsThemeData`
+- [x] 新增 `EdsThemeData`
+- [x] 新增 `EdsColorSeeds`
+- [x] 新增 `EdsColorSeedOverrides`
+- [x] 从 `EdsDesignTokens` 删除 `colors`
+- [x] 保留并验证所有非颜色 Design Tokens
+- [x] `EdsPresetTheme` 改为基于 `EdsThemeData`
+- [x] `EdsTheme` 全局存储改为 `EdsThemeData`
 - [ ] 更新相关 equality / copyWith / tests
 - [ ] 本 Batch commit 完成
 
