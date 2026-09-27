@@ -211,7 +211,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                 Text(
                   _selectedPreset?.name ?? '（当前）',
                   style: tokens.typography.bodyStrong.copyWith(
-                    color: scheme.foregroundBrand,
+                    color: scheme.brandForeground,
                   ),
                 ),
                 Icon(
@@ -347,7 +347,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                     style: TextStyle(
                       fontSize: _draftTypography.bodySize,
                       fontWeight: _fontWeight(_draftTypography.bodyWeight),
-                      color: scheme.foregroundBrand,
+                      color: scheme.brandForeground,
                     ),
                   ),
                   Text(
@@ -550,7 +550,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
               label,
               style: TextStyle(
                 fontSize: _draftTypography.body15Size,
-                color: isSelected ? _draftSeeds.brand : scheme.foregroundBrand,
+                color: isSelected ? _draftSeeds.brand : scheme.brandForeground,
               ),
             ),
           ],
@@ -616,7 +616,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
             style: TextStyle(
               fontSize: _draftTypography.sectionTitleSize,
               fontWeight: _fontWeight(_draftTypography.sectionTitleWeight),
-              color: scheme.foregroundBrand,
+              color: scheme.brandForeground,
             ),
           ),
           Text(
@@ -649,7 +649,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                   style: TextStyle(
                     fontSize: _draftTypography.bodyStrongSize,
                     fontWeight: _fontWeight(_draftTypography.bodyStrongWeight),
-                    color: scheme.foregroundBrand,
+                    color: scheme.brandForeground,
                   ),
                 ),
                 Text(
@@ -1022,7 +1022,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
         Text(
           title,
           style: tokens.typography.sectionTitle.copyWith(
-            color: scheme.foregroundBrand,
+            color: scheme.brandForeground,
           ),
         ),
         const SizedBox(height: 8),
@@ -1048,7 +1048,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
           child: Text(
             label,
             style: tokens.typography.caption.copyWith(
-              color: scheme.foregroundBrand,
+              color: scheme.brandForeground,
             ),
           ),
         ),
@@ -1111,7 +1111,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
           child: Text(
             label,
             style: tokens.typography.caption.copyWith(
-              color: scheme.foregroundBrand,
+              color: scheme.brandForeground,
             ),
           ),
         ),
@@ -1158,7 +1158,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
           child: Text(
             label,
             style: tokens.typography.caption.copyWith(
-              color: scheme.foregroundBrand,
+              color: scheme.brandForeground,
             ),
           ),
         ),
@@ -1285,7 +1285,7 @@ class _CatalogColorPickerDialogState extends State<CatalogColorPickerDialog> {
                     controller: _hexController,
                     onChanged: _onHexChanged,
                     style: tokens.typography.monoCaption.copyWith(
-                      color: scheme.foregroundBrand,
+                      color: scheme.brandForeground,
                     ),
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
