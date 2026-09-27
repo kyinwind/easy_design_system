@@ -114,7 +114,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
         return Column(
           children: <Widget>[
             _actionBar(context),
-            Divider(height: 1, thickness: 1, color: scheme.border),
+            Divider(height: 1, thickness: 1, color: scheme.borderDefault),
             Expanded(
               child: isWide
                   ? Row(
@@ -124,7 +124,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                         VerticalDivider(
                           width: 1,
                           thickness: 1,
-                          color: scheme.border,
+                          color: scheme.borderDefault,
                         ),
                         SizedBox(width: 380, child: _editorPanel(context)),
                       ],
@@ -167,7 +167,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
     final tokens = context.edsTokens;
     final scheme = context.edsScheme;
     return Container(
-      color: scheme.cardBackground,
+      color: scheme.surfaceRaised,
       padding: EdgeInsets.symmetric(
         horizontal: tokens.spacing.md,
         vertical: tokens.spacing.sm,
@@ -186,7 +186,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
               }
               setState(() {
                 _selectedPreset = preset;
-                _loadTokens(preset.tokens);
+                _loadTokens(preset.theme.tokens);
               });
             },
             itemBuilder: (context) => <PopupMenuEntry<EdsPresetTheme?>>[
@@ -208,20 +208,20 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                 Text(
                   '预设',
                   style: tokens.typography.captionStrong.copyWith(
-                    color: scheme.textSecondary,
+                    color: scheme.foregroundSecondary,
                   ),
                 ),
                 SizedBox(width: tokens.spacing.xs),
                 Text(
                   _selectedPreset?.name ?? '（当前）',
                   style: tokens.typography.bodyStrong.copyWith(
-                    color: scheme.textPrimary,
+                    color: scheme.foregroundPrimary,
                   ),
                 ),
                 Icon(
                   Icons.arrow_drop_down,
                   size: 18,
-                  color: scheme.textSecondary,
+                  color: scheme.foregroundSecondary,
                 ),
               ],
             ),
@@ -248,7 +248,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
     final tokens = context.edsTokens;
     final scheme = context.edsScheme;
     return ColoredBox(
-      color: scheme.pageBackground,
+      color: scheme.surfacePage,
       child: SingleChildScrollView(
         padding: EdgeInsets.all(tokens.spacing.lg),
         child: Column(
@@ -352,7 +352,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                     style: TextStyle(
                       fontSize: _draftTypography.bodySize,
                       fontWeight: _fontWeight(_draftTypography.bodyWeight),
-                      color: scheme.textPrimary,
+                      color: scheme.foregroundPrimary,
                     ),
                   ),
                   Text(
@@ -360,7 +360,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                     style: TextStyle(
                       fontSize: _draftTypography.captionSize,
                       fontWeight: _fontWeight(_draftTypography.captionWeight),
-                      color: scheme.textSecondary,
+                      color: scheme.foregroundSecondary,
                     ),
                   ),
                 ],
@@ -413,7 +413,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
         Text(
           title,
           style: tokens.typography.caption.copyWith(
-            color: scheme.textSecondary,
+            color: scheme.foregroundSecondary,
           ),
         ),
         content,
@@ -435,14 +435,14 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
         Text(
           label,
           style: tokens.typography.caption.copyWith(
-            color: scheme.textSecondary,
+            color: scheme.foregroundSecondary,
           ),
         ),
         const SizedBox(width: 8),
         Text(
           EdsColorHex.toHex(color),
           style: tokens.typography.monoCaption.copyWith(
-            color: scheme.textSecondary,
+            color: scheme.foregroundSecondary,
           ),
         ),
       ],
@@ -503,7 +503,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
       width: 160,
       padding: EdgeInsets.all(_draftSpacing.sm),
       decoration: BoxDecoration(
-        color: scheme.pageBackground,
+        color: scheme.surfacePage,
         borderRadius: BorderRadius.circular(_draftRadius.md),
       ),
       child: Column(
@@ -547,7 +547,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
               child: Icon(
                 icon,
                 size: 16,
-                color: isSelected ? _draftColors.primary : scheme.textSecondary,
+                color: isSelected ? _draftColors.primary : scheme.foregroundSecondary,
               ),
             ),
             SizedBox(width: _draftSpacing.sm),
@@ -555,7 +555,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
               label,
               style: TextStyle(
                 fontSize: _draftTypography.body15Size,
-                color: isSelected ? _draftColors.primary : scheme.textPrimary,
+                color: isSelected ? _draftColors.primary : scheme.foregroundPrimary,
               ),
             ),
           ],
@@ -609,7 +609,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
       width: double.infinity,
       padding: EdgeInsets.all(_draftSpacing.lg),
       decoration: BoxDecoration(
-        color: scheme.subtleFill,
+        color: scheme.surfaceSunken,
         borderRadius: BorderRadius.circular(_draftRadius.md),
       ),
       child: Column(
@@ -621,14 +621,14 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
             style: TextStyle(
               fontSize: _draftTypography.sectionTitleSize,
               fontWeight: _fontWeight(_draftTypography.sectionTitleWeight),
-              color: scheme.textPrimary,
+              color: scheme.foregroundPrimary,
             ),
           ),
           Text(
             '卡片内容，浅灰色背景，带圆角',
             style: TextStyle(
               fontSize: _draftTypography.bodySize,
-              color: scheme.textSecondary,
+              color: scheme.foregroundSecondary,
             ),
           ),
         ],
@@ -654,14 +654,14 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                   style: TextStyle(
                     fontSize: _draftTypography.bodyStrongSize,
                     fontWeight: _fontWeight(_draftTypography.bodyStrongWeight),
-                    color: scheme.textPrimary,
+                    color: scheme.foregroundPrimary,
                   ),
                 ),
                 Text(
                   '设置项说明文字',
                   style: TextStyle(
                     fontSize: _draftTypography.captionSize,
-                    color: scheme.textSecondary,
+                    color: scheme.foregroundSecondary,
                   ),
                 ),
               ],
@@ -701,14 +701,14 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
         Text(
           '${radius.round()}',
           style: tokens.typography.monoCaption.copyWith(
-            color: scheme.textSecondary,
+            color: scheme.foregroundSecondary,
             fontSize: 10,
           ),
         ),
         Text(
           label,
           style: tokens.typography.caption.copyWith(
-            color: scheme.textSecondary,
+            color: scheme.foregroundSecondary,
             fontSize: 10,
           ),
         ),
@@ -720,7 +720,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
     final tokens = context.edsTokens;
     final scheme = context.edsScheme;
     return ColoredBox(
-      color: scheme.cardBackground,
+      color: scheme.surfaceRaised,
       child: SingleChildScrollView(
         padding: EdgeInsets.all(tokens.spacing.md),
         child: Column(
@@ -1035,13 +1035,13 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
         Text(
           title,
           style: tokens.typography.sectionTitle.copyWith(
-            color: scheme.textPrimary,
+            color: scheme.foregroundPrimary,
           ),
         ),
         const SizedBox(height: 8),
         Column(spacing: 8, children: rows),
         const SizedBox(height: 12),
-        Divider(height: 1, thickness: 1, color: scheme.border),
+        Divider(height: 1, thickness: 1, color: scheme.borderDefault),
       ],
     );
   }
@@ -1061,7 +1061,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
           child: Text(
             label,
             style: tokens.typography.caption.copyWith(
-              color: scheme.textPrimary,
+              color: scheme.foregroundPrimary,
             ),
           ),
         ),
@@ -1074,7 +1074,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
             decoration: BoxDecoration(
               color: color,
               borderRadius: BorderRadius.circular(4),
-              border: Border.all(color: scheme.border, width: 1),
+              border: Border.all(color: scheme.borderDefault, width: 1),
             ),
           ),
         ),
@@ -1082,7 +1082,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
         Text(
           EdsColorHex.toHex(color),
           style: tokens.typography.monoCaption.copyWith(
-            color: scheme.textSecondary,
+            color: scheme.foregroundSecondary,
           ),
         ),
       ],
@@ -1124,7 +1124,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
           child: Text(
             label,
             style: tokens.typography.caption.copyWith(
-              color: scheme.textPrimary,
+              color: scheme.foregroundPrimary,
             ),
           ),
         ),
@@ -1146,7 +1146,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
             '${value.round()}',
             textAlign: TextAlign.end,
             style: tokens.typography.monoCaption.copyWith(
-              color: scheme.textSecondary,
+              color: scheme.foregroundSecondary,
             ),
           ),
         ),
@@ -1171,7 +1171,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
           child: Text(
             label,
             style: tokens.typography.caption.copyWith(
-              color: scheme.textPrimary,
+              color: scheme.foregroundPrimary,
             ),
           ),
         ),
@@ -1189,7 +1189,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
             '${value.round()}',
             textAlign: TextAlign.center,
             style: tokens.typography.monoCaption.copyWith(
-              color: scheme.textSecondary,
+              color: scheme.foregroundSecondary,
             ),
           ),
         ),
@@ -1288,7 +1288,7 @@ class _CatalogColorPickerDialogState extends State<CatalogColorPickerDialog> {
                   decoration: BoxDecoration(
                     color: _currentColor,
                     borderRadius: BorderRadius.circular(6),
-                    border: Border.all(color: scheme.border, width: 1),
+                    border: Border.all(color: scheme.borderDefault, width: 1),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -1298,7 +1298,7 @@ class _CatalogColorPickerDialogState extends State<CatalogColorPickerDialog> {
                     controller: _hexController,
                     onChanged: _onHexChanged,
                     style: tokens.typography.monoCaption.copyWith(
-                      color: scheme.textPrimary,
+                      color: scheme.foregroundPrimary,
                     ),
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
@@ -1359,7 +1359,7 @@ class _CatalogColorPickerDialogState extends State<CatalogColorPickerDialog> {
           child: Text(
             label,
             style: tokens.typography.caption.copyWith(
-              color: scheme.textSecondary,
+              color: scheme.foregroundSecondary,
             ),
           ),
         ),
@@ -1379,7 +1379,7 @@ class _CatalogColorPickerDialogState extends State<CatalogColorPickerDialog> {
             '$value',
             textAlign: TextAlign.end,
             style: tokens.typography.monoCaption.copyWith(
-              color: scheme.textSecondary,
+              color: scheme.foregroundSecondary,
             ),
           ),
         ),
