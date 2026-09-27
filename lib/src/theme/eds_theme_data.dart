@@ -1,4 +1,5 @@
 import '../color/eds_color_seeds.dart';
+import '../color/eds_semantic_overrides.dart';
 import '../tokens/eds_design_tokens.dart';
 
 /// Complete host-configurable EDS theme configuration.
@@ -9,18 +10,22 @@ import '../tokens/eds_design_tokens.dart';
 class EdsThemeData {
   const EdsThemeData({
     this.seeds = const EdsColorSeeds(),
+    this.semanticOverrides = const EdsSemanticOverrides(),
     this.tokens = const EdsDesignTokens(),
   });
 
   final EdsColorSeeds seeds;
+  final EdsSemanticOverrides semanticOverrides;
   final EdsDesignTokens tokens;
 
   EdsThemeData copyWith({
     EdsColorSeeds? seeds,
+    EdsSemanticOverrides? semanticOverrides,
     EdsDesignTokens? tokens,
   }) {
     return EdsThemeData(
       seeds: seeds ?? this.seeds,
+      semanticOverrides: semanticOverrides ?? this.semanticOverrides,
       tokens: tokens ?? this.tokens,
     );
   }
@@ -35,9 +40,10 @@ class EdsThemeData {
   bool operator ==(Object other) {
     return other is EdsThemeData &&
         other.seeds == seeds &&
+        other.semanticOverrides == semanticOverrides &&
         other.tokens == tokens;
   }
 
   @override
-  int get hashCode => Object.hash(seeds, tokens);
+  int get hashCode => Object.hash(seeds, semanticOverrides, tokens);
 }
