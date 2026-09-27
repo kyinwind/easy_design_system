@@ -209,7 +209,7 @@ class _CatalogThemeBarState extends State<CatalogThemeBar> {
                       shape: BoxShape.circle,
                       color: color,
                       border: Border.all(
-                          color: scheme.borderDefaultDefault, width: 0.5),
+                          color: scheme.borderDefault, width: 0.5),
                     ),
                   ),
                 ),
