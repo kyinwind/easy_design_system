@@ -6,6 +6,10 @@
       "success": "#27B15A",
       "warning": "#F9B135",
       "danger": "#E54444"
+    },
+    "semanticOverrides": {
+      "light": {},
+      "dark": {}
     }
   },
   "spacing": {
