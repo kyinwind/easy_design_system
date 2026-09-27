@@ -1,6 +1,5 @@
 import 'package:easy_design_system/easy_design_system.dart';
 import 'package:easy_design_system/src/color/eds_layer_resolver.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
