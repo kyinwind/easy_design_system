@@ -99,6 +99,24 @@ void main() {
     expect(find.text('别名等价性 · Role ↔ 三维'), findsOneWidget);
   });
 
+  testWidgets('ColorScheme 校准页可访问', (tester) async {
+    tester.view.physicalSize = const Size(1200, 1200);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+
+    await tester.pumpWidget(const ExampleApp());
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('ColorScheme'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Color Foundation'), findsOneWidget);
+    expect(find.text('Layer / Context'), findsOneWidget);
+    expect(find.text('Component Matrix'), findsOneWidget);
+    expect(find.text('Light'), findsOneWidget);
+    expect(find.text('Dark'), findsOneWidget);
+  });
+
   testWidgets('窄屏使用 ChoiceChip 导航', (tester) async {
     tester.view.physicalSize = const Size(420, 900);
     tester.view.devicePixelRatio = 1.0;
