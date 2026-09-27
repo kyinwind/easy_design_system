@@ -280,7 +280,10 @@ void main() {
   ) async {
     await tester.pumpWidget(
       MaterialApp(
-        home: Scaffold(body: EdsButton('Hover', action: () {})),
+        home: Scaffold(
+          body: EdsButton('Hover', action: () {})
+              .easyDesignInteractionProfile(EdsInteractionProfile.pointer),
+        ),
       ),
     );
 
