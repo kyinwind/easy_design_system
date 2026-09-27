@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../primitives/eds_font.dart';
 import '../theme/eds_theme_scope.dart';
-import '../tokens/eds_color_scheme.dart';
 
 /// The large page title used at the top of a page, mirroring Swift's
 /// `EDSPageTitle`.
