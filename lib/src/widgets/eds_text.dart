@@ -23,7 +23,7 @@ class EdsPageTitle extends StatelessWidget {
           title,
           style: tokens.typography
               .edsTextStyle(EdsFontRole.pageTitle)
-              .copyWith(color: scheme.textPrimary),
+              .copyWith(color: scheme.foregroundPrimary),
         ),
         if (subtitle != null) ...<Widget>[
           SizedBox(height: tokens.spacing.xs),
@@ -31,7 +31,7 @@ class EdsPageTitle extends StatelessWidget {
             subtitle!,
             style: tokens.typography
                 .edsTextStyle(EdsFontRole.body)
-                .copyWith(color: scheme.textSecondary),
+                .copyWith(color: scheme.foregroundSecondary),
           ),
         ],
       ],
@@ -72,12 +72,12 @@ class EdsSectionTitle extends StatelessWidget {
             _titleString!,
             style: tokens.typography
                 .edsTextStyle(EdsFontRole.sectionTitle)
-                .copyWith(color: scheme.textPrimary),
+                .copyWith(color: scheme.foregroundPrimary),
           )
         : DefaultTextStyle.merge(
             style: tokens.typography
                 .edsTextStyle(EdsFontRole.sectionTitle)
-                .copyWith(color: scheme.textPrimary),
+                .copyWith(color: scheme.foregroundPrimary),
             child: _titleText,
           );
 
@@ -100,7 +100,7 @@ class EdsSectionTitle extends StatelessWidget {
     final scheme = context.edsScheme;
     final style = tokens.typography
         .edsTextStyle(EdsFontRole.caption)
-        .copyWith(color: scheme.textSecondary);
+        .copyWith(color: scheme.foregroundSecondary);
     if (_subtitleText != null) {
       return DefaultTextStyle.merge(style: style, child: _subtitleText);
     }
@@ -127,7 +127,7 @@ class EdsLabelText extends StatelessWidget {
       text,
       style: tokens.typography
           .edsTextStyle(EdsFontRole.captionStrong)
-          .copyWith(color: context.edsScheme.textSecondary),
+          .copyWith(color: context.edsScheme.foregroundSecondary),
     );
   }
 }
@@ -145,7 +145,7 @@ class EdsCaptionText extends StatelessWidget {
       text,
       style: tokens.typography
           .edsTextStyle(EdsFontRole.caption)
-          .copyWith(color: context.edsScheme.textSecondary),
+          .copyWith(color: context.edsScheme.foregroundSecondary),
     );
   }
 }
@@ -168,7 +168,7 @@ class EdsMonoText extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       style: tokens.typography
           .edsTextStyle(EdsFontRole.monoCaption)
-          .copyWith(color: context.edsScheme.textSecondary),
+          .copyWith(color: context.edsScheme.foregroundSecondary),
     );
   }
 }
