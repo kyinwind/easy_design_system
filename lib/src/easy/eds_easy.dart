@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import '../adaptive/eds_interaction_profile.dart';
 import '../adaptive/eds_size_class.dart';
+import '../color/eds_layer.dart';
 import '../primitives/eds_font.dart';
 import '../primitives/eds_surface.dart';
 import '../theme/eds_preset_theme.dart';
@@ -22,10 +23,8 @@ import 'eds_easy_style.dart';
 /// padding → content width → semantic surface → re-inject tokens →
 /// body font + foreground color.
 ///
-/// Swift additionally applies `.tint(tokens.colors.accent)` so native SwiftUI
-/// controls pick up the theme accent; Flutter's Material widgets are themed
-/// separately, and the package's own widgets read the scoped tokens directly,
-/// so there is no direct equivalent.
+/// Native Flutter controls are not globally recolored here. EDS components
+/// read the scoped semantic scheme directly.
 class EdsEasy extends StatelessWidget {
   const EdsEasy({
     super.key,
@@ -53,7 +52,10 @@ class EdsEasy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveTokens = tokens ?? theme?.tokens ?? context.edsTokens;
+    final baseTheme = theme?.theme ?? context.edsThemeData;
+    final effectiveTheme =
+        tokens == null ? baseTheme : baseTheme.copyWith(tokens: tokens);
+    final effectiveTokens = effectiveTheme.tokens;
     final recipe = EdsEasyRecipe.resolve(
       style: style,
       options: options,
@@ -62,8 +64,9 @@ class EdsEasy extends StatelessWidget {
       horizontalSizeClass: context.edsSizeClass,
     );
     final scheme = EdsColorScheme.resolve(
-      effectiveTokens,
-      context.edsBrightness,
+      seeds: effectiveTheme.seeds,
+      brightness: context.edsBrightness,
+      overrides: effectiveTheme.semanticOverrides,
     );
 
     Widget current = child;
@@ -99,9 +102,9 @@ class EdsEasy extends StatelessWidget {
       EdsEasyBackgroundPolicy.inherited => current,
       EdsEasyBackgroundPolicy.page => current.edsSurface(
           EdsSurfaceConfiguration(
-            background: scheme.pageBackground,
+            background: scheme.surfacePage,
             cornerRadius: recipe.cornerRadius,
-            borderColor: recipe.showsBorder ? scheme.border : null,
+            borderColor: recipe.showsBorder ? scheme.borderSubtle : null,
             borderWidth:
                 recipe.showsBorder ? effectiveTokens.stroke.hairline : 0,
             shadow: recipe.showsShadow ? effectiveTokens.shadow : null,
@@ -109,9 +112,9 @@ class EdsEasy extends StatelessWidget {
         ),
       EdsEasyBackgroundPolicy.subtle => current.edsSurface(
           EdsSurfaceConfiguration(
-            background: scheme.subtleFill,
+            background: scheme.surfaceSunken,
             cornerRadius: recipe.cornerRadius,
-            borderColor: recipe.showsBorder ? scheme.border : null,
+            borderColor: recipe.showsBorder ? scheme.borderSubtle : null,
             borderWidth:
                 recipe.showsBorder ? effectiveTokens.stroke.hairline : 0,
             shadow: recipe.showsShadow ? effectiveTokens.shadow : null,
@@ -119,9 +122,9 @@ class EdsEasy extends StatelessWidget {
         ),
       EdsEasyBackgroundPolicy.card => current.edsSurface(
           EdsSurfaceConfiguration(
-            background: scheme.cardBackground,
+            background: scheme.surfaceRaised,
             cornerRadius: recipe.cornerRadius,
-            borderColor: recipe.showsBorder ? scheme.border : null,
+            borderColor: recipe.showsBorder ? scheme.borderSubtle : null,
             borderWidth:
                 recipe.showsBorder ? effectiveTokens.stroke.hairline : 0,
             shadow: recipe.showsShadow ? effectiveTokens.shadow : null,
@@ -129,18 +132,33 @@ class EdsEasy extends StatelessWidget {
         ),
     };
 
+    final inheritedLayer = context.edsLayer;
+    current = switch (style) {
+      EdsEasyStyle.page => EdsLayerScope(
+          layer: EdsLayer.base,
+          child: current,
+        ),
+      EdsEasyStyle.group || EdsEasyStyle.card => EdsLayerScope(
+          layer: inheritedLayer.nestedChild,
+          child: current,
+        ),
+      EdsEasyStyle.content ||
+      EdsEasyStyle.section ||
+      EdsEasyStyle.plain =>
+        current,
+    };
+
     // Re-inject the resolved tokens so the subtree reads the same theme that
     // produced this styling (Swift: `.environment(\.edsTheme, tokens)`).
-    current = EdsThemeScope(tokens: effectiveTokens, child: current);
+    current = EdsThemeScope(theme: effectiveTheme, child: current);
 
-    // Body font + foreground color (Swift: `.edsFont(.body)` +
-    // `.foregroundStyle(tokens.colors.textPrimary)`).
+    // Body font + semantic primary foreground.
     current = IconTheme.merge(
-      data: IconThemeData(color: scheme.textPrimary),
+      data: IconThemeData(color: scheme.foregroundPrimary),
       child: DefaultTextStyle.merge(
         style: effectiveTokens.typography
             .edsTextStyle(EdsFontRole.body)
-            .copyWith(color: scheme.textPrimary),
+            .copyWith(color: scheme.foregroundPrimary),
         child: current,
       ),
     );
