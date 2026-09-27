@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../color/eds_color_seeds.dart';
+import '../color/eds_semantic_overrides.dart';
 import '../tokens/eds_color_scheme.dart';
 import '../tokens/eds_design_tokens.dart';
 import 'eds_preset_theme.dart';
@@ -37,6 +38,7 @@ class EdsThemeScope extends StatelessWidget {
     this.theme,
     this.preset,
     this.seeds,
+    this.semanticOverrides,
     this.tokens,
     this.brightness,
     required this.child,
@@ -48,6 +50,7 @@ class EdsThemeScope extends StatelessWidget {
   final EdsThemeData? theme;
   final EdsPresetTheme? preset;
   final EdsColorSeedOverrides? seeds;
+  final EdsSemanticOverrides? semanticOverrides;
   final EdsDesignTokens? tokens;
   final Brightness? brightness;
   final Widget child;
@@ -57,6 +60,12 @@ class EdsThemeScope extends StatelessWidget {
     final seedOverrides = seeds;
     if (seedOverrides != null) {
       value = value.withSeedOverrides(seedOverrides);
+    }
+    final semanticPatch = semanticOverrides;
+    if (semanticPatch != null) {
+      value = value.copyWith(
+        semanticOverrides: value.semanticOverrides.merge(semanticPatch),
+      );
     }
     final tokenOverrides = tokens;
     if (tokenOverrides != null) {
