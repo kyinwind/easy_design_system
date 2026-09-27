@@ -35,11 +35,11 @@ void main() {
       );
     });
 
-    expect(EdsTheme.instance.tokens.colors.primary, const Color(0xFF0000FF));
+    expect(EdsTheme.instance.context.edsScheme.brandForeground, const Color(0xFF0000FF));
 
     addTearDown(() {
       EdsTheme.instance.applyPreset(EdsPresetTheme.defaultTheme);
-      expect(EdsTheme.instance.tokens.colors.primary, const Color(0xFF3185FF));
+      expect(EdsTheme.instance.context.edsScheme.brandForeground, const Color(0xFF3185FF));
     });
   });
 
@@ -240,7 +240,7 @@ class _ReadmeSettingsPageState extends State<_ReadmeSettingsPage> {
                     const EdsSectionTitle('专业版', subtitle: '解锁更多高级功能。'),
                     Row(
                       children: [
-                        const EdsBadge('推荐', style: EdsBadgeStyle.accent),
+                        const EdsBadge('推荐', style: EdsBadgeStyle.brand),
                         const Spacer(),
                         EdsButton(
                           '立即升级',
@@ -303,7 +303,7 @@ class _FineGrainedPanel extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(tokens.radius.lg),
       child: ColoredBox(
-        color: scheme.cardBackground,
+        color: scheme.surfaceRaised,
         child: Padding(
           padding: EdgeInsets.all(tokens.spacing.xxxl),
           child: Column(
@@ -313,7 +313,7 @@ class _FineGrainedPanel extends StatelessWidget {
               Text(
                 '这里使用完整 Token 进行精细控制。',
                 style: tokens.typography.body.copyWith(
-                  color: scheme.textSecondary,
+                  color: scheme.foregroundSecondary,
                 ),
               ),
             ],
@@ -330,7 +330,7 @@ class _CardWithBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return EdsCard(
-      background: context.edsScheme.cardBackground,
+      background: context.edsScheme.surfaceRaised,
       child: const Text('卡片内容'),
     );
   }
