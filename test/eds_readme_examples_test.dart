@@ -28,18 +28,18 @@ void main() {
     expect(find.text('自动同步'), findsOneWidget);
   });
 
-  test('readme global configure and tokens listenable', () {
-    EdsTheme.instance.configure((tokens) {
-      return tokens.copyWith(
-        colors: tokens.colors.copyWith(primary: const Color(0xFF0000FF)),
-      );
-    });
+  test('readme global configure and theme listenable', () {
+    EdsTheme.instance.configureTheme(
+      seeds: const EdsColorSeedOverrides(
+        brand: Color(0xFF0000FF),
+      ),
+    );
 
-    expect(EdsTheme.instance.context.edsScheme.brandForeground, const Color(0xFF0000FF));
+    expect(EdsTheme.instance.seeds.brand, const Color(0xFF0000FF));
 
     addTearDown(() {
       EdsTheme.instance.applyPreset(EdsPresetTheme.defaultTheme);
-      expect(EdsTheme.instance.context.edsScheme.brandForeground, const Color(0xFF3185FF));
+      expect(EdsTheme.instance.seeds.brand, const Color(0xFF3185FF));
     });
   });
 
@@ -50,7 +50,7 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: ListenableBuilder(
-            listenable: EdsTheme.instance.tokensListenable,
+            listenable: EdsTheme.instance.themeListenable,
             builder: (context, _) => const _ThemeIndicator(),
           ),
         ),
@@ -59,11 +59,11 @@ void main() {
 
     expect(find.text('主题色已配置'), findsOneWidget);
 
-    EdsTheme.instance.configure((tokens) {
-      return tokens.copyWith(
-        colors: tokens.colors.copyWith(primary: const Color(0xFF0000FF)),
-      );
-    });
+    EdsTheme.instance.configureTheme(
+      seeds: const EdsColorSeedOverrides(
+        brand: Color(0xFF0000FF),
+      ),
+    );
     await tester.pump();
 
     expect(find.text('主题色已配置'), findsOneWidget);
@@ -141,7 +141,7 @@ void main() {
               _FineGrainedPanel(),
               _CardWithBackground(),
               EdsValueRow('缓存占用', value: '240 MB'),
-              EdsValueRow('剩余空间', value: '仅剩 1 GB', tone: Color(0xFFE54444)),
+              EdsValueRow('剩余空间', value: '仅剩 1 GB', tone: EdsValueTone.danger),
               EdsMonoText('/Users/name/Documents/Exports'),
             ],
           ),
@@ -170,13 +170,15 @@ void main() {
   });
 
   testWidgets('readme adaptive layout override and metrics', (tester) async {
-    EdsTheme.instance.configure((tokens) {
-      return tokens.copyWith(
-        adaptiveLayout: tokens.adaptiveLayout.copyWith(
-          compactPagePadding: 20,
-          regularPagePadding: 36,
-          readableContentMaxWidth: 960,
-          minimumTouchTarget: 44,
+    EdsTheme.instance.configure((theme) {
+      return theme.copyWith(
+        tokens: theme.tokens.copyWith(
+          adaptiveLayout: theme.tokens.adaptiveLayout.copyWith(
+            compactPagePadding: 20,
+            regularPagePadding: 36,
+            readableContentMaxWidth: 960,
+            minimumTouchTarget: 44,
+          ),
         ),
       );
     });
@@ -286,7 +288,7 @@ class _ThemeIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: context.edsTokens.colors.primary,
+      color: context.edsScheme.brandSurfaceStrong,
       child: const Padding(padding: EdgeInsets.all(8), child: Text('主题色已配置')),
     );
   }
@@ -329,9 +331,9 @@ class _CardWithBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return EdsCard(
-      background: context.edsScheme.surfaceRaised,
-      child: const Text('卡片内容'),
+    return const EdsCard(
+      style: EdsCardStyle.raised,
+      child: Text('卡片内容'),
     );
   }
 }
