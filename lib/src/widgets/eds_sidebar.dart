@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../adaptive/eds_interaction_profile.dart';
 import '../adaptive/eds_resolved_metrics.dart';
 import '../adaptive/eds_size_class.dart';
+import '../color/eds_tonal_palette.dart';
 import '../primitives/eds_font.dart';
 import '../theme/eds_theme_scope.dart';
 
@@ -16,13 +17,8 @@ class EdsSidebarMenuItem {
     String? id,
     required this.label,
     required this.icon,
-    this.tint,
-    this.presetTint,
-  })  : assert(
-          tint != null || presetTint != null,
-          'Either tint or presetTint must be provided.',
-        ),
-        id = id ?? _autoId();
+    this.tone = EdsSidebarIconTone.blue,
+  }) : id = id ?? _autoId();
 
   static int _counter = 0;
 
@@ -31,16 +27,9 @@ class EdsSidebarMenuItem {
   final String id;
   final String label;
   final IconData icon;
+  final EdsSidebarIconTone tone;
 
-  /// Explicit fixed tint. Prefer [presetTint] when the color should follow
-  /// the scoped EDS theme.
-  final Color? tint;
-
-  /// Theme-aware preset tint resolved at build time.
-  final EdsSidebarIconPresetTint? presetTint;
-
-  Color resolveTint(BuildContext context) =>
-      presetTint?.resolve(context) ?? tint!;
+  Color resolveTint(BuildContext context) => tone.resolve(context);
 
   @override
   bool operator ==(Object other) {
@@ -48,12 +37,11 @@ class EdsSidebarMenuItem {
         other.id == id &&
         other.label == label &&
         other.icon == icon &&
-        other.tint == tint &&
-        other.presetTint == presetTint;
+        other.tone == tone;
   }
 
   @override
-  int get hashCode => Object.hash(id, label, icon, tint, presetTint);
+  int get hashCode => Object.hash(id, label, icon, tone);
 }
 
 /// Icon size tiers for [EdsSidebarIcon]. Mirrors Swift's
@@ -89,40 +77,42 @@ class EdsSidebarIcon extends StatelessWidget {
   const EdsSidebarIcon({
     super.key,
     required this.icon,
-    required this.tint,
+    this.tone = EdsSidebarIconTone.blue,
     this.size = EdsSidebarIconSize.medium,
   });
 
   final IconData icon;
-  final Color tint;
+  final EdsSidebarIconTone tone;
   final EdsSidebarIconSize size;
 
   @override
   Widget build(BuildContext context) {
+    final tint = tone.resolve(context);
     return Container(
       width: size.frameSize,
       height: size.frameSize,
       decoration: BoxDecoration(
-        color: tint.withValues(alpha: 0.9),
+        color: tint,
         borderRadius: BorderRadius.circular(size.frameSize * 0.22),
       ),
       child: Center(
-        child: Icon(icon, size: size.iconSize, color: Colors.white),
+        child: Icon(
+          icon,
+          size: size.iconSize,
+          color: context.edsBrightness == Brightness.dark
+              ? const Color(0xFF111113)
+              : Colors.white,
+        ),
       ),
     );
   }
 }
 
-/// Preset tints for sidebar icons, mirroring Swift's
-/// `EDSSidebarIconPresetTint`.
+/// EDS-owned tones for sidebar icon blocks.
 ///
-/// Theme-backed cases are resolved with [resolve] so local
-/// [EdsThemeScope] overrides and brightness are honored.
-///
-/// Fixed platform colors (gray/pink/purple/teal/indigo) use their
-/// light-appearance values because Dart colors do not resolve dynamically per
-/// appearance.
-enum EdsSidebarIconPresetTint {
+/// Brand and status tones follow the active Theme. Additional categorical
+/// tones are generated from package-owned seeds and adapt to brightness.
+enum EdsSidebarIconTone {
   blue,
   green,
   orange,
@@ -133,19 +123,31 @@ enum EdsSidebarIconPresetTint {
   teal,
   indigo;
 
-  Color resolve(BuildContext context) => switch (this) {
-        EdsSidebarIconPresetTint.blue => context.edsScheme.brandSurfaceStrong,
-        EdsSidebarIconPresetTint.green =>
-          context.edsScheme.successSurfaceStrong,
-        EdsSidebarIconPresetTint.orange =>
-          context.edsScheme.warningSurfaceStrong,
-        EdsSidebarIconPresetTint.red => context.edsScheme.dangerSurfaceStrong,
-        EdsSidebarIconPresetTint.gray => const Color(0xFF8E8E93),
-        EdsSidebarIconPresetTint.pink => const Color(0xFFFF2D55),
-        EdsSidebarIconPresetTint.purple => const Color(0xFFAF52DE),
-        EdsSidebarIconPresetTint.teal => const Color(0xFF30B0C7),
-        EdsSidebarIconPresetTint.indigo => const Color(0xFF5856D6),
-      };
+  Color resolve(BuildContext context) {
+    final scheme = context.edsScheme;
+    return switch (this) {
+      EdsSidebarIconTone.blue => scheme.brandSurfaceStrong,
+      EdsSidebarIconTone.green => scheme.successSurfaceStrong,
+      EdsSidebarIconTone.orange => scheme.warningSurfaceStrong,
+      EdsSidebarIconTone.red => scheme.dangerSurfaceStrong,
+      EdsSidebarIconTone.gray => scheme.foregroundSecondary,
+      EdsSidebarIconTone.pink =>
+        _categorical(context, const Color(0xFFFF2D55)),
+      EdsSidebarIconTone.purple =>
+        _categorical(context, const Color(0xFFAF52DE)),
+      EdsSidebarIconTone.teal =>
+        _categorical(context, const Color(0xFF30B0C7)),
+      EdsSidebarIconTone.indigo =>
+        _categorical(context, const Color(0xFF5856D6)),
+    };
+  }
+
+  static Color _categorical(BuildContext context, Color seed) {
+    final palette = EdsTonalPalette.fromSeed(seed);
+    return palette.tone(
+      context.edsBrightness == Brightness.dark ? 80 : 40,
+    );
+  }
 }
 
 /// A single sidebar menu entry, mirroring Swift's `EDSSidebarItemButton`.
@@ -195,7 +197,7 @@ class EdsSidebarItemButton extends StatelessWidget {
                 children: <Widget>[
                   EdsSidebarIcon(
                     icon: item.icon,
-                    tint: item.resolveTint(context),
+                    tone: item.tone,
                     size: EdsSidebarIconSize.small,
                   ),
                   Expanded(
