@@ -2126,7 +2126,7 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [x] Batch 10 — JSON Theme 2.0
 - [ ] Batch 11 — Catalog（实现完成，待视觉校准）
 - [x] Batch 12 — 清理旧颜色体系
-- [ ] Batch 13 — 文档 / README / CHANGELOG
+- [x] Batch 13 — 文档 / README / CHANGELOG
 - [ ] Batch 14 — 最终 CI
 - [ ] Host Migration — RightClickMate
 - [ ] Host Migration — VideoHero
@@ -2609,7 +2609,7 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [x] 更新 Button Tone 示例
 - [x] 编写 Breaking Migration Guide
 - [x] 更新 CHANGELOG
-- [ ] 核对设计规范 / API 规范 / 技术方案一致性
+- [x] 核对设计规范 / API 规范 / 技术方案一致性
 - [x] 本 Batch commit 完成
 
 
