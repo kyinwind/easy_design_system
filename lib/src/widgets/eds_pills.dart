@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../adaptive/eds_interaction_profile.dart';
 import '../adaptive/eds_resolved_metrics.dart';
 import '../adaptive/eds_size_class.dart';
+import '../color/eds_tonal_palette.dart';
 import '../primitives/eds_font.dart';
 import '../theme/eds_theme_scope.dart';
 import '../tokens/eds_design_tokens.dart';
@@ -41,83 +42,64 @@ class EdsFlowLayout extends StatelessWidget {
   }
 }
 
-/// The visual tone of a pill, mirroring Swift's `EDSPillTone`.
-class EdsPillTone {
-  EdsPillTone({
+/// EDS-owned categorical tones for tag/pill content.
+///
+/// The host chooses a tone identity, while EDS resolves the concrete
+/// background/foreground/border colors for the current brightness.
+enum EdsPillTone {
+  blue(Color(0xFF246BCE)),
+  green(Color(0xFF218B4E)),
+  orange(Color(0xFFB76100)),
+  purple(Color(0xFF6F42C1)),
+  cyan(Color(0xFF087990)),
+  red(Color(0xFFC7354D)),
+  pink(Color(0xFFB83280)),
+  indigo(Color(0xFF4F46E5)),
+  emerald(Color(0xFF047857)),
+  yellow(Color(0xFFA16207)),
+  slate(Color(0xFF475569)),
+  teal(Color(0xFF0F766E));
+
+  const EdsPillTone(this._seed);
+
+  final Color _seed;
+
+  static const List<EdsPillTone> defaultPalette = <EdsPillTone>[
+    blue,
+    green,
+    orange,
+    purple,
+    cyan,
+    red,
+    pink,
+    indigo,
+    emerald,
+    yellow,
+    slate,
+    teal,
+  ];
+
+  _EdsResolvedPillTone resolve(Brightness brightness) {
+    final palette = EdsTonalPalette.fromSeed(_seed);
+    final dark = brightness == Brightness.dark;
+    return _EdsResolvedPillTone(
+      background: palette.tone(dark ? 20 : 95),
+      foreground: palette.tone(dark ? 80 : 40),
+      border: palette.tone(dark ? 50 : 80),
+    );
+  }
+}
+
+class _EdsResolvedPillTone {
+  const _EdsResolvedPillTone({
     required this.background,
     required this.foreground,
-    Color? border,
-  }) : border = border ?? foreground.withValues(alpha: 0.16);
+    required this.border,
+  });
 
   final Color background;
   final Color foreground;
-
-  /// Pill outline color. Defaults to `foreground` at 16% opacity.
   final Color border;
-
-  /// The default 12-color palette, identical to Swift's
-  /// `EDSPillTone.defaultPalette`.
-  static final List<EdsPillTone> defaultPalette = <EdsPillTone>[
-    EdsPillTone(
-      background: const Color(0xFFEAF2FF),
-      foreground: const Color(0xFF246BCE),
-    ),
-    EdsPillTone(
-      background: const Color(0xFFEAF8F0),
-      foreground: const Color(0xFF218B4E),
-    ),
-    EdsPillTone(
-      background: const Color(0xFFFFF4E6),
-      foreground: const Color(0xFFB76100),
-    ),
-    EdsPillTone(
-      background: const Color(0xFFF3EDFF),
-      foreground: const Color(0xFF6F42C1),
-    ),
-    EdsPillTone(
-      background: const Color(0xFFEAF7FA),
-      foreground: const Color(0xFF087990),
-    ),
-    EdsPillTone(
-      background: const Color(0xFFFDECEF),
-      foreground: const Color(0xFFC7354D),
-    ),
-    EdsPillTone(
-      background: const Color(0xFFFFF0F7),
-      foreground: const Color(0xFFB83280),
-    ),
-    EdsPillTone(
-      background: const Color(0xFFEEF2FF),
-      foreground: const Color(0xFF4F46E5),
-    ),
-    EdsPillTone(
-      background: const Color(0xFFECFDF5),
-      foreground: const Color(0xFF047857),
-    ),
-    EdsPillTone(
-      background: const Color(0xFFFEFCE8),
-      foreground: const Color(0xFFA16207),
-    ),
-    EdsPillTone(
-      background: const Color(0xFFF1F5F9),
-      foreground: const Color(0xFF475569),
-    ),
-    EdsPillTone(
-      background: const Color(0xFFF0FDFA),
-      foreground: const Color(0xFF0F766E),
-    ),
-  ];
-
-  @override
-  bool operator ==(Object other) {
-    return other is EdsPillTone &&
-        other.background == background &&
-        other.foreground == foreground &&
-        other.border == border;
-  }
-
-  @override
-  int get hashCode => Object.hash(background, foreground, border);
 }
 
 /// A single pill chip, mirroring Swift's `EDSPill`.
@@ -174,6 +156,7 @@ class _EdsPillState extends State<EdsPill> {
       horizontalSizeClass: context.edsSizeClass,
     );
     final reduceMotion = MediaQuery.maybeDisableAnimationsOf(context) ?? false;
+    final resolvedTone = widget.tone.resolve(context.edsBrightness);
 
     Widget content = Row(
       mainAxisSize: MainAxisSize.min,
@@ -185,7 +168,7 @@ class _EdsPillState extends State<EdsPill> {
           softWrap: false,
           style: tokens.typography
               .edsTextStyle(EdsFontRole.captionStrong)
-              .copyWith(color: widget.tone.foreground),
+              .copyWith(color: resolvedTone.foreground),
         ),
         if (widget.showsRemoveButton)
           _removeButton(metrics, tokens, reduceMotion),
@@ -211,10 +194,10 @@ class _EdsPillState extends State<EdsPill> {
     );
     content = Container(
       decoration: ShapeDecoration(
-        color: widget.tone.background,
+        color: resolvedTone.background,
         shape: StadiumBorder(
           side: BorderSide(
-            color: widget.tone.border,
+            color: resolvedTone.border,
             width: tokens.stroke.hairline,
           ),
         ),
