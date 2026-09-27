@@ -67,7 +67,7 @@ class EdsComparisonSection extends StatelessWidget {
             _header(context, proLabel, 72),
           ],
         ),
-        Divider(height: 1, thickness: 1, color: scheme.border),
+        Divider(height: 1, thickness: 1, color: scheme.borderSubtle),
         for (var index = 0; index < features.length; index++)
           Row(
             spacing: tokens.spacing.md,
@@ -76,14 +76,14 @@ class EdsComparisonSection extends StatelessWidget {
                 '${index + 1}.',
                 style: tokens.typography
                     .edsTextStyle(EdsFontRole.body)
-                    .copyWith(color: scheme.textPrimary),
+                    .copyWith(color: scheme.foregroundPrimary),
               ),
               Expanded(
                 child: Text(
                   features[index].$1,
                   style: tokens.typography
                       .edsTextStyle(EdsFontRole.body)
-                      .copyWith(color: scheme.textPrimary),
+                      .copyWith(color: scheme.foregroundPrimary),
                 ),
               ),
               SizedBox(width: 72, child: EdsIconMark(isOn: features[index].$2)),
@@ -109,7 +109,7 @@ class EdsComparisonSection extends StatelessWidget {
               '${index + 1}. $feature',
               style: tokens.typography
                   .edsTextStyle(EdsFontRole.body)
-                  .copyWith(color: scheme.textPrimary),
+                  .copyWith(color: scheme.foregroundPrimary),
             ),
             Row(
               spacing: tokens.spacing.lg,
@@ -122,7 +122,7 @@ class EdsComparisonSection extends StatelessWidget {
         ),
       );
       if (index != features.length - 1) {
-        children.add(Divider(height: 1, thickness: 1, color: scheme.border));
+        children.add(Divider(height: 1, thickness: 1, color: scheme.borderSubtle));
       }
     }
     return Column(
@@ -142,7 +142,7 @@ class EdsComparisonSection extends StatelessWidget {
           label,
           style: tokens.typography
               .edsTextStyle(EdsFontRole.captionStrong)
-              .copyWith(color: scheme.textSecondary),
+              .copyWith(color: scheme.foregroundSecondary),
         ),
         EdsIconMark(isOn: isOn),
       ],
@@ -158,7 +158,7 @@ class EdsComparisonSection extends StatelessWidget {
         label,
         style: tokens.typography
             .edsTextStyle(EdsFontRole.captionStrong)
-            .copyWith(color: scheme.textSecondary),
+            .copyWith(color: scheme.foregroundSecondary),
       ),
     );
   }
