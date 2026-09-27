@@ -1,118 +1,79 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/painting.dart';
 
-import '../theme/eds_theme_scope.dart';
-import 'eds_design_tokens.dart';
+import '../color/eds_color_resolver.dart';
+import '../color/eds_color_seeds.dart';
+import '../color/eds_semantic_colors.dart';
+import '../color/eds_semantic_overrides.dart';
 
-/// Brightness-dependent semantic colors.
-///
-/// The Swift package derives these from dynamic system colors
-/// (`Color.primary`, `NSColor.windowBackgroundColor`, …) that resolve
-/// themselves through the SwiftUI environment. Flutter has no dynamic system
-/// palette, so this class resolves the same roles deterministically from a
-/// brightness:
-///
-/// | role | light | dark |
-/// |---|---|---|
-/// | [label] / [textPrimary] | black | white |
-/// | [textSecondary] | black 60% | white 60% |
-/// | [textTertiary] | black 43.2% | white 43.2% |
-/// | [pageBackground] | `#F7F7F7` | `#1E1E20` |
-/// | [cardBackground] | `#FFFFFF` | `#2A2A2C` |
-/// | [cardGrayBackground] | black 4.5% | white 4.5% |
-/// | [subtleFill] | black 3.0% | white 3.0% |
-/// | [border] | black 10% | white 10% |
+/// Public resolved ColorScheme 2.0 view for one brightness.
 class EdsColorScheme {
-  const EdsColorScheme._({
-    required this.label,
-    required this.textPrimary,
-    required this.textSecondary,
-    required this.textTertiary,
-    required this.pageBackground,
-    required this.cardBackground,
-    required this.cardGrayBackground,
-    required this.subtleFill,
-    required this.border,
-  });
+  const EdsColorScheme._(this._colors);
 
-  /// Resolves the semantic color roles for [tokens] under [brightness].
-  factory EdsColorScheme.resolve(
-    EdsDesignTokens tokens,
-    Brightness brightness,
-  ) {
-    final dark = brightness == Brightness.dark;
-    final base = dark ? const Color(0xFFFFFFFF) : const Color(0xFF000000);
+  final EdsSemanticColors _colors;
+
+  factory EdsColorScheme.resolve({
+    required EdsColorSeeds seeds,
+    required Brightness brightness,
+    EdsSemanticOverrides overrides = const EdsSemanticOverrides(),
+  }) {
     return EdsColorScheme._(
-      label: base,
-      textPrimary: base,
-      textSecondary: base.withValues(alpha: 0.6),
-      // Swift: `Color.secondary.opacity(0.72)` → 0.6 × 0.72 = 0.432.
-      textTertiary: base.withValues(alpha: 0.432),
-      pageBackground: dark ? const Color(0xFF1E1E20) : const Color(0xFFF7F7F7),
-      cardBackground: dark ? const Color(0xFF2A2A2C) : const Color(0xFFFFFFFF),
-      cardGrayBackground: base.withValues(alpha: 0.045),
-      subtleFill: base.withValues(alpha: 0.030),
-      border: base.withValues(alpha: 0.10),
+      EdsColorResolver.resolve(
+        seeds: seeds,
+        brightness: brightness,
+        overrides: overrides,
+      ),
     );
   }
 
-  /// The unmodified foreground color (Swift `Color.primary`).
-  final Color label;
+  Color get surfacePage => _colors.surfacePage;
+  Color get surfaceBase => _colors.surfaceBase;
+  Color get surfaceRaised => _colors.surfaceRaised;
+  Color get surfaceSunken => _colors.surfaceSunken;
+  Color get surfaceOverlay => _colors.surfaceOverlay;
+  Color get surfaceDisabled => _colors.surfaceDisabled;
 
-  /// Primary text color (Swift `Color.primary`).
-  final Color textPrimary;
+  Color get foregroundPrimary => _colors.foregroundPrimary;
+  Color get foregroundSecondary => _colors.foregroundSecondary;
+  Color get foregroundTertiary => _colors.foregroundTertiary;
+  Color get foregroundDisabled => _colors.foregroundDisabled;
+  Color get foregroundInverse => _colors.foregroundInverse;
 
-  /// Secondary text color (Swift `Color.secondary`).
-  final Color textSecondary;
+  Color get borderSubtle => _colors.borderSubtle;
+  Color get borderDefault => _colors.borderDefault;
+  Color get borderStrong => _colors.borderStrong;
+  Color get borderSelected => _colors.borderSelected;
+  Color get borderFocus => _colors.borderFocus;
+  Color get borderDisabled => _colors.borderDisabled;
+  Color get borderDanger => _colors.borderDanger;
 
-  /// Tertiary text color (Swift `Color.secondary.opacity(0.72)`).
-  final Color textTertiary;
+  Color get brandForeground => _colors.brandForeground;
+  Color get brandSurface => _colors.brandSurface;
+  Color get brandSurfaceStrong => _colors.brandSurfaceStrong;
+  Color get brandBorder => _colors.brandBorder;
+  Color get brandOnStrong => _colors.brandOnStrong;
 
-  /// Page-level background.
-  final Color pageBackground;
+  Color get informationForeground => _colors.informationForeground;
+  Color get informationSurface => _colors.informationSurface;
+  Color get informationSurfaceStrong => _colors.informationSurfaceStrong;
+  Color get informationBorder => _colors.informationBorder;
+  Color get informationOnStrong => _colors.informationOnStrong;
 
-  /// Card-level background.
-  final Color cardBackground;
+  Color get successForeground => _colors.successForeground;
+  Color get successSurface => _colors.successSurface;
+  Color get successSurfaceStrong => _colors.successSurfaceStrong;
+  Color get successBorder => _colors.successBorder;
+  Color get successOnStrong => _colors.successOnStrong;
 
-  /// Filled-group background (Swift `Color.primary.opacity(0.045)`).
-  final Color cardGrayBackground;
+  Color get warningForeground => _colors.warningForeground;
+  Color get warningSurface => _colors.warningSurface;
+  Color get warningSurfaceStrong => _colors.warningSurfaceStrong;
+  Color get warningBorder => _colors.warningBorder;
+  Color get warningOnStrong => _colors.warningOnStrong;
 
-  /// Subtle fill for wells and tracks (Swift `Color.primary.opacity(0.030)`).
-  final Color subtleFill;
-
-  /// Hairline border color (Swift `Color.primary.opacity(0.10)`).
-  final Color border;
-
-  @override
-  bool operator ==(Object other) {
-    return other is EdsColorScheme &&
-        other.label == label &&
-        other.textPrimary == textPrimary &&
-        other.textSecondary == textSecondary &&
-        other.textTertiary == textTertiary &&
-        other.pageBackground == pageBackground &&
-        other.cardBackground == cardBackground &&
-        other.cardGrayBackground == cardGrayBackground &&
-        other.subtleFill == subtleFill &&
-        other.border == border;
-  }
-
-  @override
-  int get hashCode => Object.hash(
-        label,
-        textPrimary,
-        textSecondary,
-        textTertiary,
-        pageBackground,
-        cardBackground,
-        cardGrayBackground,
-        subtleFill,
-        border,
-      );
-}
-
-extension EdsColorSchemeContextX on BuildContext {
-  /// The color scheme for this subtree, resolved from the scoped tokens and
-  /// effective brightness.
-  EdsColorScheme get edsScheme =>
-      EdsColorScheme.resolve(edsTokens, edsBrightness);
+  Color get dangerForeground => _colors.dangerForeground;
+  Color get dangerSurface => _colors.dangerSurface;
+  Color get dangerSurfaceStrong => _colors.dangerSurfaceStrong;
+  Color get dangerBorder => _colors.dangerBorder;
+  Color get dangerOnStrong => _colors.dangerOnStrong;
 }
