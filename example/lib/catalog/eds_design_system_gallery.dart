@@ -324,7 +324,7 @@ class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
             null,
             child: Column(
               children: <Widget>[
-                const EdsSettingRow(
+                EdsSettingRow(
                   '图片输出格式',
                   subtitle: '用于批量处理后的默认格式。',
                   trailing: EdsBadge('PNG'),
