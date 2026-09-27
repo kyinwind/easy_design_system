@@ -546,10 +546,11 @@ Active Navigation
 borderFocus
 → Brand Palette
 
-selectedSurface
-selectedForeground
-selectedBorder
-→ Brand Family / Brand Palette
+Selected component recipe slots
+→ 直接使用 brandSurface / brandForeground / brandBorder
+
+第一版不创建独立的 selectedSurface / selectedForeground /
+selectedBorder Semantic Tokens，避免与 Brand Roles 重复。
 
 Primary Button
 → Brand Family
@@ -1658,8 +1659,8 @@ Menu Item：
 ```text
 text = foregroundPrimary
 hover = Interaction Resolver
-selectedSurface = brandSurface
-selectedForeground = brandForeground
+selected surface = brandSurface
+selected foreground = brandForeground
 disabled = foregroundDisabled
 ```
 
