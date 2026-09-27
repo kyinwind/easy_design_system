@@ -191,19 +191,28 @@ class EdsInlineField extends StatelessWidget {
   }
 }
 
+/// Semantic tone for the system-icon block in [EdsMultilineSubtitleRow].
+enum EdsRowIconTone {
+  neutral,
+  brand,
+  information,
+  success,
+  warning,
+  danger,
+}
+
 /// A row with a leading icon block, title, subtitle and trailing content,
 /// mirroring Swift's `EDSMultilineSubtitleRow`.
 ///
 /// Deviation from Swift: the macOS `NSImage` / iOS SF Symbol initializers
 /// collapse into one constructor — [icon] is a custom widget rendered at
-/// 28x28, while [systemIcon] and [iconColor] must both be provided to
-/// render the tinted icon block.
+/// 28x28, while [systemIcon] uses the EDS-managed [iconTone].
 class EdsMultilineSubtitleRow extends StatelessWidget {
   const EdsMultilineSubtitleRow({
     super.key,
     this.icon,
     this.systemIcon,
-    this.iconColor,
+    this.iconTone = EdsRowIconTone.brand,
     this.title,
     this.subtitle,
     this.child,
@@ -213,11 +222,10 @@ class EdsMultilineSubtitleRow extends StatelessWidget {
   /// `init(icon:title:subtitle:content:)`.
   final Widget? icon;
 
-  /// Material icon data. Rendered inside the [iconColor] tinted block only
-  /// when [iconColor] is also given.
+  /// Material icon data rendered inside an EDS semantic color block.
   final IconData? systemIcon;
 
-  final Color? iconColor;
+  final EdsRowIconTone iconTone;
   final String? title;
   final String? subtitle;
   final Widget? child;
@@ -234,15 +242,43 @@ class EdsMultilineSubtitleRow extends StatelessWidget {
         height: 28,
         child: FittedBox(fit: BoxFit.fill, child: icon),
       );
-    } else if (systemIcon != null && iconColor != null) {
+    } else if (systemIcon != null) {
+      final (background, foreground) = switch (iconTone) {
+        EdsRowIconTone.neutral => (
+            scheme.foregroundPrimary,
+            scheme.foregroundInverse,
+          ),
+        EdsRowIconTone.brand => (
+            scheme.brandSurfaceStrong,
+            scheme.brandOnStrong,
+          ),
+        EdsRowIconTone.information => (
+            scheme.informationSurfaceStrong,
+            scheme.informationOnStrong,
+          ),
+        EdsRowIconTone.success => (
+            scheme.successSurfaceStrong,
+            scheme.successOnStrong,
+          ),
+        EdsRowIconTone.warning => (
+            scheme.warningSurfaceStrong,
+            scheme.warningOnStrong,
+          ),
+        EdsRowIconTone.danger => (
+            scheme.dangerSurfaceStrong,
+            scheme.dangerOnStrong,
+          ),
+      };
       iconView = Container(
         width: 28,
         height: 28,
         decoration: BoxDecoration(
-          color: iconColor,
+          color: background,
           borderRadius: BorderRadius.circular(6),
         ),
-        child: Center(child: Icon(systemIcon, size: 14, color: Colors.white)),
+        child: Center(
+          child: Icon(systemIcon, size: 14, color: foreground),
+        ),
       );
     } else {
       iconView = null;
