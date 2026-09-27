@@ -12,7 +12,7 @@ class EdsDesignSystemPreview extends StatefulWidget {
 }
 
 class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
-  late EdsColorTokens _draftColors;
+  late EdsColorSeeds _draftSeeds;
   late EdsSpacingTokens _draftSpacing;
   late EdsRadiusTokens _draftRadius;
   late EdsTypographyTokens _draftTypography;
@@ -26,11 +26,12 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
   @override
   void initState() {
     super.initState();
-    _loadTokens(EdsTheme.instance.tokens);
+    _loadTheme(EdsTheme.instance.themeData);
   }
 
-  void _loadTokens(EdsDesignTokens tokens) {
-    _draftColors = tokens.colors;
+  void _loadTheme(EdsThemeData theme) {
+    final tokens = theme.tokens;
+    _draftSeeds = theme.seeds;
     _draftSpacing = tokens.spacing;
     _draftRadius = tokens.radius;
     _draftTypography = tokens.typography;
@@ -38,39 +39,34 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
     _draftHeroGradient = tokens.heroGradient;
   }
 
-  EdsDesignTokens _buildDraftTokens() {
-    return const EdsDesignTokens().copyWith(
-      colors: _draftColors,
-      spacing: _draftSpacing,
-      radius: _draftRadius,
-      typography: _draftTypography,
-      controlSize: _draftControlSize,
-      heroGradient: _draftHeroGradient,
+  EdsThemeData _buildDraftTheme() {
+    return EdsThemeData(
+      seeds: _draftSeeds,
+      tokens: const EdsDesignTokens().copyWith(
+        spacing: _draftSpacing,
+        radius: _draftRadius,
+        typography: _draftTypography,
+        controlSize: _draftControlSize,
+        heroGradient: _draftHeroGradient,
+      ),
     );
   }
 
   void _resetToTheme() {
     setState(() {
       _selectedPreset = null;
-      _loadTokens(EdsTheme.instance.tokens);
+      _loadTheme(EdsTheme.instance.themeData);
     });
   }
 
   void _applyToTheme() {
     setState(() {
-      EdsTheme.instance.tokens = EdsTheme.instance.tokens.copyWith(
-        colors: _draftColors,
-        spacing: _draftSpacing,
-        radius: _draftRadius,
-        typography: _draftTypography,
-        controlSize: _draftControlSize,
-        heroGradient: _draftHeroGradient,
-      );
+      EdsTheme.instance.themeData = _buildDraftTheme();
     });
   }
 
   void _exportJson() {
-    final json = encodeThemeJson(_buildDraftTokens());
+    final json = encodeThemeJson(_buildDraftTheme());
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
@@ -186,7 +182,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
               }
               setState(() {
                 _selectedPreset = preset;
-                _loadTokens(preset.theme.tokens);
+                _loadTheme(preset.theme);
               });
             },
             itemBuilder: (context) => <PopupMenuEntry<EdsPresetTheme?>>[
@@ -215,7 +211,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                 Text(
                   _selectedPreset?.name ?? '（当前）',
                   style: tokens.typography.bodyStrong.copyWith(
-                    color: scheme.foregroundPrimary,
+                    color: scheme.foregroundBrand,
                   ),
                 ),
                 Icon(
@@ -262,11 +258,10 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 8,
                 children: <Widget>[
-                  _colorSwatchRow(context, 'Primary', _draftColors.primary),
-                  _colorSwatchRow(context, 'Accent（废弃）', _draftColors.accent),
-                  _colorSwatchRow(context, 'Success', _draftColors.success),
-                  _colorSwatchRow(context, 'Warning', _draftColors.warning),
-                  _colorSwatchRow(context, 'Danger', _draftColors.danger),
+                  _colorSwatchRow(context, 'Brand', _draftSeeds.brand),
+                  _colorSwatchRow(context, 'Success', _draftSeeds.success),
+                  _colorSwatchRow(context, 'Warning', _draftSeeds.warning),
+                  _colorSwatchRow(context, 'Danger', _draftSeeds.danger),
                 ],
               ),
             ),
@@ -283,28 +278,28 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                       _previewButton(
                         context,
                         '主要',
-                        background: _draftColors.primary,
+                        background: _draftSeeds.brand,
                         foreground: Colors.white,
                       ),
                       _previewButton(
                         context,
                         '次要',
                         background: Colors.transparent,
-                        foreground: _draftColors.primary,
-                        border: _draftColors.primary,
+                        foreground: _draftSeeds.brand,
+                        border: _draftSeeds.brand,
                       ),
                       _previewButton(
                         context,
                         '柔和',
-                        background: _draftColors.primary.withValues(
+                        background: _draftSeeds.brand.withValues(
                           alpha: 0.12,
                         ),
-                        foreground: _draftColors.primary,
+                        foreground: _draftSeeds.brand,
                       ),
                       _previewButton(
                         context,
                         '危险',
-                        background: _draftColors.danger,
+                        background: _draftSeeds.danger,
                         foreground: Colors.white,
                       ),
                     ],
@@ -313,10 +308,10 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                     spacing: _draftSpacing.md,
                     runSpacing: _draftSpacing.md,
                     children: <Widget>[
-                      _previewBadge('Pro', _draftColors.primary),
-                      _previewBadge('成功', _draftColors.success),
-                      _previewBadge('警告', _draftColors.warning),
-                      _previewBadge('危险', _draftColors.danger),
+                      _previewBadge('Pro', _draftSeeds.brand),
+                      _previewBadge('成功', _draftSeeds.success),
+                      _previewBadge('警告', _draftSeeds.warning),
+                      _previewBadge('危险', _draftSeeds.danger),
                     ],
                   ),
                 ],
@@ -334,7 +329,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                     style: TextStyle(
                       fontSize: _draftTypography.heroSize,
                       fontWeight: _fontWeight(_draftTypography.heroWeight),
-                      color: _draftColors.primary,
+                      color: _draftSeeds.brand,
                     ),
                   ),
                   Text(
@@ -344,7 +339,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                       fontWeight: _fontWeight(
                         _draftTypography.sectionTitleWeight,
                       ),
-                      color: _draftColors.primary,
+                      color: _draftSeeds.brand,
                     ),
                   ),
                   Text(
@@ -352,7 +347,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                     style: TextStyle(
                       fontSize: _draftTypography.bodySize,
                       fontWeight: _fontWeight(_draftTypography.bodyWeight),
-                      color: scheme.foregroundPrimary,
+                      color: scheme.foregroundBrand,
                     ),
                   ),
                   Text(
@@ -536,7 +531,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
         ),
         decoration: BoxDecoration(
           color: isSelected
-              ? _draftColors.primary.withValues(alpha: 0.12)
+              ? _draftSeeds.brand.withValues(alpha: 0.12)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(_draftRadius.sm),
         ),
@@ -547,7 +542,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
               child: Icon(
                 icon,
                 size: 16,
-                color: isSelected ? _draftColors.primary : scheme.foregroundSecondary,
+                color: isSelected ? _draftSeeds.brand : scheme.foregroundSecondary,
               ),
             ),
             SizedBox(width: _draftSpacing.sm),
@@ -555,7 +550,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
               label,
               style: TextStyle(
                 fontSize: _draftTypography.body15Size,
-                color: isSelected ? _draftColors.primary : scheme.foregroundPrimary,
+                color: isSelected ? _draftSeeds.brand : scheme.foregroundBrand,
               ),
             ),
           ],
@@ -621,7 +616,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
             style: TextStyle(
               fontSize: _draftTypography.sectionTitleSize,
               fontWeight: _fontWeight(_draftTypography.sectionTitleWeight),
-              color: scheme.foregroundPrimary,
+              color: scheme.foregroundBrand,
             ),
           ),
           Text(
@@ -654,7 +649,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                   style: TextStyle(
                     fontSize: _draftTypography.bodyStrongSize,
                     fontWeight: _fontWeight(_draftTypography.bodyStrongWeight),
-                    color: scheme.foregroundPrimary,
+                    color: scheme.foregroundBrand,
                   ),
                 ),
                 Text(
@@ -672,7 +667,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
             style: TextStyle(
               fontSize: _draftTypography.bodyStrongSize,
               fontWeight: _fontWeight(_draftTypography.bodyStrongWeight),
-              color: _draftColors.primary,
+              color: _draftSeeds.brand,
             ),
           ),
         ],
@@ -694,7 +689,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
           width: 48,
           height: 48,
           decoration: BoxDecoration(
-            color: _draftColors.primary,
+            color: _draftSeeds.brand,
             borderRadius: BorderRadius.circular(radius),
           ),
         ),
@@ -729,42 +724,34 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
             _editorSection(context, '颜色', <Widget>[
               _colorRow(
                 context,
-                'Primary',
-                _draftColors.primary,
+                'Brand',
+                _draftSeeds.brand,
                 (color) => setState(() {
-                  _draftColors = _draftColors.copyWith(primary: color);
-                }),
-              ),
-              _colorRow(
-                context,
-                'Accent（废弃）',
-                _draftColors.accent,
-                (color) => setState(() {
-                  _draftColors = _draftColors.copyWith(accent: color);
+                  _draftSeeds = _draftSeeds.copyWith(brand: color);
                 }),
               ),
               _colorRow(
                 context,
                 'Success',
-                _draftColors.success,
+                _draftSeeds.success,
                 (color) => setState(() {
-                  _draftColors = _draftColors.copyWith(success: color);
+                  _draftSeeds = _draftSeeds.copyWith(success: color);
                 }),
               ),
               _colorRow(
                 context,
                 'Warning',
-                _draftColors.warning,
+                _draftSeeds.warning,
                 (color) => setState(() {
-                  _draftColors = _draftColors.copyWith(warning: color);
+                  _draftSeeds = _draftSeeds.copyWith(warning: color);
                 }),
               ),
               _colorRow(
                 context,
                 'Danger',
-                _draftColors.danger,
+                _draftSeeds.danger,
                 (color) => setState(() {
-                  _draftColors = _draftColors.copyWith(danger: color);
+                  _draftSeeds = _draftSeeds.copyWith(danger: color);
                 }),
               ),
               _colorRow(
@@ -1035,7 +1022,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
         Text(
           title,
           style: tokens.typography.sectionTitle.copyWith(
-            color: scheme.foregroundPrimary,
+            color: scheme.foregroundBrand,
           ),
         ),
         const SizedBox(height: 8),
@@ -1061,7 +1048,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
           child: Text(
             label,
             style: tokens.typography.caption.copyWith(
-              color: scheme.foregroundPrimary,
+              color: scheme.foregroundBrand,
             ),
           ),
         ),
@@ -1124,7 +1111,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
           child: Text(
             label,
             style: tokens.typography.caption.copyWith(
-              color: scheme.foregroundPrimary,
+              color: scheme.foregroundBrand,
             ),
           ),
         ),
@@ -1171,7 +1158,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
           child: Text(
             label,
             style: tokens.typography.caption.copyWith(
-              color: scheme.foregroundPrimary,
+              color: scheme.foregroundBrand,
             ),
           ),
         ),
@@ -1298,7 +1285,7 @@ class _CatalogColorPickerDialogState extends State<CatalogColorPickerDialog> {
                     controller: _hexController,
                     onChanged: _onHexChanged,
                     style: tokens.typography.monoCaption.copyWith(
-                      color: scheme.foregroundPrimary,
+                      color: scheme.foregroundBrand,
                     ),
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
