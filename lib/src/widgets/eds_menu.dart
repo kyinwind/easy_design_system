@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../primitives/eds_font.dart';
 import '../theme/eds_theme_scope.dart';
-import '../tokens/eds_color_scheme.dart';
 
 /// Immutable menu item model used by [EdsMenuButton].
 class EdsMenuItem<T> {
