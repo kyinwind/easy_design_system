@@ -62,6 +62,23 @@ abstract final class EdsInteractionResolver {
     return palette.tone((base + delta).clamp(0, 100));
   }
 
+  static Color mediumSurface({
+    required EdsInteractionColorFamily family,
+    required EdsColorSeeds seeds,
+    required Brightness brightness,
+    required EdsInteractionState state,
+  }) {
+    final palette = EdsTonalPalette.fromSeed(_seed(family, seeds));
+    final dark = brightness == Brightness.dark;
+    final base = dark ? 35 : 85;
+    final delta = switch (state) {
+      EdsInteractionState.rest => 0,
+      EdsInteractionState.hovered => dark ? 5 : -4,
+      EdsInteractionState.pressed => dark ? 10 : -8,
+    };
+    return palette.tone((base + delta).clamp(0, 100).toInt());
+  }
+
   static Color neutralSurface({
     required Brightness brightness,
     required EdsInteractionState state,
