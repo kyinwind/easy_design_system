@@ -199,12 +199,12 @@ void main() {
       EdsSidebarMenuItem(
         label: '收件箱',
         icon: Icons.inbox,
-        presetTint: EdsSidebarIconPresetTint.blue,
+        tone: EdsSidebarIconTone.blue,
       ),
       EdsSidebarMenuItem(
         label: '云盘',
         icon: Icons.cloud,
-        presetTint: EdsSidebarIconPresetTint.green,
+        tone: EdsSidebarIconTone.green,
       ),
     ];
     await tester.pumpWidget(
@@ -230,7 +230,7 @@ void main() {
         home: Scaffold(
           body: Column(
             children: [
-              EdsSidebarIcon(icon: Icons.inbox, tint: Color(0xFFF9B135)),
+              EdsSidebarIcon(icon: Icons.inbox, tone: EdsSidebarIconTone.orange),
               EdsIconMark(isOn: true),
               EdsIconMark(isOn: false),
             ],
