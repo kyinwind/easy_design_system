@@ -73,8 +73,8 @@ abstract final class EdsInteractionResolver {
     final base = dark ? 35 : 85;
     final delta = switch (state) {
       EdsInteractionState.rest => 0,
-      EdsInteractionState.hovered => dark ? 5 : -4,
-      EdsInteractionState.pressed => dark ? 10 : -8,
+      EdsInteractionState.hovered => dark ? 2 : -3,
+      EdsInteractionState.pressed => dark ? 3 : -5,
     };
     return palette.tone((base + delta).clamp(0, 100).toInt());
   }

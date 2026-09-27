@@ -20,7 +20,7 @@ abstract final class EdsNeutralFoundation {
 
   static const Color lightBorderSubtle = Color(0xFFE7E7E9);
   static const Color lightBorderDefault = Color(0xFFD7D7DA);
-  static const Color lightBorderStrong = Color(0xFFB8B8BE);
+  static const Color lightBorderStrong = Color(0xFF8A8A90);
   static const Color lightBorderDisabled = Color(0xFFE4E4E6);
 
   static const Color lightInteractionHover = Color(0xFFF2F2F3);
@@ -45,7 +45,7 @@ abstract final class EdsNeutralFoundation {
 
   static const Color darkBorderSubtle = Color(0xFF333337);
   static const Color darkBorderDefault = Color(0xFF44444A);
-  static const Color darkBorderStrong = Color(0xFF64646C);
+  static const Color darkBorderStrong = Color(0xFF76767E);
   static const Color darkBorderDisabled = Color(0xFF343438);
 
   static const Color darkInteractionHover = Color(0xFF2D2D30);

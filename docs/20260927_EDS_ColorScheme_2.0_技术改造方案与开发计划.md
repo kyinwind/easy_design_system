@@ -781,25 +781,28 @@ Ring width / offset / shape 属于 style / metrics，而不是 Color Token。
 
 | Role | Tone |
 |---|---:|
-| Foreground | 40 |
+| Foreground | 35 |
 | Surface | 95 |
 | SurfaceStrong | 40 |
-| Border | 70 |
+| Border | 55 |
 | OnStrong | 100 |
 
 ## Brand / Status Family Dark
 
 | Role | Tone |
 |---|---:|
-| Foreground | 80 |
+| Foreground | 85 |
 | Surface | 20 |
 | SurfaceStrong | 80 |
 | Border | 60 |
 | OnStrong | 10 |
 
-Information / Success / Warning / Danger 先使用相同结构。
+Information / Success / Warning / Danger 使用相同结构，但保留独立 Tone Map，
+以便未来按 Family 继续校准。
 
-之后通过 Catalog 特别检查 Warning。
+2026-09-27 Catalog 校准结果：Foreground 从起始实验值 40 / 80 调整为
+35 / 85，增强 Semantic Foreground、Focus 与 Medium Button 的可读性；Light Border
+从 70 调整为 55，使 Brand / Status 关键边界在 Neutral Surface 上达到 3:1。
 
 ---
 
@@ -2099,7 +2102,7 @@ ColorScheme 稳定后再建立少量核心 Golden：
 ---
 
 # 61.1 开发里程碑 Checklist
-> 2026-09-27：Batch 0–10 已完成；Catalog 代码与测试已完成，但 Tone / Warning / Surface / Border / Hover / Focus 的最终视觉校准仍需实际运行 Catalog 查看。旧颜色源码清理、README、Migration Guide、CHANGELOG 已完成。最终严格 CI 已全绿：pub get / format / analyze / test 全部通过。
+> 2026-09-27：Batch 0–14 已完成。Catalog 已实际运行并完成 Blue / Orange / Purple、Light / Dark、Tone / Warning / Surface / Border / Hover / Focus 校准；回归矩阵覆盖关键文本 4.5:1 与非文本 Indicator 3:1 对比度。旧颜色源码清理、README、Migration Guide、CHANGELOG 已完成。
 
 
 后续以本清单作为 ColorScheme 2.0 的阶段性进度记录。
@@ -2124,7 +2127,7 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [x] Batch 8 — Pills / Badge / Navigation
 - [x] Batch 9 — Surface / Dialog / Menu / States / Easy
 - [x] Batch 10 — JSON Theme 2.0
-- [ ] Batch 11 — Catalog（实现完成，待视觉校准）
+- [x] Batch 11 — Catalog
 - [x] Batch 12 — 清理旧颜色体系
 - [x] Batch 13 — 文档 / README / CHANGELOG
 - [x] Batch 14 — 最终 CI
@@ -2513,12 +2516,12 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [x] 支持 Light / Dark 切换
 - [x] Preview 在应用 / 导出时保留未编辑的 Theme 字段，并补充回归测试
 - [x] 排查 Catalog 的旧颜色 API 残留
-- [ ] 校准 Brand Tone Mapping
-- [ ] 校准 Warning Tone Mapping
-- [ ] 校准 Surface hierarchy
-- [ ] 校准 Border strength
-- [ ] 校准 Hover / Pressed
-- [ ] 校准 Focus visibility
+- [x] 校准 Brand Tone Mapping
+- [x] 校准 Warning Tone Mapping
+- [x] 校准 Surface hierarchy
+- [x] 校准 Border strength
+- [x] 校准 Hover / Pressed
+- [x] 校准 Focus visibility
 - [x] 本 Batch commit 完成
 
 

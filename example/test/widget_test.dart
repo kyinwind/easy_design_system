@@ -1,4 +1,5 @@
 import 'package:easy_design_system/easy_design_system.dart';
+import 'package:easy_design_system_example/catalog/eds_color_scheme_showcase.dart';
 import 'package:easy_design_system_example/catalog/eds_design_system_preview.dart';
 import 'package:easy_design_system_example/main.dart';
 import 'package:flutter/material.dart';
@@ -180,6 +181,23 @@ void main() {
     expect(find.text('Component Matrix'), findsOneWidget);
     expect(find.text('Light'), findsOneWidget);
     expect(find.text('Dark'), findsOneWidget);
+
+    await tester.tap(find.text('Dark'));
+    await tester.pumpAndSettle();
+
+    final darkPage = EdsColorScheme.resolve(
+      seeds: EdsPresetTheme.blue.theme.seeds,
+      brightness: Brightness.dark,
+    ).surfacePage;
+    expect(find.byType(EdsColorSchemeShowcase), findsOneWidget);
+    expect(
+      tester
+          .widget<ColoredBox>(
+            find.byKey(const Key('catalog.colorScheme.page')),
+          )
+          .color,
+      darkPage,
+    );
   });
 
   testWidgets('窄屏使用 ChoiceChip 导航', (tester) async {

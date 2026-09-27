@@ -30,12 +30,12 @@ class EdsFamilyToneMap {
   final int darkOnStrong;
 
   static const EdsFamilyToneMap brand = EdsFamilyToneMap(
-    lightForeground: 40,
+    lightForeground: 35,
     lightSurface: 95,
     lightStrong: 40,
-    lightBorder: 70,
+    lightBorder: 55,
     lightOnStrong: 100,
-    darkForeground: 80,
+    darkForeground: 85,
     darkSurface: 20,
     darkStrong: 80,
     darkBorder: 60,
@@ -48,12 +48,12 @@ class EdsFamilyToneMap {
   /// Separate constant on purpose: Warning often needs independent tuning
   /// after visual/contrast review even when the first values match Brand.
   static const EdsFamilyToneMap warning = EdsFamilyToneMap(
-    lightForeground: 40,
+    lightForeground: 35,
     lightSurface: 95,
     lightStrong: 40,
-    lightBorder: 70,
+    lightBorder: 55,
     lightOnStrong: 100,
-    darkForeground: 80,
+    darkForeground: 85,
     darkSurface: 20,
     darkStrong: 80,
     darkBorder: 60,

@@ -12,27 +12,104 @@ double contrastRatio(Color a, Color b) {
 }
 
 void main() {
+  for (final preset in EdsPresetTheme.allPresets) {
+    for (final brightness in Brightness.values) {
+      test('${preset.id} semantic text pairs meet contrast in $brightness', () {
+        final scheme = EdsColorScheme.resolve(
+          seeds: preset.theme.seeds,
+          brightness: brightness,
+        );
+
+        final strongPairs = <(String, Color, Color)>[
+          ('brand', scheme.brandOnStrong, scheme.brandSurfaceStrong),
+          (
+            'information',
+            scheme.informationOnStrong,
+            scheme.informationSurfaceStrong,
+          ),
+          ('success', scheme.successOnStrong, scheme.successSurfaceStrong),
+          ('warning', scheme.warningOnStrong, scheme.warningSurfaceStrong),
+          ('danger', scheme.dangerOnStrong, scheme.dangerSurfaceStrong),
+        ];
+        final neutralSurfaces = <(String, Color)>[
+          ('page', scheme.surfacePage),
+          ('base', scheme.surfaceBase),
+          ('raised', scheme.surfaceRaised),
+          ('sunken', scheme.surfaceSunken),
+          ('overlay', scheme.surfaceOverlay),
+        ];
+
+        for (final pair in strongPairs) {
+          expect(
+            contrastRatio(pair.$2, pair.$3),
+            greaterThanOrEqualTo(4.5),
+            reason: '${pair.$1} on-strong text must meet WCAG AA',
+          );
+        }
+        for (final surface in neutralSurfaces) {
+          expect(
+            contrastRatio(scheme.foregroundPrimary, surface.$2),
+            greaterThanOrEqualTo(4.5),
+            reason: 'primary text on ${surface.$1}',
+          );
+          expect(
+            contrastRatio(scheme.foregroundSecondary, surface.$2),
+            greaterThanOrEqualTo(4.5),
+            reason: 'secondary text on ${surface.$1}',
+          );
+          expect(
+            contrastRatio(scheme.foregroundTertiary, surface.$2),
+            greaterThanOrEqualTo(3),
+            reason: 'tertiary content on ${surface.$1}',
+          );
+        }
+      });
+
+      test('${preset.id} key indicators meet non-text contrast in $brightness',
+          () {
+        final scheme = EdsColorScheme.resolve(
+          seeds: preset.theme.seeds,
+          brightness: brightness,
+        );
+        final backgrounds = <(String, Color)>[
+          ('base', scheme.surfaceBase),
+          ('raised', scheme.surfaceRaised),
+          ('sunken', scheme.surfaceSunken),
+        ];
+        final indicators = <(String, Color)>[
+          ('focus', scheme.borderFocus),
+          ('selected', scheme.borderSelected),
+          ('danger', scheme.borderDanger),
+          ('strong neutral', scheme.borderStrong),
+          ('brand', scheme.brandBorder),
+          ('information', scheme.informationBorder),
+          ('success', scheme.successBorder),
+          ('warning', scheme.warningBorder),
+        ];
+
+        for (final background in backgrounds) {
+          for (final indicator in indicators) {
+            expect(
+              contrastRatio(indicator.$2, background.$2),
+              greaterThanOrEqualTo(3),
+              reason: '${indicator.$1} indicator on ${background.$1}',
+            );
+          }
+        }
+      });
+    }
+  }
+
   for (final brightness in Brightness.values) {
-    test('strong semantic pairs meet text contrast in $brightness', () {
+    test('default interaction colors remain visually ordered in $brightness',
+        () {
       final scheme = EdsColorScheme.resolve(
         seeds: const EdsColorSeeds(),
         brightness: brightness,
       );
-
-      final pairs = <(Color, Color)>[
-        (scheme.brandOnStrong, scheme.brandSurfaceStrong),
-        (scheme.informationOnStrong, scheme.informationSurfaceStrong),
-        (scheme.successOnStrong, scheme.successSurfaceStrong),
-        (scheme.warningOnStrong, scheme.warningSurfaceStrong),
-        (scheme.dangerOnStrong, scheme.dangerSurfaceStrong),
-      ];
-
-      for (final pair in pairs) {
-        expect(
-          contrastRatio(pair.$1, pair.$2),
-          greaterThanOrEqualTo(4.5),
-        );
-      }
+      expect(scheme.surfaceBase, isNot(scheme.surfaceSunken));
+      expect(scheme.borderSubtle, isNot(scheme.borderDefault));
+      expect(scheme.borderDefault, isNot(scheme.borderStrong));
     });
   }
 }

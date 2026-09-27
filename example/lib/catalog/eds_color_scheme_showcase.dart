@@ -23,18 +23,23 @@ class _EdsColorSchemeShowcaseState extends State<EdsColorSchemeShowcase> {
       child: Builder(
         builder: (context) {
           final tokens = context.edsTokens;
-          return SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.all(tokens.spacing.xl),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: tokens.spacing.xl,
-                children: <Widget>[
-                  _toolbar(context),
-                  _colorFoundation(context),
-                  _layerShowcase(context),
-                  _componentMatrix(context),
-                ],
+          final scheme = context.edsScheme;
+          return ColoredBox(
+            key: const Key('catalog.colorScheme.page'),
+            color: scheme.surfacePage,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.all(tokens.spacing.xl),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: tokens.spacing.xl,
+                  children: <Widget>[
+                    _toolbar(context),
+                    _colorFoundation(context),
+                    _layerShowcase(context),
+                    _componentMatrix(context),
+                  ],
+                ),
               ),
             ),
           );
@@ -65,43 +70,62 @@ class _EdsColorSchemeShowcaseState extends State<EdsColorSchemeShowcase> {
               color: scheme.foregroundPrimary,
             ),
           ),
-          DropdownButton<EdsPresetTheme>(
-            value: _preset,
-            underline: const SizedBox.shrink(),
-            items: <DropdownMenuItem<EdsPresetTheme>>[
+          PopupMenuButton<EdsPresetTheme>(
+            initialValue: _preset,
+            color: scheme.surfaceOverlay,
+            onSelected: (value) => setState(() => _preset = value),
+            itemBuilder: (context) => <PopupMenuEntry<EdsPresetTheme>>[
               for (final preset in <EdsPresetTheme>[
                 EdsPresetTheme.blue,
                 EdsPresetTheme.orange,
                 EdsPresetTheme.purple,
               ])
-                DropdownMenuItem<EdsPresetTheme>(
+                PopupMenuItem<EdsPresetTheme>(
                   value: preset,
-                  child: Text(preset.name),
+                  child: Text(
+                    preset.name,
+                    style: tokens.typography.body.copyWith(
+                      color: scheme.foregroundPrimary,
+                    ),
+                  ),
                 ),
             ],
-            onChanged: (value) {
-              if (value != null) {
-                setState(() => _preset = value);
-              }
-            },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  _preset.name,
+                  style: tokens.typography.body.copyWith(
+                    color: scheme.foregroundPrimary,
+                  ),
+                ),
+                Icon(
+                  Icons.arrow_drop_down,
+                  color: scheme.foregroundSecondary,
+                ),
+              ],
+            ),
           ),
-          SegmentedButton<Brightness>(
-            segments: const <ButtonSegment<Brightness>>[
-              ButtonSegment<Brightness>(
-                value: Brightness.light,
-                icon: Icon(Icons.light_mode_outlined),
-                label: Text('Light'),
+          Wrap(
+            spacing: tokens.spacing.xs,
+            children: <Widget>[
+              EdsChoicePill(
+                'Light',
+                selected: _brightness == Brightness.light,
+                icon: const Icon(Icons.light_mode_outlined),
+                onChanged: (_) {
+                  setState(() => _brightness = Brightness.light);
+                },
               ),
-              ButtonSegment<Brightness>(
-                value: Brightness.dark,
-                icon: Icon(Icons.dark_mode_outlined),
-                label: Text('Dark'),
+              EdsChoicePill(
+                'Dark',
+                selected: _brightness == Brightness.dark,
+                icon: const Icon(Icons.dark_mode_outlined),
+                onChanged: (_) {
+                  setState(() => _brightness = Brightness.dark);
+                },
               ),
             ],
-            selected: <Brightness>{_brightness},
-            onSelectionChanged: (value) {
-              setState(() => _brightness = value.first);
-            },
           ),
         ],
       ),
