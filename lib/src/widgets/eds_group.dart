@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../color/eds_layer.dart';
 import '../primitives/eds_font.dart';
 import '../theme/eds_theme_scope.dart';
-import '../tokens/eds_color_scheme.dart';
 
 /// Group background style. Mirrors Swift's `EDSGroupStyle`.
 enum EdsGroupStyle {
