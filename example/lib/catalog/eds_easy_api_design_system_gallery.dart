@@ -26,16 +26,16 @@ enum EasyGallerySection {
     return EasyGallerySection.overview;
   }
 
-  Color get tint => switch (this) {
-        EasyGallerySection.overview => const Color(0xFF007AFF),
-        EasyGallerySection.layout => const Color(0xFF5856D6),
-        EasyGallerySection.surfaces => const Color(0xFF30B0C7),
-        EasyGallerySection.themes => const Color(0xFFFF9500),
-        EasyGallerySection.stress => const Color(0xFFAF52DE),
+  EdsSidebarIconTone get tone => switch (this) {
+        EasyGallerySection.overview => EdsSidebarIconTone.blue,
+        EasyGallerySection.layout => EdsSidebarIconTone.indigo,
+        EasyGallerySection.surfaces => EdsSidebarIconTone.teal,
+        EasyGallerySection.themes => EdsSidebarIconTone.orange,
+        EasyGallerySection.stress => EdsSidebarIconTone.purple,
       };
 
   EdsSidebarMenuItem get menuItem =>
-      EdsSidebarMenuItem(id: id, label: label, icon: icon, tint: tint);
+      EdsSidebarMenuItem(id: id, label: label, icon: icon, tone: tone);
 }
 
 class EdsEasyApiDesignSystemGallery extends StatefulWidget {
