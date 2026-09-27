@@ -2,105 +2,6 @@ import 'package:flutter/painting.dart';
 
 import 'eds_color_hex.dart';
 
-/// All configurable colors.
-///
-/// The Swift source package defaults to dynamic system colors (`.blue`,
-/// `.green`, …). Flutter has no dynamic system palette, so the deterministic
-/// EDS default palette is used instead — identical to `EDSPresetTheme.default`
-/// and `EDSDefaultTheme.json`, which keeps `EdsDesignTokens()` == the default
-/// preset and the bundled default theme file.
-///
-/// JSON coding goes through hex strings with keys identical to the Swift
-/// `CodingKeys` (`primary`, `accent`, …).
-class EdsColorTokens {
-  const EdsColorTokens({
-    this.primary = const Color(0xFF3185FF),
-    this.accent = const Color(0xFF3185FF),
-    this.success = const Color(0xFF27B15A),
-    this.warning = const Color(0xFFF9B135),
-    this.danger = const Color(0xFFE54444),
-  });
-
-  final Color primary;
-  final Color accent;
-  final Color success;
-  final Color warning;
-  final Color danger;
-
-  // Derived colors (brightness independent).
-
-  /// 12% alpha version of [primary].
-  Color get primarySoft => primary.withValues(alpha: 0.12);
-
-  /// 12% alpha version of [accent].
-  ///
-  /// Alias for [primarySoft] since 0.3.1: the package no longer reads [accent]
-  /// internally. New code should use [primarySoft].
-  Color get accentSoft => primarySoft;
-
-  /// 12% alpha version of [success].
-  Color get successSoft => success.withValues(alpha: 0.12);
-
-  /// 12% alpha version of [warning].
-  Color get warningSoft => warning.withValues(alpha: 0.12);
-
-  /// 12% alpha version of [danger].
-  Color get dangerSoft => danger.withValues(alpha: 0.12);
-
-  EdsColorTokens copyWith({
-    Color? primary,
-    Color? accent,
-    Color? success,
-    Color? warning,
-    Color? danger,
-  }) {
-    return EdsColorTokens(
-      primary: primary ?? this.primary,
-      accent: accent ?? this.accent,
-      success: success ?? this.success,
-      warning: warning ?? this.warning,
-      danger: danger ?? this.danger,
-    );
-  }
-
-  factory EdsColorTokens.fromJson(Map<String, Object?>? json) {
-    if (json == null) {
-      return const EdsColorTokens();
-    }
-    const defaults = EdsColorTokens();
-    return EdsColorTokens(
-      primary: _readColor(json, 'primary', defaults.primary),
-      accent: _readColor(json, 'accent', defaults.accent),
-      success: _readColor(json, 'success', defaults.success),
-      warning: _readColor(json, 'warning', defaults.warning),
-      danger: _readColor(json, 'danger', defaults.danger),
-    );
-  }
-
-  Map<String, Object?> toJson() {
-    return <String, Object?>{
-      'primary': EdsColorHex.toHex(primary),
-      'accent': EdsColorHex.toHex(accent),
-      'success': EdsColorHex.toHex(success),
-      'warning': EdsColorHex.toHex(warning),
-      'danger': EdsColorHex.toHex(danger),
-    };
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is EdsColorTokens &&
-        other.primary == primary &&
-        other.accent == accent &&
-        other.success == success &&
-        other.warning == warning &&
-        other.danger == danger;
-  }
-
-  @override
-  int get hashCode => Object.hash(primary, accent, success, warning, danger);
-}
-
 /// The 8-step spacing scale.
 class EdsSpacingTokens {
   const EdsSpacingTokens({
@@ -876,15 +777,13 @@ class EdsShadowTokens {
   int get hashCode => Object.hash(color, opacity, radius, x, y);
 }
 
-/// The complete design token set.
+/// The non-color design token set.
 ///
-/// JSON keys match the Swift `CodingKeys` byte for byte. Missing fields (or
-/// whole groups) fall back to defaults, mirroring Swift's
-/// `decodeIfPresent ?? default` behavior; present-but-wrongly-typed fields
-/// throw a [FormatException] (Swift throws a `DecodingError`).
+/// ColorScheme 2.0 intentionally moves chromatic seeds and semantic colors
+/// out of this object. Spacing, radius, typography, sizing, layout, gradient,
+/// stroke and shadow keep their existing token APIs and JSON behavior.
 class EdsDesignTokens {
   const EdsDesignTokens({
-    this.colors = const EdsColorTokens(),
     this.spacing = const EdsSpacingTokens(),
     this.radius = const EdsRadiusTokens(),
     this.typography = const EdsTypographyTokens(),
@@ -895,7 +794,6 @@ class EdsDesignTokens {
     this.shadow = const EdsShadowTokens(),
   });
 
-  final EdsColorTokens colors;
   final EdsSpacingTokens spacing;
   final EdsRadiusTokens radius;
   final EdsTypographyTokens typography;
@@ -906,7 +804,6 @@ class EdsDesignTokens {
   final EdsShadowTokens shadow;
 
   EdsDesignTokens copyWith({
-    EdsColorTokens? colors,
     EdsSpacingTokens? spacing,
     EdsRadiusTokens? radius,
     EdsTypographyTokens? typography,
@@ -917,7 +814,6 @@ class EdsDesignTokens {
     EdsShadowTokens? shadow,
   }) {
     return EdsDesignTokens(
-      colors: colors ?? this.colors,
       spacing: spacing ?? this.spacing,
       radius: radius ?? this.radius,
       typography: typography ?? this.typography,
@@ -931,7 +827,6 @@ class EdsDesignTokens {
 
   factory EdsDesignTokens.fromJson(Map<String, Object?> json) {
     return EdsDesignTokens(
-      colors: EdsColorTokens.fromJson(_readGroup(json, 'colors')),
       spacing: EdsSpacingTokens.fromJson(_readGroup(json, 'spacing')),
       radius: EdsRadiusTokens.fromJson(_readGroup(json, 'radius')),
       typography: EdsTypographyTokens.fromJson(_readGroup(json, 'typography')),
@@ -949,7 +844,6 @@ class EdsDesignTokens {
 
   Map<String, Object?> toJson() {
     return <String, Object?>{
-      'colors': colors.toJson(),
       'spacing': spacing.toJson(),
       'radius': radius.toJson(),
       'typography': typography.toJson(),
@@ -980,7 +874,6 @@ class EdsDesignTokens {
   @override
   bool operator ==(Object other) {
     return other is EdsDesignTokens &&
-        other.colors == colors &&
         other.spacing == spacing &&
         other.radius == radius &&
         other.typography == typography &&
@@ -993,7 +886,6 @@ class EdsDesignTokens {
 
   @override
   int get hashCode => Object.hash(
-        colors,
         spacing,
         radius,
         typography,
