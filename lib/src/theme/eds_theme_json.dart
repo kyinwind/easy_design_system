@@ -27,6 +27,14 @@ EdsThemeData decodeThemeJson(String json) {
   }
 
   final colors = _readGroup(decoded, 'colors');
+  if (colors != null &&
+      !colors.containsKey('seeds') &&
+      const <String>{'primary', 'accent', 'success', 'warning', 'danger'}
+          .any(colors.containsKey)) {
+    throw const FormatException(
+      'Legacy colors schema is not supported. Use colors.seeds.*.',
+    );
+  }
   final seeds = EdsColorSeeds.fromJson(_readGroup(colors, 'seeds'));
   final semanticOverrides = EdsSemanticOverrides.fromJson(
     _readGroup(colors, 'semanticOverrides'),
