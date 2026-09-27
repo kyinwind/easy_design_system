@@ -51,11 +51,11 @@ class EdsMenuButton<T> extends StatelessWidget {
       enabled: enabled,
       tooltip: tooltip,
       onSelected: onSelected,
-      color: scheme.cardBackground,
+      color: scheme.surfaceOverlay,
       surfaceTintColor: Colors.transparent,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(tokens.radius.md),
-        side: BorderSide(color: scheme.border, width: tokens.stroke.hairline),
+        side: BorderSide(color: scheme.borderStrong, width: tokens.stroke.hairline),
       ),
       itemBuilder: (context) => <PopupMenuEntry<T>>[
         for (final item in items)
@@ -70,8 +70,8 @@ class EdsMenuButton<T> extends StatelessWidget {
                     item.icon,
                     size: tokens.typography.bodyStrongSize,
                     color: item.enabled
-                        ? scheme.textSecondary
-                        : scheme.textTertiary,
+                        ? scheme.foregroundSecondary
+                        : scheme.foregroundTertiary,
                   ),
                   SizedBox(width: tokens.spacing.xs),
                 ],
@@ -80,8 +80,8 @@ class EdsMenuButton<T> extends StatelessWidget {
                   style:
                       tokens.typography.edsTextStyle(EdsFontRole.body).copyWith(
                             color: item.enabled
-                                ? scheme.textPrimary
-                                : scheme.textTertiary,
+                                ? scheme.foregroundPrimary
+                                : scheme.foregroundTertiary,
                           ),
                 ),
               ],
