@@ -23,6 +23,9 @@ abstract final class EdsNeutralFoundation {
   static const Color lightBorderStrong = Color(0xFFB8B8BE);
   static const Color lightBorderDisabled = Color(0xFFE4E4E6);
 
+  static const Color lightInteractionHover = Color(0xFFF2F2F3);
+  static const Color lightInteractionPressed = Color(0xFFEAEAEC);
+
   static const Color darkSurfacePage = Color(0xFF1E1E20);
   static const Color darkSurfaceBase = Color(0xFF242426);
   static const Color darkSurfaceRaised = Color(0xFF2A2A2C);
@@ -40,4 +43,7 @@ abstract final class EdsNeutralFoundation {
   static const Color darkBorderDefault = Color(0xFF44444A);
   static const Color darkBorderStrong = Color(0xFF64646C);
   static const Color darkBorderDisabled = Color(0xFF343438);
+
+  static const Color darkInteractionHover = Color(0xFF2D2D30);
+  static const Color darkInteractionPressed = Color(0xFF35353A);
 }
