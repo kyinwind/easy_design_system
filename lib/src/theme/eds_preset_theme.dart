@@ -1,21 +1,23 @@
 import 'package:flutter/painting.dart';
 
+import '../color/eds_color_seeds.dart';
 import '../tokens/eds_design_tokens.dart';
+import 'eds_theme_data.dart';
 
-/// A built-in theme preset, mirroring Swift's `EDSPresetTheme`.
+/// A built-in EDS theme preset.
 ///
-/// Two presets are equal when their [id]s are equal, matching the Swift
-/// implementation.
+/// A preset owns a complete theme configuration: chromatic seeds plus
+/// non-color design tokens. Host overrides are applied on top of a preset.
 class EdsPresetTheme {
   const EdsPresetTheme({
     required this.id,
     required this.name,
-    required this.tokens,
+    required this.theme,
   });
 
   final String id;
   final String name;
-  final EdsDesignTokens tokens;
+  final EdsThemeData theme;
 
   @override
   bool operator ==(Object other) => other is EdsPresetTheme && other.id == id;
@@ -27,49 +29,48 @@ class EdsPresetTheme {
   String toString() => 'EdsPresetTheme($id)';
 
   /// The default blue theme.
-  ///
-  /// Swift names this `.default`; `default` is a reserved word in Dart, so the
-  /// Dart spelling is [defaultTheme].
   static const EdsPresetTheme defaultTheme = EdsPresetTheme(
     id: 'default',
     name: '默认蓝色',
-    tokens: EdsDesignTokens(heroGradient: EdsDesignTokens.heroGradientBlue),
+    theme: EdsThemeData(
+      seeds: EdsColorSeeds(),
+      tokens: EdsDesignTokens(
+        heroGradient: EdsDesignTokens.heroGradientBlue,
+      ),
+    ),
   );
 
-  /// The generic blue theme; an alias of [defaultTheme], like Swift's
-  /// `EDSPresetTheme.blue`.
+  /// Alias of [defaultTheme].
   static const EdsPresetTheme blue = defaultTheme;
 
-  /// The orange theme.
+  /// Orange brand preset. Status families keep the EDS defaults.
   static const EdsPresetTheme orange = EdsPresetTheme(
     id: 'orange',
     name: '橙色',
-    tokens: EdsDesignTokens(
-      colors: EdsColorTokens(
-        primary: Color(0xFFFF6B00),
-        accent: Color(0xFFFF6B00),
+    theme: EdsThemeData(
+      seeds: EdsColorSeeds(
+        brand: Color(0xFFFF6B00),
       ),
-      heroGradient: EdsDesignTokens.heroGradientOrange,
+      tokens: EdsDesignTokens(
+        heroGradient: EdsDesignTokens.heroGradientOrange,
+      ),
     ),
   );
 
-  /// The purple theme.
+  /// Purple brand preset. Status families keep the EDS defaults.
   static const EdsPresetTheme purple = EdsPresetTheme(
     id: 'purple',
     name: '紫色',
-    tokens: EdsDesignTokens(
-      colors: EdsColorTokens(
-        primary: Color(0xFF8B5CF6),
-        accent: Color(0xFF8B5CF6),
-        success: Color(0xFF10B981),
-        warning: Color(0xFFF59E0B),
-        danger: Color(0xFFEF4444),
+    theme: EdsThemeData(
+      seeds: EdsColorSeeds(
+        brand: Color(0xFF8B5CF6),
       ),
-      heroGradient: EdsDesignTokens.heroGradientPurple,
+      tokens: EdsDesignTokens(
+        heroGradient: EdsDesignTokens.heroGradientPurple,
+      ),
     ),
   );
 
-  /// All built-in presets.
   static const List<EdsPresetTheme> allPresets = <EdsPresetTheme>[
     defaultTheme,
     orange,
