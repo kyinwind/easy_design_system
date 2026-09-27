@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../adaptive/eds_interaction_profile.dart';
 import '../adaptive/eds_resolved_metrics.dart';
 import '../adaptive/eds_size_class.dart';
+import '../color/eds_color_seeds.dart';
 import '../color/eds_interaction_resolver.dart';
 import '../primitives/eds_font.dart';
 import '../theme/eds_theme_scope.dart';
@@ -18,14 +19,14 @@ enum EdsButtonEmphasis {
   /// Filled: strongest visual weight.
   filled,
 
-  /// Medium: 25% tinted background + darkened text (neutral uses textPrimary).
+  /// Medium: intermediate semantic surface between soft and filled.
   medium,
 
   /// Outlined: transparent background + 1pt neutral border + tone-colored text
   /// (Material Design 3 outlined recipe).
   outline,
 
-  /// Soft: 12% tinted background + tone-colored text.
+  /// Soft: low-emphasis semantic surface + tone foreground.
   soft,
 
   /// Text only: weakest.
@@ -71,7 +72,7 @@ enum EdsButtonRole {
   /// Filled brand. Equivalent to `filled + brand + regular`.
   primary,
 
-  /// Medium brand (25% tinted). Equivalent to `medium + brand + regular`.
+  /// Medium brand. Equivalent to `medium + brand + regular`.
   ///
   /// Was `outline + brand` before 0.4.0; outline was retired and secondary
   /// automatically followed to medium — caller source code needs no change.
@@ -87,7 +88,7 @@ enum EdsButtonRole {
   /// `filled + success + regular`.
   done,
 
-  /// Soft neutral (12% gray background). Equivalent to `soft + neutral + regular`.
+  /// Soft neutral. Equivalent to `soft + neutral + regular`.
   normal,
 }
 
@@ -717,13 +718,24 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
       profile: context.edsInteractionProfile,
       horizontalSizeClass: context.edsSizeClass,
     );
-    final visual = widget.appearance.resolve(tokens: tokens, scheme: scheme);
     final reduceMotion = MediaQuery.maybeDisableAnimationsOf(context) ?? false;
     final hasAction = widget.action != null;
     final canActivate = hasAction && !widget.isBusy;
     final showsHover =
         metrics.supportsHoverEnhancement && _isHovered && canActivate;
-    final double opacity = hasAction ? 1.0 : 0.5;
+    final interactionState = _isPressed && canActivate
+        ? EdsInteractionState.pressed
+        : showsHover
+            ? EdsInteractionState.hovered
+            : EdsInteractionState.rest;
+    final visual = widget.appearance.resolve(
+      tokens: tokens,
+      scheme: scheme,
+      seeds: context.edsSeeds,
+      brightness: context.edsBrightness,
+      state: interactionState,
+      enabled: hasAction,
+    );
     final labelStyle = tokens.typography.edsTextStyle(EdsFontRole.bodyStrong);
 
     Widget effectiveLabel = widget.label;
@@ -772,19 +784,12 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
       padding: EdgeInsets.symmetric(horizontal: visual.horizontalPadding),
       child: current,
     );
-    final hoverBackground = showsHover
-        ? Color.lerp(
-            visual.background ?? Colors.transparent,
-            visual.foreground,
-            0.08,
-          )
-        : visual.background;
     current = AnimatedContainer(
       duration:
           reduceMotion ? Duration.zero : const Duration(milliseconds: 120),
       curve: Curves.easeInOut,
       decoration: BoxDecoration(
-        color: hoverBackground,
+        color: visual.background,
         border: visual.borderColor == null
             ? null
             : Border.all(color: visual.borderColor!, width: visual.borderWidth),
@@ -792,7 +797,7 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
         boxShadow: _isFocused && canActivate
             ? <BoxShadow>[
                 BoxShadow(
-                  color: tokens.colors.primary.withValues(alpha: 0.55),
+                  color: scheme.borderFocus,
                   spreadRadius: 2,
                 ),
               ]
@@ -835,16 +840,9 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
             onTapUp: reduceMotion ? null : (_) => _setPressed(false),
             onTapCancel: reduceMotion ? null : () => _setPressed(false),
             onTap: widget.action,
-            child: AnimatedOpacity(
-              opacity: opacity,
-              duration: reduceMotion
-                  ? Duration.zero
-                  : const Duration(milliseconds: 150),
-              curve: Curves.easeInOut,
-              child: Transform.scale(
-                scale: _isPressed && !reduceMotion ? 0.97 : 1.0,
-                child: current,
-              ),
+            child: Transform.scale(
+              scale: _isPressed && !reduceMotion ? 0.97 : 1.0,
+              child: current,
             ),
           ),
         ),
