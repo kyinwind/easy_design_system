@@ -2099,7 +2099,7 @@ ColorScheme 稳定后再建立少量核心 Golden：
 ---
 
 # 61.1 开发里程碑 Checklist
-> 2026-09-27：Batch 0–10 已完成并通过严格 CI：flutter pub get / dart format / flutter analyze / flutter test 全绿。下一阶段进入 Catalog 视觉校准、旧颜色体系清理与文档发布收尾。
+> 2026-09-27：Batch 0–10 已完成并通过严格 CI。Catalog 代码与测试已完成并通过 CI，但 Tone / Warning / Surface / Border / Hover / Focus 的最终视觉校准仍需实际运行 Catalog 查看。旧颜色源码清理已完成，README / Migration Guide / CHANGELOG 已迁移到 ColorScheme 2.0。
 
 
 后续以本清单作为 ColorScheme 2.0 的阶段性进度记录。
@@ -2124,8 +2124,8 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [x] Batch 8 — Pills / Badge / Navigation
 - [x] Batch 9 — Surface / Dialog / Menu / States / Easy
 - [x] Batch 10 — JSON Theme 2.0
-- [x] Batch 11 — Catalog
-- [ ] Batch 12 — 清理旧颜色体系
+- [ ] Batch 11 — Catalog（实现完成，待视觉校准）
+- [x] Batch 12 — 清理旧颜色体系
 - [ ] Batch 13 — 文档 / README / CHANGELOG
 - [ ] Batch 14 — 最终 CI
 - [ ] Host Migration — RightClickMate
@@ -2550,19 +2550,19 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 阶段任务：
 
-- [ ] 清理 `primary`
-- [ ] 清理 `accent`
-- [ ] 清理 `primarySoft`
-- [ ] 清理 `accentSoft`
-- [ ] 清理 `successSoft`
-- [ ] 清理 `warningSoft`
-- [ ] 清理 `dangerSoft`
-- [ ] 清理 `textPrimary` 旧语义
-- [ ] 清理 `pageBackground`
-- [ ] 清理 `cardBackground`
-- [ ] 清理 `subtleFill`
-- [ ] 删除 dead helpers
-- [ ] 更新旧注释 / Swift compatibility wording
+- [x] 清理 `primary`
+- [x] 清理 `accent`
+- [x] 清理 `primarySoft`
+- [x] 清理 `accentSoft`
+- [x] 清理 `successSoft`
+- [x] 清理 `warningSoft`
+- [x] 清理 `dangerSoft`
+- [x] 清理 `textPrimary` 旧语义
+- [x] 清理 `pageBackground`
+- [x] 清理 `cardBackground`
+- [x] 清理 `subtleFill`
+- [x] 删除 dead helpers
+- [x] 更新旧注释 / Swift compatibility wording
 - [x] 本 Batch commit 完成
 
 
@@ -2602,13 +2602,13 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 阶段任务：
 
-- [ ] 更新 README Theme 初始化
-- [ ] 更新 Seed 示例
-- [ ] 更新 Semantic Override 示例
-- [ ] 更新 JSON 示例
-- [ ] 更新 Button Tone 示例
-- [ ] 编写 Breaking Migration Guide
-- [ ] 更新 CHANGELOG
+- [x] 更新 README Theme 初始化
+- [x] 更新 Seed 示例
+- [x] 更新 Semantic Override 示例
+- [x] 更新 JSON 示例
+- [x] 更新 Button Tone 示例
+- [x] 编写 Breaking Migration Guide
+- [x] 更新 CHANGELOG
 - [ ] 核对设计规范 / API 规范 / 技术方案一致性
 - [x] 本 Batch commit 完成
 
