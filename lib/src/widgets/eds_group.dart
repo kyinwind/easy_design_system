@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../color/eds_layer.dart';
 import '../primitives/eds_font.dart';
 import '../theme/eds_theme_scope.dart';
 import '../tokens/eds_color_scheme.dart';
-import 'eds_card.dart';
 
 /// Group background style. Mirrors Swift's `EDSGroupStyle`.
 enum EdsGroupStyle {
@@ -27,7 +27,6 @@ class EdsGroup extends StatelessWidget {
     super.key,
     this.subtitle,
     this.padding,
-    this.background,
     this.cornerRadius,
     this.style = EdsGroupStyle.filled,
     this.showsBorder = false,
@@ -39,9 +38,6 @@ class EdsGroup extends StatelessWidget {
 
   /// Inner padding. Defaults to `spacing.lg`.
   final double? padding;
-
-  /// Explicit background color, honored only by [EdsGroupStyle.filled].
-  final Color? background;
 
   /// Corner radius. Defaults to `radius.md`.
   final double? cornerRadius;
@@ -56,8 +52,8 @@ class EdsGroup extends StatelessWidget {
     final scheme = context.edsScheme;
 
     final Color? resolvedBackground = switch (style) {
-      EdsGroupStyle.filled => background ?? scheme.cardGrayBackground,
-      EdsGroupStyle.subtle => scheme.subtleFill,
+      EdsGroupStyle.filled => scheme.surfaceSunken,
+      EdsGroupStyle.subtle => scheme.surfaceBase,
       EdsGroupStyle.plain => null,
     };
 
@@ -80,14 +76,14 @@ class EdsGroup extends StatelessWidget {
                     titleText,
                     style: tokens.typography
                         .edsTextStyle(EdsFontRole.bodyStrong)
-                        .copyWith(color: scheme.textPrimary),
+                        .copyWith(color: scheme.foregroundPrimary),
                   ),
                 if (subtitleText != null)
                   Text(
                     subtitleText,
                     style: tokens.typography
                         .edsTextStyle(EdsFontRole.caption)
-                        .copyWith(color: scheme.textSecondary),
+                        .copyWith(color: scheme.foregroundSecondary),
                   ),
               ],
             ),
@@ -96,18 +92,29 @@ class EdsGroup extends StatelessWidget {
       ),
     );
 
-    Widget group = EdsCard(
-      padding: padding,
-      background: resolvedBackground,
-      cornerRadius: cornerRadius,
+    Widget group = Padding(
+      padding: EdgeInsets.all(padding ?? tokens.spacing.lg),
       child: groupContent,
     );
+
+    if (resolvedBackground != null) {
+      group = Container(
+        decoration: BoxDecoration(
+          color: resolvedBackground,
+          borderRadius: BorderRadius.circular(cornerRadius ?? tokens.radius.md),
+        ),
+        child: EdsLayerScope(
+          layer: context.edsLayer.nestedChild,
+          child: group,
+        ),
+      );
+    }
 
     if (showsBorder) {
       group = Container(
         foregroundDecoration: BoxDecoration(
           border: Border.all(
-            color: scheme.border,
+            color: scheme.borderDefault,
             width: tokens.stroke.hairline,
           ),
           borderRadius: BorderRadius.circular(cornerRadius ?? tokens.radius.md),
