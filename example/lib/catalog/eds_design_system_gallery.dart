@@ -333,12 +333,12 @@ class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
                 EdsValueRow(
                   '今日处理',
                   value: '128 张',
-                  tone: tokens.colors.success,
+                  tone: context.edsScheme.successForeground,
                 ),
                 EdsValueRow(
                   '缓存占用',
                   value: '240 MB',
-                  tone: tokens.colors.warning,
+                  tone: context.edsScheme.warningForeground,
                 ),
               ],
             ),
@@ -445,7 +445,7 @@ class _EdsDesignSystemGalleryState extends State<EdsDesignSystemGallery> {
                 child: SizedBox(
                   width: double.infinity,
                   child: EdsCard(
-                    background: tokens.colors.accentSoft,
+                    background: context.edsScheme.brandForegroundSoft,
                     child: Text(
                       '显式传入 background 时才绘制背景和圆角。',
                       style: tokens.typography.body,
