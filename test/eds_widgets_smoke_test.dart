@@ -230,7 +230,8 @@ void main() {
         home: Scaffold(
           body: Column(
             children: [
-              EdsSidebarIcon(icon: Icons.inbox, tone: EdsSidebarIconTone.orange),
+              EdsSidebarIcon(
+                  icon: Icons.inbox, tone: EdsSidebarIconTone.orange),
               EdsIconMark(isOn: true),
               EdsIconMark(isOn: false),
             ],

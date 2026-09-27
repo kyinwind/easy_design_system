@@ -131,12 +131,10 @@ enum EdsSidebarIconTone {
       EdsSidebarIconTone.orange => scheme.warningSurfaceStrong,
       EdsSidebarIconTone.red => scheme.dangerSurfaceStrong,
       EdsSidebarIconTone.gray => scheme.foregroundSecondary,
-      EdsSidebarIconTone.pink =>
-        _categorical(context, const Color(0xFFFF2D55)),
+      EdsSidebarIconTone.pink => _categorical(context, const Color(0xFFFF2D55)),
       EdsSidebarIconTone.purple =>
         _categorical(context, const Color(0xFFAF52DE)),
-      EdsSidebarIconTone.teal =>
-        _categorical(context, const Color(0xFF30B0C7)),
+      EdsSidebarIconTone.teal => _categorical(context, const Color(0xFF30B0C7)),
       EdsSidebarIconTone.indigo =>
         _categorical(context, const Color(0xFF5856D6)),
     };
