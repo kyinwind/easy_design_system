@@ -169,6 +169,17 @@ class EdsSemanticColorOverrides {
     );
   }
 
+  @override
+  bool operator ==(Object other) {
+    return other is EdsSemanticColorOverrides &&
+        other.toJson().toString() == toJson().toString();
+  }
+
+  @override
+  int get hashCode => Object.hashAll(
+        toJson().entries.map((entry) => Object.hash(entry.key, entry.value)),
+      );
+
   Map<String, Object?> toJson() {
     String hex(Color color) =>
         '#${color.toARGB32().toRadixString(16).padLeft(8, '0').substring(2).toUpperCase()}';
@@ -270,4 +281,13 @@ class EdsSemanticOverrides {
         if (light != null && !light!.isEmpty) 'light': light!.toJson(),
         if (dark != null && !dark!.isEmpty) 'dark': dark!.toJson(),
       };
+  @override
+  bool operator ==(Object other) =>
+      other is EdsSemanticOverrides &&
+      other.light == light &&
+      other.dark == dark;
+
+  @override
+  int get hashCode => Object.hash(light, dark);
+
 }
