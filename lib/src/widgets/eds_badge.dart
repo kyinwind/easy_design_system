@@ -9,8 +9,8 @@ enum EdsBadgeStyle {
   /// Neutral gray.
   neutral,
 
-  /// Accent, follows the theme primary color.
-  accent,
+  /// Brand, follows the theme primary color.
+  brand,
 
   /// Success green.
   success,
@@ -32,13 +32,13 @@ enum EdsBadgeStyle {
 /// - Swift's `accessibilityDifferentiateWithoutColor` icon reinforcement maps
 ///   to `MediaQuery.accessibleNavigation`.
 class EdsBadge extends StatelessWidget {
-  const EdsBadge(this.text, {super.key, this.style = EdsBadgeStyle.accent});
+  const EdsBadge(this.text, {super.key, this.style = EdsBadgeStyle.brand});
 
   /// Displays the text verbatim, mirroring Swift's `init(verbatim:style:)`.
   const EdsBadge.verbatim(
     String text, {
     Key? key,
-    EdsBadgeStyle style = EdsBadgeStyle.accent,
+    EdsBadgeStyle style = EdsBadgeStyle.brand,
   }) : this(text, key: key, style: style);
 
   final String text;
@@ -48,12 +48,27 @@ class EdsBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final tokens = context.edsTokens;
     final scheme = context.edsScheme;
-    final foreground = switch (style) {
-      EdsBadgeStyle.neutral => scheme.textSecondary,
-      EdsBadgeStyle.accent => tokens.colors.primary,
-      EdsBadgeStyle.success => tokens.colors.success,
-      EdsBadgeStyle.warning => tokens.colors.warning,
-      EdsBadgeStyle.danger => tokens.colors.danger,
+    final (foreground, background) = switch (style) {
+      EdsBadgeStyle.neutral => (
+          scheme.foregroundSecondary,
+          scheme.surfaceSunken,
+        ),
+      EdsBadgeStyle.brand => (
+          scheme.brandForeground,
+          scheme.brandSurface,
+        ),
+      EdsBadgeStyle.success => (
+          scheme.successForeground,
+          scheme.successSurface,
+        ),
+      EdsBadgeStyle.warning => (
+          scheme.warningForeground,
+          scheme.warningSurface,
+        ),
+      EdsBadgeStyle.danger => (
+          scheme.dangerForeground,
+          scheme.dangerSurface,
+        ),
     };
 
     final accessible = MediaQuery.maybeAccessibleNavigationOf(context) ?? false;
@@ -62,7 +77,7 @@ class EdsBadge extends StatelessWidget {
             EdsBadgeStyle.success => Icons.check_circle,
             EdsBadgeStyle.warning => Icons.warning,
             EdsBadgeStyle.danger => Icons.block,
-            EdsBadgeStyle.neutral || EdsBadgeStyle.accent => null,
+            EdsBadgeStyle.neutral || EdsBadgeStyle.brand => null,
           }
         : null;
 
@@ -72,7 +87,7 @@ class EdsBadge extends StatelessWidget {
         vertical: tokens.spacing.xxs,
       ),
       decoration: ShapeDecoration(
-        color: foreground.withValues(alpha: 0.12),
+        color: background,
         shape: const StadiumBorder(),
       ),
       child: Row(
