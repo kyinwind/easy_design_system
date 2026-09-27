@@ -1,12 +1,12 @@
 import 'package:easy_design_system/easy_design_system.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  // Required for `rootBundle` in the asset-loading test below.
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUp(() {
-    EdsTheme.instance.tokens = const EdsDesignTokens();
+    EdsTheme.instance.themeData = EdsPresetTheme.defaultTheme.theme;
   });
 
   test('generic presets expose the documented ids', () {
@@ -21,34 +21,39 @@ void main() {
     expect(EdsPresetTheme.blue, same(EdsPresetTheme.defaultTheme));
   });
 
-  test('purple preset ships its own semantic colors', () {
+  test('purple preset changes brand but keeps default status seeds', () {
+    expect(EdsColorHex.toHex(EdsPresetTheme.purple.theme.seeds.brand), '#8B5CF6');
     expect(
-      EdsColorHex.toHex(EdsPresetTheme.purple.tokens.colors.success),
-      '#10B981',
+      EdsColorHex.toHex(EdsPresetTheme.purple.theme.seeds.success),
+      '#27B15A',
     );
   });
 
-  test('configure applies the tokens returned by the closure', () {
-    EdsTheme.instance.configure((tokens) {
-      return tokens.copyWith(
-        colors: tokens.colors.copyWith(
-          primary: EdsColorHex.parseRgb('#3185FF'),
+  test('configure updates seeds and non-color tokens', () {
+    EdsTheme.instance.configure((theme) {
+      return theme.copyWith(
+        seeds: theme.seeds.copyWith(
+          brand: EdsColorHex.parseRgb('#3185FF'),
         ),
-        spacing: tokens.spacing.copyWith(md: 16),
+        tokens: theme.tokens.copyWith(
+          spacing: theme.tokens.spacing.copyWith(md: 18),
+        ),
       );
     });
 
-    expect(EdsColorHex.toHex(EdsTheme.instance.colors.primary), '#3185FF');
-    expect(EdsTheme.instance.spacing.md, 16);
+    expect(EdsColorHex.toHex(EdsTheme.instance.seeds.brand), '#3185FF');
+    expect(EdsTheme.instance.spacing.md, 18);
   });
 
   test('configureJsonString decodes and notifies listeners', () {
     var notified = false;
-    EdsTheme.instance.tokensListenable.addListener(() => notified = true);
+    EdsTheme.instance.themeListenable.addListener(() => notified = true);
 
-    EdsTheme.instance.configureJsonString('{"colors": {"primary": "#FF6B00"}}');
+    EdsTheme.instance.configureJsonString(
+      '{"colors":{"seeds":{"brand":"#FF6B00"}}}',
+    );
 
-    expect(EdsColorHex.toHex(EdsTheme.instance.colors.primary), '#FF6B00');
+    expect(EdsColorHex.toHex(EdsTheme.instance.seeds.brand), '#FF6B00');
     expect(notified, isTrue);
   });
 
@@ -59,25 +64,34 @@ void main() {
     );
   });
 
-  test('applyPreset installs the preset tokens', () {
-    EdsTheme.instance.applyPreset(EdsPresetTheme.orange);
-
+  test('legacy colors JSON is rejected', () {
     expect(
-      EdsTheme.instance.colors.primary,
-      EdsPresetTheme.orange.tokens.colors.primary,
+      () => EdsTheme.instance.configureJsonString(
+        '{"colors":{"primary":"#FF6B00"}}',
+      ),
+      throwsA(isA<EdsThemeException>()),
     );
   });
 
-  test('exportJsonString round-trips the current tokens', () {
+  test('applyPreset installs the preset theme', () {
+    EdsTheme.instance.applyPreset(EdsPresetTheme.orange);
+
+    expect(
+      EdsTheme.instance.seeds.brand,
+      EdsPresetTheme.orange.theme.seeds.brand,
+    );
+  });
+
+  test('exportJsonString round-trips current configuration', () {
     EdsTheme.instance.configureJsonString(
-      '{"colors": {"primary": "#123456"},'
-      ' "adaptiveLayout": {"readableContentMaxWidth": 920}}',
+      '{"colors":{"seeds":{"brand":"#123456"}},'
+      '"adaptiveLayout":{"readableContentMaxWidth":920}}',
     );
 
     final decoded = decodeThemeJson(EdsTheme.instance.exportJsonString());
 
-    expect(EdsColorHex.toHex(decoded.colors.primary), '#123456');
-    expect(decoded.adaptiveLayout.readableContentMaxWidth, 920);
+    expect(EdsColorHex.toHex(decoded.seeds.brand), '#123456');
+    expect(decoded.tokens.adaptiveLayout.readableContentMaxWidth, 920);
   });
 
   test('exportJsonString sorts keys and pretty-prints', () {
@@ -89,14 +103,13 @@ void main() {
     expect(spacingPos, greaterThan(colorsPos));
   });
 
-  test(
-    'applyDefaultThemeFromPackage loads the bundled default theme',
-    () async {
-      await EdsTheme.instance.applyDefaultThemeFromPackage();
+  test('applyDefaultThemeFromPackage loads bundled full theme', () async {
+    await EdsTheme.instance.applyDefaultThemeFromPackage();
 
-      expect(EdsColorHex.toHex(EdsTheme.instance.colors.primary), '#3185FF');
-      expect(EdsTheme.instance.spacing.md, 16);
-      expect(EdsTheme.instance.adaptiveLayout.readableContentMaxWidth, 880);
-    },
-  );
+    expect(EdsColorHex.toHex(EdsTheme.instance.seeds.brand), '#3185FF');
+    expect(EdsTheme.instance.spacing.md, 16);
+    expect(EdsTheme.instance.adaptiveLayout.readableContentMaxWidth, 880);
+    expect(EdsTheme.instance.stroke.hairline, 1);
+    expect(EdsTheme.instance.shadow.opacity, 0.06);
+  });
 }
