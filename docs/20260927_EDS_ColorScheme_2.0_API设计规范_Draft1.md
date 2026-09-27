@@ -339,11 +339,11 @@ Neutral Foundation 由 EDS 内置维护。
 概念 API：
 
     EdsSemanticOverrides(
-      light: EdsSemanticColorsOverride(
+      light: EdsSemanticColorOverrides(
         surfaceRaised: ...,
         borderFocus: ...,
       ),
-      dark: EdsSemanticColorsOverride(
+      dark: EdsSemanticColorOverrides(
         surfaceRaised: ...,
         borderFocus: ...,
       ),
@@ -362,11 +362,11 @@ Neutral Foundation 由 EDS 内置维护。
 例如只覆盖两个角色：
 
     EdsSemanticOverrides(
-      light: EdsSemanticColorsOverride(
+      light: EdsSemanticColorOverrides(
         surfaceRaised: Color(...),
         borderStrong: Color(...),
       ),
-      dark: EdsSemanticColorsOverride(
+      dark: EdsSemanticColorOverrides(
         surfaceRaised: Color(...),
         borderStrong: Color(...),
       ),
@@ -391,10 +391,10 @@ Neutral Foundation 由 EDS 内置维护。
         brand: myBrand,
       ),
       semanticOverrides: EdsSemanticOverrides(
-        light: EdsSemanticColorsOverride(
+        light: EdsSemanticColorOverrides(
           surfaceRaised: myLightCard,
         ),
-        dark: EdsSemanticColorsOverride(
+        dark: EdsSemanticColorOverrides(
           surfaceRaised: myDarkCard,
         ),
       ),
