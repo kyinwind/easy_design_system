@@ -213,12 +213,10 @@ class EdsButtonAppearance {
           : scheme.foregroundPrimary;
       switch (emphasis) {
         case EdsButtonEmphasis.filled:
-          background = state == EdsInteractionState.rest
-              ? scheme.foregroundPrimary
-              : EdsInteractionResolver.neutralSurface(
-                  brightness: brightness,
-                  state: state,
-                );
+          background = EdsInteractionResolver.neutralStrongSurface(
+            brightness: brightness,
+            state: state,
+          );
           borderColor = null;
         case EdsButtonEmphasis.medium:
         case EdsButtonEmphasis.soft:
