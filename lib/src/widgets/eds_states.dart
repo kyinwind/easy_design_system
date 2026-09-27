@@ -37,7 +37,8 @@ class EdsEmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return _EdsStateContent(
       systemImage: systemImage,
-      iconColor: context.edsScheme.textTertiary,
+      iconColor: context.edsScheme.foregroundTertiary,
+      iconSurface: context.edsScheme.surfaceSunken,
       title: title,
       message: message,
       actionTitle: actionTitle,
@@ -72,7 +73,8 @@ class EdsErrorState extends StatelessWidget {
   Widget build(BuildContext context) {
     return _EdsStateContent(
       systemImage: systemImage,
-      iconColor: context.edsTokens.colors.danger,
+      iconColor: context.edsScheme.dangerForeground,
+      iconSurface: context.edsScheme.dangerSurface,
       title: title,
       message: message,
       actionTitle: actionTitle,
@@ -103,7 +105,7 @@ class EdsLoadingState extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           spacing: tokens.spacing.md,
           children: <Widget>[
-            CircularProgressIndicator(color: tokens.colors.primary),
+            CircularProgressIndicator(color: scheme.brandSurfaceStrong),
             Column(
               mainAxisSize: MainAxisSize.min,
               spacing: tokens.spacing.xs,
@@ -112,7 +114,7 @@ class EdsLoadingState extends StatelessWidget {
                   title,
                   style: tokens.typography
                       .edsTextStyle(EdsFontRole.bodyStrong)
-                      .copyWith(color: scheme.textPrimary),
+                      .copyWith(color: scheme.foregroundPrimary),
                 ),
                 if (messageText != null)
                   Text(
@@ -120,7 +122,7 @@ class EdsLoadingState extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: tokens.typography
                         .edsTextStyle(EdsFontRole.caption)
-                        .copyWith(color: scheme.textSecondary),
+                        .copyWith(color: scheme.foregroundSecondary),
                   ),
               ],
             ),
@@ -201,7 +203,7 @@ class EdsProgressPanel extends StatelessWidget {
         children: <Widget>[
           EdsSidebarIcon(
             icon: systemImage,
-            tint: tokens.colors.primary,
+            tint: scheme.brandSurfaceStrong,
             size: EdsSidebarIconSize.medium,
           ),
           Expanded(
@@ -212,8 +214,8 @@ class EdsProgressPanel extends StatelessWidget {
                 header,
                 LinearProgressIndicator(
                   value: clampedFraction,
-                  color: tokens.colors.primary,
-                  backgroundColor: scheme.subtleFill,
+                  color: scheme.brandSurfaceStrong,
+                  backgroundColor: scheme.brandSurface,
                   minHeight: 4,
                 ),
                 if (statusTextValue != null)
@@ -221,7 +223,7 @@ class EdsProgressPanel extends StatelessWidget {
                     statusTextValue,
                     style: tokens.typography
                         .edsTextStyle(EdsFontRole.caption)
-                        .copyWith(color: scheme.textSecondary),
+                        .copyWith(color: scheme.foregroundSecondary),
                   ),
               ],
             ),
@@ -243,14 +245,14 @@ class EdsProgressPanel extends StatelessWidget {
           title,
           style: tokens.typography
               .edsTextStyle(EdsFontRole.bodyStrong)
-              .copyWith(color: scheme.textPrimary),
+              .copyWith(color: scheme.foregroundPrimary),
         ),
         if (subtitleText != null)
           Text(
             subtitleText,
             style: tokens.typography
                 .edsTextStyle(EdsFontRole.caption)
-                .copyWith(color: scheme.textSecondary),
+                .copyWith(color: scheme.foregroundSecondary),
           ),
       ],
     );
@@ -263,6 +265,7 @@ class _EdsStateContent extends StatelessWidget {
   const _EdsStateContent({
     required this.systemImage,
     required this.iconColor,
+    required this.iconSurface,
     required this.title,
     required this.message,
     required this.actionTitle,
@@ -273,6 +276,7 @@ class _EdsStateContent extends StatelessWidget {
 
   final IconData systemImage;
   final Color iconColor;
+  final Color iconSurface;
   final String title;
   final String? message;
   final String? actionTitle;
@@ -298,7 +302,7 @@ class _EdsStateContent extends StatelessWidget {
               width: 56,
               height: 56,
               decoration: BoxDecoration(
-                color: iconColor.withValues(alpha: 0.12),
+                color: iconSurface,
                 shape: BoxShape.circle,
               ),
               child: Center(
@@ -314,7 +318,7 @@ class _EdsStateContent extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: tokens.typography
                       .edsTextStyle(EdsFontRole.sectionTitle)
-                      .copyWith(color: scheme.textPrimary),
+                      .copyWith(color: scheme.foregroundPrimary),
                 ),
                 if (messageText != null)
                   Text(
@@ -322,7 +326,7 @@ class _EdsStateContent extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: tokens.typography
                         .edsTextStyle(EdsFontRole.caption)
-                        .copyWith(color: scheme.textSecondary),
+                        .copyWith(color: scheme.foregroundSecondary),
                   ),
               ],
             ),
