@@ -17,10 +17,10 @@ class CatalogThemeEntry {
   final EdsPresetTheme preset;
 
   List<Color> get swatchColors => <Color>[
-        preset.tokens.colors.primary,
-        preset.tokens.colors.success,
-        preset.tokens.colors.warning,
-        preset.tokens.colors.danger,
+        preset.theme.context.edsScheme.brandForeground,
+        preset.theme.context.edsScheme.successForeground,
+        preset.theme.context.edsScheme.warningForeground,
+        preset.theme.context.edsScheme.dangerForeground,
       ];
 }
 
@@ -156,7 +156,7 @@ class _CatalogThemeBarState extends State<CatalogThemeBar> {
     final scheme = context.edsScheme;
     final entry = CatalogThemeCatalog.entryById(_selectedId);
     return Container(
-      color: scheme.cardBackground,
+      color: scheme.surfaceRaised,
       padding: EdgeInsets.symmetric(
         horizontal: tokens.spacing.md,
         vertical: tokens.spacing.sm,
@@ -166,7 +166,7 @@ class _CatalogThemeBarState extends State<CatalogThemeBar> {
           Text(
             '预览主题',
             style: tokens.typography.captionStrong.copyWith(
-              color: scheme.textSecondary,
+              color: scheme.foregroundSecondary,
             ),
           ),
           SizedBox(width: tokens.spacing.sm),
@@ -188,13 +188,13 @@ class _CatalogThemeBarState extends State<CatalogThemeBar> {
                 Text(
                   entry?.name ?? '未知主题',
                   style: tokens.typography.bodyStrong.copyWith(
-                    color: scheme.textPrimary,
+                    color: scheme.foregroundPrimary,
                   ),
                 ),
                 Icon(
                   Icons.arrow_drop_down,
                   size: 18,
-                  color: scheme.textSecondary,
+                  color: scheme.foregroundSecondary,
                 ),
               ],
             ),
@@ -212,7 +212,7 @@ class _CatalogThemeBarState extends State<CatalogThemeBar> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: color,
-                      border: Border.all(color: scheme.border, width: 0.5),
+                      border: Border.all(color: scheme.borderDefault, width: 0.5),
                     ),
                   ),
                 ),
@@ -233,7 +233,7 @@ class _CatalogThemeBarState extends State<CatalogThemeBar> {
       height: 44,
       child: Text(
         entry.name,
-        style: TextStyle(fontSize: 14, color: scheme.textPrimary),
+        style: TextStyle(fontSize: 14, color: scheme.foregroundPrimary),
       ),
     );
   }
@@ -248,7 +248,7 @@ class _CatalogThemeBarState extends State<CatalogThemeBar> {
         style: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w600,
-          color: scheme.textTertiary,
+          color: scheme.foregroundTertiary,
         ),
       ),
     );
