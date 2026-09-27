@@ -7,6 +7,8 @@
 library;
 
 export 'src/color/eds_color_seeds.dart';
+export 'src/color/eds_semantic_overrides.dart';
+export 'src/color/eds_semantic_colors.dart';
 
 export 'src/adaptive/eds_interaction_profile.dart';
 export 'src/adaptive/eds_resolved_metrics.dart';
