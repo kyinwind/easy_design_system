@@ -1,10 +1,12 @@
 {
   "colors": {
-    "primary": "#3185FF",
-    "accent": "#3185FF",
-    "success": "#27B15A",
-    "warning": "#F9B135",
-    "danger": "#E54444"
+    "seeds": {
+      "brand": "#3185FF",
+      "information": "#3185FF",
+      "success": "#27B15A",
+      "warning": "#F9B135",
+      "danger": "#E54444"
+    }
   },
   "spacing": {
     "xxs": 4,
