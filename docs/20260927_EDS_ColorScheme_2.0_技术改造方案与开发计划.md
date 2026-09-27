@@ -2099,7 +2099,7 @@ ColorScheme 稳定后再建立少量核心 Golden：
 ---
 
 # 61.1 开发里程碑 Checklist
-> 2026-09-27：Batch 0–10 已完成并通过严格 CI。Catalog 代码与测试已完成并通过 CI，但 Tone / Warning / Surface / Border / Hover / Focus 的最终视觉校准仍需实际运行 Catalog 查看。旧颜色源码清理已完成，README / Migration Guide / CHANGELOG 已迁移到 ColorScheme 2.0。
+> 2026-09-27：Batch 0–10 已完成；Catalog 代码与测试已完成，但 Tone / Warning / Surface / Border / Hover / Focus 的最终视觉校准仍需实际运行 Catalog 查看。旧颜色源码清理、README、Migration Guide、CHANGELOG 已完成。最终严格 CI 已全绿：pub get / format / analyze / test 全部通过。
 
 
 后续以本清单作为 ColorScheme 2.0 的阶段性进度记录。
@@ -2127,7 +2127,7 @@ ColorScheme 稳定后再建立少量核心 Golden：
 - [ ] Batch 11 — Catalog（实现完成，待视觉校准）
 - [x] Batch 12 — 清理旧颜色体系
 - [x] Batch 13 — 文档 / README / CHANGELOG
-- [ ] Batch 14 — 最终 CI
+- [x] Batch 14 — 最终 CI
 - [ ] Host Migration — RightClickMate
 - [ ] Host Migration — VideoHero
 - [ ] Release — ColorScheme 2.0 Breaking Version
@@ -2635,17 +2635,17 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 阶段任务：
 
-- [ ] `flutter pub get`
-- [ ] `dart format --set-exit-if-changed .`
-- [ ] `flutter analyze`
-- [ ] `flutter test`
-- [ ] 检查 public API
-- [ ] 检查 JSON round-trip
-- [ ] 检查 bundled assets
-- [ ] 检查 Blue / Orange / Purple
-- [ ] 检查 Light / Dark
-- [ ] 检查所有 presets
-- [ ] CI 全绿
+- [x] `flutter pub get`
+- [x] `dart format --set-exit-if-changed .`
+- [x] `flutter analyze`
+- [x] `flutter test`
+- [x] 检查 public API
+- [x] 检查 JSON round-trip
+- [x] 检查 bundled assets
+- [x] 检查 Blue / Orange / Purple
+- [x] 检查 Light / Dark
+- [x] 检查所有 presets
+- [x] CI 全绿
 - [x] 本 Batch commit 完成
 
 
