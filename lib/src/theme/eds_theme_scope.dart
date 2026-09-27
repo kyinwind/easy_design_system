@@ -1,99 +1,118 @@
 import 'package:flutter/material.dart';
 
+import '../color/eds_color_seeds.dart';
 import '../tokens/eds_design_tokens.dart';
 import 'eds_preset_theme.dart';
 import 'eds_theme.dart';
+import 'eds_theme_data.dart';
 
-class _EdsTokensScope extends InheritedWidget {
-  const _EdsTokensScope({
-    required this.tokens,
+class _EdsThemeConfigScope extends InheritedWidget {
+  const _EdsThemeConfigScope({
+    required this.themeData,
     required this.brightness,
     required super.child,
   });
 
-  final EdsDesignTokens tokens;
-
-  /// Explicit brightness override, or null to resolve from `MediaQuery` at
-  /// the point of consumption.
+  final EdsThemeData themeData;
   final Brightness? brightness;
 
   @override
-  bool updateShouldNotify(_EdsTokensScope oldWidget) =>
-      tokens != oldWidget.tokens || brightness != oldWidget.brightness;
+  bool updateShouldNotify(_EdsThemeConfigScope oldWidget) =>
+      themeData != oldWidget.themeData || brightness != oldWidget.brightness;
 }
 
-/// Injects design tokens (and optionally a brightness override) into a
-/// subtree — the Flutter counterpart of SwiftUI's `\.edsTheme` environment
-/// key and its `easyDesignTheme` modifiers.
+/// Injects EDS theme configuration into a subtree.
 ///
-/// * With explicit [tokens] (or [preset]) the subtree uses those tokens.
-/// * Without explicit tokens the subtree subscribes to the global
-///   `EdsTheme.instance` tokens and rebuilds when they change.
-///
-/// ```dart
-/// EdsThemeScope(
-///   child: MaterialApp(home: ...),
-/// )
-/// ```
+/// Resolution order:
+/// explicit [theme] > [preset] > inherited/global theme, then optional
+/// [seeds] and [tokens] overrides are applied.
 class EdsThemeScope extends StatelessWidget {
   const EdsThemeScope({
     super.key,
-    this.tokens,
+    this.theme,
     this.preset,
+    this.seeds,
+    this.tokens,
     this.brightness,
     required this.child,
-  });
+  }) : assert(
+          theme == null || preset == null,
+          'Provide either theme or preset, not both.',
+        );
 
-  /// Explicit tokens for this subtree. Takes precedence over [preset].
-  final EdsDesignTokens? tokens;
+  /// Full explicit theme configuration.
+  final EdsThemeData? theme;
 
-  /// A preset theme for this subtree; its tokens are used when [tokens] is
-  /// null.
+  /// Preset used as the subtree base theme.
   final EdsPresetTheme? preset;
 
-  /// Explicit brightness override. When null, `context.edsBrightness`
-  /// resolves from `MediaQuery` and defaults to light.
+  /// Partial chromatic seed overrides applied on top of the base theme.
+  final EdsColorSeedOverrides? seeds;
+
+  /// Optional non-color token replacement for this subtree.
+  final EdsDesignTokens? tokens;
+
+  /// Explicit brightness override.
   final Brightness? brightness;
 
-  /// The subtree below this scope.
   final Widget child;
+
+  EdsThemeData _applyOverrides(EdsThemeData base) {
+    var value = base;
+    final seedOverrides = seeds;
+    if (seedOverrides != null) {
+      value = value.withSeedOverrides(seedOverrides);
+    }
+    final tokenOverrides = tokens;
+    if (tokenOverrides != null) {
+      value = value.copyWith(tokens: tokenOverrides);
+    }
+    return value;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final explicitTokens = tokens ?? preset?.tokens;
-    if (explicitTokens != null) {
-      return _EdsTokensScope(
-        tokens: explicitTokens,
+    final explicitBase = theme ?? preset?.theme;
+    if (explicitBase != null) {
+      return _EdsThemeConfigScope(
+        themeData: _applyOverrides(explicitBase),
         brightness: brightness,
         child: child,
       );
     }
-    return ValueListenableBuilder<EdsDesignTokens>(
-      valueListenable: EdsTheme.instance.tokensListenable,
-      builder: (context, value, _) =>
-          _EdsTokensScope(tokens: value, brightness: brightness, child: child),
+
+    final inherited =
+        context.dependOnInheritedWidgetOfExactType<_EdsThemeConfigScope>();
+    if (inherited != null) {
+      return _EdsThemeConfigScope(
+        themeData: _applyOverrides(inherited.themeData),
+        brightness: brightness ?? inherited.brightness,
+        child: child,
+      );
+    }
+
+    return ValueListenableBuilder<EdsThemeData>(
+      valueListenable: EdsTheme.instance.themeListenable,
+      builder: (context, value, _) => _EdsThemeConfigScope(
+        themeData: _applyOverrides(value),
+        brightness: brightness,
+        child: child,
+      ),
     );
   }
 }
 
 extension EdsThemeContextX on BuildContext {
-  /// The design tokens for this subtree.
-  ///
-  /// A value injected by `EdsThemeScope` takes precedence; without a scope
-  /// this falls back to the current global `EdsTheme.instance` tokens,
-  /// mirroring SwiftUI's `\.edsTheme` default.
-  EdsDesignTokens get edsTokens =>
-      dependOnInheritedWidgetOfExactType<_EdsTokensScope>()?.tokens ??
-      EdsTheme.instance.tokens;
+  EdsThemeData get edsThemeData =>
+      dependOnInheritedWidgetOfExactType<_EdsThemeConfigScope>()?.themeData ??
+      EdsTheme.instance.themeData;
 
-  /// The effective brightness for this subtree.
-  ///
-  /// An explicit `EdsThemeScope.brightness` wins. Otherwise an ambient
-  /// Material theme is used so `ThemeMode.system/light/dark` is respected.
-  /// Without a Material theme, Flutter falls back to the platform brightness
-  /// from `MediaQuery`; without either signal, EDS defaults to light.
+  EdsDesignTokens get edsTokens => edsThemeData.tokens;
+
+  EdsColorSeeds get edsSeeds => edsThemeData.seeds;
+
   Brightness get edsBrightness {
-    final scope = dependOnInheritedWidgetOfExactType<_EdsTokensScope>();
+    final scope = dependOnInheritedWidgetOfExactType<_EdsThemeConfigScope>();
     if (scope?.brightness != null) {
       return scope!.brightness!;
     }
@@ -102,14 +121,13 @@ extension EdsThemeContextX on BuildContext {
 }
 
 extension EdsThemeWidgetX on Widget {
-  /// Applies design tokens to this subtree without changing its layout,
-  /// mirroring Swift's `easyDesignTheme(_:)`.
+  /// Applies non-color design tokens locally while keeping inherited seeds.
   Widget easyDesignTheme(EdsDesignTokens tokens) =>
       EdsThemeScope(tokens: tokens, child: this);
 
-  /// Applies a preset theme to this subtree, mirroring Swift's
-  /// `easyDesignTheme(_ theme: EDSPresetTheme)`. Dart has no overloads, so
-  /// the preset variant gets its own name.
+  Widget easyDesignThemeData(EdsThemeData theme) =>
+      EdsThemeScope(theme: theme, child: this);
+
   Widget easyDesignThemePreset(EdsPresetTheme preset) =>
       EdsThemeScope(preset: preset, child: this);
 }
