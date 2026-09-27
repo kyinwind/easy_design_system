@@ -59,5 +59,15 @@
   "heroGradient": {
     "startColor": "#3185FF",
     "endColor": "#0A6BFF"
+  },
+  "stroke": {
+    "hairline": 1
+  },
+  "shadow": {
+    "color": "#000000",
+    "opacity": 0.06,
+    "radius": 18,
+    "x": 0,
+    "y": 10
   }
 }
