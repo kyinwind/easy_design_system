@@ -17,10 +17,10 @@ class CatalogThemeEntry {
   final EdsPresetTheme preset;
 
   List<Color> get swatchColors => <Color>[
-        preset.theme.context.edsScheme.brandForeground,
-        preset.theme.context.edsScheme.successForeground,
-        preset.theme.context.edsScheme.warningForeground,
-        preset.theme.context.edsScheme.dangerForeground,
+        preset.theme.seeds.brand,
+        preset.theme.seeds.success,
+        preset.theme.seeds.warning,
+        preset.theme.seeds.danger,
       ];
 }
 
@@ -100,18 +100,14 @@ abstract final class CatalogThemeCatalog {
     required String primaryHex,
     required String endHex,
   }) {
-    final primary = EdsColorHex.parseRgb(primaryHex);
-    final tokens = const EdsDesignTokens().copyWith(
-      colors: EdsColorTokens(
-        primary: primary,
-        accent: primary,
-        success: EdsColorHex.parseRgb('#27B15A'),
-        warning: EdsColorHex.parseRgb('#F9B135'),
-        danger: EdsColorHex.parseRgb('#E54444'),
-      ),
-      heroGradient: EdsHeroGradient(
-        startColor: primary,
-        endColor: EdsColorHex.parseRgb(endHex),
+    final brand = EdsColorHex.parseRgb(primaryHex);
+    final theme = EdsThemeData(
+      seeds: EdsColorSeeds(brand: brand),
+      tokens: const EdsDesignTokens().copyWith(
+        heroGradient: EdsHeroGradient(
+          startColor: brand,
+          endColor: EdsColorHex.parseRgb(endHex),
+        ),
       ),
     );
     return CatalogThemeEntry(
@@ -119,7 +115,7 @@ abstract final class CatalogThemeCatalog {
       name: name,
       detail: '包外自定义 · $primaryHex',
       isBuiltIn: false,
-      preset: EdsPresetTheme(id: id, name: name, tokens: tokens),
+      preset: EdsPresetTheme(id: id, name: name, theme: theme),
     );
   }
 }
