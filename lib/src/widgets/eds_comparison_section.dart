@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../adaptive/eds_size_class.dart';
 import '../primitives/eds_font.dart';
 import '../theme/eds_theme_scope.dart';
-import '../tokens/eds_color_scheme.dart';
 import 'eds_icon_mark.dart';
 import 'eds_section.dart';
 import 'eds_text.dart';
