@@ -6,6 +6,8 @@
 /// `easyDesign` extension offers one-call semantic styling.
 library;
 
+export 'src/color/eds_color_seeds.dart';
+
 export 'src/adaptive/eds_interaction_profile.dart';
 export 'src/adaptive/eds_resolved_metrics.dart';
 export 'src/adaptive/eds_size_class.dart';
@@ -17,6 +19,7 @@ export 'src/primitives/eds_font.dart';
 export 'src/primitives/eds_surface.dart';
 export 'src/theme/eds_preset_theme.dart';
 export 'src/theme/eds_theme.dart';
+export 'src/theme/eds_theme_data.dart';
 export 'src/theme/eds_theme_json.dart';
 export 'src/theme/eds_theme_scope.dart';
 export 'src/tokens/eds_color_hex.dart';
