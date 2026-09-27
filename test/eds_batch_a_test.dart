@@ -12,7 +12,7 @@ void main() {
     final item = EdsSidebarMenuItem(
       label: 'Inbox',
       icon: Icons.inbox,
-      presetTint: EdsSidebarIconPresetTint.blue,
+      tone: EdsSidebarIconTone.blue,
     );
 
     await tester.pumpWidget(
