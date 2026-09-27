@@ -1,15 +1,15 @@
 import 'dart:convert';
 
+import '../color/eds_color_seeds.dart';
 import '../tokens/eds_design_tokens.dart';
+import 'eds_theme_data.dart';
 
-/// Decodes a theme JSON document (the `EDSDefaultTheme.json` schema) into
-/// design tokens.
+/// Decodes ColorScheme 2.0 theme configuration.
 ///
-/// Mirrors Swift's `JSONDecoder().decode(EDSDesignTokens.self, from:)`:
-/// missing keys (or whole groups) fall back to defaults; present-but-wrongly
-/// typed values throw a [FormatException]; a non-object root throws a
-/// [FormatException] too.
-EdsDesignTokens decodeThemeJson(String json) {
+/// The top-level non-color token groups keep their existing schema. The
+/// `colors` branch now contains `seeds`; semantic overrides are added by the
+/// next ColorScheme implementation batch.
+EdsThemeData decodeThemeJson(String json) {
   final Object? decoded;
   try {
     decoded = jsonDecode(json);
@@ -18,21 +18,45 @@ EdsDesignTokens decodeThemeJson(String json) {
   } catch (error) {
     throw FormatException('Invalid JSON document: $error');
   }
+
   if (decoded is! Map<String, Object?>) {
     throw FormatException(
       'Expected a JSON object at the root but found ${decoded.runtimeType}.',
     );
   }
-  return EdsDesignTokens.fromJson(decoded);
+
+  final colors = _readGroup(decoded, 'colors');
+  final seeds = EdsColorSeeds.fromJson(_readGroup(colors, 'seeds'));
+
+  return EdsThemeData(
+    seeds: seeds,
+    tokens: EdsDesignTokens.fromJson(decoded),
+  );
 }
 
-/// Encodes tokens as a pretty-printed JSON document with sorted keys —
-/// byte-for-byte compatible with Swift's
-/// `JSONEncoder(outputFormatting: [.prettyPrinted, .sortedKeys])`
-/// (two-space indent, integral numbers without a trailing `.0`).
-String encodeThemeJson(EdsDesignTokens tokens) {
-  final sorted = _sortKeys(tokens.toJson());
+/// Encodes host theme configuration, not runtime-resolved semantic colors.
+String encodeThemeJson(EdsThemeData theme) {
+  final root = <String, Object?>{
+    'colors': <String, Object?>{
+      'seeds': theme.seeds.toJson(),
+    },
+    ...theme.tokens.toJson(),
+  };
+  final sorted = _sortKeys(root);
   return const JsonEncoder.withIndent('  ').convert(sorted);
+}
+
+Map<String, Object?>? _readGroup(
+  Map<String, Object?>? json,
+  String key,
+) {
+  if (json == null) return null;
+  final value = json[key];
+  if (value == null) return null;
+  if (value is Map<String, Object?>) return value;
+  throw FormatException(
+    'Expected an object for "$key" but found ${value.runtimeType}.',
+  );
 }
 
 Object? _sortKeys(Object? value) {
