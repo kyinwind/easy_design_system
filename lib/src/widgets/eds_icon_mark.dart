@@ -17,7 +17,7 @@ class EdsIconMark extends StatelessWidget {
     return Icon(
       isOn ? Icons.check_circle : Icons.remove_circle_outline,
       size: 18,
-      color: isOn ? tokens.colors.success : scheme.textTertiary,
+      color: isOn ? scheme.successForeground : scheme.foregroundTertiary,
     );
   }
 }
