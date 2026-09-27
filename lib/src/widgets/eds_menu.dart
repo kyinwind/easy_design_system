@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../color/eds_layer.dart';
 import '../primitives/eds_font.dart';
 import '../theme/eds_theme_scope.dart';
 
@@ -62,29 +63,33 @@ class EdsMenuButton<T> extends StatelessWidget {
           PopupMenuItem<T>(
             value: item.value,
             enabled: item.enabled,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                if (item.icon != null) ...[
-                  Icon(
-                    item.icon,
-                    size: tokens.typography.bodyStrongSize,
-                    color: item.enabled
-                        ? scheme.foregroundSecondary
-                        : scheme.foregroundTertiary,
+            child: EdsLayerScope(
+              layer: EdsLayer.overlay,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  if (item.icon != null) ...[
+                    Icon(
+                      item.icon,
+                      size: tokens.typography.bodyStrongSize,
+                      color: item.enabled
+                          ? scheme.foregroundSecondary
+                          : scheme.foregroundTertiary,
+                    ),
+                    SizedBox(width: tokens.spacing.xs),
+                  ],
+                  Text(
+                    item.label,
+                    style: tokens.typography
+                        .edsTextStyle(EdsFontRole.body)
+                        .copyWith(
+                          color: item.enabled
+                              ? scheme.foregroundPrimary
+                              : scheme.foregroundTertiary,
+                        ),
                   ),
-                  SizedBox(width: tokens.spacing.xs),
                 ],
-                Text(
-                  item.label,
-                  style:
-                      tokens.typography.edsTextStyle(EdsFontRole.body).copyWith(
-                            color: item.enabled
-                                ? scheme.foregroundPrimary
-                                : scheme.foregroundTertiary,
-                          ),
-                ),
-              ],
+              ),
             ),
           ),
       ],
