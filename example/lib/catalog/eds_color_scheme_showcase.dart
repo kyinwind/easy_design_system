@@ -384,8 +384,7 @@ class _EdsColorSchemeShowcaseState extends State<EdsColorSchemeShowcase> {
           spacing: tokens.spacing.sm,
           runSpacing: tokens.spacing.sm,
           children: <Widget>[
-            for (final entry in colors)
-              _swatch(context, entry.$1, entry.$2),
+            for (final entry in colors) _swatch(context, entry.$1, entry.$2),
           ],
         ),
       ],
