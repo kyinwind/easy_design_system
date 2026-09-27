@@ -30,12 +30,19 @@ void main() {
       ),
     );
 
-    final icon = tester.widget<EdsSidebarIcon>(find.byType(EdsSidebarIcon));
+    final iconFinder = find.byType(EdsSidebarIcon);
+    final icon = tester.widget<EdsSidebarIcon>(iconFinder);
     final expected = EdsColorScheme.resolve(
       seeds: const EdsColorSeeds(brand: localPrimary),
       brightness: Brightness.light,
     );
-    expect(icon.tint, expected.brandSurfaceStrong);
+    final container = tester.widget<Container>(
+      find.descendant(of: iconFinder, matching: find.byType(Container)).first,
+    );
+    final decoration = container.decoration! as BoxDecoration;
+
+    expect(icon.tone, EdsSidebarIconTone.blue);
+    expect(decoration.color, expected.brandSurfaceStrong);
   });
 
   testWidgets('pill remove semantics can be localized by host app', (
