@@ -2098,7 +2098,55 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 ---
 
+# 61.1 开发里程碑 Checklist
+
+后续以本清单作为 ColorScheme 2.0 的阶段性进度记录。
+
+每完成一个 Batch：
+
+1. 完成代码与测试
+2. 通过该 Batch 的验收条件
+3. 提交 Git Commit
+4. 将对应项从 `[ ]` 改为 `[x]`
+
+总进度：
+
+- [ ] Batch 0 — 建立重构分支与基线
+- [ ] Batch 1 — Theme Data / Seed 基础模型
+- [ ] Batch 2 — Palette / Semantic Scheme
+- [ ] Batch 3 — Theme Resolver / Scope
+- [ ] Batch 4 — Interaction Resolver
+- [ ] Batch 5 — Layer / Context
+- [ ] Batch 6 — Button 全量迁移
+- [ ] Batch 7 — Form / Choice Controls
+- [ ] Batch 8 — Pills / Badge / Navigation
+- [ ] Batch 9 — Surface / Dialog / Menu / States / Easy
+- [ ] Batch 10 — JSON Theme 2.0
+- [ ] Batch 11 — Catalog
+- [ ] Batch 12 — 清理旧颜色体系
+- [ ] Batch 13 — 文档 / README / CHANGELOG
+- [ ] Batch 14 — 最终 CI
+- [ ] Host Migration — RightClickMate
+- [ ] Host Migration — VideoHero
+- [ ] Release — ColorScheme 2.0 Breaking Version
+
+---
+
 # 62. Batch 0 — 建立重构分支与基线
+
+阶段任务：
+
+- [ ] 创建 / 确认 `feature/colorscheme-2` 分支
+- [ ] 确认 main CI 为 green
+- [ ] 记录当前 0.3.1 test baseline
+- [ ] 确认本阶段不修改 Host App
+- [ ] 在开发分支保留设计规范 / API 规范 / 技术方案链接
+- [ ] `flutter pub get` 通过
+- [ ] `dart format --set-exit-if-changed .` 通过
+- [ ] `flutter analyze` 通过
+- [ ] `flutter test` 通过
+
+
 
 建议分支：
 
@@ -2124,6 +2172,20 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 # 63. Batch 1 — Theme Data / Seed 基础模型
 
+阶段任务：
+
+- [ ] 新增 `EdsThemeData`
+- [ ] 新增 `EdsColorSeeds`
+- [ ] 新增 `EdsColorSeedOverrides`
+- [ ] 从 `EdsDesignTokens` 删除 `colors`
+- [ ] 保留并验证所有非颜色 Design Tokens
+- [ ] `EdsPresetTheme` 改为基于 `EdsThemeData`
+- [ ] `EdsTheme` 全局存储改为 `EdsThemeData`
+- [ ] 更新相关 equality / copyWith / tests
+- [ ] 本 Batch commit 完成
+
+
+
 实现：
 
 - EdsThemeData
@@ -2142,6 +2204,20 @@ ColorScheme 稳定后再建立少量核心 Golden：
 ---
 
 # 64. Batch 2 — Palette / Semantic Scheme
+
+阶段任务：
+
+- [ ] 添加 `material_color_utilities` 直接依赖
+- [ ] 实现 `EdsTonalPalette`
+- [ ] 实现 `EdsNeutralFoundation`
+- [ ] 实现新的 `EdsColorScheme`
+- [ ] 实现 Brand / Information / Success / Warning / Danger Tone Mapping
+- [ ] 实现 `EdsSemanticColorOverrides`
+- [ ] 实现 Semantic Override merge
+- [ ] 增加基础 contrast tests
+- [ ] 本 Batch commit 完成
+
+
 
 实现：
 
@@ -2162,6 +2238,19 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 # 65. Batch 3 — Theme Resolver / Scope
 
+阶段任务：
+
+- [ ] 实现 `EdsThemeResolver`
+- [ ] 实现 `EdsResolvedTheme`
+- [ ] 重构 `EdsThemeScope`
+- [ ] Theme / brightness 变化时只 resolve 必要内容
+- [ ] `context.edsScheme` 改为读取 resolved scheme
+- [ ] 增加必要的 theme / seeds context accessor
+- [ ] 验证 global / subtree / brightness override
+- [ ] 本 Batch commit 完成
+
+
+
 实现：
 
 - EdsThemeResolver
@@ -2179,6 +2268,19 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 # 66. Batch 4 — Interaction Resolver
 
+阶段任务：
+
+- [ ] 定义内部 Interaction State 模型
+- [ ] 实现 Neutral interaction mapping
+- [ ] 实现 Chromatic tone movement
+- [ ] 接入 Hover
+- [ ] 接入 Pressed
+- [ ] 用 Button 作为第一验证组件
+- [ ] 增加 Light / Dark interaction tests
+- [ ] 本 Batch commit 完成
+
+
+
 实现：
 
 - State enum / internal state model
@@ -2193,6 +2295,21 @@ ColorScheme 稳定后再建立少量核心 Golden：
 ---
 
 # 67. Batch 5 — Layer / Context
+
+阶段任务：
+
+- [ ] 实现 `EdsLayer`
+- [ ] 实现 `EdsLayerScope`
+- [ ] 实现 `EdsLayerResolver`
+- [ ] Page 建立 Base Context
+- [ ] Card / Group 建立 Raised / Nested Context
+- [ ] Dialog / Menu 建立 Overlay Context
+- [ ] Field 读取当前 Context
+- [ ] 超过最大层级时正确 clamp
+- [ ] 增加 Layer tests
+- [ ] 本 Batch commit 完成
+
+
 
 实现：
 
@@ -2209,6 +2326,24 @@ ColorScheme 稳定后再建立少量核心 Golden：
 ---
 
 # 68. Batch 6 — Button 全量迁移
+
+阶段任务：
+
+- [ ] `EdsButtonTone.accent → brand`
+- [ ] 新增 `information` tone
+- [ ] filled 映射到 Semantic Roles
+- [ ] medium 映射到新 Palette / Recipe
+- [ ] outline 映射到 Semantic Roles
+- [ ] soft 映射到 Semantic Roles
+- [ ] plain 映射到 Semantic Roles
+- [ ] Hover / Pressed 改用 Interaction Resolver
+- [ ] Focus 使用 Focus Recipe
+- [ ] Disabled 改用 Disabled Roles
+- [ ] 删除旧 soft / raw color derivation
+- [ ] 更新 Button tests
+- [ ] 本 Batch commit 完成
+
+
 
 实现：
 
@@ -2228,6 +2363,24 @@ ColorScheme 稳定后再建立少量核心 Golden：
 ---
 
 # 69. Batch 7 — Form / Choice Controls
+
+阶段任务：
+
+- [ ] 迁移 `EdsTextField`
+- [ ] 迁移 `EdsTextFormField`
+- [ ] 迁移 `EdsDropdown`
+- [ ] 迁移 `EdsDropdownFormField`
+- [ ] 迁移 `EdsCheckbox`
+- [ ] 迁移 `EdsRadio`
+- [ ] 迁移 `EdsRadioGroup`
+- [ ] 迁移 `EdsSegmented`
+- [ ] 迁移 `EdsSlider`
+- [ ] Field 正确接入 Layer Context
+- [ ] Focus / Error / Selected / Disabled / Hover 语义统一
+- [ ] 更新相关 tests
+- [ ] 本 Batch commit 完成
+
+
 
 迁移：
 
@@ -2250,6 +2403,20 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 # 70. Batch 8 — Pills / Badge / Navigation
 
+阶段任务：
+
+- [ ] 迁移普通 Pill
+- [ ] 迁移 `EdsChoicePill`
+- [ ] 迁移 `EdsBadge`
+- [ ] 迁移 `EdsSidebar`
+- [ ] 迁移 selectable rows / navigation state
+- [ ] Selected 使用 Brand Roles
+- [ ] 清理相关 raw color API
+- [ ] 更新相关 tests
+- [ ] 本 Batch commit 完成
+
+
+
 迁移：
 
 - Pill
@@ -2265,6 +2432,22 @@ ColorScheme 稳定后再建立少量核心 Golden：
 ---
 
 # 71. Batch 9 — Surface / Dialog / Menu / States / Easy
+
+阶段任务：
+
+- [ ] 迁移 `EdsPage`
+- [ ] 迁移 `EdsCard`
+- [ ] 迁移 `EdsGroup`
+- [ ] 迁移 Dialog
+- [ ] 迁移 Menu
+- [ ] 迁移 States
+- [ ] 迁移 `EdsEasy`
+- [ ] 迁移 `EdsEasyRecipe`
+- [ ] page / raised / overlay surface 语义统一
+- [ ] 更新相关 tests
+- [ ] 本 Batch commit 完成
+
+
 
 迁移：
 
@@ -2286,6 +2469,22 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 # 72. Batch 10 — JSON Theme 2.0
 
+阶段任务：
+
+- [ ] 实现新 colors.seeds schema
+- [ ] 实现 semanticOverrides.light
+- [ ] 实现 semanticOverrides.dark
+- [ ] 保留 spacing / radius / typography / controlSize / adaptiveLayout / heroGradient / stroke / shadow 原 schema
+- [ ] 更新 bundled default theme JSON
+- [ ] 默认 JSON 显式包含 stroke / shadow
+- [ ] 实现 decode
+- [ ] 实现 encode
+- [ ] 实现 round-trip tests
+- [ ] 实现旧 colors schema rejection tests
+- [ ] 本 Batch commit 完成
+
+
+
 实现：
 
 - New JSON Schema
@@ -2302,6 +2501,23 @@ ColorScheme 稳定后再建立少量核心 Golden：
 ---
 
 # 73. Batch 11 — Catalog
+
+阶段任务：
+
+- [ ] 新增 Color Foundation 页面
+- [ ] 新增 Layer 页面
+- [ ] 新增 Component Matrix
+- [ ] 支持 Blue / Orange / Purple 切换
+- [ ] 支持 Light / Dark 切换
+- [ ] 校准 Brand Tone Mapping
+- [ ] 校准 Warning Tone Mapping
+- [ ] 校准 Surface hierarchy
+- [ ] 校准 Border strength
+- [ ] 校准 Hover / Pressed
+- [ ] 校准 Focus visibility
+- [ ] 本 Batch commit 完成
+
+
 
 实现：
 
@@ -2329,6 +2545,25 @@ ColorScheme 稳定后再建立少量核心 Golden：
 ---
 
 # 74. Batch 12 — 清理旧颜色体系
+
+阶段任务：
+
+- [ ] 清理 `primary`
+- [ ] 清理 `accent`
+- [ ] 清理 `primarySoft`
+- [ ] 清理 `accentSoft`
+- [ ] 清理 `successSoft`
+- [ ] 清理 `warningSoft`
+- [ ] 清理 `dangerSoft`
+- [ ] 清理 `textPrimary` 旧语义
+- [ ] 清理 `pageBackground`
+- [ ] 清理 `cardBackground`
+- [ ] 清理 `subtleFill`
+- [ ] 删除 dead helpers
+- [ ] 更新旧注释 / Swift compatibility wording
+- [ ] 本 Batch commit 完成
+
+
 
 全仓搜索并确认不存在：
 
@@ -2363,6 +2598,20 @@ ColorScheme 稳定后再建立少量核心 Golden：
 
 # 75. Batch 13 — 文档 / README / CHANGELOG
 
+阶段任务：
+
+- [ ] 更新 README Theme 初始化
+- [ ] 更新 Seed 示例
+- [ ] 更新 Semantic Override 示例
+- [ ] 更新 JSON 示例
+- [ ] 更新 Button Tone 示例
+- [ ] 编写 Breaking Migration Guide
+- [ ] 更新 CHANGELOG
+- [ ] 核对设计规范 / API 规范 / 技术方案一致性
+- [ ] 本 Batch commit 完成
+
+
+
 更新：
 
 - README
@@ -2381,6 +2630,23 @@ ColorScheme 稳定后再建立少量核心 Golden：
 ---
 
 # 76. Batch 14 — 最终 CI
+
+阶段任务：
+
+- [ ] `flutter pub get`
+- [ ] `dart format --set-exit-if-changed .`
+- [ ] `flutter analyze`
+- [ ] `flutter test`
+- [ ] 检查 public API
+- [ ] 检查 JSON round-trip
+- [ ] 检查 bundled assets
+- [ ] 检查 Blue / Orange / Purple
+- [ ] 检查 Light / Dark
+- [ ] 检查所有 presets
+- [ ] CI 全绿
+- [ ] 本 Batch commit 完成
+
+
 
 严格运行：
 
