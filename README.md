@@ -1066,14 +1066,29 @@ await EdsTheme.instance.applyDefaultThemeFromPackage();
 - **主题** — `EdsDesignSystemPreview`：Token 可视化编辑器，实时预览 + 预设切换 + 应用到 Runtime + JSON 导出
 - **设置** — 设置页骨架演示：Hero 面板 + 标签流 + 功能对比表
 
-```bash
-cd example
-flutter run
-```
+### 运行组件预览
+
+`example/` 下的 Catalog App 相当于本包的 Xcode Preview / 组件展厅。它通过本地路径直接依赖仓库根目录，因此修改 `lib/` 下的组件后，可以立即在 Catalog 中热重载查看效果。
+
+推荐使用 Chrome，并固定端口，方便重复打开同一个预览地址：
 
 ```bash
 cd example
-flutter test   # 5 个 widget 用例
+flutter pub get
+flutter run -d chrome --web-port 7357
+```
+
+启动后访问 <http://localhost:7357/>。运行过程中可在终端使用：
+
+- `r`：Hot Reload，保留当前页面状态并刷新代码改动
+- `R`：Hot Restart，重新启动 Catalog App
+- `q`：停止预览服务
+
+如果 `7357` 端口已被占用，可以移除 `--web-port 7357` 让 Flutter 自动分配端口，或者换用其他端口。新增组件时，建议同时在 `example/lib/catalog/` 中加入对应的展示案例。
+
+```bash
+cd example
+flutter test
 ```
 
 ## 8. 与 Swift 版的 API 对照
