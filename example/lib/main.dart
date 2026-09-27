@@ -53,7 +53,7 @@ class CatalogHomePage extends StatelessWidget {
         body: Column(
           children: <Widget>[
             const CatalogThemeBar(),
-            Divider(height: 1, thickness: 1, color: scheme.borderDefault),
+            Divider(height: 1, thickness: 1, color: scheme.borderDefaultDefault),
             const Expanded(
               child: TabBarView(
                 children: <Widget>[
