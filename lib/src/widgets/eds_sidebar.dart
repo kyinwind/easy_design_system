@@ -4,7 +4,6 @@ import '../adaptive/eds_interaction_profile.dart';
 import '../adaptive/eds_resolved_metrics.dart';
 import '../adaptive/eds_size_class.dart';
 import '../primitives/eds_font.dart';
-import '../theme/eds_theme.dart';
 import '../theme/eds_theme_scope.dart';
 import '../tokens/eds_color_scheme.dart';
 
@@ -137,10 +136,10 @@ enum EdsSidebarIconPresetTint {
   indigo;
 
   Color resolve(BuildContext context) => switch (this) {
-        EdsSidebarIconPresetTint.blue => context.edsTokens.colors.primary,
-        EdsSidebarIconPresetTint.green => context.edsTokens.colors.success,
-        EdsSidebarIconPresetTint.orange => context.edsTokens.colors.warning,
-        EdsSidebarIconPresetTint.red => context.edsTokens.colors.danger,
+        EdsSidebarIconPresetTint.blue => context.edsScheme.brandSurfaceStrong,
+        EdsSidebarIconPresetTint.green => context.edsScheme.successSurfaceStrong,
+        EdsSidebarIconPresetTint.orange => context.edsScheme.warningSurfaceStrong,
+        EdsSidebarIconPresetTint.red => context.edsScheme.dangerSurfaceStrong,
         EdsSidebarIconPresetTint.gray => const Color(0xFF8E8E93),
         EdsSidebarIconPresetTint.pink => const Color(0xFFFF2D55),
         EdsSidebarIconPresetTint.purple => const Color(0xFFAF52DE),
@@ -148,18 +147,6 @@ enum EdsSidebarIconPresetTint {
         EdsSidebarIconPresetTint.indigo => const Color(0xFF5856D6),
       };
 
-  @Deprecated('Use resolve(context) so local EdsThemeScope is respected.')
-  Color get color => switch (this) {
-        EdsSidebarIconPresetTint.blue => EdsTheme.instance.colors.primary,
-        EdsSidebarIconPresetTint.green => EdsTheme.instance.colors.success,
-        EdsSidebarIconPresetTint.orange => EdsTheme.instance.colors.warning,
-        EdsSidebarIconPresetTint.red => EdsTheme.instance.colors.danger,
-        EdsSidebarIconPresetTint.gray => const Color(0xFF8E8E93),
-        EdsSidebarIconPresetTint.pink => const Color(0xFFFF2D55),
-        EdsSidebarIconPresetTint.purple => const Color(0xFFAF52DE),
-        EdsSidebarIconPresetTint.teal => const Color(0xFF30B0C7),
-        EdsSidebarIconPresetTint.indigo => const Color(0xFF5856D6),
-      };
 }
 
 /// A single sidebar menu entry, mirroring Swift's `EDSSidebarItemButton`.
@@ -192,7 +179,7 @@ class EdsSidebarItemButton extends StatelessWidget {
         cursor: SystemMouseCursors.click,
         child: Container(
           decoration: BoxDecoration(
-            color: isSelected ? tokens.colors.accentSoft : Colors.transparent,
+            color: isSelected ? scheme.brandSurface : Colors.transparent,
             borderRadius: BorderRadius.circular(tokens.radius.sm),
           ),
           child: ConstrainedBox(
@@ -219,8 +206,8 @@ class EdsSidebarItemButton extends StatelessWidget {
                           .edsTextStyle(EdsFontRole.body15)
                           .copyWith(
                             color: isSelected
-                                ? tokens.colors.primary
-                                : scheme.textPrimary,
+                                ? scheme.brandForeground
+                                : scheme.foregroundPrimary,
                           ),
                     ),
                   ),
@@ -273,7 +260,7 @@ class EdsSidebarGroupView extends StatelessWidget {
               titleText,
               style: tokens.typography
                   .edsTextStyle(EdsFontRole.captionStrong)
-                  .copyWith(color: scheme.textTertiary),
+                  .copyWith(color: scheme.foregroundTertiary),
             ),
           ),
         Column(
