@@ -5,7 +5,6 @@ import '../adaptive/eds_resolved_metrics.dart';
 import '../adaptive/eds_size_class.dart';
 import '../primitives/eds_font.dart';
 import '../theme/eds_theme_scope.dart';
-import '../tokens/eds_color_scheme.dart';
 import 'eds_text.dart';
 
 /// A settings row with a title, optional subtitle and trailing widget,
