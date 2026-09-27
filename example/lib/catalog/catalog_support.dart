@@ -35,7 +35,7 @@ class CatalogSplitScaffold extends StatelessWidget {
               VerticalDivider(
                 width: 1,
                 thickness: 1,
-                color: context.edsScheme.borderDefaultDefault,
+                color: context.edsScheme.borderDefault,
               ),
               Expanded(child: child),
             ],
@@ -47,7 +47,7 @@ class CatalogSplitScaffold extends StatelessWidget {
             Divider(
                 height: 1,
                 thickness: 1,
-                color: context.edsScheme.borderDefaultDefault),
+                color: context.edsScheme.borderDefault),
             Expanded(child: child),
           ],
         );
