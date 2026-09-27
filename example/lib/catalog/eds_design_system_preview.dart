@@ -12,6 +12,7 @@ class EdsDesignSystemPreview extends StatefulWidget {
 }
 
 class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
+  late EdsThemeData _baseTheme;
   late EdsColorSeeds _draftSeeds;
   late EdsSpacingTokens _draftSpacing;
   late EdsRadiusTokens _draftRadius;
@@ -30,6 +31,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
   }
 
   void _loadTheme(EdsThemeData theme) {
+    _baseTheme = theme;
     final tokens = theme.tokens;
     _draftSeeds = theme.seeds;
     _draftSpacing = tokens.spacing;
@@ -40,9 +42,9 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
   }
 
   EdsThemeData _buildDraftTheme() {
-    return EdsThemeData(
+    return _baseTheme.copyWith(
       seeds: _draftSeeds,
-      tokens: const EdsDesignTokens().copyWith(
+      tokens: _baseTheme.tokens.copyWith(
         spacing: _draftSpacing,
         radius: _draftRadius,
         typography: _draftTypography,
