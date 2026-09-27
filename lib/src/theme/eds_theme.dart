@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import '../color/eds_color_seeds.dart';
+import '../color/eds_semantic_overrides.dart';
 import '../tokens/eds_design_tokens.dart';
 import 'eds_preset_theme.dart';
 import 'eds_theme_data.dart';
@@ -38,6 +39,32 @@ class EdsTheme {
   /// Configures the complete theme through an immutable transform.
   void configure(EdsThemeData Function(EdsThemeData theme) block) {
     themeData = block(themeData);
+  }
+
+  /// Configures the common theme inputs without requiring a transform closure.
+  ///
+  /// Unspecified values inherit from the current theme, unless [preset] is
+  /// supplied, in which case that preset becomes the base configuration.
+  void configureTheme({
+    EdsPresetTheme? preset,
+    EdsColorSeedOverrides? seeds,
+    EdsSemanticOverrides? semanticOverrides,
+    EdsDesignTokens? tokens,
+  }) {
+    var value = preset?.theme ?? themeData;
+    if (seeds != null) {
+      value = value.withSeedOverrides(seeds);
+    }
+    if (semanticOverrides != null) {
+      value = value.copyWith(
+        semanticOverrides:
+            value.semanticOverrides.merge(semanticOverrides),
+      );
+    }
+    if (tokens != null) {
+      value = value.copyWith(tokens: tokens);
+    }
+    themeData = value;
   }
 
   /// Convenience for replacing only selected chromatic seeds.
