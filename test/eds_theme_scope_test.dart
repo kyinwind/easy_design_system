@@ -68,6 +68,31 @@ void main() {
     expect(seen.heroGradient, EdsPresetTheme.orange.theme.tokens.heroGradient);
   });
 
+  testWidgets('scope semantic override patches resolved scheme', (
+    tester,
+  ) async {
+    late Color raised;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: EdsThemeScope(
+          semanticOverrides: const EdsSemanticOverrides(
+            light: EdsSemanticColorOverrides(
+              surfaceRaised: Color(0xFFFDFDFD),
+            ),
+          ),
+          child: Builder(
+            builder: (context) {
+              raised = context.edsScheme.surfaceRaised;
+              return const SizedBox();
+            },
+          ),
+        ),
+      ),
+    );
+
+    expect(raised, const Color(0xFFFDFDFD));
+  });
+
   testWidgets('brightness override beats the platform brightness', (
     tester,
   ) async {
