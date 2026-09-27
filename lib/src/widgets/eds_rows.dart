@@ -42,14 +42,14 @@ class EdsSettingRow extends StatelessWidget {
           title,
           style: tokens.typography
               .edsTextStyle(EdsFontRole.bodyStrong)
-              .copyWith(color: scheme.textPrimary),
+              .copyWith(color: scheme.foregroundPrimary),
         ),
         if (subtitleText != null && subtitleText.isNotEmpty)
           Text(
             subtitleText,
             style: tokens.typography
                 .edsTextStyle(EdsFontRole.caption)
-                .copyWith(color: scheme.textSecondary),
+                .copyWith(color: scheme.foregroundSecondary),
           ),
       ],
     );
@@ -115,13 +115,13 @@ class EdsValueRow extends StatelessWidget {
       title,
       style: tokens.typography
           .edsTextStyle(EdsFontRole.body)
-          .copyWith(color: scheme.textSecondary),
+          .copyWith(color: scheme.foregroundSecondary),
     );
     final valueText = Text(
       value,
       style: tokens.typography
           .edsTextStyle(EdsFontRole.bodyStrong)
-          .copyWith(color: tone ?? scheme.textPrimary),
+          .copyWith(color: tone ?? scheme.foregroundPrimary),
     );
 
     final Widget content;
@@ -247,14 +247,14 @@ class EdsMultilineSubtitleRow extends StatelessWidget {
                     titleText,
                     style: tokens.typography
                         .edsTextStyle(EdsFontRole.body)
-                        .copyWith(color: scheme.textPrimary),
+                        .copyWith(color: scheme.foregroundPrimary),
                   ),
                 if (subtitleText != null)
                   Text(
                     subtitleText,
                     style: tokens.typography
                         .edsTextStyle(EdsFontRole.caption)
-                        .copyWith(color: scheme.textSecondary),
+                        .copyWith(color: scheme.foregroundSecondary),
                   ),
               ],
             ),
