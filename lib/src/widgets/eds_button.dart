@@ -5,6 +5,7 @@ import '../adaptive/eds_interaction_profile.dart';
 import '../adaptive/eds_resolved_metrics.dart';
 import '../adaptive/eds_size_class.dart';
 import '../color/eds_color_seeds.dart';
+import '../color/eds_color_style.dart';
 import '../color/eds_interaction_resolver.dart';
 import '../primitives/eds_font.dart';
 import '../theme/eds_theme_scope.dart';
@@ -175,6 +176,7 @@ class EdsButtonAppearance {
     required EdsColorScheme scheme,
     required EdsColorSeeds seeds,
     required Brightness brightness,
+    EdsColorStyle style = EdsColorStyle.defaultStyle,
     EdsInteractionState state = EdsInteractionState.rest,
     bool enabled = true,
   }) {
@@ -255,6 +257,7 @@ class EdsButtonAppearance {
             seeds: seeds,
             brightness: brightness,
             state: state,
+            style: style,
           );
           borderColor = null;
         case EdsButtonEmphasis.medium:
@@ -263,6 +266,7 @@ class EdsButtonAppearance {
             seeds: seeds,
             brightness: brightness,
             state: state,
+            style: style,
           );
           borderColor = null;
         case EdsButtonEmphasis.soft:
@@ -271,6 +275,7 @@ class EdsButtonAppearance {
             seeds: seeds,
             brightness: brightness,
             state: state,
+            style: style,
           );
           borderColor = null;
         case EdsButtonEmphasis.outline:
@@ -281,6 +286,7 @@ class EdsButtonAppearance {
                   seeds: seeds,
                   brightness: brightness,
                   state: state,
+                  style: style,
                 );
           borderColor = border;
         case EdsButtonEmphasis.plain:
@@ -291,6 +297,7 @@ class EdsButtonAppearance {
                   seeds: seeds,
                   brightness: brightness,
                   state: state,
+                  style: style,
                 );
           borderColor = null;
       }
@@ -732,6 +739,7 @@ class _EdsButtonBodyState extends State<_EdsButtonBody> {
       scheme: scheme,
       seeds: context.edsSeeds,
       brightness: context.edsBrightness,
+      style: context.edsThemeData.colorStyle,
       state: interactionState,
       enabled: hasAction,
     );

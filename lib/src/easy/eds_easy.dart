@@ -67,6 +67,7 @@ class EdsEasy extends StatelessWidget {
       seeds: effectiveTheme.seeds,
       brightness: context.edsBrightness,
       overrides: effectiveTheme.semanticOverrides,
+      style: effectiveTheme.colorStyle,
     );
 
     Widget current = child;

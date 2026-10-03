@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
 
 import 'eds_color_seeds.dart';
-import 'eds_family_tone_map.dart';
+import 'eds_color_style.dart';
 import 'eds_neutral_foundation.dart';
 import 'eds_semantic_colors.dart';
 import 'eds_semantic_overrides.dart';
@@ -14,8 +14,10 @@ abstract final class EdsColorResolver {
     required EdsColorSeeds seeds,
     required Brightness brightness,
     EdsSemanticOverrides overrides = const EdsSemanticOverrides(),
+    EdsColorStyle style = EdsColorStyle.defaultStyle,
   }) {
     final dark = brightness == Brightness.dark;
+    final tones = dark ? style.dark : style.light;
 
     final brand = EdsTonalPalette.fromSeed(seeds.brand);
     final information = EdsTonalPalette.fromSeed(seeds.information);
@@ -66,87 +68,94 @@ abstract final class EdsColorResolver {
       borderStrong: dark
           ? EdsNeutralFoundation.darkBorderStrong
           : EdsNeutralFoundation.lightBorderStrong,
-      borderSelected: _familyBorder(brand, EdsFamilyToneMap.brand, dark),
-      borderFocus: _familyForeground(brand, EdsFamilyToneMap.brand, dark),
+      borderSelected: _familyBorder(brand, tones),
+      borderFocus: _familyForeground(brand, tones),
       borderDisabled: dark
           ? EdsNeutralFoundation.darkBorderDisabled
           : EdsNeutralFoundation.lightBorderDisabled,
-      borderDanger: _familyBorder(danger, EdsFamilyToneMap.danger, dark),
-      brandForeground: _familyForeground(brand, EdsFamilyToneMap.brand, dark),
-      brandSurface: _familySurface(brand, EdsFamilyToneMap.brand, dark),
-      brandSurfaceStrong: _familyStrong(brand, EdsFamilyToneMap.brand, dark),
-      brandBorder: _familyBorder(brand, EdsFamilyToneMap.brand, dark),
-      brandOnStrong: _familyOnStrong(brand, EdsFamilyToneMap.brand, dark),
-      informationForeground:
-          _familyForeground(information, EdsFamilyToneMap.information, dark),
-      informationSurface:
-          _familySurface(information, EdsFamilyToneMap.information, dark),
-      informationSurfaceStrong:
-          _familyStrong(information, EdsFamilyToneMap.information, dark),
-      informationBorder:
-          _familyBorder(information, EdsFamilyToneMap.information, dark),
-      informationOnStrong:
-          _familyOnStrong(information, EdsFamilyToneMap.information, dark),
-      successForeground:
-          _familyForeground(success, EdsFamilyToneMap.success, dark),
-      successSurface: _familySurface(success, EdsFamilyToneMap.success, dark),
-      successSurfaceStrong:
-          _familyStrong(success, EdsFamilyToneMap.success, dark),
-      successBorder: _familyBorder(success, EdsFamilyToneMap.success, dark),
-      successOnStrong: _familyOnStrong(success, EdsFamilyToneMap.success, dark),
-      warningForeground:
-          _familyForeground(warning, EdsFamilyToneMap.warning, dark),
-      warningSurface: _familySurface(warning, EdsFamilyToneMap.warning, dark),
-      warningSurfaceStrong:
-          _familyStrong(warning, EdsFamilyToneMap.warning, dark),
-      warningBorder: _familyBorder(warning, EdsFamilyToneMap.warning, dark),
-      warningOnStrong: _familyOnStrong(warning, EdsFamilyToneMap.warning, dark),
-      dangerForeground:
-          _familyForeground(danger, EdsFamilyToneMap.danger, dark),
-      dangerSurface: _familySurface(danger, EdsFamilyToneMap.danger, dark),
-      dangerSurfaceStrong: _familyStrong(danger, EdsFamilyToneMap.danger, dark),
-      dangerBorder: _familyBorder(danger, EdsFamilyToneMap.danger, dark),
-      dangerOnStrong: _familyOnStrong(danger, EdsFamilyToneMap.danger, dark),
+      borderDanger: _familyBorder(danger, tones),
+      brandForeground: _familyForeground(brand, tones),
+      brandSurface: _familySurface(brand, tones),
+      brandSurfaceStrong: _familyStrong(brand, tones),
+      brandBorder: _familyBorder(brand, tones),
+      brandOnStrong: _familyOnStrong(brand, tones),
+      informationForeground: _familyForeground(information, tones),
+      informationSurface: _familySurface(information, tones),
+      informationSurfaceStrong: _familyStrong(information, tones),
+      informationBorder: _familyBorder(information, tones),
+      informationOnStrong: _familyOnStrong(information, tones),
+      successForeground: _familyForeground(success, tones),
+      successSurface: _familySurface(success, tones),
+      successSurfaceStrong: _familyStrong(success, tones),
+      successBorder: _familyBorder(success, tones),
+      successOnStrong: _familyOnStrong(success, tones),
+      warningForeground: _familyForeground(warning, tones),
+      warningSurface: _familySurface(warning, tones),
+      warningSurfaceStrong: _familyStrong(warning, tones),
+      warningBorder: _familyBorder(warning, tones),
+      warningOnStrong: _familyOnStrong(warning, tones),
+      dangerForeground: _familyForeground(danger, tones),
+      dangerSurface: _familySurface(danger, tones),
+      dangerSurfaceStrong: _familyStrong(danger, tones),
+      dangerBorder: _familyBorder(danger, tones),
+      dangerOnStrong: _familyOnStrong(danger, tones),
     );
 
+    final styled =
+        _applyContentColors(generated, style.contentColors, brightness);
     final patch = dark ? overrides.dark : overrides.light;
-    return patch == null ? generated : _apply(generated, patch);
+    return patch == null ? styled : _apply(styled, patch);
   }
 
   static Color _familyForeground(
     EdsTonalPalette palette,
-    EdsFamilyToneMap map,
-    bool dark,
+    EdsToneSet tones,
   ) =>
-      palette.tone(dark ? map.darkForeground : map.lightForeground);
+      palette.tone(tones.foreground);
 
   static Color _familySurface(
     EdsTonalPalette palette,
-    EdsFamilyToneMap map,
-    bool dark,
+    EdsToneSet tones,
   ) =>
-      palette.tone(dark ? map.darkSurface : map.lightSurface);
+      palette.tone(tones.surface);
 
   static Color _familyStrong(
     EdsTonalPalette palette,
-    EdsFamilyToneMap map,
-    bool dark,
+    EdsToneSet tones,
   ) =>
-      palette.tone(dark ? map.darkStrong : map.lightStrong);
+      palette.tone(tones.strong);
 
   static Color _familyBorder(
     EdsTonalPalette palette,
-    EdsFamilyToneMap map,
-    bool dark,
+    EdsToneSet tones,
   ) =>
-      palette.tone(dark ? map.darkBorder : map.lightBorder);
+      palette.tone(tones.border);
 
   static Color _familyOnStrong(
     EdsTonalPalette palette,
-    EdsFamilyToneMap map,
-    bool dark,
+    EdsToneSet tones,
   ) =>
-      palette.tone(dark ? map.darkOnStrong : map.lightOnStrong);
+      palette.tone(tones.onStrong);
+
+  static EdsSemanticColors _applyContentColors(
+    EdsSemanticColors base,
+    EdsContentColorOverrides colors,
+    Brightness brightness,
+  ) {
+    Color? value(EdsContentColorRole role) => colors.colorFor(role, brightness);
+    return base.copyWith(
+      foregroundPrimary: value(EdsContentColorRole.foregroundPrimary),
+      foregroundSecondary: value(EdsContentColorRole.foregroundSecondary),
+      foregroundTertiary: value(EdsContentColorRole.foregroundTertiary),
+      foregroundDisabled: value(EdsContentColorRole.foregroundDisabled),
+      foregroundInverse: value(EdsContentColorRole.foregroundInverse),
+      brandOnStrong: value(EdsContentColorRole.brandOnStrong),
+      informationOnStrong: value(EdsContentColorRole.informationOnStrong),
+      successOnStrong: value(EdsContentColorRole.successOnStrong),
+      warningOnStrong: value(EdsContentColorRole.warningOnStrong),
+      dangerOnStrong: value(EdsContentColorRole.dangerOnStrong),
+    );
+  }
 
   static EdsSemanticColors _apply(
     EdsSemanticColors base,

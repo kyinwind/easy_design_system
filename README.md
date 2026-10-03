@@ -25,6 +25,23 @@ Column(
 
 调用方只说明这是一张 Card，easy_design_system 负责将它映射为卡片的内边距、语义背景、圆角、边框和阴影。
 
+### ColorScheme 2.0：色系与风格分离
+
+颜色也使用语义模型。Seed 回答“是什么色系”，Color Style 回答“这套色系呈现得多浓烈或多淡雅”，组件只读取最终的 Semantic Color Role：
+
+```mermaid
+flowchart LR
+    Seeds["五类 Seed<br/>Brand · Information · Success · Warning · Danger"] --> HCT["Material Color Utilities<br/>HCT Tonal Palette"]
+    HCT --> Tone["Light / Dark Tone Mapping"]
+    Style["Color Style JSON<br/>默认 · 浓烈 · 淡雅 · 自定义"] -->|"Tone 与交互态"| Tone
+    Tone --> Semantic["Semantic Colors"]
+    Style -->|"可选 contentColors"| Semantic
+    Override["Theme semanticOverrides"] -->|"最高优先级"| Semantic
+    Semantic --> Components["按钮 · 徽标 · 表面 · 边框 · 文字"]
+```
+
+同一个橙色 Seed 可以选择不同风格，不需要修改组件代码。风格 JSON 定义 Tone 映射、hover/pressed 偏移以及可选的文字与图标前景色；未配置的前景角色继续由 HCT 色调盘自动生成。内置风格同时验证浅色、深色和 WCAG AA 正文对比度。
+
 ### 易用 API 与精细 API 并行
 
 easy_design_system 提供两层 API：
@@ -499,6 +516,28 @@ EdsTheme.instance.applyPreset(EdsPresetTheme.orange);
 当前提供 `defaultTheme`、`blue`、`orange` 和 `purple`，其中 `blue` 是 `defaultTheme` 的别名。
 
 > **ColorScheme 2.0 使用 Seed 驱动。** 最常见的品牌定制只需要设置 `EdsColorSeedOverrides(brand: ...)`；Focus、Selected、Primary Action、Active Navigation 会自动跟随 Brand。Information / Success / Warning / Danger 是独立语义家族，不会因为 Brand 改变而被一起染色。
+
+同一组 Seed 可以独立选择平衡、浓烈或淡雅风格：
+
+```dart
+EdsTheme.instance.configureTheme(
+  seeds: const EdsColorSeedOverrides(brand: Color(0xFFFF6B00)),
+  colorStyle: EdsColorStyle.vivid,
+);
+
+// EdsColorStyle.defaultStyle：平衡，默认
+// EdsColorStyle.vivid：浓烈
+// EdsColorStyle.elegant：淡雅
+```
+
+调用方也可以从随 App 发布的 JSON Asset 加载自定义风格：
+
+```dart
+final style = await EdsColorStyle.loadAsset('assets/my_color_style.json');
+EdsTheme.instance.applyColorStyle(style);
+```
+
+Style JSON 支持 `light` / `dark` Tone、`strongInteraction` / `softInteraction` / `mediumInteraction`，以及可选 `contentColors.light/dark`。允许覆盖 `foregroundPrimary/Secondary/Tertiary/Disabled/Inverse` 和五个颜色族的 `*OnStrong`。解析优先级为：Material 自动结果 → Style `contentColors` → Theme `semanticOverrides`。
 
 ### 运行时换主题
 

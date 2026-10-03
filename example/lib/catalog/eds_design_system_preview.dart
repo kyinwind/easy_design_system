@@ -44,6 +44,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
   late EdsTypographyTokens _draftTypography;
   late EdsControlSizeTokens _draftControlSize;
   late EdsHeroGradient _draftHeroGradient;
+  EdsThemeData? _observedTheme;
 
   EdsPresetTheme? _selectedPreset;
   String _previewSelection = 'home';
@@ -53,6 +54,16 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
   void initState() {
     super.initState();
     _loadTheme(EdsTheme.instance.themeData);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final externalTheme = context.edsThemeData;
+    if (_observedTheme != externalTheme) {
+      _observedTheme = externalTheme;
+      _loadTheme(externalTheme);
+    }
   }
 
   void _loadTheme(EdsThemeData theme) {
@@ -77,6 +88,13 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
       heroGradient: _draftHeroGradient,
     );
   }
+
+  EdsColorScheme _draftScheme(BuildContext context) => EdsColorScheme.resolve(
+        seeds: _draftSeeds,
+        brightness: context.edsBrightness,
+        overrides: _baseTheme.semanticOverrides,
+        style: _baseTheme.colorStyle,
+      );
 
   void _resetToTheme() {
     setState(() {
@@ -268,7 +286,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
 
   Widget _previewPanel(BuildContext context) {
     final tokens = context.edsTokens;
-    final scheme = context.edsScheme;
+    final scheme = _draftScheme(context);
     return ColoredBox(
       color: scheme.surfacePage,
       child: SingleChildScrollView(
@@ -284,10 +302,15 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 8,
                 children: <Widget>[
-                  _colorSwatchRow(context, 'Brand', _draftSeeds.brand),
-                  _colorSwatchRow(context, 'Success', _draftSeeds.success),
-                  _colorSwatchRow(context, 'Warning', _draftSeeds.warning),
-                  _colorSwatchRow(context, 'Danger', _draftSeeds.danger),
+                  _colorSwatchRow(context, 'Brand', scheme.brandSurfaceStrong),
+                  _colorSwatchRow(
+                      context, 'Information', scheme.informationSurfaceStrong),
+                  _colorSwatchRow(
+                      context, 'Success', scheme.successSurfaceStrong),
+                  _colorSwatchRow(
+                      context, 'Warning', scheme.warningSurfaceStrong),
+                  _colorSwatchRow(
+                      context, 'Danger', scheme.dangerSurfaceStrong),
                 ],
               ),
             ),
@@ -304,29 +327,27 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                       _previewButton(
                         context,
                         '主要',
-                        background: _draftSeeds.brand,
-                        foreground: Colors.white,
+                        background: scheme.brandSurfaceStrong,
+                        foreground: scheme.brandOnStrong,
                       ),
                       _previewButton(
                         context,
                         '次要',
                         background: Colors.transparent,
-                        foreground: _draftSeeds.brand,
-                        border: _draftSeeds.brand,
+                        foreground: scheme.brandForeground,
+                        border: scheme.brandBorder,
                       ),
                       _previewButton(
                         context,
                         '柔和',
-                        background: _draftSeeds.brand.withValues(
-                          alpha: 0.12,
-                        ),
-                        foreground: _draftSeeds.brand,
+                        background: scheme.brandSurface,
+                        foreground: scheme.brandForeground,
                       ),
                       _previewButton(
                         context,
                         '危险',
-                        background: _draftSeeds.danger,
-                        foreground: Colors.white,
+                        background: scheme.dangerSurfaceStrong,
+                        foreground: scheme.dangerOnStrong,
                       ),
                     ],
                   ),
@@ -334,10 +355,14 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                     spacing: _draftSpacing.md,
                     runSpacing: _draftSpacing.md,
                     children: <Widget>[
-                      _previewBadge('Pro', _draftSeeds.brand),
-                      _previewBadge('成功', _draftSeeds.success),
-                      _previewBadge('警告', _draftSeeds.warning),
-                      _previewBadge('危险', _draftSeeds.danger),
+                      _previewBadge(
+                          'Pro', scheme.brandForeground, scheme.brandSurface),
+                      _previewBadge('成功', scheme.successForeground,
+                          scheme.successSurface),
+                      _previewBadge('警告', scheme.warningForeground,
+                          scheme.warningSurface),
+                      _previewBadge(
+                          '危险', scheme.dangerForeground, scheme.dangerSurface),
                     ],
                   ),
                 ],
@@ -355,7 +380,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                     style: TextStyle(
                       fontSize: _draftTypography.heroSize,
                       fontWeight: _fontWeight(_draftTypography.heroWeight),
-                      color: _draftSeeds.brand,
+                      color: scheme.brandForeground,
                     ),
                   ),
                   Text(
@@ -365,7 +390,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                       fontWeight: _fontWeight(
                         _draftTypography.sectionTitleWeight,
                       ),
-                      color: _draftSeeds.brand,
+                      color: scheme.brandForeground,
                     ),
                   ),
                   Text(
@@ -373,7 +398,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                     style: TextStyle(
                       fontSize: _draftTypography.bodySize,
                       fontWeight: _fontWeight(_draftTypography.bodyWeight),
-                      color: scheme.brandForeground,
+                      color: scheme.foregroundPrimary,
                     ),
                   ),
                   Text(
@@ -426,7 +451,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
 
   Widget _previewSection(BuildContext context, String title, Widget content) {
     final tokens = context.edsTokens;
-    final scheme = context.edsScheme;
+    final scheme = _draftScheme(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: _draftSpacing.sm,
@@ -444,7 +469,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
 
   Widget _colorSwatchRow(BuildContext context, String label, Color color) {
     final tokens = context.edsTokens;
-    final scheme = context.edsScheme;
+    final scheme = _draftScheme(context);
     return Row(
       children: <Widget>[
         Container(
@@ -497,14 +522,14 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
     );
   }
 
-  Widget _previewBadge(String label, Color color) {
+  Widget _previewBadge(String label, Color foreground, Color surface) {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: _draftSpacing.xs,
         vertical: _draftSpacing.xxs,
       ),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
+        color: surface,
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(
@@ -512,14 +537,14 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
         style: TextStyle(
           fontSize: _draftTypography.captionStrongSize,
           fontWeight: FontWeight.w600,
-          color: color,
+          color: foreground,
         ),
       ),
     );
   }
 
   Widget _sidebarPreview(BuildContext context) {
-    final scheme = context.edsScheme;
+    final scheme = _draftScheme(context);
     return Container(
       width: 160,
       padding: EdgeInsets.all(_draftSpacing.sm),
@@ -544,7 +569,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
     String label,
     String id,
   ) {
-    final scheme = context.edsScheme;
+    final scheme = _draftScheme(context);
     final isSelected = _previewSelection == id;
     return GestureDetector(
       onTap: () => setState(() {
@@ -556,9 +581,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
           vertical: _draftSpacing.xs,
         ),
         decoration: BoxDecoration(
-          color: isSelected
-              ? _draftSeeds.brand.withValues(alpha: 0.12)
-              : Colors.transparent,
+          color: isSelected ? scheme.brandSurface : Colors.transparent,
           borderRadius: BorderRadius.circular(_draftRadius.sm),
         ),
         child: Row(
@@ -568,8 +591,9 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
               child: Icon(
                 icon,
                 size: 16,
-                color:
-                    isSelected ? _draftSeeds.brand : scheme.foregroundSecondary,
+                color: isSelected
+                    ? scheme.brandForeground
+                    : scheme.foregroundSecondary,
               ),
             ),
             SizedBox(width: _draftSpacing.sm),
@@ -577,7 +601,9 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
               label,
               style: TextStyle(
                 fontSize: _draftTypography.body15Size,
-                color: isSelected ? _draftSeeds.brand : scheme.brandForeground,
+                color: isSelected
+                    ? scheme.brandForeground
+                    : scheme.foregroundPrimary,
               ),
             ),
           ],
@@ -626,7 +652,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
   }
 
   Widget _cardPreview(BuildContext context) {
-    final scheme = context.edsScheme;
+    final scheme = _draftScheme(context);
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(_draftSpacing.lg),
@@ -643,7 +669,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
             style: TextStyle(
               fontSize: _draftTypography.sectionTitleSize,
               fontWeight: _fontWeight(_draftTypography.sectionTitleWeight),
-              color: scheme.brandForeground,
+              color: scheme.foregroundPrimary,
             ),
           ),
           Text(
@@ -659,7 +685,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
   }
 
   Widget _settingRowPreview(BuildContext context) {
-    final scheme = context.edsScheme;
+    final scheme = _draftScheme(context);
     return Container(
       padding: EdgeInsets.symmetric(vertical: _draftSpacing.sm),
       constraints: BoxConstraints(minHeight: _draftControlSize.rowMinHeight),
@@ -676,7 +702,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                   style: TextStyle(
                     fontSize: _draftTypography.bodyStrongSize,
                     fontWeight: _fontWeight(_draftTypography.bodyStrongWeight),
-                    color: scheme.brandForeground,
+                    color: scheme.foregroundPrimary,
                   ),
                 ),
                 Text(
@@ -694,7 +720,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
             style: TextStyle(
               fontSize: _draftTypography.bodyStrongSize,
               fontWeight: _fontWeight(_draftTypography.bodyStrongWeight),
-              color: _draftSeeds.brand,
+              color: scheme.brandForeground,
             ),
           ),
         ],
@@ -708,7 +734,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
     double radius,
   ) {
     final tokens = context.edsTokens;
-    final scheme = context.edsScheme;
+    final scheme = _draftScheme(context);
     return Column(
       spacing: 4,
       children: <Widget>[
@@ -716,7 +742,7 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
           width: 48,
           height: 48,
           decoration: BoxDecoration(
-            color: _draftSeeds.brand,
+            color: scheme.brandSurfaceStrong,
             borderRadius: BorderRadius.circular(radius),
           ),
         ),
@@ -762,6 +788,14 @@ class _EdsDesignSystemPreviewState extends State<EdsDesignSystemPreview> {
                 _draftSeeds.brand,
                 (color) => setState(() {
                   _draftSeeds = _draftSeeds.copyWith(brand: color);
+                }),
+              ),
+              _colorRow(
+                context,
+                'Information',
+                _draftSeeds.information,
+                (color) => setState(() {
+                  _draftSeeds = _draftSeeds.copyWith(information: color);
                 }),
               ),
               _colorRow(

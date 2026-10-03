@@ -1,5 +1,6 @@
 {
   "colors": {
+    "style": "default",
     "seeds": {
       "brand": "#3185FF",
       "information": "#3185FF",

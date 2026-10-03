@@ -13,6 +13,7 @@ void main() {
           surfaceRaised: Color(0xFF222226),
         ),
       ),
+      colorStyle: EdsColorStyle.vivid,
       tokens: EdsDesignTokens(
         spacing: EdsSpacingTokens(lg: 22),
         radius: EdsRadiusTokens(md: 14),
@@ -23,6 +24,8 @@ void main() {
     final decoded = decodeThemeJson(encoded);
 
     expect(decoded.seeds.brand, theme.seeds.brand);
+    expect(decoded.colorStyle, EdsColorStyle.vivid);
+    expect(encoded, contains('"style": "vivid"'));
     expect(
         decoded.semanticOverrides.dark?.surfaceRaised, const Color(0xFF222226));
     expect(decoded.tokens.spacing.lg, 22);

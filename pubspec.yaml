@@ -23,3 +23,6 @@ flutter:
   uses-material-design: true
   assets:
     - lib/assets/eds_default_theme.json
+    - lib/assets/eds_default_color_style.json
+    - lib/assets/eds_vivid_color_style.json
+    - lib/assets/eds_elegant_color_style.json

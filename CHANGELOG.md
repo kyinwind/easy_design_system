@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+### Theme / Color Style
+
+- 新增 JSON 驱动的 `EdsColorStyle`，同一组 Seed 可选择默认、浓烈、淡雅或调用方自定义风格。
+- Color Style 分别配置 Light / Dark Tone、strong / soft / medium 交互态以及可选 `contentColors` 前景色。
+- `EdsThemeData`、Theme Scope、Color Resolver、Interaction Resolver、Button 和 Theme JSON 全链路接入 Color Style；`semanticOverrides` 保持最高优先级。
+- 随包新增 `eds_default_color_style.json`、`eds_vivid_color_style.json`、`eds_elegant_color_style.json`，并校验同步常量与 JSON 不漂移。
+- Catalog 顶部增加 Seed × Color Style 独立选择，全部页面实时刷新；主题编辑器改用解析后的语义色。
+- 新增 Style JSON 严格校验、Theme JSON round-trip、风格差异、前景色优先级和 WCAG AA 对比度测试。
+
 ## 0.4.0 — 2026-09-27
 
 ColorScheme 2.0 breaking release。

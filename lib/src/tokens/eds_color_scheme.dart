@@ -3,6 +3,7 @@ import 'package:flutter/painting.dart';
 
 import '../color/eds_color_resolver.dart';
 import '../color/eds_color_seeds.dart';
+import '../color/eds_color_style.dart';
 import '../color/eds_semantic_colors.dart';
 import '../color/eds_semantic_overrides.dart';
 
@@ -16,12 +17,14 @@ class EdsColorScheme {
     required EdsColorSeeds seeds,
     required Brightness brightness,
     EdsSemanticOverrides overrides = const EdsSemanticOverrides(),
+    EdsColorStyle style = EdsColorStyle.defaultStyle,
   }) {
     return EdsColorScheme._(
       EdsColorResolver.resolve(
         seeds: seeds,
         brightness: brightness,
         overrides: overrides,
+        style: style,
       ),
     );
   }

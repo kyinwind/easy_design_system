@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../color/eds_color_seeds.dart';
+import '../color/eds_color_style.dart';
 import '../color/eds_semantic_overrides.dart';
 import '../tokens/eds_design_tokens.dart';
 import 'eds_theme_data.dart';
@@ -39,10 +40,18 @@ EdsThemeData decodeThemeJson(String json) {
   final semanticOverrides = EdsSemanticOverrides.fromJson(
     _readGroup(colors, 'semanticOverrides'),
   );
+  final styleValue = colors?['style'];
+  if (styleValue != null && styleValue is! String) {
+    throw const FormatException('Expected a string for "colors.style".');
+  }
+  final colorStyle = styleValue == null
+      ? EdsColorStyle.defaultStyle
+      : EdsColorStyle.builtIn(styleValue as String);
 
   return EdsThemeData(
     seeds: seeds,
     semanticOverrides: semanticOverrides,
+    colorStyle: colorStyle,
     tokens: EdsDesignTokens.fromJson(decoded),
   );
 }
@@ -52,6 +61,7 @@ String encodeThemeJson(EdsThemeData theme) {
   final root = <String, Object?>{
     'colors': <String, Object?>{
       'seeds': theme.seeds.toJson(),
+      'style': theme.colorStyle.id,
       if (theme.semanticOverrides.toJson().isNotEmpty)
         'semanticOverrides': theme.semanticOverrides.toJson(),
     },

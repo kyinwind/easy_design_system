@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import '../color/eds_color_seeds.dart';
+import '../color/eds_color_style.dart';
 import '../color/eds_semantic_overrides.dart';
 import '../tokens/eds_design_tokens.dart';
 import 'eds_preset_theme.dart';
@@ -49,6 +50,7 @@ class EdsTheme {
     EdsPresetTheme? preset,
     EdsColorSeedOverrides? seeds,
     EdsSemanticOverrides? semanticOverrides,
+    EdsColorStyle? colorStyle,
     EdsDesignTokens? tokens,
   }) {
     var value = preset?.theme ?? themeData;
@@ -60,6 +62,9 @@ class EdsTheme {
         semanticOverrides: value.semanticOverrides.merge(semanticOverrides),
       );
     }
+    if (colorStyle != null) {
+      value = value.copyWith(colorStyle: colorStyle);
+    }
     if (tokens != null) {
       value = value.copyWith(tokens: tokens);
     }
@@ -69,6 +74,11 @@ class EdsTheme {
   /// Convenience for replacing only selected chromatic seeds.
   void configureSeeds(EdsColorSeedOverrides overrides) {
     themeData = themeData.withSeedOverrides(overrides);
+  }
+
+  /// Replaces the visual color personality while preserving seeds and tokens.
+  void applyColorStyle(EdsColorStyle style) {
+    themeData = themeData.copyWith(colorStyle: style);
   }
 
   void configureJsonString(String json) {
@@ -118,6 +128,7 @@ class EdsTheme {
   }
 
   EdsColorSeeds get seeds => themeData.seeds;
+  EdsColorStyle get colorStyle => themeData.colorStyle;
   EdsDesignTokens get tokens => themeData.tokens;
 
   EdsSpacingTokens get spacing => tokens.spacing;

@@ -1,0 +1,10 @@
+{
+  "id": "default",
+  "name": "EDS Default",
+  "light": { "foreground": 35, "surface": 95, "strong": 49, "border": 55, "onStrong": 100 },
+  "dark": { "foreground": 85, "surface": 20, "strong": 70, "border": 60, "onStrong": 10 },
+  "strongInteraction": { "lightBase": 49, "darkBase": 70, "lightHoveredDelta": -5, "darkHoveredDelta": 5, "lightPressedDelta": -10, "darkPressedDelta": 10 },
+  "softInteraction": { "lightBase": 95, "darkBase": 20, "lightHoveredDelta": -3, "darkHoveredDelta": 4, "lightPressedDelta": -6, "darkPressedDelta": 8 },
+  "mediumInteraction": { "lightBase": 85, "darkBase": 35, "lightHoveredDelta": -3, "darkHoveredDelta": 2, "lightPressedDelta": -5, "darkPressedDelta": 3 },
+  "contentColors": { "light": {}, "dark": {} }
+}

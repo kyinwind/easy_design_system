@@ -1,0 +1,10 @@
+{
+  "id": "vivid",
+  "name": "EDS Vivid",
+  "light": { "foreground": 30, "surface": 92, "strong": 45, "border": 50, "onStrong": 100 },
+  "dark": { "foreground": 90, "surface": 16, "strong": 60, "border": 65, "onStrong": 5 },
+  "strongInteraction": { "lightBase": 45, "darkBase": 60, "lightHoveredDelta": -6, "darkHoveredDelta": 6, "lightPressedDelta": -12, "darkPressedDelta": 12 },
+  "softInteraction": { "lightBase": 92, "darkBase": 16, "lightHoveredDelta": -4, "darkHoveredDelta": 5, "lightPressedDelta": -8, "darkPressedDelta": 10 },
+  "mediumInteraction": { "lightBase": 80, "darkBase": 30, "lightHoveredDelta": -4, "darkHoveredDelta": 3, "lightPressedDelta": -7, "darkPressedDelta": 5 },
+  "contentColors": { "light": { "foregroundPrimary": "#0B0B0D", "foregroundSecondary": "#515158" }, "dark": { "foregroundPrimary": "#FAFAFB", "foregroundSecondary": "#C4C4CA" } }
+}

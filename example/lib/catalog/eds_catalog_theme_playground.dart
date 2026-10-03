@@ -16,12 +16,19 @@ class CatalogThemeEntry {
   final bool isBuiltIn;
   final EdsPresetTheme preset;
 
-  List<Color> get swatchColors => <Color>[
-        preset.theme.seeds.brand,
-        preset.theme.seeds.success,
-        preset.theme.seeds.warning,
-        preset.theme.seeds.danger,
-      ];
+  List<Color> swatchColors(EdsColorStyle style, Brightness brightness) {
+    final scheme = EdsColorScheme.resolve(
+      seeds: preset.theme.seeds,
+      brightness: brightness,
+      style: style,
+    );
+    return <Color>[
+      scheme.brandSurfaceStrong,
+      scheme.successSurfaceStrong,
+      scheme.warningSurfaceStrong,
+      scheme.dangerSurfaceStrong,
+    ];
+  }
 }
 
 abstract final class CatalogThemeCatalog {
@@ -134,16 +141,26 @@ class CatalogThemeBar extends StatefulWidget {
 
 class _CatalogThemeBarState extends State<CatalogThemeBar> {
   late String _selectedId = widget.initialThemeId;
+  String _selectedStyleId = EdsColorStyle.defaultStyle.id;
 
   void _select(String id) {
     final preset = CatalogThemeCatalog.presetById(id);
     if (preset == null) {
       return;
     }
-    EdsTheme.instance.applyPreset(preset);
+    final style = EdsColorStyle.builtIn(_selectedStyleId);
+    EdsTheme.instance.themeData = preset.theme.copyWith(colorStyle: style);
     setState(() {
       _selectedId = id;
     });
+  }
+
+  void _selectStyle(String id) {
+    final style = EdsColorStyle.builtIn(id);
+    final preset = CatalogThemeCatalog.presetById(_selectedId);
+    if (preset == null) return;
+    EdsTheme.instance.themeData = preset.theme.copyWith(colorStyle: style);
+    setState(() => _selectedStyleId = id);
   }
 
   @override
@@ -151,13 +168,17 @@ class _CatalogThemeBarState extends State<CatalogThemeBar> {
     final tokens = context.edsTokens;
     final scheme = context.edsScheme;
     final entry = CatalogThemeCatalog.entryById(_selectedId);
+    final style = EdsColorStyle.builtIn(_selectedStyleId);
     return Container(
       color: scheme.surfaceRaised,
       padding: EdgeInsets.symmetric(
         horizontal: tokens.spacing.md,
         vertical: tokens.spacing.sm,
       ),
-      child: Row(
+      child: Wrap(
+        spacing: tokens.spacing.sm,
+        runSpacing: tokens.spacing.xs,
+        crossAxisAlignment: WrapCrossAlignment.center,
         children: <Widget>[
           Text(
             '预览主题',
@@ -165,7 +186,6 @@ class _CatalogThemeBarState extends State<CatalogThemeBar> {
               color: scheme.foregroundSecondary,
             ),
           ),
-          SizedBox(width: tokens.spacing.sm),
           PopupMenuButton<String>(
             key: const Key('catalog.theme.picker'),
             initialValue: _selectedId,
@@ -195,11 +215,43 @@ class _CatalogThemeBarState extends State<CatalogThemeBar> {
               ],
             ),
           ),
-          SizedBox(width: tokens.spacing.sm),
+          Text(
+            '色彩风格',
+            style: tokens.typography.captionStrong.copyWith(
+              color: scheme.foregroundSecondary,
+            ),
+          ),
+          PopupMenuButton<String>(
+            key: const Key('catalog.color-style.picker'),
+            initialValue: _selectedStyleId,
+            onSelected: _selectStyle,
+            itemBuilder: (context) => <PopupMenuEntry<String>>[
+              for (final item in EdsColorStyle.allBuiltIn)
+                PopupMenuItem<String>(
+                  value: item.id,
+                  child: Text(_styleName(item)),
+                ),
+            ],
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  _styleName(style),
+                  style: tokens.typography.bodyStrong.copyWith(
+                    color: scheme.foregroundPrimary,
+                  ),
+                ),
+                Icon(Icons.arrow_drop_down,
+                    size: 18, color: scheme.foregroundSecondary),
+              ],
+            ),
+          ),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              for (final color in entry?.swatchColors ?? const <Color>[])
+              for (final color
+                  in entry?.swatchColors(style, context.edsBrightness) ??
+                      const <Color>[])
                 Padding(
                   padding: EdgeInsets.only(right: tokens.spacing.xxs),
                   child: Container(
@@ -219,6 +271,12 @@ class _CatalogThemeBarState extends State<CatalogThemeBar> {
       ),
     );
   }
+
+  String _styleName(EdsColorStyle style) => switch (style.id) {
+        'vivid' => '浓烈',
+        'elegant' => '淡雅',
+        _ => '默认',
+      };
 
   PopupMenuItem<String> _menuItem(
     BuildContext context,

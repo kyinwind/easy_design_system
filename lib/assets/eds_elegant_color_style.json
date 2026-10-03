@@ -1,0 +1,10 @@
+{
+  "id": "elegant",
+  "name": "EDS Elegant",
+  "light": { "foreground": 42, "surface": 97, "strong": 60, "border": 65, "onStrong": 5 },
+  "dark": { "foreground": 78, "surface": 24, "strong": 80, "border": 55, "onStrong": 10 },
+  "strongInteraction": { "lightBase": 60, "darkBase": 80, "lightHoveredDelta": -4, "darkHoveredDelta": 4, "lightPressedDelta": -8, "darkPressedDelta": 8 },
+  "softInteraction": { "lightBase": 97, "darkBase": 24, "lightHoveredDelta": -2, "darkHoveredDelta": 3, "lightPressedDelta": -5, "darkPressedDelta": 6 },
+  "mediumInteraction": { "lightBase": 90, "darkBase": 40, "lightHoveredDelta": -2, "darkHoveredDelta": 2, "lightPressedDelta": -4, "darkPressedDelta": 3 },
+  "contentColors": { "light": { "foregroundPrimary": "#242124", "foregroundSecondary": "#6E676C" }, "dark": { "foregroundPrimary": "#EEEAE7", "foregroundSecondary": "#B8B0AB" } }
+}

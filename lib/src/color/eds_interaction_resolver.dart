@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
 
 import 'eds_color_seeds.dart';
-import 'eds_family_tone_map.dart';
+import 'eds_color_style.dart';
 import 'eds_neutral_foundation.dart';
 import 'eds_tonal_palette.dart';
 
@@ -31,15 +31,18 @@ abstract final class EdsInteractionResolver {
     required EdsColorSeeds seeds,
     required Brightness brightness,
     required EdsInteractionState state,
+    EdsColorStyle style = EdsColorStyle.defaultStyle,
   }) {
     final palette = EdsTonalPalette.fromSeed(_seed(family, seeds));
-    final map = _map(family);
     final dark = brightness == Brightness.dark;
-    final base = dark ? map.darkStrong : map.lightStrong;
+    final interaction = style.strongInteraction;
+    final base = dark ? interaction.darkBase : interaction.lightBase;
     final delta = switch (state) {
       EdsInteractionState.rest => 0,
-      EdsInteractionState.hovered => dark ? 5 : -5,
-      EdsInteractionState.pressed => dark ? 10 : -10,
+      EdsInteractionState.hovered =>
+        dark ? interaction.darkHoveredDelta : interaction.lightHoveredDelta,
+      EdsInteractionState.pressed =>
+        dark ? interaction.darkPressedDelta : interaction.lightPressedDelta,
     };
     return palette.tone((base + delta).clamp(0, 100).toInt());
   }
@@ -49,15 +52,18 @@ abstract final class EdsInteractionResolver {
     required EdsColorSeeds seeds,
     required Brightness brightness,
     required EdsInteractionState state,
+    EdsColorStyle style = EdsColorStyle.defaultStyle,
   }) {
     final palette = EdsTonalPalette.fromSeed(_seed(family, seeds));
-    final map = _map(family);
     final dark = brightness == Brightness.dark;
-    final base = dark ? map.darkSurface : map.lightSurface;
+    final interaction = style.softInteraction;
+    final base = dark ? interaction.darkBase : interaction.lightBase;
     final delta = switch (state) {
       EdsInteractionState.rest => 0,
-      EdsInteractionState.hovered => dark ? 4 : -3,
-      EdsInteractionState.pressed => dark ? 8 : -6,
+      EdsInteractionState.hovered =>
+        dark ? interaction.darkHoveredDelta : interaction.lightHoveredDelta,
+      EdsInteractionState.pressed =>
+        dark ? interaction.darkPressedDelta : interaction.lightPressedDelta,
     };
     return palette.tone((base + delta).clamp(0, 100));
   }
@@ -67,14 +73,18 @@ abstract final class EdsInteractionResolver {
     required EdsColorSeeds seeds,
     required Brightness brightness,
     required EdsInteractionState state,
+    EdsColorStyle style = EdsColorStyle.defaultStyle,
   }) {
     final palette = EdsTonalPalette.fromSeed(_seed(family, seeds));
     final dark = brightness == Brightness.dark;
-    final base = dark ? 35 : 85;
+    final interaction = style.mediumInteraction;
+    final base = dark ? interaction.darkBase : interaction.lightBase;
     final delta = switch (state) {
       EdsInteractionState.rest => 0,
-      EdsInteractionState.hovered => dark ? 2 : -3,
-      EdsInteractionState.pressed => dark ? 3 : -5,
+      EdsInteractionState.hovered =>
+        dark ? interaction.darkHoveredDelta : interaction.lightHoveredDelta,
+      EdsInteractionState.pressed =>
+        dark ? interaction.darkPressedDelta : interaction.lightPressedDelta,
     };
     return palette.tone((base + delta).clamp(0, 100).toInt());
   }
@@ -125,16 +135,6 @@ abstract final class EdsInteractionResolver {
       EdsInteractionColorFamily.success => seeds.success,
       EdsInteractionColorFamily.warning => seeds.warning,
       EdsInteractionColorFamily.danger => seeds.danger,
-    };
-  }
-
-  static EdsFamilyToneMap _map(EdsInteractionColorFamily family) {
-    return switch (family) {
-      EdsInteractionColorFamily.brand => EdsFamilyToneMap.brand,
-      EdsInteractionColorFamily.information => EdsFamilyToneMap.information,
-      EdsInteractionColorFamily.success => EdsFamilyToneMap.success,
-      EdsInteractionColorFamily.warning => EdsFamilyToneMap.warning,
-      EdsInteractionColorFamily.danger => EdsFamilyToneMap.danger,
     };
   }
 }

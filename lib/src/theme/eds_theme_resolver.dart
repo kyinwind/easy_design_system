@@ -16,6 +16,7 @@ abstract final class EdsThemeResolver {
         seeds: theme.seeds,
         brightness: brightness,
         overrides: theme.semanticOverrides,
+        style: theme.colorStyle,
       ),
     );
   }

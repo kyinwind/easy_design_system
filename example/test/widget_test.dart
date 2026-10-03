@@ -40,6 +40,7 @@ void main() {
     );
     const baseTheme = EdsThemeData(
       semanticOverrides: semanticOverrides,
+      colorStyle: EdsColorStyle.vivid,
       tokens: EdsDesignTokens(
         adaptiveLayout: adaptiveLayout,
         stroke: stroke,
@@ -66,12 +67,14 @@ void main() {
     expect(draft.tokens.spacing, editedSpacing);
     expect(draft.tokens.radius, editedRadius);
     expect(draft.semanticOverrides, same(semanticOverrides));
+    expect(draft.colorStyle, EdsColorStyle.vivid);
     expect(draft.tokens.adaptiveLayout, same(adaptiveLayout));
     expect(draft.tokens.stroke, same(stroke));
     expect(draft.tokens.shadow, same(shadow));
 
     final exported = decodeThemeJson(encodeThemeJson(draft));
     expect(exported.semanticOverrides, semanticOverrides);
+    expect(exported.colorStyle, EdsColorStyle.vivid);
     expect(exported.tokens.adaptiveLayout, adaptiveLayout);
     expect(exported.tokens.stroke, stroke);
     expect(exported.tokens.shadow, shadow);
@@ -142,6 +145,23 @@ void main() {
 
     expect(EdsTheme.instance.seeds.brand, const Color(0xFFFF6B00));
     expect(find.text('橙'), findsOneWidget);
+  });
+
+  testWidgets('主题条可独立切换色彩风格', (tester) async {
+    tester.view.physicalSize = const Size(1200, 900);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+
+    await tester.pumpWidget(const ExampleApp());
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('catalog.color-style.picker')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('浓烈').last);
+    await tester.pumpAndSettle();
+
+    expect(EdsTheme.instance.colorStyle, EdsColorStyle.vivid);
+    expect(find.text('浓烈'), findsOneWidget);
   });
 
   testWidgets('Gallery 分节切换', (tester) async {
